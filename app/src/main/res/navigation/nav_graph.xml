@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_home">
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="com.umc.approval.ui.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_approval"
+            app:destination="@id/fragment_approval" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_notification"
+            app:destination="@id/fragment_notification" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_community"
+            app:destination="@id/fragment_community" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_mypage"
+            app:destination="@id/fragment_mypage" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_approval"
+        android:name="com.umc.approval.ui.fragment.ApprovalFragment"
+        android:label="fragment_approval"
+        tools:layout="@layout/fragment_approval" >
+        <action
+            android:id="@+id/action_fragment_approval_to_fragment_home"
+            app:destination="@id/fragment_home" />
+        <action
+            android:id="@+id/action_fragment_approval_to_fragment_notification"
+            app:destination="@id/fragment_notification" />
+        <action
+            android:id="@+id/action_fragment_approval_to_fragment_mypage"
+            app:destination="@id/fragment_mypage" />
+        <action
+            android:id="@+id/action_fragment_approval_to_fragment_community"
+            app:destination="@id/fragment_community" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_community"
+        android:name="com.umc.approval.ui.fragment.CommunityFragment"
+        android:label="fragment_community"
+        tools:layout="@layout/fragment_community" >
+        <action
+            android:id="@+id/action_fragment_community_to_fragment_mypage"
+            app:destination="@id/fragment_mypage" />
+        <action
+            android:id="@+id/action_fragment_community_to_fragment_notification"
+            app:destination="@id/fragment_notification" />
+        <action
+            android:id="@+id/action_fragment_community_to_fragment_home"
+            app:destination="@id/fragment_home" />
+        <action
+            android:id="@+id/action_fragment_community_to_fragment_approval"
+            app:destination="@id/fragment_approval" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_mypage"
+        android:name="com.umc.approval.ui.fragment.MypageFragment"
+        android:label="fragment_mypage"
+        tools:layout="@layout/fragment_mypage" >
+        <action
+            android:id="@+id/action_fragment_mypage_to_fragment_notification"
+            app:destination="@id/fragment_notification" />
+        <action
+            android:id="@+id/action_fragment_mypage_to_fragment_approval"
+            app:destination="@id/fragment_approval" />
+        <action
+            android:id="@+id/action_fragment_mypage_to_fragment_community"
+            app:destination="@id/fragment_community" />
+        <action
+            android:id="@+id/action_fragment_mypage_to_fragment_home"
+            app:destination="@id/fragment_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_notification"
+        android:name="com.umc.approval.ui.fragment.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_fragment_notification_to_fragment_approval"
+            app:destination="@id/fragment_approval" />
+        <action
+            android:id="@+id/action_fragment_notification_to_fragment_mypage"
+            app:destination="@id/fragment_mypage" />
+        <action
+            android:id="@+id/action_fragment_notification_to_fragment_community"
+            app:destination="@id/fragment_community" />
+        <action
+            android:id="@+id/action_fragment_notification_to_fragment_home"
+            app:destination="@id/fragment_home" />
+    </fragment>
+</navigation>

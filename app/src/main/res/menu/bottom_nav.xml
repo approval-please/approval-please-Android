@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/fragment_home"
+        android:title=""
+        android:icon="@drawable/bottom_nav_home"
+        />
+
+    <item android:id="@+id/fragment_approval"
+        android:title=""
+        android:icon="@drawable/bottom_nav_approval"
+        />
+
+    <item android:id="@+id/fragment_community"
+        android:icon="@drawable/bottom_nav_community"
+        android:title=""
+        />
+
+    <item android:id="@+id/fragment_notification"
+        android:icon="@drawable/bottom_nav_notification"
+        android:title=""
+        />
+
+    <item android:id="@+id/fragment_mypage"
+        android:icon="@drawable/bottom_nav_mypage"
+        android:title=""
+        />
+</menu>
