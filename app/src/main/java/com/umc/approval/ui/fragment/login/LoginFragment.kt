@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentLoginBinding
 import com.umc.approval.ui.activity.MainActivity
 import java.util.regex.Pattern
@@ -66,6 +68,18 @@ class LoginFragment : Fragment() {
             if (pattern.matcher(email).matches()) {
                 binding.emailValid.isVisible = false
                 Toast.makeText(requireContext(), "유효한 이메일입니다", Toast.LENGTH_SHORT).show()
+
+                /**
+                 * 유효한 email에 대해 회원 여부 확인후 view 이동
+                 * */
+                if (email.toString() == "cswcsm02@gmail.com") {
+                    Toast.makeText(requireContext(), "회원입니다", Toast.LENGTH_SHORT).show()
+                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_passwordFragment)
+                } else {
+                    Toast.makeText(requireContext(), "회원가입이 필요합니다", Toast.LENGTH_SHORT).show()
+                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_joinFragment)
+                }
+
             } else {
                 binding.emailValid.isVisible = true
                 Toast.makeText(requireContext(), "유효한 이메일아닙니다", Toast.LENGTH_SHORT).show()
