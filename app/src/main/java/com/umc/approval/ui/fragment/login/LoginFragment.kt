@@ -1,11 +1,17 @@
 package com.umc.approval.ui.fragment.login
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.umc.approval.databinding.FragmentLoginBinding
+import com.umc.approval.ui.activity.MainActivity
+import java.util.regex.Pattern
 
 /**
  * Login View
@@ -26,7 +32,55 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        //main activity로 돌아가는 logic
+        back_to_main_activity()
+
+        //email text 초기화 logic
+        init_email()
+
+        //email 검증 logic
+        validate_email()
         return view
+    }
+
+    /**
+     * main activity로 이동
+     * */
+    private fun back_to_main_activity() {
+        binding.backToMainActivity.setOnClickListener {
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
+        }
+    }
+
+    /**
+     * email 유효성 검사 후 유효한 이메일일 경우 password fragment로 이동
+     * */
+    private fun validate_email() {
+        binding.emailLoginButton.setOnClickListener {
+            val pattern: Pattern = Patterns.EMAIL_ADDRESS
+
+            val email = binding.email.text
+
+            if (pattern.matcher(email).matches()) {
+                binding.emailValid.isVisible = false
+                Toast.makeText(requireContext(), "유효한 이메일입니다", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.emailValid.isVisible = true
+                Toast.makeText(requireContext(), "유효한 이메일아닙니다", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * x버튼 누르면 입력중인 내용 모두 삭제
+     * */
+    private fun init_email() {
+        binding.textRemove.setOnClickListener {
+            binding.emailValid.isVisible = false
+            binding.email.text.clear()
+        }
     }
 
     /**

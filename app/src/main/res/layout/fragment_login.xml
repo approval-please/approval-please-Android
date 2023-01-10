@@ -48,22 +48,43 @@
     </ImageView>
 
     <EditText
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/et_email"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="이메일을 입력해주세요."
-        android:paddingLeft="10dp"
-        android:textColor="#000000"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/login_activity_white_box"
-        android:textColorHint="#A0A0A0"
-        android:singleLine="true"
+        android:hint="이메일을 입력해주세요."
         android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText"/>
+        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+
+    <ImageView
+        android:id="@+id/text_remove"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_text_remove"
+        app:layout_constraintBottom_toBottomOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintTop_toTopOf="@+id/email"></ImageView>
+
+    <ImageView
+        android:id="@+id/email_valid"
+        android:visibility="invisible"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_fragment_email_fail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"></ImageView>
 
     <ImageView
         android:layout_marginTop="30dp"
@@ -73,7 +94,7 @@
         android:src="@drawable/login_fragment_basic_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_email"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/email"></ImageView>
 
     <LinearLayout
         android:layout_marginBottom="20dp"
