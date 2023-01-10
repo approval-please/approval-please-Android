@@ -1,6 +1,35 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+}
+
+String getLocalBaseUrl() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['local_base_url']
+}
+
+String getGoogleClientId() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['google_client_id']
+}
+
+String getGoogleClientSecret() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['google_client_secret']
+}
+
+String getKakaoKey() {
+    def propFile = rootProject.file("./local.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['kakao_key']
 }
 
 android {
@@ -8,6 +37,12 @@ android {
     compileSdk 32
 
     defaultConfig {
+
+        buildConfigField ("String", "local_base_url", getLocalBaseUrl())
+        buildConfigField ("String", "google_client_id", getGoogleClientId())
+        buildConfigField ("String", "google_client_secret", getGoogleClientSecret())
+        buildConfigField ("String", "kakao_key", getKakaoKey())
+
         applicationId "com.umc.approval"
         minSdk 21
         targetSdk 32
@@ -48,4 +83,10 @@ dependencies {
     //navigation library
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+    //google login library
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+
+    //kakao login library
+    implementation "com.kakao.sdk:v2-user:2.12.0"
 }

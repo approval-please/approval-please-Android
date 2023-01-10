@@ -142,18 +142,21 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
+            android:id="@+id/kakao_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/login_fragment_kakao_login"></ImageView>
 
         <ImageView
+            android:id="@+id/naver_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/login_fragment_naver_login"></ImageView>
 
         <ImageView
+            android:id="@+id/google_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
