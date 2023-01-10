@@ -50,16 +50,11 @@ class JoinFragment : Fragment() {
          * */
         binding.checkboxAll.setOnClickListener {
 
-            //각 체크 파악 변수
-            val checked_1 = binding.checkbox1.isChecked
-            val checked_2 = binding.checkbox2.isChecked
-            val checked_3 = binding.checkbox3.isChecked
-
             /**
              * if 모두 체크되어있으면 체크 해제
              * else 하나라도 체크가 안되어있으면 모두 체크
              * */
-            if (checked_1 && checked_2 && checked_3) {
+            if (binding.checkboxAll.isChecked) {
                 binding.checkboxAll.isChecked = false
                 binding.checkbox1.isChecked = false
                 binding.checkbox2.isChecked = false
@@ -80,18 +75,24 @@ class JoinFragment : Fragment() {
         /**
          * 인증 요청 눌렀을때 logic
          * */
-        binding.auth.setOnClickListener {
+        binding.authButton.setOnClickListener {
 
             val phone = binding.phone.text
 
             if (Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phone)) {
-                binding.phone.setBackgroundResource(R.drawable.login_activity_white_box)
+                binding.phoneFail.isVisible = false
+                binding.phoneSuccess.isVisible = true
+                binding.phoneTextRemove.isVisible = false
+                binding.phoneValid.isVisible = false
+                binding.phone.setBackgroundResource(R.drawable.login_activity_green_box)
                 Toast.makeText(requireContext(), "휴대번호가 올바르게 입력되었습니다", Toast.LENGTH_SHORT).show()
                 authState = true
             } else {
+                binding.phoneFail.isVisible = true
+                binding.phoneSuccess.isVisible = false
+                binding.phoneTextRemove.isVisible = false
+                binding.phoneValid.isVisible = true
                 binding.phone.setBackgroundResource(R.drawable.login_activity_red_box)
-                binding.phone.setText("")
-                binding.phone.setHint("올바른 휴대번호를 입력해주세요")
                 Toast.makeText(requireContext(), "휴대번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
             }
         }
@@ -107,30 +108,69 @@ class JoinFragment : Fragment() {
         binding.join.setOnClickListener {
 
             /**
-             * 비밀번호 관련 로직
+             * 닉네임 로직
+             * */
+            if (binding.nickname.text.toString() == "" || binding.nickname.text.isEmpty()) {
+                binding.nicknameFail.isVisible = true
+                binding.nicknameSuccess.isVisible = false
+                binding.nicknameValid.isVisible = true
+                binding.textRemove.isVisible = false
+                binding.nickname.setBackgroundResource(R.drawable.login_activity_red_box)
+                Toast.makeText(requireContext(), "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.nicknameFail.isVisible = false
+                binding.nicknameSuccess.isVisible = true
+                binding.nicknameValid.isVisible = false
+                binding.textRemove.isVisible = false
+                binding.nickname.setBackgroundResource(R.drawable.login_activity_green_box)
+                Toast.makeText(requireContext(), "닉네임을 올바른 형식입니다", Toast.LENGTH_SHORT).show()
+            }
+
+            /**
+             * 비밀번호 로직
              * */
             val password = binding.password.text
 
             if (Pattern.matches("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[\$@\$!%*#?&]).{8,15}.\$", password)) {
-                binding.password.setBackgroundResource(R.drawable.login_activity_white_box)
+                binding.password.setBackgroundResource(R.drawable.login_activity_green_box)
+                binding.passwordSuccess.isVisible = true
+                binding.passwordFail.isVisible = false
+                binding.passwordValid.isVisible = false
+                binding.passwordTextRemove.isVisible = false
                 Toast.makeText(requireContext(), "비밀번호가 올바른 형식입니다", Toast.LENGTH_SHORT).show()
 
                 /**
                  * 비밀번호와 확인 비밀번호 체크
                  * */
                 if (password.toString() == binding.passwordRetry.text.toString()) {
-                    binding.passwordRetry.setBackgroundResource(R.drawable.login_activity_white_box)
+                    binding.passwordRetry.setBackgroundResource(R.drawable.login_activity_green_box)
+                    binding.passwordRetrySuccess.isVisible = true
+                    binding.passwordRetryFail.isVisible = false
+                    binding.passwordRetryValid.isVisible = false
+                    binding.passwordRetryTextRemove.isVisible = false
                     Toast.makeText(requireContext(), "비밀번호가 서로 일치합니다", Toast.LENGTH_SHORT).show()
                 } else {
                     binding.passwordRetry.setBackgroundResource(R.drawable.login_activity_red_box)
-                    binding.passwordRetry.setText("")
-                    binding.passwordRetry.setHint("비밀번호를 다시 입력해주세요")
+                    binding.passwordRetrySuccess.isVisible = false
+                    binding.passwordRetryFail.isVisible = true
+                    binding.passwordRetryValid.isVisible = true
+                    binding.passwordRetryTextRemove.isVisible = false
                     Toast.makeText(requireContext(), "비밀번호가 서로 일치하지 않습니다", Toast.LENGTH_SHORT).show()
                 }
             } else {
+                binding.passwordTextRemove.isVisible = false
                 binding.password.setBackgroundResource(R.drawable.login_activity_red_box)
-                binding.password.setText("")
+                binding.passwordSuccess.isVisible = false
+                binding.passwordFail.isVisible = true
+                binding.passwordValid.isVisible = true
                 Toast.makeText(requireContext(), "비밀번호가 잘못된 형식입니다", Toast.LENGTH_SHORT).show()
+
+                binding.passwordRetry.setBackgroundResource(R.drawable.login_activity_white_box)
+                binding.passwordRetrySuccess.isVisible = false
+                binding.passwordRetryFail.isVisible = false
+                binding.passwordRetryValid.isVisible = false
+                binding.passwordRetryTextRemove.isVisible = true
+                Toast.makeText(requireContext(), "비밀번호가 서로 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             }
 
 
@@ -138,11 +178,35 @@ class JoinFragment : Fragment() {
              * 인증이 된 상태인지 확인해서 인증 요구
              * */
             if (authState == true) {
-                binding.phone.setBackgroundResource(R.drawable.login_activity_white_box)
+                binding.phoneSuccess.isVisible = true
+                binding.phoneFail.isVisible = false
+                binding.phoneValid.isVisible = false
+                binding.phoneTextRemove.isVisible = false
+                binding.phone.setBackgroundResource(R.drawable.login_activity_green_box)
+
+                /**
+                 * 인증 번호가 올바를 경우
+                 * */
+                if (binding.auth.text.toString() == "123456") {
+                    binding.authSuccess.isVisible = true
+                    binding.authFail.isVisible = false
+                    binding.authValid.isVisible = false
+                    binding.authTextRemove.isVisible = false
+                    binding.auth.setBackgroundResource(R.drawable.login_activity_green_box)
+                } else {
+                    binding.authSuccess.isVisible = false
+                    binding.authFail.isVisible = true
+                    binding.authValid.isVisible = true
+                    binding.authTextRemove.isVisible = true
+                    binding.auth.setBackgroundResource(R.drawable.login_activity_red_box)
+                }
+
             } else {
                 binding.phone.setBackgroundResource(R.drawable.login_activity_red_box)
-                binding.phone.setText("")
-                binding.phone.setHint("휴대번호를 입력해주세요")
+                binding.phoneTextRemove.isVisible = false
+                binding.phoneSuccess.isVisible = false
+                binding.phoneFail.isVisible = true
+                binding.phoneValid.isVisible = true
                 Toast.makeText(requireContext(), "휴대번호가 인증되지 않았습니다", Toast.LENGTH_SHORT).show()
             }
 

@@ -81,6 +81,9 @@ class LoginFragment : Fragment() {
                 }
 
             } else {
+                binding.email.setBackgroundResource(R.drawable.login_activity_red_box)
+                binding.validFail.isVisible = true
+                binding.textRemove.isVisible = false
                 binding.emailValid.isVisible = true
                 Toast.makeText(requireContext(), "유효한 이메일아닙니다", Toast.LENGTH_SHORT).show()
             }

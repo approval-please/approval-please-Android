@@ -66,6 +66,17 @@
         app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
     <ImageView
+        android:visibility="invisible"
+        android:id="@+id/valid_fail"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_fail"
+        app:layout_constraintBottom_toBottomOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintTop_toTopOf="@+id/email"></ImageView>
+
+    <ImageView
         android:id="@+id/text_remove"
         android:layout_marginRight="10dp"
         android:layout_width="wrap_content"

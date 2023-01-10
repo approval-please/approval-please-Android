@@ -7,6 +7,7 @@
     tools:context=".ui.fragment.login.JoinFragment">
 
     <ImageView
+        android:id="@+id/back_to_email_login"
         android:layout_marginLeft="18dp"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
@@ -15,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
+    <!--nickname-->
     <ImageView
         android:id="@+id/join_text"
         android:layout_width="55dp"
@@ -25,271 +27,490 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
+    <ImageView
+        android:id="@+id/nickname_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/join_fragment_nickname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back_to_email_login"></ImageView>
+
+    <EditText
+        android:id="@+id/nickname"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/join_text">
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/login_activity_white_box"
+        android:hint="닉네임을 입력해주세요."
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_text" />
 
-        <!--nickname-->
-        <ImageView
-            android:id="@+id/nickname_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/join_fragment_nickname"></ImageView>
+    <ImageView
+        android:id="@+id/text_remove"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_text_remove"
+        app:layout_constraintBottom_toBottomOf="@+id/nickname"
+        app:layout_constraintEnd_toEndOf="@+id/nickname"
+        app:layout_constraintTop_toTopOf="@+id/nickname"></ImageView>
 
-        <EditText
-            android:id="@+id/nickname"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/login_activity_white_box"
-            android:hint="닉네임을 입력해 주세요."
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="#000000"
-            android:textColorHint="#A0A0A0" />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/nickname_success"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_success"
+        app:layout_constraintBottom_toBottomOf="@+id/nickname"
+        app:layout_constraintEnd_toEndOf="@+id/nickname"
+        app:layout_constraintTop_toTopOf="@+id/nickname"></ImageView>
 
-        <!--password-->
-        <ImageView
-            android:id="@+id/password_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/join_fragment_password"></ImageView>
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/nickname_fail"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_fail"
+        app:layout_constraintBottom_toBottomOf="@+id/nickname"
+        app:layout_constraintEnd_toEndOf="@+id/nickname"
+        app:layout_constraintTop_toTopOf="@+id/nickname"></ImageView>
 
-        <EditText
-            android:inputType="textPassword"
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/login_activity_white_box"
-            android:hint="8자 이상 특수문자를 포함해 조합해 주세요."
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="#000000"
-            android:textColorHint="#A0A0A0" />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/nickname_valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:src="@drawable/login_fragment_email_fail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname"></ImageView>
 
-        <EditText
-            android:inputType="textPassword"
-            android:id="@+id/password_retry"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/login_activity_white_box"
-            android:hint="비밀번호 재입력"
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="#000000"
-            android:textColorHint="#A0A0A0" />
+    <!--password-->
+    <ImageView
+        android:id="@+id/password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/password_fragment_password_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nickname_text"></ImageView>
 
-        <!--phone-->
-        <ImageView
-            android:id="@+id/password_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/join_fragment_phone"></ImageView>
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/login_activity_white_box"
+        android:hint="8자 이상 특수문자를 포함해 조합해 주세요."
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_text" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/password_text_remove"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_text_remove"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password"></ImageView>
 
-            <EditText
-                android:id="@+id/phone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="2"
-                android:background="@drawable/login_activity_white_box"
-                android:hint="'-' 구분없이 입력해 주세요."
-                android:maxLines="1"
-                android:paddingLeft="10dp"
-                android:singleLine="true"
-                android:textColor="#000000"
-                android:textColorHint="#A0A0A0" />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/password_success"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_success"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password"></ImageView>
 
-            <ImageView
-                android:id="@+id/auth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="6"
-                android:src="@drawable/join_fragment_auth"></ImageView>
-        </LinearLayout>
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/password_fail"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_fail"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password"></ImageView>
 
-        <EditText
-            android:id="@+id/auth_num"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/login_activity_white_box"
-            android:hint="인증번호를 입력해 주세요"
-            android:maxLines="1"
-            android:paddingLeft="10dp"
-            android:singleLine="true"
-            android:textColor="#000000"
-            android:textColorHint="#A0A0A0" />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/password_valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:src="@drawable/login_fragment_email_fail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"></ImageView>
+
+
+    <EditText
+        android:inputType="textPassword"
+        android:id="@+id/password_retry"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/login_activity_white_box"
+        android:hint="비밀번호를 재확인해주세요."
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_text" />
+
+    <ImageView
+        android:id="@+id/password_retry_text_remove"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_text_remove"
+        app:layout_constraintBottom_toBottomOf="@+id/password_retry"
+        app:layout_constraintEnd_toEndOf="@+id/password_retry"
+        app:layout_constraintTop_toTopOf="@+id/password_retry"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/password_retry_success"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_success"
+        app:layout_constraintBottom_toBottomOf="@+id/password_retry"
+        app:layout_constraintEnd_toEndOf="@+id/password_retry"
+        app:layout_constraintTop_toTopOf="@+id/password_retry"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/password_retry_fail"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_fail"
+        app:layout_constraintBottom_toBottomOf="@+id/password_retry"
+        app:layout_constraintEnd_toEndOf="@+id/password_retry"
+        app:layout_constraintTop_toTopOf="@+id/password_retry"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/password_retry_valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:src="@drawable/login_fragment_email_fail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_retry"></ImageView>
+
+    <!--phone-->
+    <ImageView
+        android:id="@+id/phone_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="135dp"
+        android:src="@drawable/join_fragment_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_text"></ImageView>
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="100dp"
+        android:background="@drawable/login_activity_white_box"
+        android:hint="'-' 구분없이 입력해주세요."
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_text" />
+
+    <ImageView
+        android:id="@+id/auth_button"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/join_fragment_auth"
+        app:layout_constraintBottom_toBottomOf="@+id/phone"
+        app:layout_constraintStart_toEndOf="@+id/phone"
+        app:layout_constraintTop_toTopOf="@+id/phone"></ImageView>
+
+    <ImageView
+        android:id="@+id/phone_text_remove"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_text_remove"
+        app:layout_constraintBottom_toBottomOf="@+id/phone"
+        app:layout_constraintEnd_toEndOf="@+id/phone"
+        app:layout_constraintTop_toTopOf="@+id/phone"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/phone_success"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_success"
+        app:layout_constraintBottom_toBottomOf="@+id/phone"
+        app:layout_constraintEnd_toEndOf="@+id/phone"
+        app:layout_constraintTop_toTopOf="@+id/phone"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/phone_fail"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_fail"
+        app:layout_constraintBottom_toBottomOf="@+id/phone"
+        app:layout_constraintEnd_toEndOf="@+id/phone"
+        app:layout_constraintTop_toTopOf="@+id/phone"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/phone_valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:src="@drawable/login_fragment_email_fail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone"></ImageView>
+
+    <EditText
+        android:id="@+id/auth"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/login_activity_white_box"
+        android:hint="인증번호를 입력해주세요."
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:textColorHint="#A0A0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_text" />
+
+    <ImageView
+        android:id="@+id/auth_text_remove"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_text_remove"
+        app:layout_constraintBottom_toBottomOf="@+id/auth"
+        app:layout_constraintEnd_toEndOf="@+id/auth"
+        app:layout_constraintTop_toTopOf="@+id/auth"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/auth_success"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_success"
+        app:layout_constraintBottom_toBottomOf="@+id/auth"
+        app:layout_constraintEnd_toEndOf="@+id/auth"
+        app:layout_constraintTop_toTopOf="@+id/auth"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/auth_fail"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_activity_valid_fail"
+        app:layout_constraintBottom_toBottomOf="@+id/auth"
+        app:layout_constraintEnd_toEndOf="@+id/auth"
+        app:layout_constraintTop_toTopOf="@+id/auth"></ImageView>
+
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/auth_valid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:src="@drawable/login_fragment_email_fail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/auth"></ImageView>
 
         <!--agree_all-->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/join"
+        app:layout_constraintTop_toBottomOf="@+id/auth">
 
-            <!--agree_all-->
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkbox_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginTop="40dp"
-                android:button="@drawable/login_activity_check_box"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
+        <!--agree_all-->
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="45dp"
-                android:layout_marginTop="57dp"
-                android:layout_weight="1"
-                android:src="@drawable/join_fragment_terms_agree"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="27dp"
+            android:layout_weight="1"
+            android:src="@drawable/join_fragment_terms_agree"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-            <!--agree_1-->
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkbox_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginTop="67dp"
-                android:button="@drawable/login_activity_check_box"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
+        <!--agree_1-->
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="47dp"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="85dp"
-                android:layout_weight="1"
-                android:src="@drawable/join_fragment_terms_agree_1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="65dp"
+            android:layout_weight="1"
+            android:src="@drawable/join_fragment_terms_agree_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-            <ImageView
-                android:id="@+id/detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/join_fragment_terms_detil"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView5"></ImageView>
+        <ImageView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/join_fragment_terms_detil"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView5"></ImageView>
 
 
-            <!--agree_2-->
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkbox_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginTop="94dp"
-                android:button="@drawable/login_activity_check_box"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
+        <!--agree_2-->
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="74dp"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
 
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="112dp"
-                android:layout_weight="1"
-                android:src="@drawable/join_fragment_terms_info"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="92dp"
+            android:layout_weight="1"
+            android:src="@drawable/join_fragment_terms_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-            <ImageView
-                android:id="@+id/detail2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/join_fragment_terms_detil"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView6"></ImageView>
+        <ImageView
+            android:id="@+id/detail2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/join_fragment_terms_detil"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView6"></ImageView>
 
-            <!--agree_3-->
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkbox_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginTop="121dp"
-                android:button="@drawable/login_activity_check_box"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
+        <!--agree_3-->
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkbox_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="101dp"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatCheckBox>
 
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="138dp"
-                android:layout_weight="1"
-                android:src="@drawable/join_fragmenr_terms_event"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageView>
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="118dp"
+            android:layout_weight="1"
+            android:src="@drawable/join_fragmenr_terms_event"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-            <ImageView
-                android:id="@+id/detail3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/join_fragment_terms_detil"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView7"></ImageView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/detail3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/join_fragment_terms_detil"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView7"></ImageView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/join"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
         android:src="@drawable/join_fragment_join"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"></ImageView>
-
+        app:layout_constraintStart_toStartOf="parent"></ImageView>
 </androidx.constraintlayout.widget.ConstraintLayout>
