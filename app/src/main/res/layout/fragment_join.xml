@@ -66,6 +66,7 @@
             android:src="@drawable/join_fragment_password"></ImageView>
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -81,6 +82,7 @@
             android:textColorHint="#A0A0A0" />
 
         <EditText
+            android:inputType="textPassword"
             android:id="@+id/password_retry"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -281,6 +283,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/join"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:src="@drawable/join_fragment_join"
