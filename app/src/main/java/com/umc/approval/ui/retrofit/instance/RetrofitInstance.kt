@@ -2,7 +2,7 @@ package com.umc.approval.ui.retrofit.instance
 
 import com.google.gson.GsonBuilder
 import com.umc.approval.BuildConfig
-import com.umc.approval.ui.retrofit.LoginAPI
+import com.umc.approval.ui.retrofit.api.LoginAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,7 +22,7 @@ object RetrofitInstance {
 
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .client(okHttpClient).baseUrl(BuildConfig.local_base_url).build() //build로 객체 생성
+            .client(okHttpClient).baseUrl(BuildConfig.LOCAL_BASE_URL).build() //build로 객체 생성
     }
 
     val serverApi: LoginAPI by lazy {

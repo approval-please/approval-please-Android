@@ -12,6 +12,32 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: Set API KEY1
+      env:
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      run: echo GOOGLE_CLIENT_ID="$GOOGLE_CLIENT_ID" > ./local.properties
+
+    - name: Set API KEY2
+      env:
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      run: echo GOOGLE_CLIENT_SECRET="$GOOGLE_CLIENT_SECRET" > ./local.properties
+    
+    - name: Set API KEY3
+      env:
+        KAKAO_KEY: ${{ secrets.KAKAO_KEY }}
+      run: echo KAKAO_KEY="$KAKAO_KEY" > ./local.properties
+    
+    - name: Set API KEY4
+      env:
+        MANIFEST_KAKAO_KEY: ${{ secrets.MANIFEST_KAKAO_KEY }}
+      run: echo MANIFEST_KAKAO_KEY="$MANIFEST_KAKAO_KEY" > ./local.properties
+
+    - name: Set API KEY5
+      env:
+        LOCAL_BASE_URL: ${{ secrets.LOCAL_BASE_URL }}
+      run: echo LOCAL_BASE_URL="$LOCAL_BASE_URL" > ./local.properties
+    
     - name: set up JDK 11
       uses: actions/setup-java@v3
       with:

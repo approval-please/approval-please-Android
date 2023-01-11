@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -81,8 +82,8 @@ class LoginFragment : Fragment() {
         //Google 로그인을 구성하여 사용자 ID와 기본 프로필 정보를 요청하기 위한 객체 생성
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestId()
-            .requestIdToken(BuildConfig.google_client_id)
-            .requestServerAuthCode(BuildConfig.google_client_id)
+            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+            .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID)
             .requestProfile()
             .requestEmail()
             .build()
@@ -110,7 +111,7 @@ class LoginFragment : Fragment() {
      * */
     private fun kakao_login() {
         //Kakao SDK를 사용하기 위해선 Native App Key로 초기화
-        KakaoSdk.init(requireContext(), BuildConfig.kakao_key)
+        KakaoSdk.init(requireContext(), BuildConfig.KAKAO_KEY)
 
         /**
          *  로그인 실패시 callback
@@ -171,6 +172,21 @@ class LoginFragment : Fragment() {
      * */
     override fun onStart() {
         super.onStart()
+
+        /**
+         * AccessToken 확인해서 로그인 상태인지 아닌지 확인
+         * */
+        viewModel.checkAccessToken()
+
+        viewModel.accessToken.observe(this, Observer {
+            if (it != "") {
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+
+                viewModel.deleteAccessToken()
+            }
+        })
 
         /**
          * 구글 로그인 상태 확인

@@ -8,28 +8,21 @@ String getLocalBaseUrl() {
     def propFile = rootProject.file("./local.properties")
     def properties = new Properties()
     properties.load(new FileInputStream(propFile))
-    return properties['local_base_url']
+    return properties['LOCAL_BASE_URL']
 }
 
 String getGoogleClientId() {
     def propFile = rootProject.file("./local.properties")
     def properties = new Properties()
     properties.load(new FileInputStream(propFile))
-    return properties['google_client_id']
-}
-
-String getGoogleClientSecret() {
-    def propFile = rootProject.file("./local.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['google_client_secret']
+    return properties['GOOGLE_CLIENT_ID']
 }
 
 String getKakaoKey() {
     def propFile = rootProject.file("./local.properties")
     def properties = new Properties()
     properties.load(new FileInputStream(propFile))
-    return properties['kakao_key']
+    return properties['KAKAO_KEY']
 }
 
 android {
@@ -38,10 +31,9 @@ android {
 
     defaultConfig {
 
-        buildConfigField ("String", "local_base_url", getLocalBaseUrl())
-        buildConfigField ("String", "google_client_id", getGoogleClientId())
-        buildConfigField ("String", "google_client_secret", getGoogleClientSecret())
-        buildConfigField ("String", "kakao_key", getKakaoKey())
+        buildConfigField ("String", "LOCAL_BASE_URL", getLocalBaseUrl())
+        buildConfigField ("String", "GOOGLE_CLIENT_ID", getGoogleClientId())
+        buildConfigField ("String", "KAKAO_KEY", getKakaoKey())
 
         applicationId "com.umc.approval"
         minSdk 21
@@ -89,4 +81,7 @@ dependencies {
 
     //kakao login library
     implementation "com.kakao.sdk:v2-user:2.12.0"
+
+    //datastore library
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
 }
