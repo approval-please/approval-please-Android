@@ -1,6 +1,5 @@
 package com.umc.approval.ui.repository
 
-import android.util.Log
 import com.umc.approval.ui.dto.UserDto
 import com.umc.approval.ui.retrofit.instance.RetrofitInstance.serverApi
 import okhttp3.ResponseBody

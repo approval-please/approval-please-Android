@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.approval.ui.dataStore.AccessTokenDataStore
 import com.umc.approval.ui.repository.LoginFragmentRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -31,7 +33,7 @@ class LoginFragmentViewModel() : ViewModel() {
                     Log.d("RESPONSE", response.body().toString())
                     _accessToken.value = response.headers().get("Authorization").toString()
                     Log.d("return_accessToken", accessToken.value.toString())
-//                    setAccessToken(accessToken.value.toString())
+                    setAccessToken(accessToken.value.toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -42,42 +44,42 @@ class LoginFragmentViewModel() : ViewModel() {
         })
     }
 
-//    /**
-//     * 엑세스 토큰 가져와 검증까지 해결
-//     * */
-//    fun checkAccessToken() = viewModelScope.launch {
-//        val tokenValue = MyDataStore().getAccessToken().first()
-//        Log.d("getTokenValue", tokenValue)
-//
-//        val response =  repository.connectServer(tokenValue)
-//        response.enqueue(object : Callback<ResponseBody> {
-//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-//                if (response.isSuccessful) {
-//                    Log.d("RESPONSE", "SUCCESS")
-//                    _accessToken.value = response.headers().get("Authorization").toString()
-//                } else {
-//                    Log.d("RESPONSE", "FAIL")
-//                }
-//            }
-//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-//                Log.d("ContinueFail", "FAIL")
-//            }
-//        })
-//    }
-//
-//    /**
-//     * 로그인 시 엑세스 토큰 저장
-//     * */
-//    fun setAccessToken(token : String) = viewModelScope.launch {
-//        Log.d("setTokenValue", token)
-//        MyDataStore().setAccessToken(token)
-//    }
+    /**
+     * 엑세스 토큰 가져와 검증까지 해결
+     * */
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        Log.d("getTokenValue", tokenValue)
 
-//    /**
-//     * 로그인 시 엑세스 토큰 저장
-//     * */
-//    fun deleteAccessToken() = viewModelScope.launch {
-//        MyDataStore().deleteAccessToken()
-//        _accessToken.value = ""
-//    }
+        val response =  repository.connectServer(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "SUCCESS")
+                    _accessToken.value = response.headers().get("Authorization").toString()
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 로그인 시 엑세스 토큰 저장
+     * */
+    fun setAccessToken(token : String) = viewModelScope.launch {
+        Log.d("setTokenValue", token)
+        AccessTokenDataStore().setAccessToken(token)
+    }
+
+    /**
+     * 로그인 시 엑세스 토큰 저장
+     * */
+    fun deleteAccessToken() = viewModelScope.launch {
+        AccessTokenDataStore().deleteAccessToken()
+        _accessToken.value = ""
+    }
 }

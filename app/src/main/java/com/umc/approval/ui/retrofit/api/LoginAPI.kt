@@ -1,4 +1,4 @@
-package com.umc.approval.ui.retrofit
+package com.umc.approval.ui.retrofit.api
 
 import com.umc.approval.ui.dto.UserDto
 import okhttp3.ResponseBody
