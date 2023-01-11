@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.Navigation
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentPasswordBinding
 import com.umc.approval.ui.activity.MainActivity
@@ -34,7 +35,32 @@ class PasswordFragment : Fragment() {
         //login button click
         login()
 
+        //back to loginFragment
+        backToLoginFragment()
+
+        //password clear
+        init_password()
+
         return view
+    }
+
+    /**
+     * x버튼 누르면 입력중인 내용 모두 삭제
+     * */
+    private fun init_password() {
+        binding.textRemove.setOnClickListener {
+            binding.password.text.clear()
+        }
+    }
+
+    /**
+     *
+     * */
+    private fun backToLoginFragment() {
+        binding.backToEmailLogin.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_passwordFragment_to_loginFragment)
+        }
     }
 
     /**

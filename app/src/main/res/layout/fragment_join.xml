@@ -318,7 +318,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="65dp"
         android:layout_marginLeft="18dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="100dp"
         android:background="@drawable/login_activity_white_box"
         android:hint="인증번호를 입력해주세요."
         android:maxLines="1"
@@ -329,6 +329,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_text" />
+
+    <ImageView
+        android:id="@+id/auth_check_button"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/join_fragment_auth_check"
+        app:layout_constraintBottom_toBottomOf="@+id/auth"
+        app:layout_constraintStart_toEndOf="@+id/auth"
+        app:layout_constraintTop_toTopOf="@+id/auth"></ImageView>
 
     <ImageView
         android:id="@+id/auth_text_remove"

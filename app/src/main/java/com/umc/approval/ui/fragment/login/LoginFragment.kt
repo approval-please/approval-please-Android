@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -27,6 +28,7 @@ import com.umc.approval.BuildConfig
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentLoginBinding
 import com.umc.approval.ui.activity.MainActivity
+import com.umc.approval.ui.viewmodel.LoginFragmentViewModel
 import java.util.regex.Pattern
 
 /**
@@ -37,6 +39,8 @@ class LoginFragment : Fragment() {
 
     private var _binding : FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<LoginFragmentViewModel>()
 
     private lateinit var GoogleSignResultLauncher: ActivityResultLauncher<Intent>
 
@@ -63,85 +67,8 @@ class LoginFragment : Fragment() {
         //google 로그인
         google_login()
 
-        //Kakao SDK를 사용하기 위해선 Native App Key로 초기화
-        KakaoSdk.init(requireContext(), BuildConfig.kakao_key)
-
-        UserApiClient.instance.me { user, error ->
-            if (user != null) {
-                Log.d("KAKAOUSER", user.toString())
-                Log.d("KAKAOPROPERTY", user.properties.toString())
-                Log.d("KAKAOUSERTOKEN", user.groupUserToken.toString())
-                Log.d("KAKAOID", user.id.toString())
-                Log.d("KAKAOCONNECTAT", user.connectedAt.toString())
-                Log.d("KAKAOKAKAOACCOUNT", user.kakaoAccount.toString())
-                Log.d("KAKAOSIGNEDUP", user.hasSignedUp.toString())
-            }
-        }
-
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-            }
-            else if (tokenInfo != null) {
-
-                Log.d("KAKAOCLIENTAPI", UserApiClient.instance.toString())
-                Log.d("KAKAOTOKEN", tokenInfo.toString())
-                Log.d("KAKAOTOKENID", tokenInfo.id.toString())
-                Log.d("KAKAOTOKENAPPID", tokenInfo.appId.toString())
-                Log.d("KAKAOEXPIRES", tokenInfo.expiresIn.toString())
-            }
-        }
-
-        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            if (error != null) {
-                when {
-                    error.toString() == AuthErrorCause.AccessDenied.toString() -> {
-                        Toast.makeText(requireContext(), "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.InvalidClient.toString() -> {
-                        Toast.makeText(requireContext(), "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
-                        Toast.makeText(requireContext(), "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
-                        Toast.makeText(requireContext(), "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.InvalidScope.toString() -> {
-                        Toast.makeText(requireContext(), "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.Misconfigured.toString() -> {
-                        Toast.makeText(requireContext(), "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.ServerError.toString() -> {
-                        Toast.makeText(requireContext(), "서버 내부 에러", Toast.LENGTH_SHORT).show()
-                    }
-                    error.toString() == AuthErrorCause.Unauthorized.toString() -> {
-                        Toast.makeText(requireContext(), "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> { // Unknown
-                        Toast.makeText(requireContext(), "기타 에러", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            else if (token != null) {
-
-                Log.d("KAKAO_IDTOKEN", token.idToken.toString())
-                Log.d("KAKAO_REFRESH", token.refreshToken.toString())
-                Log.d("KAKAO_ACCESS", token.accessToken.toString())
-                Log.d("KAKAO_SCOPE", token.scopes.toString())
-
-                Toast.makeText(requireContext(), "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        //로그인 버튼 입력
-        binding.kakaoLogin.setOnClickListener {
-            if(UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())){
-                UserApiClient.instance.loginWithKakaoTalk(context = requireContext(), callback = callback)
-            }else{
-                UserApiClient.instance.loginWithKakaoAccount(context = requireContext(), callback = callback)
-            }
-        }
+        //kakao 로그인
+        kakao_login()
 
         return view
     }
@@ -182,10 +109,65 @@ class LoginFragment : Fragment() {
      * 카카오 로그인 로직
      * */
     private fun kakao_login() {
+        //Kakao SDK를 사용하기 위해선 Native App Key로 초기화
+        KakaoSdk.init(requireContext(), BuildConfig.kakao_key)
+
+        /**
+         *  로그인 실패시 callback
+         * */
+        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                when {
+                    error.toString() == AuthErrorCause.AccessDenied.toString() -> {
+                        Toast.makeText(requireContext(), "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidClient.toString() -> {
+                        Toast.makeText(requireContext(), "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidGrant.toString() -> {
+                        Toast.makeText(requireContext(), "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidRequest.toString() -> {
+                        Toast.makeText(requireContext(), "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.InvalidScope.toString() -> {
+                        Toast.makeText(requireContext(), "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.Misconfigured.toString() -> {
+                        Toast.makeText(requireContext(), "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.ServerError.toString() -> {
+                        Toast.makeText(requireContext(), "서버 내부 에러", Toast.LENGTH_SHORT).show()
+                    }
+                    error.toString() == AuthErrorCause.Unauthorized.toString() -> {
+                        Toast.makeText(requireContext(), "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> { // Unknown
+                        Toast.makeText(requireContext(), "기타 에러", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            else if (token != null) {
+
+                /**
+                 * 로그인 성공시 서버로 엑세스토큰 발급 요청
+                 * */
+                viewModel.login(token.accessToken.toString(), "kakao")
+            }
+        }
+
+        //로그인 버튼 입력
+        binding.kakaoLogin.setOnClickListener {
+            if(UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())){
+                UserApiClient.instance.loginWithKakaoTalk(context = requireContext(), callback = callback)
+            }else{
+                UserApiClient.instance.loginWithKakaoAccount(context = requireContext(), callback = callback)
+            }
+        }
     }
 
     /**
-     * 로그인 상태 확인 메소드
+     * 시작시 로그인 상태 확인 메소드
      * */
     override fun onStart() {
         super.onStart()
@@ -251,25 +233,22 @@ class LoginFragment : Fragment() {
      * */
     private fun init_email() {
         binding.textRemove.setOnClickListener {
-            binding.emailValid.isVisible = false
             binding.email.text.clear()
         }
     }
 
     /**
-     * 로그인한 사용자 정보가지고 오기
      * GoogleSignInAccount 객체에는 사용자의 이름과 같이 로그인한 사용자에 대한 정보가 포함됨
      * */
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
-            val email = account?.email.toString()
             val googleIdToken = account?.idToken.toString()
-            val authCode = account?.serverAuthCode.toString()
 
-            Log.d("social_google", email)
-            Log.d("social_google", googleIdToken)
-            Log.d("social_google", authCode)
+            /**
+             * 로그인 성공시 서버로부터 엑세스 토큰 발급
+             * */
+            viewModel.login(googleIdToken, "google")
         } catch (e: ApiException){
             Log.d("INFO","signInResult:failed Code = " + e.statusCode)
         }

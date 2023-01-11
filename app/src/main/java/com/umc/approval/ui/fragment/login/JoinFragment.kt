@@ -38,6 +38,10 @@ class JoinFragment : Fragment() {
 
         //logic about terms
         click_button()
+
+        //init value(nickname, password, password_retry, phone, auth)
+        init_value()
+
         return view
     }
 
@@ -50,11 +54,15 @@ class JoinFragment : Fragment() {
          * */
         binding.checkboxAll.setOnClickListener {
 
+            val checkbox1 = binding.checkbox1.isChecked
+            val checkbox2 = binding.checkbox2.isChecked
+            val checkbox3 = binding.checkbox3.isChecked
+
             /**
              * if 모두 체크되어있으면 체크 해제
              * else 하나라도 체크가 안되어있으면 모두 체크
              * */
-            if (binding.checkboxAll.isChecked) {
+            if (checkbox1 && checkbox2 && checkbox3) {
                 binding.checkboxAll.isChecked = false
                 binding.checkbox1.isChecked = false
                 binding.checkbox2.isChecked = false
@@ -216,6 +224,32 @@ class JoinFragment : Fragment() {
             if (!(binding.checkbox1.isChecked && binding.checkbox2.isChecked)) {
                 Toast.makeText(requireContext(), "인증약관에 체크해주세요", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    /**
+     * init value(nickname, password, password_retry, phone, auth)
+     * */
+    private fun init_value() {
+
+        binding.textRemove.setOnClickListener {
+            binding.nickname.text.clear()
+        }
+
+        binding.passwordTextRemove.setOnClickListener {
+            binding.password.text.clear()
+        }
+
+        binding.phoneTextRemove.setOnClickListener {
+            binding.phone.text.clear()
+        }
+
+        binding.authTextRemove.setOnClickListener {
+            binding.auth.text.clear()
+        }
+
+        binding.passwordRetryTextRemove.setOnClickListener {
+            binding.passwordRetry.text.clear()
         }
     }
 
