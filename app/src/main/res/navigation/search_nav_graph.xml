@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_nav_graph"
+    app:startDestination="@id/recentSearchFragment">
+
+    <fragment
+        android:id="@+id/recentSearchFragment"
+        android:name="com.umc.approval.ui.fragment.search.RecentSearchFragment"
+        android:label="fragment_recent_search"
+        tools:layout="@layout/fragment_recent_search" />
+</navigation>
