@@ -15,7 +15,7 @@ jobs:
     
     - name: MANIFEST_KAKAO_KEY
       env:
-        MANIFEST_KAKAO_KEY: "123456"
+        MANIFEST_KAKAO_KEY: "kakao"
       run: echo MANIFEST_KAKAO_KEY=\"$MANIFEST_KAKAO_KEY\" > ./local.properties
     
     - name: set up JDK 11

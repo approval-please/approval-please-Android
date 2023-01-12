@@ -76,7 +76,7 @@ class LoginFragmentViewModel() : ViewModel() {
     }
 
     /**
-     * 로그인 시 엑세스 토큰 저장
+     * 엑세스 토큰 삭제 메소드
      * */
     fun deleteAccessToken() = viewModelScope.launch {
         AccessTokenDataStore().deleteAccessToken()
