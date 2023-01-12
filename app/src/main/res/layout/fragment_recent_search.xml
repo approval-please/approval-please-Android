@@ -22,6 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"></ImageView>
 
         <EditText
+            android:imeOptions="actionSearch"
             android:id="@+id/search"
             android:layout_width="360dp"
             android:layout_height="50dp"
@@ -50,7 +51,7 @@
 
         <ImageView
             android:layout_marginTop="15dp"
-            android:id="@+id/recent"
+            android:id="@+id/recent_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
@@ -59,6 +60,7 @@
             app:layout_constraintTop_toBottomOf="@+id/search"></ImageView>
 
         <ImageView
+            android:id="@+id/all_delete_text"
             android:layout_marginTop="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,14 +73,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:id="@+id/recent_search_rv_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginLeft="20dp"
-        android:id="@+id/recent_search_rv_2"
+        android:id="@+id/recent_search_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </androidx.recyclerview.widget.RecyclerView>
