@@ -4,16 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.RecentSearchItemBinding
+import com.umc.approval.ui.dto.KeywordDto
 
 /**
  * 최근 검색 데이터를 받아와 연결해주는 RV Adapter
  * */
-class RecentSearchRVAdapter(private val items : List<String>) : RecyclerView.Adapter<RecentSearchRVAdapter.ViewHolder>() {
+class RecentSearchRVAdapter(private val items : List<KeywordDto>) : RecyclerView.Adapter<RecentSearchRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: RecentSearchItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(data : String) {
-            binding.recentSearchText.setText(data)
+        fun binding(data : KeywordDto) {
+            binding.recentSearchText.setText(data.keyword)
         }
     }
 

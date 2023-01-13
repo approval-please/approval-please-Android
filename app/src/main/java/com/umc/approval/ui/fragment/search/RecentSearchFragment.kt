@@ -7,15 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.umc.approval.databinding.FragmentRecentSearchBinding
+import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.RecentSearchRVAdapter
 import com.umc.approval.ui.adapter.SearchIngRVAdapter
+import com.umc.approval.ui.dto.KeywordDto
 import com.umc.approval.ui.viewmodel.RecentSearchViewModel
 
 /**
@@ -31,7 +33,7 @@ class RecentSearchFragment : Fragment() {
     private lateinit var searchIngRVAdapter: SearchIngRVAdapter
 
     //RecentSearch View Model
-    private val viewModel by viewModels<RecentSearchViewModel>()
+    lateinit var viewModel: RecentSearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,69 +46,79 @@ class RecentSearchFragment : Fragment() {
         _binding = FragmentRecentSearchBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        /**RecyclerView를 생성해주는 함수*/
-        setupRecyclerView()
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /**Keyword를 생성해주는 함수*/
-        searchKeyword()
+        viewModel = (activity as SearchActivity).viewModel
 
-        viewModel.search_text.observe(viewLifecycleOwner) {
+        /**검색 버튼 눌렀을때 이벤트 발생*/
+        binding.search.setOnEditorActionListener { v, actionId, event ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.addKeyword(KeywordDto(0, binding.search.text.toString(), "cswcsm02@gmail.com"))
+                handled = true
+            }
+            handled
+        }
 
-            if (!it.isEmpty()) {
-                searchIngRVAdapter = SearchIngRVAdapter(it)
+        /**최근 검색어 전체 삭제*/
+        binding.allDeleteText.setOnClickListener {
+            viewModel.deleteAllKeyword()
+        }
 
-                val recent_search_rv : RecyclerView = binding.recentSearchRv
-                recent_search_rv.adapter = searchIngRVAdapter
-                recent_search_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        /**최근 검색어 RecyclerView를 생성해주는 함수*/
+        setupRecentKeywordRecyclerView()
+
+        /**검색시 연관검색어 RecyclerView를 생성해주는 함수*/
+        setupRelatedKeywordRecyclerView()
+
+        /**텍스트 수정시 디바운스 적용 및 그 외 작업*/
+        editText()
+    }
+
+    /**최근 검색어 RV를 생성해주는 메소드*/
+    private fun setupRecentKeywordRecyclerView() {
+
+        //초기화시 검색어를 가지고 오는 메소드
+        viewModel.searchKeyword()
+
+        //최근 검색어에 변경이 일어났을때 실행하는 메소드
+        viewModel.recent_keyword.observe(viewLifecycleOwner) {
+
+            recentSearchRVAdapter = RecentSearchRVAdapter(it)
+
+            val recent_search_rv : RecyclerView = binding.recentSearchRv
+            recent_search_rv.adapter = recentSearchRVAdapter
+
+            //4개보다 적은 경우는 LinearLayoutManager, 4개보다 많은 경우 StaggeredGridLayoutManager 사용
+            if (it.size <= 4) {
+                recent_search_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             } else {
-
-                val initList = mutableListOf<String>()
-                initList.add("아이폰 14")
-                initList.add("여름용 반바지")
-                initList.add("전자기기")
-                initList.add("냉장고")
-                initList.add("겨울용 코트")
-                initList.add("캠핑 용품")
-                initList.add("체크카드")
-                initList.add("키보드")
-
-                recentSearchRVAdapter = RecentSearchRVAdapter(initList)
-
-                val recent_search_rv : RecyclerView = binding.recentSearchRv
-                recent_search_rv.adapter = recentSearchRVAdapter
                 recent_search_rv.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL)
             }
         }
     }
 
-    /**Recycler View*/
-    private fun setupRecyclerView() {
+    /**최근 검색어 RV를 생성해주는 메소드*/
+    private fun setupRelatedKeywordRecyclerView() {
 
-        val initList = mutableListOf<String>()
-        initList.add("아이폰 14")
-        initList.add("여름용 반바지")
-        initList.add("전자기기")
-        initList.add("냉장고")
-        initList.add("겨울용 코트")
-        initList.add("캠핑 용품")
-        initList.add("체크카드")
-        initList.add("키보드")
+        //연관 검색어에 변경이 일어났을때 실행하는 메소드
+        viewModel.related_keyword.observe(viewLifecycleOwner) {
 
-        recentSearchRVAdapter = RecentSearchRVAdapter(initList)
+            searchIngRVAdapter = SearchIngRVAdapter(it)
 
-        val recent_search_rv : RecyclerView = binding.recentSearchRv
-        recent_search_rv.adapter = recentSearchRVAdapter
-        recent_search_rv.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL)
+            val recent_search_rv : RecyclerView = binding.recentSearchRv
+
+            recent_search_rv.adapter = searchIngRVAdapter
+            recent_search_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        }
     }
 
     /**디바운스를 적용해 검색어 변화에 따라 쿼리를 날리는 메소드*/
-    private fun searchKeyword() {
+    private fun editText() {
         var startTime = System.currentTimeMillis()
         var endTime: Long
 
@@ -117,11 +129,12 @@ class RecentSearchFragment : Fragment() {
             if (endTime - startTime >= 100L) {
                 text?.let {
                     val query = it.toString().trim()
-                    viewModel.searchKeyword(query)
                     if (query.isNotEmpty()) {
+                        viewModel.relatedKeyword(query)
                         binding.allDeleteText.isVisible = false
                         binding.recentText.isVisible = false
                     } else {
+                        viewModel.searchKeyword()
                         binding.allDeleteText.isVisible = true
                         binding.recentText.isVisible = true
                     }
