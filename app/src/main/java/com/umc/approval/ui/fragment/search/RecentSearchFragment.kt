@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentRecentSearchBinding
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.RecentSearchRVAdapter
@@ -55,7 +57,7 @@ class RecentSearchFragment : Fragment() {
         viewModel = (activity as SearchActivity).viewModel
 
         /**검색 버튼 눌렀을때 이벤트 발생*/
-        binding.search.setOnEditorActionListener { v, actionId, event ->
+        binding.search.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 viewModel.addKeyword(KeywordDto(0, binding.search.text.toString(), "cswcsm02@gmail.com"))
@@ -70,17 +72,17 @@ class RecentSearchFragment : Fragment() {
         }
 
         /**최근 검색어 RecyclerView를 생성해주는 함수*/
-        setupRecentKeywordRecyclerView()
+        recent_keyword_recycler_view()
 
-        /**검색시 연관검색어 RecyclerView를 생성해주는 함수*/
-        setupRelatedKeywordRecyclerView()
+        /**연관검색어 RecyclerView를 생성해주는 함수*/
+        related_keyword_recycler_view()
 
         /**텍스트 수정시 디바운스 적용 및 그 외 작업*/
         editText()
     }
 
-    /**최근 검색어 RV를 생성해주는 메소드*/
-    private fun setupRecentKeywordRecyclerView() {
+    /**최근 검색어 RV를 초기화 및 최근 검색어 삭제 메서드*/
+    private fun recent_keyword_recycler_view() {
 
         //초기화시 검색어를 가지고 오는 메소드
         viewModel.searchKeyword()
@@ -99,11 +101,22 @@ class RecentSearchFragment : Fragment() {
             } else {
                 recent_search_rv.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.HORIZONTAL)
             }
+
+            //개별 검색어 클릭 이벤트
+            recentSearchRVAdapter.itemClick = object : RecentSearchRVAdapter.ItemClick {
+                //키워드 삭제
+                override fun keyword_remove(view: View, keyword: KeywordDto) {
+                    viewModel.deleteKeyword(keyword)
+                }
+                //키워드 검색
+                override fun search(view: View, keyword: KeywordDto) {
+                }
+            }
         }
     }
 
-    /**최근 검색어 RV를 생성해주는 메소드*/
-    private fun setupRelatedKeywordRecyclerView() {
+    /**연관 검색어 RV를 생성해주는 메소드*/
+    private fun related_keyword_recycler_view() {
 
         //연관 검색어에 변경이 일어났을때 실행하는 메소드
         viewModel.related_keyword.observe(viewLifecycleOwner) {
@@ -114,6 +127,14 @@ class RecentSearchFragment : Fragment() {
 
             recent_search_rv.adapter = searchIngRVAdapter
             recent_search_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            //개별 검색어 클릭 이벤트
+            searchIngRVAdapter.itemClick = object : SearchIngRVAdapter.ItemClick {
+
+                //연관 검색어 탐색
+                override fun related_keyword_search(view: View, keyword: KeywordDto) {
+                }
+            }
         }
     }
 

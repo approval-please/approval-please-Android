@@ -10,17 +10,5 @@
         android:name="com.umc.approval.ui.fragment.search.RecentSearchFragment"
         android:label="fragment_recent_search"
         tools:layout="@layout/fragment_recent_search" >
-        <action
-            android:id="@+id/action_recentSearchFragment_to_searchIngFragment"
-            app:destination="@id/searchIngFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchIngFragment"
-        android:name="com.umc.approval.ui.fragment.search.SearchIngFragment"
-        android:label="fragment_search_ing"
-        tools:layout="@layout/fragment_search_ing" >
-        <action
-            android:id="@+id/action_searchIngFragment_to_recentSearchFragment"
-            app:destination="@id/recentSearchFragment" />
     </fragment>
 </navigation>
