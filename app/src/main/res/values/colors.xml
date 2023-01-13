@@ -10,4 +10,21 @@
 
     <!--Splash View Background Color-->
     <color name="splash_backgroud_color">#6C39FF</color>
+
+    <!-- HomeFragment Color -->
+    <color name="basic_black">#141414</color>
+    <color name="gray_text_color">#BFBFBF</color>
+    <color name="selected_button_background_color">#266C39FF</color>
+    <color name="unselected_button_background_color">#D9D9D9</color>
+    <color name="selected_category_text_color">#6C39FF</color>
+    <color name="unselected_category_text_color">#141414</color>
+    <color name="main_color">#6C39FF</color>
+    <color name="home_fragment_background_color">#FAFAFA</color>
+    <color name="post_rank_background_stroke">#8C8C8C</color>
+
+    <!-- Approval Fragment Color -->
+    <color name="transparent">#00000000</color>
+    <color name="app_main_color">#6C39FF</color>
+    <color name="unselected_tab_text">#BFBFBF</color>
+    <color name="approval_fragment_title">#141414</color>
 </resources>

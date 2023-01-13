@@ -17,4 +17,16 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- approval fragment tab custom -->
+    <style name="tabTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- home fragment chip custom -->
+    <style name="Colors_Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@drawable/approval_fragment_choice_chip_background_color</item>
+        <item name="android:textColor">@drawable/approval_fragment_choice_chip_text_color</item>
+    </style>
 </resources>
