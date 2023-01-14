@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.login
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -71,6 +73,9 @@ class LoginFragment : Fragment() {
         //kakao 로그인
         kakao_login()
 
+        //엑세스 토큰
+        access_token_check()
+
         return view
     }
 
@@ -100,8 +105,25 @@ class LoginFragment : Fragment() {
 
         //인텐트를 시작하면 사용자에게 로그인할 Google 계정을 선택하라는 메시지가 표시됨
         binding.googleLogin.setOnClickListener {
-            val signIntent: Intent = mGoogleSignInClient.getSignInIntent()
-            GoogleSignResultLauncher.launch(signIntent)
+
+            val dialog = LayoutInflater.from(requireContext()).inflate(R.layout.social_google_login_dialog, null)
+            val builder = AlertDialog.Builder(requireContext()).setView(dialog)
+
+            val alertDialog = builder.show()
+
+            //dialog의 view Component 접근
+            val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
+            val keep_going = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+
+            dialog_cancel.setOnClickListener {
+                alertDialog.cancel()
+            }
+
+            keep_going.setOnClickListener {
+                val signIntent: Intent = mGoogleSignInClient.getSignInIntent()
+                GoogleSignResultLauncher.launch(signIntent)
+                alertDialog.cancel()
+            }
         }
     }
 
@@ -157,12 +179,29 @@ class LoginFragment : Fragment() {
             }
         }
 
-        //로그인 버튼 입력
+        //로그인 버튼 입력시 dialog 보여줌 그 후에 로그인 진행
         binding.kakaoLogin.setOnClickListener {
-            if(UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())){
-                UserApiClient.instance.loginWithKakaoTalk(context = requireContext(), callback = callback)
-            }else{
-                UserApiClient.instance.loginWithKakaoAccount(context = requireContext(), callback = callback)
+
+            val dialog = LayoutInflater.from(requireContext()).inflate(R.layout.social_kakao_login_dialog, null)
+            val builder = AlertDialog.Builder(requireContext()).setView(dialog)
+
+            val alertDialog = builder.show()
+
+            //dialog의 view Component 접근
+            val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
+            val keep_going = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+
+            dialog_cancel.setOnClickListener {
+                alertDialog.cancel()
+            }
+
+            keep_going.setOnClickListener {
+                if(UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())){
+                    UserApiClient.instance.loginWithKakaoTalk(context = requireContext(), callback = callback)
+                }else{
+                    UserApiClient.instance.loginWithKakaoAccount(context = requireContext(), callback = callback)
+                }
+                alertDialog.cancel()
             }
         }
     }
@@ -177,7 +216,10 @@ class LoginFragment : Fragment() {
          * AccessToken 확인해서 로그인 상태인지 아닌지 확인
          * */
         viewModel.checkAccessToken()
+    }
 
+    /**access token 변화를 fragment에서 체크하는 함수*/
+    private fun access_token_check() {
         viewModel.accessToken.observe(this, Observer {
             if (it != "") {
                 val intent = Intent(requireContext(), MainActivity::class.java)
@@ -187,17 +229,6 @@ class LoginFragment : Fragment() {
                 viewModel.deleteAccessToken()
             }
         })
-
-        /**
-         * 구글 로그인 상태 확인
-         * */
-        val account = GoogleSignIn.getLastSignedInAccount(requireContext())
-        if (account == null) {
-            Log.d("INFO", "로그인 안되있음")
-        } else {
-            Log.d("INFO", "로그인 완료된 상태")
-            Log.d("social_google", account.idToken.toString())
-        }
     }
 
     /**

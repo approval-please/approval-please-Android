@@ -274,12 +274,11 @@ class JoinFragment : Fragment() {
 
     /**폰 번호를 올바르게 입력하지 않은 경우*/
     private fun not_proper_phone_auth() {
-        binding.phoneFail.isVisible = true
-        binding.phoneSuccess.isVisible = false
-        binding.phoneTextRemove.isVisible = false
-        binding.phoneValid.isVisible = true
-        binding.phone.setBackgroundResource(R.drawable.login_activity_red_box)
-        Toast.makeText(requireContext(), "휴대번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
+        binding.authSuccess.isVisible = false
+        binding.authFail.isVisible = true
+        binding.authValid.isVisible = true
+        binding.authTextRemove.isVisible = true
+        binding.auth.setBackgroundResource(R.drawable.login_activity_red_box)
     }
 
     /**dialog를 보여주는 메소드*/
