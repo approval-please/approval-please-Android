@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_passwordFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_passwordFragment_to_passwordResetFragment"
+            app:destination="@id/passwordResetFragment" />
     </fragment>
     <fragment
         android:id="@+id/joinFragment"
@@ -33,6 +36,25 @@
         tools:layout="@layout/fragment_join" >
         <action
             android:id="@+id/action_joinFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordResetFragment"
+        android:name="com.umc.approval.ui.fragment.login.PasswordResetFragment"
+        android:label="PasswordResetFragment" >
+        <action
+            android:id="@+id/action_passwordResetFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+        <action
+            android:id="@+id/action_passwordResetFragment_to_passwordChangeFragment"
+            app:destination="@id/passwordChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordChangeFragment"
+        android:name="com.umc.approval.ui.fragment.login.PasswordChangeFragment"
+        android:label="PasswordChangeFragment" >
+        <action
+            android:id="@+id/action_passwordChangeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

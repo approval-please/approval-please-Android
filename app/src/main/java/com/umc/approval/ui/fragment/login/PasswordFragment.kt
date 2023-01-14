@@ -41,6 +41,9 @@ class PasswordFragment : Fragment() {
         //password clear
         init_password()
 
+        //move to passwordResetFragment
+        moveToPasswordResetFragment()
+
         return view
     }
 
@@ -54,12 +57,22 @@ class PasswordFragment : Fragment() {
     }
 
     /**
-     *
+     * back to loginFragment
      * */
     private fun backToLoginFragment() {
         binding.backToEmailLogin.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_passwordFragment_to_loginFragment)
+        }
+    }
+
+    /**
+     * move to password_reset_fragmnet
+     * */
+    private fun moveToPasswordResetFragment() {
+        binding.passwordForgot.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_passwordFragment_to_passwordResetFragment)
         }
     }
 

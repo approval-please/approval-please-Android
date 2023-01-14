@@ -18,6 +18,13 @@
         android:theme="@style/Theme.Approval"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.SearchActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
             <intent-filter>
