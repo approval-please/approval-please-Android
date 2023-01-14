@@ -1,5 +1,6 @@
 package com.umc.approval.ui.liz
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -34,6 +35,8 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
 
         binding.addInterestCategoryButton.setOnClickListener {
             Log.d("로그", "관심 부서 추가 버튼 클릭")
+            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+            startActivity(intent)
         }
 
         return view
