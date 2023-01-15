@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.umc.approval.ui.fragment.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_joinFragment"
+            app:destination="@id/joinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.umc.approval.ui.fragment.login.PasswordFragment"
+        android:label="fragment_password"
+        tools:layout="@layout/fragment_password" >
+        <action
+            android:id="@+id/action_passwordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_passwordFragment_to_passwordResetFragment"
+            app:destination="@id/passwordResetFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="com.umc.approval.ui.fragment.login.JoinFragment"
+        android:label="fragment_join"
+        tools:layout="@layout/fragment_join" >
+        <action
+            android:id="@+id/action_joinFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordResetFragment"
+        android:name="com.umc.approval.ui.fragment.login.PasswordResetFragment"
+        android:label="PasswordResetFragment" >
+        <action
+            android:id="@+id/action_passwordResetFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+        <action
+            android:id="@+id/action_passwordResetFragment_to_passwordChangeFragment"
+            app:destination="@id/passwordChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordChangeFragment"
+        android:name="com.umc.approval.ui.fragment.login.PasswordChangeFragment"
+        android:label="PasswordChangeFragment" >
+        <action
+            android:id="@+id/action_passwordChangeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

@@ -1,13 +1,49 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'kotlin-kapt'
 }
+
+
+//String getGoogleClientId() {
+//    def propFile = rootProject.file("./local.properties")
+//    def properties = new Properties()
+//    properties.load(new FileInputStream(propFile))
+//    return properties['GOOGLE_CLIENT_ID']
+//}
+//
+//String getKakaoKey() {
+//    def propFile = rootProject.file("./local.properties")
+//    def properties = new Properties()
+//    properties.load(new FileInputStream(propFile))
+//    return properties['KAKAO_KEY']
+//}
+//
+//String getLocalBaseUrl() {
+//    def propFile = rootProject.file("./local.properties")
+//    def properties = new Properties()
+//    properties.load(new FileInputStream(propFile))
+//    return properties['LOCAL_BASE_URL']
+//}
+//
+//String getManifestKakaoKey() {
+//    def propFile = rootProject.file("./local.properties")
+//    def properties = new Properties()
+//    properties.load(new FileInputStream(propFile))
+//    return properties['MANIFEST_KAKAO_KEY']
+//}
 
 android {
     namespace 'com.umc.approval'
     compileSdk 32
 
     defaultConfig {
+//        buildConfigField ("String", "GOOGLE_CLIENT_ID", getGoogleClientId())
+//        buildConfigField ("String", "KAKAO_KEY", getKakaoKey())
+//        buildConfigField ("String", "LOCAL_BASE_URL", getLocalBaseUrl())
+//        buildConfigField ("String", "MANIFEST_KAKAO_KEY", getManifestKakaoKey())
+
         applicationId "com.umc.approval"
         minSdk 21
         targetSdk 32
@@ -49,7 +85,22 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
-    //link
+    //google login library
+    implementation 'com.google.android.gms:play-services-auth:20.4.0'
+
+    //kakao login library
+    implementation "com.kakao.sdk:v2-user:2.12.0"
+
+    //datastore library
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
+    //room db library
+    implementation("androidx.room:room-runtime:2.4.3")
+    annotationProcessor("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    kapt("androidx.room:room-compiler:2.4.3")
+    
+    //link library
     implementation "androidx.activity:activity:1.6.0-alpha05"
 
     //view pager2 library

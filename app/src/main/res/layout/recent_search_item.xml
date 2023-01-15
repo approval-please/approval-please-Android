@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/recent_search_box"
+    android:layout_width="wrap_content"
+    android:layout_height="45dp"
+    android:padding="10dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="5dp">
+
+    <LinearLayout
+        android:id="@+id/recent_search_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="center"
+            android:text="아이템입니다"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/recent_search_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </TextView>
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/text_remove"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/recent_search_fragment_cancel"
+            app:layout_constraintBottom_toBottomOf="@+id/recent_search_item"
+            app:layout_constraintEnd_toEndOf="@+id/recent_search_item"
+            app:layout_constraintTop_toTopOf="@+id/recent_search_item"></ImageView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
