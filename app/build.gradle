@@ -49,9 +49,15 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
-    //CircleImageView
+    //link
+    implementation "androidx.activity:activity:1.6.0-alpha05"
+
+    //view pager2 library
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    
+    //circle imageview library
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    //TabLayout
+    //tabLayout library
     implementation 'com.google.android.material:material:1.4.0'
 }
