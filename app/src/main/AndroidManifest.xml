@@ -43,6 +43,13 @@
         </activity>
         
         <activity
+            android:name=".ui.liz.InterestingDepartmentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.activity.SplashActivity"
             android:exported="true">
 

@@ -2,6 +2,7 @@ package com.umc.approval.ui.liz
 
 data class ApprovalPaper(
     val approval_status: Boolean,
+    val approval_result: Boolean,
     val title: String,
     val content: String,
     val approve_count: Int,
