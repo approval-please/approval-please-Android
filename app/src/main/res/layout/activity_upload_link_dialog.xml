@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/upload_link_dialog_et"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
+        android:background="@drawable/upload_activity_round_dialog_custom"
+        android:hint="URL을 입력해주세요"
+        android:bufferType="spannable"
+        android:inputType="text"
+        android:textSize="16sp"/>
+
+    <ImageButton
+        android:id="@+id/upload_link_erase_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="@id/upload_link_dialog_et"
+        app:layout_constraintTop_toTopOf="@id/upload_link_dialog_et"
+        app:layout_constraintBottom_toBottomOf="@id/upload_link_dialog_et"
+        android:background="@android:color/transparent"
+        android:src="@drawable/upload_activity_img_cancel_button"></ImageButton>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_link_dialog_et"
+        >
+        <TextView
+            android:id="@+id/upload_link_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_link_dialog_et"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/upload_link_dialog_cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/white"
+            android:text="취소"
+            android:textStyle="bold"
+            android:textColor="#8C8C8C"/>
+
+        <Button
+            android:id="@+id/upload_link_dialog_confirm_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/white"
+            android:text="확인"
+            android:textStyle="bold"
+            android:textColor="#6C39FF"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="203dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="1dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_approval_state_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/approval_fragment_approvel_status_circle_complete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/tv_approval_state"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="13dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_approval_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="승인완료"
+        android:textSize="11sp"
+        android:textColor="@color/basic_black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_approval_state_circle"
+        android:layout_marginTop="27dp"
+        android:layout_marginStart="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_approval_paper_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="디지털기기∙5시간 전"
+        android:textColor="@color/gray_text_color"
+        android:textSize="11sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="27dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스타벅스 텀블러"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_approval_state"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"/>
+    
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="328dp"
+        android:layout_height="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="16dp"
+        android:text="집에 텀블러 다섯개 있는데 이 사이즈는 없고\n 이 색깔도 한정판이라 몇 개 안 나오는 텍스트 집에 텀블러 다섯개 있는데 이 사이즈는 없고"
+        android:textSize="13sp"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6.5dp">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:checked="true"
+            android:text="기계"
+            android:textSize="11sp"
+            android:paddingHorizontal="7dp"
+            app:chipCornerRadius="15dp"
+            app:chipEndPadding="2dp"
+            app:chipMinTouchTargetSize="0dp"
+            app:chipStartPadding="0dp"/>
+
+        <com.google.android.material.chip.Chip
+            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:checked="true"
+            android:text="환경"
+            android:textSize="11sp"
+            android:paddingHorizontal="7dp"
+            app:chipCornerRadius="15dp"
+            app:chipEndPadding="2dp"
+            app:chipMinTouchTargetSize="0dp"
+            app:chipStartPadding="0dp"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="3dp"
+        android:paddingTop="2dp"
+        android:src="@drawable/approval_fragment_paper_views"
+        app:layout_constraintBottom_toBottomOf="@id/division_line"
+        app:layout_constraintEnd_toStartOf="@id/tv_views"
+        app:layout_constraintTop_toBottomOf="@id/tv_content"
+        app:layout_constraintVertical_bias="0.25" />
+
+
+    <TextView
+        android:id="@+id/tv_views"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="10"
+        android:textColor="@color/gray_text_color"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@id/division_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content"
+        app:layout_constraintVertical_bias="0.269" />
+
+    <View
+        android:id="@+id/division_line"
+        android:layout_width="328dp"
+        android:layout_height="0.5dp"
+        android:background="#D9D9D9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cg_category"
+        android:layout_marginTop="13dp"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/approveStatusBarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
