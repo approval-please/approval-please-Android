@@ -220,7 +220,7 @@ class LoginFragment : Fragment() {
 
     /**access token 변화를 fragment에서 체크하는 함수*/
     private fun access_token_check() {
-        viewModel.accessToken.observe(this, Observer {
+        viewModel.accessToken.observe(viewLifecycleOwner) {
             if (it != "") {
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
@@ -228,7 +228,7 @@ class LoginFragment : Fragment() {
 
                 viewModel.deleteAccessToken()
             }
-        })
+        }
     }
 
     /**
