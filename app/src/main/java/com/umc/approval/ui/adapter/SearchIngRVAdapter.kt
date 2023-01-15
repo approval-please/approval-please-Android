@@ -37,7 +37,7 @@ class SearchIngRVAdapter(private val items : List<KeywordDto>) : RecyclerView.Ad
         if (itemClick != null){
 
             //연관 검색어 탐색
-            holder?.binding!!.relatedText.setOnClickListener(View.OnClickListener {
+            holder.binding.relatedText.setOnClickListener(View.OnClickListener {
                 itemClick?.related_keyword_search(it, items[position])
                 Log.d("keyword_click_event", "related_keyword_search")
             })

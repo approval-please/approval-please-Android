@@ -24,7 +24,6 @@
     <color name="post_rank_background_stroke">#8C8C8C</color>
 
     <!-- Approval Fragment Color -->
-    <color name="transparent">#00000000</color>
     <color name="app_main_color">#6C39FF</color>
     <color name="unselected_tab_text">#BFBFBF</color>
     <color name="approval_fragment_title">#141414</color>

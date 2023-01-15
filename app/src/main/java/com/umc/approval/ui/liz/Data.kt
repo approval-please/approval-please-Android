@@ -12,6 +12,17 @@ data class ApprovalPaper(
     val date: String,  // 서버 측에서 보내주는 데이터 가공 필요
 )
 
+data class ApprovalPaper_HomeFragment(
+    val approval_status: Boolean,
+    val title: String,
+    val content: String,
+    val approve_count: Int,
+    val reject_count: Int,
+    val views: Int,
+    val department: String,
+    val date: String,  // 서버 측에서 보내주는 데이터 가공 필요
+)
+
 data class Post(
     val user_profile_thumbnail: String,
     val user_nickname: String,

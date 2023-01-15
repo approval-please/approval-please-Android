@@ -27,8 +27,8 @@ class RecentSearchRVAdapter(private val items : List<KeywordDto>) : RecyclerView
 
     /**RV item click event*/
     interface ItemClick{ //인터페이스
-        fun keyword_remove(view: View, position: KeywordDto)
-        fun search(view: View, position: KeywordDto)
+        fun keyword_remove(view: View, keyword: KeywordDto)
+        fun search(view: View, keyword: KeywordDto)
     }
 
     var itemClick: ItemClick? = null
@@ -38,13 +38,13 @@ class RecentSearchRVAdapter(private val items : List<KeywordDto>) : RecyclerView
         if (itemClick != null){
 
             //최근 검색어 제거
-            holder?.binding!!.textRemove.setOnClickListener(View.OnClickListener {
+            holder.binding.textRemove.setOnClickListener(View.OnClickListener {
                 itemClick?.keyword_remove(it, items[position])
                 Log.d("keyword_click_event", "keyword_delete")
             })
 
             //최근 검색어 탐색
-            holder?.binding!!.recentSearchText.setOnClickListener(View.OnClickListener {
+            holder.binding.recentSearchText.setOnClickListener(View.OnClickListener {
                 itemClick?.search(it, items[position])
                 Log.d("keyword_click_event", "keyword_search")
             })
