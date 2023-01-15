@@ -52,7 +52,12 @@ dependencies {
     //link
     implementation "androidx.activity:activity:1.6.0-alpha05"
 
-    //tab
+    //view pager2 library
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    
+    //circle imageview library
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    //tabLayout library
+    implementation 'com.google.android.material:material:1.4.0'
 }

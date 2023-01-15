@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.NotificationFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notification_toparea"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="NotificationFragment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/notification_background"
+        android:elevation="2dp"
+        android:paddingBottom="2dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알림"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="18dp"/>
+        <ImageButton
+            android:id="@+id/notification_setting"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/mypage_icon_settings"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="17dp"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/notification_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            app:tabSelectedTextColor="#6C39FF"
+            app:tabTextColor="#BFBFBF"
+            app:tabIndicatorHeight="1.2dp"
+            app:tabIndicatorFullWidth="false"
+            app:layout_constraintTop_toBottomOf="@id/notification_setting"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="20dp">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="활동"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="서류"/>
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/notification_taparea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/notification_toparea"/>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

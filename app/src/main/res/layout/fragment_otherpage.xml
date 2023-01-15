@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.MypageFragment">
+    tools:context="Collie.OtherpageFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mypage_profile_area"
+        android:id="@+id/otherpage_profile_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="내 사원증"
+            android:text="사원증"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#000000"
@@ -25,7 +25,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"/>
         <ImageButton
-            android:id="@+id/mypage_setting"
+            android:id="@+id/otherpage_setting"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/mypage_icon_settings"
@@ -35,12 +35,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="24dp"/>
         <ImageButton
-            android:id="@+id/mypage_share"
+            android:id="@+id/otherpage_share"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/mypage_icon_share"
             android:background="#FFFFFF"
-            app:layout_constraintEnd_toStartOf="@id/mypage_setting"
+            app:layout_constraintEnd_toStartOf="@id/otherpage_setting"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="26dp"
             android:layout_marginTop="24dp"/>
@@ -81,7 +81,7 @@
             android:layout_marginLeft="137.5dp"
             android:layout_marginRight="173.5dp"/>
         <ImageView
-            android:id="@+id/rank_imageview"
+            android:id="@+id/otherpage_rank_imageview"
             android:layout_width="33dp"
             android:layout_height="18dp"
             android:src="@drawable/mypage_rank_chajang"
@@ -90,66 +90,85 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="228dp"
-            android:layout_marginLeft="191.5dp"
-            android:layout_marginRight="136.5dp"/>
-        <TextView
-            android:id="@+id/nickname_textview"
+            android:layout_marginStart="191.5dp"
+            android:layout_marginEnd="136.5dp"/>
+        <LinearLayout
+            android:id="@+id/otherpage_nickname_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:text="nickname"
-            android:textStyle="bold"
-            android:textColor="#141414"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rank_imageview"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toBottomOf="@id/otherpage_rank_imageview"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="99dp"
+            android:layout_marginEnd="99dp"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/otherpage_nickname_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="23sp"
+                android:text="nickname"
+                android:textStyle="bold"
+                android:textColor="#141414"
+                android:layout_marginRight="5dp"/>
+            <Button
+                android:id="@+id/follow_btn"
+                android:layout_width="45dp"
+                android:layout_height="34dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:padding="0dp"
+                android:textSize="11sp"
+                android:text="팔로우"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
         <TextView
-            android:id="@+id/follower_textview"
+            android:id="@+id/otherpage_follower_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text= "팔로워"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/follower_num_textview"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
+            app:layout_constraintEnd_toStartOf="@id/otherpage_follower_num_textview"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
             android:layout_marginTop="10dp"
             android:layout_marginStart="120dp"/>
         <TextView
-            android:id="@+id/follower_num_textview"
+            android:id="@+id/otherpage_follower_num_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="00"
             android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/follower_textview"
-            app:layout_constraintEnd_toStartOf="@id/following_textview"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
+            app:layout_constraintStart_toEndOf="@id/otherpage_follower_textview"
+            app:layout_constraintEnd_toStartOf="@id/otherpage_following_textview"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="7.5dp"/>
         <TextView
-            android:id="@+id/following_textview"
+            android:id="@+id/otherpage_following_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text= "팔로잉"
             android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/follower_num_textview"
-            app:layout_constraintEnd_toStartOf="@id/following_num_textview"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
+            app:layout_constraintStart_toEndOf="@id/otherpage_follower_num_textview"
+            app:layout_constraintEnd_toStartOf="@id/otherpage_following_num_textview"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
             android:layout_marginTop="10dp"
             android:layout_marginStart="7.5dp"/>
         <TextView
-            android:id="@+id/following_num_textview"
+            android:id="@+id/otherpage_following_num_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:text="00"
             android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/following_textview"
+            app:layout_constraintStart_toEndOf="@id/otherpage_following_textview"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="120dp"/>
         <TextView
@@ -161,7 +180,7 @@
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/follower_textview"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_follower_textview"
             android:layout_marginTop="10dp"/>
 
         <TextView
@@ -170,7 +189,7 @@
             android:textSize="13sp"
             android:text="승진 포인트"
             android:textColor="#141414"
-            app:layout_constraintStart_toStartOf="@id/mypage_progressbar"
+            app:layout_constraintStart_toStartOf="@id/otherpage_progressbar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="343dp"/>
         <TextView
@@ -179,11 +198,11 @@
             android:textSize="11sp"
             android:text="000 / 00000"
             android:textColor="#141414"
-            app:layout_constraintEnd_toEndOf="@id/mypage_progressbar"
+            app:layout_constraintEnd_toEndOf="@id/otherpage_progressbar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="345dp"/>
         <ProgressBar
-            android:id="@+id/mypage_progressbar"
+            android:id="@+id/otherpage_progressbar"
             android:layout_width="276dp"
             android:layout_height="8dp"
             android:max="100"
@@ -195,14 +214,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="369dp"/>
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/mypage_tabLayout"
+            android:id="@+id/otherpage_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             app:tabSelectedTextColor="#6C39FF"
             app:tabTextColor="#BFBFBF"
             app:tabIndicatorHeight="1.2dp"
             app:tabIndicatorFullWidth="false"
-            app:layout_constraintTop_toTopOf="@id/mypage_progressbar"
+            app:layout_constraintTop_toTopOf="@id/otherpage_progressbar"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="28dp">
             <com.google.android.material.tabs.TabItem
@@ -216,20 +235,14 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="댓글"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="스크랩"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="실적"/>
+                android:text="댓글 단 글"/>
         </com.google.android.material.tabs.TabLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <FrameLayout
-        android:id="@+id/mypage_tabArea"
+        android:id="@+id/otherpage_tabArea"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        app:layout_constraintTop_toBottomOf="@id/mypage_profile_area"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/otherpage_profile_area"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
