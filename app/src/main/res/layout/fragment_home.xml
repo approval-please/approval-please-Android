@@ -3,12 +3,397 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.HomeFragment"
+    android:background="@color/home_fragment_background_color">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="HomeFragment"/>
+        android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="57dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/home_fragment_app_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:background="@color/transparent"
+                android:src="@drawable/home_fragment_search_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/mypage_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/mypage_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@color/transparent"
+                android:src="@drawable/home_fragment_mypage_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/home_banner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="1dp"
+                    android:src="@drawable/home_fragment_banner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="인디케이터"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/home_banner" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp">
+
+                    <TextView
+                        android:id="@+id/my_interesting_paper_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/my_interest_paper"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/my_interesting_paper_view_all_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/view_all"
+                        android:textColor="@color/gray_text_color"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:overScrollMode="never"
+                    android:paddingTop="5dp"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cg_my_interesting_category"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16dp"
+                        app:selectionRequired="true"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="22dp"
+                            android:checked="true"
+                            android:text="@string/all_interesting_category"
+                            android:textSize="11sp"
+                            app:chipCornerRadius="15dp"
+                            app:chipEndPadding="2dp"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:chipStartPadding="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="22dp"
+                            android:checkable="true"
+                            android:gravity="center_vertical"
+                            android:text="디지털기기"
+                            android:textSize="11sp"
+                            app:chipCornerRadius="15dp"
+                            app:chipEndPadding="2dp"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:chipStartPadding="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="22dp"
+                            android:checkable="true"
+                            android:gravity="center_vertical"
+                            android:text="생활가전"
+                            android:textSize="11sp"
+                            app:chipCornerRadius="15dp"
+                            app:chipEndPadding="2dp"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:chipStartPadding="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="22dp"
+                            android:checkable="true"
+                            android:gravity="center_vertical"
+                            android:text="생활용품"
+                            android:textSize="11sp"
+                            app:chipCornerRadius="15dp"
+                            app:chipEndPadding="2dp"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:chipStartPadding="0dp" />
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="22dp"
+                            android:checkable="true"
+                            android:gravity="center_vertical"
+                            android:text="뷰티/미용"
+                            android:textSize="11sp"
+                            app:chipCornerRadius="15dp"
+                            app:chipEndPadding="2dp"
+                            app:chipMinTouchTargetSize="0dp"
+                            app:chipStartPadding="0dp" />
+
+                        <ImageButton
+                            android:id="@+id/add_interest_category_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:gravity="center_vertical"
+                            android:paddingTop="1dp"
+                            android:src="@drawable/home_fragment_add_interesting_category_button" />
+
+                        <View
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_my_interesting_paper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="138dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp">
+
+                    <TextView
+                        android:id="@+id/review_approval_paper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/review_approval_paper"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/review_approval_paper_view_all_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/view_all"
+                        android:textColor="@color/gray_text_color"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_approval_paper_sort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:checkable="true"
+                        android:checked="true"
+                        android:text="@string/popular"
+                        android:textSize="11sp"
+                        app:chipCornerRadius="15dp"
+                        app:chipEndPadding="2dp"
+                        app:chipMinTouchTargetSize="0dp"
+                        app:chipStartPadding="0dp" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="22dp"
+                        android:checkable="true"
+                        android:text="@string/latest"
+                        android:textSize="11sp"
+                        app:chipCornerRadius="15dp"
+                        app:chipEndPadding="2dp"
+                        app:chipMinTouchTargetSize="0dp"
+                        app:chipStartPadding="0dp" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_approval_paper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="320dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="15dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp">
+
+                    <TextView
+                        android:id="@+id/popular_post_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/popular_post"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/popular_post_view_all_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/view_all"
+                        android:textColor="@color/gray_text_color"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_popular_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="230dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="15dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp">
+
+                    <TextView
+                        android:id="@+id/approval_report_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/approval_report"
+                        android:textColor="@color/basic_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/approval_report_view_all_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/view_all"
+                        android:textColor="@color/gray_text_color"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="3dp"
+                        android:text="@string/approval_report_sub_text"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/approval_report_title" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_approval_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="230dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="24dp" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </FrameLayout>
