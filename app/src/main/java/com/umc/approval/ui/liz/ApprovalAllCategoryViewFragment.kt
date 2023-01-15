@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.umc.approval.databinding.FragmentApprovalAllCategoryViewBinding
 
 class ApprovalAllCategoryViewFragment: Fragment() {
@@ -57,14 +56,14 @@ class ApprovalAllCategoryViewFragment: Fragment() {
             add(ApprovalPaper(true, true, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
         }
 
-        val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
+        val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
         val spaceDecoration = VerticalSpaceItemDecoration(20)
         binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
         binding.rvApprovalPaper.adapter = dataRVAdapter
         binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
+        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
             override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
                 Log.d("로그", "결재 서류 클릭, pos: $pos")
             }

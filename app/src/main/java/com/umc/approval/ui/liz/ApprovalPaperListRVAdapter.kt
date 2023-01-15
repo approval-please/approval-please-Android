@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.databinding.ApprovalFragmentItemApprovalPaperBinding
 
-class ApprovalPaperRVAdapter(private val dataList: ArrayList<ApprovalPaper> = arrayListOf()): RecyclerView.Adapter<ApprovalPaperRVAdapter.DataViewHolder>() {
+class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> = arrayListOf()): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ApprovalFragmentItemApprovalPaperBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding, parent.context)
