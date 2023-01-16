@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/white"
     android:windowSoftInputMode="adjustResize"
-    tools:context=".ui.aran.UploadActivity">
+    tools:context=".ui.activity.UploadActivity">
 
     <RelativeLayout
         android:id="@+id/upload_layout_toolbar"

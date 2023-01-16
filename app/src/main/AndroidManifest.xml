@@ -20,7 +20,7 @@
         tools:targetApi="31">
         
         <activity
-            android:name=".ui.aran.CommunityUploadActivity"
+            android:name=".ui.activity.CommunityUploadActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <meta-data
@@ -29,7 +29,7 @@
         </activity>
         
         <activity
-            android:name=".ui.aran.UploadActivity"
+            android:name=".ui.activity.UploadActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <meta-data
@@ -38,16 +38,16 @@
         </activity>
         
         <activity
-            android:name="Collie.DocumentCommentActivity"
-            android:exported="false">
+            android:name=".ui.activity.DocumentCommentActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         
         <activity
-            android:name=".ui.liz.InterestingDepartmentActivity"
-            android:exported="false">
+            android:name=".ui.activity.InterestingDepartmentActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

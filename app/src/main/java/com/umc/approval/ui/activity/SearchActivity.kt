@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.umc.approval.databinding.ActivitySearchBinding
-import com.umc.approval.db.RecentSearchDatabase
-import com.umc.approval.ui.repository.RecentSearchFragmentRepository
-import com.umc.approval.ui.viewmodel.RecentSearchViewModel
-import com.umc.approval.ui.viewmodel.RecentSearchViewModelFactory
+import com.umc.approval.data.db.database.RecentSearchDatabase
+import com.umc.approval.data.repository.search.RecentSearchFragmentRepository
+import com.umc.approval.ui.viewmodel.search.RecentSearchViewModel
+import com.umc.approval.ui.viewmodel.search.RecentSearchViewModelFactory
 
 class SearchActivity : AppCompatActivity() {
 
