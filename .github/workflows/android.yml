@@ -12,10 +12,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: GOOGLE_CLIENT_ID
+      env:
+        GOOGLE_CLIENT_ID: "GOOGLE_CLIENT_ID"
+      run: echo GOOGLE_CLIENT_ID=\"$GOOGLE_CLIENT_ID\" > ./local.properties
+
+    - name: KAKAO_KEY
+      env:
+        KAKAO_KEY: "KAKAO_KEY"
+      run: echo KAKAO_KEY=\"$KAKAO_KEY\" > ./local.properties
+    
+    - name: LOCAL_BASE_URL
+      env:
+        LOCAL_BASE_URL: "LOCAL_BASE_URL"
+      run: echo LOCAL_BASE_URL=\"$LOCAL_BASE_URL\" > ./local.properties
     
     - name: MANIFEST_KAKAO_KEY
       env:
-        MANIFEST_KAKAO_KEY: "kakao"
+        MANIFEST_KAKAO_KEY: "MANIFEST_KAKAO_KEY"
       run: echo MANIFEST_KAKAO_KEY=\"$MANIFEST_KAKAO_KEY\" > ./local.properties
     
     - name: set up JDK 11
