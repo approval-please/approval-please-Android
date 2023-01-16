@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Collie.DocumentCommentActivity">
+    tools:context=".ui.activity.DocumentCommentActivity">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/document_comment_topbar"
         android:layout_width="match_parent"

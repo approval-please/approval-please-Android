@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="com.umc.approval.ui.fragment.HomeFragment"
+        android:name="com.umc.approval.ui.fragment.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_approval"
-        android:name="com.umc.approval.ui.fragment.ApprovalFragment"
+        android:name="com.umc.approval.ui.fragment.approval.ApprovalFragment"
         android:label="fragment_approval"
         tools:layout="@layout/fragment_approval" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_community"
-        android:name="com.umc.approval.ui.fragment.CommunityFragment"
+        android:name="com.umc.approval.ui.fragment.community.CommunityFragment"
         android:label="fragment_community"
         tools:layout="@layout/fragment_community" >
         <action
@@ -61,7 +61,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_mypage"
-        android:name="com.umc.approval.ui.fragment.MypageFragment"
+        android:name="com.umc.approval.ui.fragment.mypage.MypageFragment"
         android:label="fragment_mypage"
         tools:layout="@layout/fragment_mypage" >
         <action
@@ -79,7 +79,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_notification"
-        android:name="com.umc.approval.ui.fragment.NotificationFragment"
+        android:name="com.umc.approval.ui.fragment.notification.NotificationFragment"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" >
         <action
