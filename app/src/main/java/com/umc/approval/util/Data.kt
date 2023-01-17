@@ -41,3 +41,10 @@ data class Participant(
     val user_nickname: String,
     val follow_status: Boolean,
 )
+
+data class Like(
+    val user_profile_image: String,
+    val user_rank: String,
+    val user_nickname: String,
+    val follow_status: Boolean,
+)
