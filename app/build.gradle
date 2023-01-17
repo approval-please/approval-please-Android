@@ -111,4 +111,7 @@ dependencies {
 
     //tabLayout library
     implementation 'com.google.android.material:material:1.4.0'
+
+    //coil library
+    implementation("io.coil-kt:coil:2.2.2")
 }

@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.umc.approval.databinding.ActivityProfileChangeBinding
 import com.umc.approval.ui.viewmodel.profile.ProfileImageViewModel
 
@@ -41,6 +42,7 @@ class ProfileChangeActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(ProfileImageViewModel::class.java)
 
         viewModel.profile.observe(this) {
+            binding.profileImage.load(it)
             Log.d("Profile_Image", it.toString())
         }
 
