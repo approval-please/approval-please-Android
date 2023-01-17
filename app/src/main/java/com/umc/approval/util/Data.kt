@@ -34,3 +34,10 @@ data class ApprovalReport(
     val like_count: Int,
     val date: String,
 )
+
+data class Participant(
+    val user_profile_image: String,
+    val user_rank: String,
+    val user_nickname: String,
+    val follow_status: Boolean,
+)
