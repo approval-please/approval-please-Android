@@ -1,4 +1,5 @@
 package com.umc.approval.ui.fragment.mypage
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -6,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.databinding.FragmentMypageBinding
+import com.umc.approval.ui.activity.ProfileChangeActivity
 
 /**
  * MyPage View
@@ -30,6 +32,12 @@ class MypageFragment : Fragment() {
     ): View? {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        /**mypage로 이동*/
+        binding.profileFix.setOnClickListener {
+            startActivity(Intent(requireContext(), ProfileChangeActivity::class.java))
+        }
+
         return view
     }
 
