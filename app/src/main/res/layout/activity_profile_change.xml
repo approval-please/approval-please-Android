@@ -48,6 +48,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profie_change"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginRight="3dp"
