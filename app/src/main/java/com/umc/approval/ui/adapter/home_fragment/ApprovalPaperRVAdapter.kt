@@ -1,4 +1,4 @@
-package com.umc.approval.check.liz
+package com.umc.approval.ui.adapter.home_fragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -31,11 +31,14 @@ class ApprovalPaperRVAdapter(private val dataList: ArrayList<ApprovalPaper> = ar
             binding.tvApprovalPaperInfo.text = "${data.department}∙${data.date}"  // 수정 필요
 
             // 결재 승인 상태에 따라 이미지, 텍스트 변경
-            if (data.approval_status) {
-                binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_circle_complete)
-                binding.tvApprovalState.text = "승인완료"
+            if (data.approval_status == 0) {
+                binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_approved)
+                binding.tvApprovalState.text = "승인됨"
+            } else if (data.approval_status == 1){
+                binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_rejected)
+                binding.tvApprovalState.text = "반려됨"
             } else {
-                binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_circle_pending)
+                binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_pending)
                 binding.tvApprovalState.text = "승인대기중"
             }
 

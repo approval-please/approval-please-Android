@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_container"
     android:layout_width="match_parent"
     android:layout_height="203dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,7 +11,7 @@
         android:id="@+id/iv_approval_state_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/approval_fragment_approvel_status_circle_complete"
+        android:src="@drawable/home_fragment_approval_status_approved"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintRight_toLeftOf="@id/tv_approval_state"
@@ -139,6 +140,76 @@
         app:layout_constraintTop_toBottomOf="@id/cg_category"
         android:layout_marginTop="13dp"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical">
+        <TableRow
+            android:gravity="center">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/approval_fragment_approve_icon"
+                    android:layout_marginEnd="6dp"/>
+                <TextView
+                    android:text="승인"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:layout_marginEnd="6dp"
+                    android:textStyle="bold"
+                    android:textColor="#8C8C8C"/>
+                <TextView
+                    android:id="@+id/tv_approve_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="19dp"
+                android:background="#D9D9D9"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/approval_fragment_reject_icon"
+                    android:layout_marginEnd="6dp"/>
+                <TextView
+                    android:text="반려"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:layout_marginEnd="6dp"
+                    android:textStyle="bold"
+                    android:textColor="#8C8C8C"/>
+                <TextView
+                    android:id="@+id/tv_reject_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+       </TableRow>
+    </TableLayout>
 
     <LinearLayout
         android:orientation="horizontal"
