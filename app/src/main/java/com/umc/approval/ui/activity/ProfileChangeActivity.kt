@@ -21,15 +21,14 @@ import com.umc.approval.API.S3_ACCESS_SECRET_KEY
 import com.umc.approval.databinding.ActivityProfileChangeBinding
 import com.umc.approval.ui.viewmodel.profile.ProfileImageViewModel
 import com.umc.approval.util.S3Util
+import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY
+import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY_PERMISSION
 import java.io.File
 
 class ProfileChangeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileChangeBinding
     lateinit var viewModel: ProfileImageViewModel
-
-    private val PICK_IMAGE_FROM_GALLERY = 1000
-    private val PICK_IMAGE_FROM_GALLERY_PERMISSION = 1010
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
