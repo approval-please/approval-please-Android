@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
 
         binding.cgMyInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "관심 부서 선택, $checkedIds")
+            // 카테고리 번호 선택, notify
         }
 
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
