@@ -15,8 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import coil.load
+import com.amazonaws.regions.Regions
+import com.umc.approval.API.S3_ACCESS_KEY
+import com.umc.approval.API.S3_ACCESS_SECRET_KEY
 import com.umc.approval.databinding.ActivityProfileChangeBinding
 import com.umc.approval.ui.viewmodel.profile.ProfileImageViewModel
+import com.umc.approval.util.S3Util
+import java.io.File
 
 class ProfileChangeActivity : AppCompatActivity() {
 
@@ -66,6 +71,19 @@ class ProfileChangeActivity : AppCompatActivity() {
 
         //사진 저장 이벤트 구현
         binding.saveButton.setOnClickListener {
+
+            /**uri 변환*/
+            val realPathFromURI = getRealPathFromURI(viewModel.profile.value!!)
+            val file = File(realPathFromURI)
+
+            /**S3에 저장*/
+            S3Util().getInstance()
+                ?.setKeys(S3_ACCESS_KEY, S3_ACCESS_SECRET_KEY)
+                ?.setRegion(Regions.AP_NORTHEAST_2)
+                ?.uploadWithTransferUtility(
+                    this,
+                    "approval-please/profile", file, "test"
+                )
         }
     }
 
@@ -74,7 +92,7 @@ class ProfileChangeActivity : AppCompatActivity() {
      * */
     private fun showGallery(activity: Activity) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         activity.startActivityForResult(intent, PICK_IMAGE_FROM_GALLERY)
     }
 
