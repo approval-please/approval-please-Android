@@ -1,12 +1,20 @@
 package com.umc.approval.ui.fragment.community
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentCommunityBinding
+import com.umc.approval.ui.activity.CommunityUploadActivity
+import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalVPAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityVPAdapter
 
@@ -34,6 +42,33 @@ class CommunityFragment : Fragment() {
 
         //view pager와 탭 레이아웃 연결
         connect_view_pager()
+
+        binding.addPost.setOnClickListener {
+
+            val bottomSheetView = layoutInflater.inflate(R.layout.community_upload_selector_dialog, null)
+            val bottomSheetDialog = BottomSheetDialog(requireContext())
+            bottomSheetDialog.setContentView(bottomSheetView)
+            bottomSheetDialog.show()
+
+            //dialog의 view Component 접근
+            val dialog_cancel = bottomSheetView.findViewById<ImageView>(R.id.cancel)
+            val select_talk = bottomSheetView.findViewById<ConstraintLayout>(R.id.talk_talk)
+            val select_report = bottomSheetView.findViewById<ConstraintLayout>(R.id.report)
+
+            dialog_cancel!!.setOnClickListener {
+                bottomSheetDialog.cancel()
+            }
+
+            select_talk!!.setOnClickListener {
+                bottomSheetDialog.cancel()
+                startActivity(Intent(requireContext(), CommunityUploadActivity::class.java))
+            }
+
+            select_report!!.setOnClickListener {
+                bottomSheetDialog.cancel()
+                startActivity(Intent(requireContext(), CommunityUploadActivity::class.java))
+            }
+        }
 
         return view
     }
