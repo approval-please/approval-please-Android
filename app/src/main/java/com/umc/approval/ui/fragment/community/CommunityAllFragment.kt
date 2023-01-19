@@ -34,18 +34,18 @@ class CommunityAllFragment : Fragment() {
 
         val init_data = mutableListOf<CommunityItemDto>()
 
-        init_data.add(CommunityItemDto("첫번째", "aaaa", "aaaa"))
-        init_data.add(CommunityItemDto("두번째", "", "aaaa"))
-        init_data.add(CommunityItemDto("세번째", "aaaa", ""))
-        init_data.add(CommunityItemDto("네번째", "aaaa", "aaaa"))
+        init_data.add(CommunityItemDto("첫번째", "aaaa", "aaaa", "aaaa"))
+        init_data.add(CommunityItemDto("두번째", "", "aaaa", ""))
+        init_data.add(CommunityItemDto("세번째", "aaaa", "", "aaaa"))
+        init_data.add(CommunityItemDto("네번째", "aaaa", "aaaa", "aaaa"))
+        init_data.add(CommunityItemDto("네번째", "", "", ""))
 
         communityItemRVAdapter = CommunityItemRVAdapter(init_data)
 
-        val recent_search_rv : RecyclerView = binding.communityRvItem
+        val community_item_rv : RecyclerView = binding.communityRvItem
 
-        recent_search_rv.adapter = communityItemRVAdapter
-        recent_search_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
+        community_item_rv.adapter = communityItemRVAdapter
+        community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         return view
     }

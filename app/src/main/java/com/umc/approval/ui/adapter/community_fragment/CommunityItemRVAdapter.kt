@@ -17,12 +17,16 @@ class CommunityItemRVAdapter(private val items : List<CommunityItemDto>) : Recyc
         fun binding(data : CommunityItemDto) {
             binding.textView.text = data.text
 
+            if (data.vote.toString() == "") {
+                binding.voteLayout.isVisible = false
+            }
+
             if (data.image.toString() == "") {
                 binding.imageLayout.isVisible = false
             }
 
             if (data.link.toString() == "") {
-                binding.voteLayout.isVisible = false
+                binding.linkLayout.isVisible = false
             }
         }
     }
