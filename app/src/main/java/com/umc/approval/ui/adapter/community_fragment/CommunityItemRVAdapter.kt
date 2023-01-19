@@ -15,18 +15,18 @@ class CommunityItemRVAdapter(private val items : List<CommunityItemDto>) : Recyc
     inner class ViewHolder(val binding: CommunityItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data : CommunityItemDto) {
-            binding.textView.text = data.text
+            binding.reportTextView.text = data.text
 
             if (data.vote.toString() == "") {
-                binding.voteLayout.isVisible = false
+                binding.reportVoteLayout.isVisible = false
             }
 
             if (data.image.toString() == "") {
-                binding.imageLayout.isVisible = false
+                binding.reportImageLayout.isVisible = false
             }
 
             if (data.link.toString() == "") {
-                binding.linkLayout.isVisible = false
+                binding.reportLinkLayout.isVisible = false
             }
         }
     }
