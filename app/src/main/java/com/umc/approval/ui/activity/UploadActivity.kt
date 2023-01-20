@@ -17,7 +17,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -25,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
 import com.umc.approval.databinding.ActivityUploadBinding
@@ -52,9 +50,6 @@ class UploadActivity : AppCompatActivity() {
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
-
-    /*이미지 불러오기*/
-    private lateinit var imageButton: ImageButton
 
     /*태그 다이얼로그*/
     private lateinit var tagDialogBinding : ActivityUploadTagDialogBinding
@@ -83,27 +78,20 @@ class UploadActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        /*부서명 선택 Spinner*/
-        /*서버연동 : 부서명 카테고리 받아서 departments 수정*/
-        var departments = arrayOf("부서를 선택해주세요", "디지털 기기", "생활 가전", "생활 용품", "가구/인테리어")
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, R.layout.simple_spinner_item, departments)
-
-        binding.uploadDepartmentSpinner.adapter = adapter
-        binding.uploadDepartmentSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
         viewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
 
-        //이미지 선택시 실행되는 메서드
+        /*부서명 선택 Spinner*/
+        /*서버연동 : 부서명 카테고리 받아서 departments 수정*/
+        select_category()
+
+        /*이미지 선택시 실행되는 메서드*/
         observe_pic()
 
         /*이미지 선택 이벤트*/
         image_upload_event()
+
+        /*move to approval fragment*/
+        back_to_approval()
 
         /*태그 입력 다이얼로그 열기*/
         tagButton = binding.uploadTagBtn
@@ -116,12 +104,39 @@ class UploadActivity : AppCompatActivity() {
         linkButton.setOnClickListener{
             showLinkDialog()
         }
-        /*cancel 버튼 클릭 이벤트*/
 
-        /*제출 버튼 클릭 이벤트*/
+        /*제출 버튼 클릭 이벤트 후 approval fragment 로 이동*/
         binding.uploadSubmitBtn.setOnClickListener {
-            //S3 Connect
             S3_connect()
+            finish()
+        }
+    }
+
+    private fun select_category() {
+        var departments = arrayOf("부서를 선택해주세요", "디지털 기기", "생활 가전", "생활 용품", "가구/인테리어")
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(this, R.layout.simple_spinner_item, departments)
+
+        binding.uploadDepartmentSpinner.adapter = adapter
+        binding.uploadDepartmentSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+    }
+
+    /**move to approval fragment*/
+    private fun back_to_approval() {
+        binding.backToApproval.setOnClickListener {
+            finish()
         }
     }
 
@@ -370,6 +385,7 @@ class UploadActivity : AppCompatActivity() {
     /**S3에 이미지 저장*/
     private fun S3_connect() {
         for (uri in viewModel.pic.value!!) {
+
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
