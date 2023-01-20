@@ -1,5 +1,7 @@
 package com.umc.approval.data.dto.community
 
+import com.umc.approval.data.dto.opengraph.OpenGraphDto
+
 /**Community Item Dto*/
 data class CommunityItemDto (
 
@@ -15,7 +17,7 @@ data class CommunityItemDto (
         var vote_num : String, //talk
         var image : String, //talk, report
         var images : MutableList<String> = mutableListOf<String>(), //report
-        var link : String, //talk, report
+        var opengraph : OpenGraphDto, //talk, report
         var like : Int, //talk, report
         var scrap : Int, //talk, report
         var views : Int, //talk, report

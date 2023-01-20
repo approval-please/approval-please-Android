@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.community.CommunityItemDto
+import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentCommunityAllBinding
 import com.umc.approval.ui.adapter.community_fragment.CommunityItemRVAdapter
 
@@ -38,60 +39,62 @@ class CommunityAllFragment : Fragment() {
 
     private fun connect_to_community_rv() {
         val init_data = mutableListOf<CommunityItemDto>()
+
+        var openGraphDto = OpenGraphDto("https://www.naver.com/", "네이버", "네이버", "네이버", "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png")
         init_data.add(
             CommunityItemDto
                 (
                 0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
         init_data.add(
             CommunityItemDto
                 (
                 0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
             )
         )
 

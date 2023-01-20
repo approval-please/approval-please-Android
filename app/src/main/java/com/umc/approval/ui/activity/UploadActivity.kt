@@ -17,6 +17,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -259,6 +260,7 @@ class UploadActivity : AppCompatActivity() {
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
+            linkDialogEditText.setText("") //초기화
             linkDialog.dismiss()
         }
 

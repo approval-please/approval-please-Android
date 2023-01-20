@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.umc.approval.data.dto.community.CommunityItemDto
 import com.umc.approval.databinding.CommunityItemBinding
 
@@ -17,8 +18,18 @@ class CommunityItemRVAdapter(private val items : List<CommunityItemDto>) : Recyc
         fun binding(data : CommunityItemDto) {
             if (data.type == 0) {
                 binding.communityApprovalTalkItem.isVisible = false
+                if (data.opengraph.image.toString() != "") {
+                    binding.reportOpenGraphImage.load(data.opengraph.image)
+                    binding.reportOpenGraphText.setText(data.opengraph.title)
+                    binding.reportOpenGraphUrl.setText(data.opengraph.url)
+                }
             } else {
                 binding.communityApprovalReportItem.isVisible = false
+                if (data.opengraph.image.toString() != "") {
+                    binding.talkOpenGraphImage.load(data.opengraph.image)
+                    binding.talkOpenGraphText.setText(data.opengraph.title)
+                    binding.talkOpenGraphUrl.setText(data.opengraph.url)
+                }
             }
         }
     }
