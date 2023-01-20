@@ -123,6 +123,8 @@ class UploadActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.openGraph.isVisible = false
+
         /*Open Graph manager 초기화*/
         manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -248,7 +250,6 @@ class UploadActivity : AppCompatActivity() {
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener {
             linkTextView = binding.uploadLinkTv
-            linkTextView.setText(linkDialogEditText.text.toString());
             linkDialog.dismiss()
         }
 
@@ -278,6 +279,11 @@ class UploadActivity : AppCompatActivity() {
             opengraphText.setText(it.title)
             opengraphUrl.setText(it.url)
             opengraphImage.load(it.image)
+
+            binding.openGraph.isVisible = true
+            binding.openGraphText.setText(it.title)
+            binding.openGraphUrl.setText(it.url)
+            binding.openGraphImage.load(it.image)
         }
     }
 
@@ -285,6 +291,7 @@ class UploadActivity : AppCompatActivity() {
     private fun link_observe() {
         viewModel.link.observe(this) {
             opengraphId.isVisible = false
+            binding.openGraph.isVisible = false
             manager.hideSoftInputFromWindow(
                 currentFocus?.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS

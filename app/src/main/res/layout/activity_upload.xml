@@ -280,24 +280,24 @@
             android:layout_height="1dp"
             android:background="#BFBFBF"></View>
 
-        <LinearLayout
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/upload_link_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/upload_activity_link_button"
-                android:textSize="16sp"></ImageButton>
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ImageButton>
+
             <TextView
                 android:id="@+id/upload_link_tv"
                 android:layout_width="wrap_content"
@@ -305,8 +305,67 @@
                 android:layout_marginLeft="10dp"
                 android:text="링크 첨부"
                 android:textColor="#8C8C8C"
-                android:textSize="14sp"></TextView>
-        </LinearLayout>
+                android:textSize="14dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/upload_link_btn"
+                app:layout_constraintTop_toTopOf="@+id/open_graph"></TextView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/open_graph"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/upload_link_btn"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/open_graph_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/login_activity_white_box"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/open_graph_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="10dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/community_fragment_test_image"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                    <TextView
+                        android:id="@+id/open_graph_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="정보 입니다"
+                        android:textColor="@color/approval_black_color"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                        app:layout_constraintTop_toTopOf="@+id/open_graph_image"></TextView>
+
+                    <TextView
+                        android:id="@+id/open_graph_url"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="url입니다"
+                        android:textColor="@color/approval_main_color"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                        app:layout_constraintTop_toBottomOf="@+id/open_graph_text"></TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
