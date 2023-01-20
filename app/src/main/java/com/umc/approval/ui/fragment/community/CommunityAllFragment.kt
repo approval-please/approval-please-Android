@@ -31,16 +31,76 @@ class CommunityAllFragment : Fragment() {
         _binding = FragmentCommunityAllBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        connect_to_community_rv()
+
+        return view
+    }
+
+    private fun connect_to_community_rv() {
         val init_data = mutableListOf<CommunityItemDto>()
+        init_data.add(
+            CommunityItemDto
+                (
+                0, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                1, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                0, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                1, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                0, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                1, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                0, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
+        init_data.add(
+            CommunityItemDto
+                (
+                0, "", "", "", "", "", "",
+                "", "", "", "", mutableListOf(), "", 0, 0, 0, 0
+            )
+        )
 
         communityItemRVAdapter = CommunityItemRVAdapter(init_data)
 
-        val community_item_rv : RecyclerView = binding.communityRvItem
+        val community_item_rv: RecyclerView = binding.communityRvItem
 
         community_item_rv.adapter = communityItemRVAdapter
         community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-        return view
     }
 
     /**

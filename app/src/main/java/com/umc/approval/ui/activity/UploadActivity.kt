@@ -90,7 +90,14 @@ class UploadActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        /*View Model 초기화*/
         viewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
+
+        /*Open Graph manager 초기화*/
+        manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
+        //opengraph 초기화
+        binding.openGraph.isVisible = false
 
         /*부서명 선택 Spinner*/
         /*서버연동 : 부서명 카테고리 받아서 departments 수정*/
@@ -105,6 +112,15 @@ class UploadActivity : AppCompatActivity() {
         /*move to approval fragment*/
         back_to_approval()
 
+        /*link observer*/
+        link_observe()
+
+        /*opengraph observer*/
+        opengraph_observe()
+
+        /*제출 버튼 클릭 이벤트 후 approval fragment 로 이동*/
+        upload_item()
+
         /*태그 입력 다이얼로그 열기*/
         tagButton = binding.uploadTagBtn
         tagButton.setOnClickListener{
@@ -116,23 +132,14 @@ class UploadActivity : AppCompatActivity() {
         linkButton.setOnClickListener{
             showLinkDialog()
         }
+    }
 
-        /*제출 버튼 클릭 이벤트 후 approval fragment 로 이동*/
+    /**upload*/
+    private fun upload_item() {
         binding.uploadSubmitBtn.setOnClickListener {
             S3_connect()
             finish()
         }
-
-        binding.openGraph.isVisible = false
-
-        /*Open Graph manager 초기화*/
-        manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-
-        /*link observer*/
-        link_observe()
-
-        /*opengraph observer*/
-        opengraph_observe()
     }
 
     /**category spinner*/
@@ -140,7 +147,6 @@ class UploadActivity : AppCompatActivity() {
         var departments = arrayOf("부서를 선택해주세요", "디지털 기기", "생활 가전", "생활 용품", "가구/인테리어")
         val adapter: ArrayAdapter<String> =
             ArrayAdapter<String>(this, R.layout.simple_spinner_item, departments)
-
         binding.uploadDepartmentSpinner.adapter = adapter
         binding.uploadDepartmentSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -151,7 +157,6 @@ class UploadActivity : AppCompatActivity() {
                     id: Long
                 ) {
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
@@ -238,9 +243,19 @@ class UploadActivity : AppCompatActivity() {
         linkDialog.setContentView(linkDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+
+        //Dialog 초기화
         dialogCancelButton = linkDialogBinding.uploadLinkDialogCancelButton
         dialogConfirmButton = linkDialogBinding.uploadLinkDialogConfirmButton
         linkDialogEditText = linkDialogBinding.uploadLinkDialogEt
+        linkEraseButton = linkDialogBinding.uploadLinkEraseBtn
+        opengraphText = linkDialogBinding.openGraphText
+        opengraphUrl = linkDialogBinding.openGraphUrl
+        opengraphImage = linkDialogBinding.openGraphImage
+        opengraphId = linkDialogBinding.openGraph
+
+        //Dialog Opengraph 초기화
+        opengraphId.isVisible = false
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
@@ -249,21 +264,12 @@ class UploadActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener {
-            linkTextView = binding.uploadLinkTv
             linkDialog.dismiss()
         }
 
-        linkEraseButton = linkDialogBinding.uploadLinkEraseBtn
         linkEraseButton.setOnClickListener{
             linkDialogEditText.setText("")
         }
-
-        opengraphText = linkDialogBinding.openGraphText
-        opengraphUrl = linkDialogBinding.openGraphUrl
-        opengraphImage = linkDialogBinding.openGraphImage
-        opengraphId = linkDialogBinding.openGraph
-
-        opengraphId.isVisible = false
 
         /*link url 바뀔때 마다 적용*/
         editLinkUrl()
@@ -290,8 +296,11 @@ class UploadActivity : AppCompatActivity() {
     /**link live data 변경 시*/
     private fun link_observe() {
         viewModel.link.observe(this) {
+
+            //link 변경시 opengraph 초기화
             opengraphId.isVisible = false
             binding.openGraph.isVisible = false
+
             manager.hideSoftInputFromWindow(
                 currentFocus?.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS
@@ -441,7 +450,10 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    /**S3*/
+    /**
+     * S3
+     * */
+    /*S3 connect*/
     private fun S3_connect() {
         for (uri in viewModel.pic.value!!) {
 
@@ -460,7 +472,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    /**File Uri path*/
+    /*File Uri for S3 connect*/
     private fun getRealPathFromURI(uri: Uri): String {
         val buildName = Build.MANUFACTURER
         if(buildName.equals("Xiaomi")) {
@@ -478,16 +490,17 @@ class UploadActivity : AppCompatActivity() {
         return cursor.getString(columnIndex)
     }
 
-    /**Open Graph*/
-    //url 형식 메서드
+    /**
+     * Open Graph
+     * */
+    /*url 형식 메서드*/
     private fun getUrl(url: String) : String {
         return if(url.contains("http://") || url.contains("https://")) url
         else "https://".plus(url)
     }
 
-    //link 변경 메서드
+    /*link 변경 메서드*/
     private fun editLinkUrl() {
-
         //addTextChangedListener는 editText속성을 가지는데 값이 변할때마다 viewModel로 결과가 전달
         linkDialogEditText.addTextChangedListener { text: Editable? ->
             text?.let {

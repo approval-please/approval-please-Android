@@ -4,6 +4,7 @@ package com.umc.approval.data.dto.community
 data class CommunityItemDto (
 
         var type : Int, //talk, report 구분 값
+        var tag : String, //talk, report 구분 값
         var nickname : String, //talk, report
         var profileImage : String, //talk
         var rank : String, //talk, report
