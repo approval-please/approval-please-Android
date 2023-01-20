@@ -18,20 +18,26 @@ import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
+import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityUploadBinding
 import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
 import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.upload.UploadViewModel
-import com.umc.approval.util.OpenGraphParser
+import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -51,6 +57,9 @@ class UploadActivity : AppCompatActivity() {
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
 
+    /**Open graph Manger*/
+    private lateinit var manager: InputMethodManager
+
     /*태그 다이얼로그*/
     private lateinit var tagDialogBinding : ActivityUploadTagDialogBinding
     private lateinit var tagButton : ImageButton
@@ -61,7 +70,10 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var linkButton : ImageButton
     private lateinit var linkTextView : TextView
     private lateinit var linkEraseButton : ImageButton
-    private lateinit var uploadLinkTitle : TextView
+    private lateinit var opengraphText : TextView
+    private lateinit var opengraphUrl : TextView
+    private lateinit var opengraphImage : ImageView
+    private lateinit var opengraphId : ConstraintLayout
 
     /*다이얼로그 버튼*/
     private lateinit var dialogCancelButton : Button
@@ -110,8 +122,18 @@ class UploadActivity : AppCompatActivity() {
             S3_connect()
             finish()
         }
+
+        /*Open Graph manager 초기화*/
+        manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
+        /*link observer*/
+        link_observe()
+
+        /*opengraph observer*/
+        opengraph_observe()
     }
 
+    /**category spinner*/
     private fun select_category() {
         var departments = arrayOf("부서를 선택해주세요", "디지털 기기", "생활 가전", "생활 용품", "가구/인테리어")
         val adapter: ArrayAdapter<String> =
@@ -234,31 +256,79 @@ class UploadActivity : AppCompatActivity() {
         linkEraseButton.setOnClickListener{
             linkDialogEditText.setText("")
         }
-        uploadLinkTitle = linkDialogBinding.uploadLinkTitle
-        /*url 바뀔때 마다*/
-        linkDialogEditText.addTextChangedListener(object:TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+        opengraphText = linkDialogBinding.openGraphText
+        opengraphUrl = linkDialogBinding.openGraphUrl
+        opengraphImage = linkDialogBinding.openGraphImage
+        opengraphId = linkDialogBinding.openGraph
 
-            override fun afterTextChanged(s: Editable?) {
-                var url = s.toString()
-                if(url.contains(".")){
-                    CoroutineScope(Dispatchers.Default).launch {
-                        val ogTags = OpenGraphParser.parse(url)
-                        val text = ogTags.toString()
+        opengraphId.isVisible = false
 
-                        CoroutineScope(Dispatchers.Main).launch {
-                            uploadLinkTitle.text = text
+        /*link url 바뀔때 마다 적용*/
+        editLinkUrl()
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    /**observe graph live data 변경 시*/
+    private fun opengraph_observe() {
+        viewModel.opengraph.observe(this) {
+            opengraphId.isVisible = true
+            opengraphText.setText(it.title)
+            opengraphUrl.setText(it.url)
+            opengraphImage.load(it.image)
+        }
+    }
+
+    /**link live data 변경 시*/
+    private fun link_observe() {
+        viewModel.link.observe(this) {
+            opengraphId.isVisible = false
+            manager.hideSoftInputFromWindow(
+                currentFocus?.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+            var openGraphDto = OpenGraphDto("", "", "", "", "")
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val elements = CrawlingTask.getElements(it)
+                elements?.let {
+                    it.forEach { el ->
+                        when (el.attr("property")) {
+                            "og:url" -> {
+                                el.attr("content")?.let { content ->
+                                    openGraphDto.url = content
+                                }
+                            }
+                            "og:site_name" -> {
+                                el.attr("content")?.let { content ->
+                                    openGraphDto.siteName = content
+                                }
+                            }
+                            "og:title" -> {
+                                el.attr("content")?.let { content ->
+                                    openGraphDto.title = content
+                                }
+                            }
+                            "og:description" -> {
+                                el.attr("content")?.let { content ->
+                                    openGraphDto.description = content
+                                }
+                            }
+                            "og:image" -> {
+                                el.attr("content")?.let { content ->
+                                    openGraphDto.image = content
+                                }
+                            }
                         }
                     }
                 }
-
+                if (openGraphDto.title.toString() != "" && openGraphDto.description.toString() != "") {
+                    viewModel.setOpengraph(openGraphDto)
+                }
             }
-        })
-        linkDialog.show()
+        }
     }
 
     /**image upload event*/
@@ -364,6 +434,25 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
+    /**S3*/
+    private fun S3_connect() {
+        for (uri in viewModel.pic.value!!) {
+
+            /**uri 변환*/
+            val realPathFromURI = getRealPathFromURI(uri)
+            val file = File(realPathFromURI)
+
+            /**S3에 저장*/
+            S3Util().getInstance()
+                ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
+                ?.setRegion(Regions.AP_NORTHEAST_2)
+                ?.uploadWithTransferUtility(
+                    this,
+                    "approval-please/approval", file, "test"
+                )
+        }
+    }
+
     /**File Uri path*/
     private fun getRealPathFromURI(uri: Uri): String {
         val buildName = Build.MANUFACTURER
@@ -382,22 +471,22 @@ class UploadActivity : AppCompatActivity() {
         return cursor.getString(columnIndex)
     }
 
-    /**S3에 이미지 저장*/
-    private fun S3_connect() {
-        for (uri in viewModel.pic.value!!) {
+    /**Open Graph*/
+    //url 형식 메서드
+    private fun getUrl(url: String) : String {
+        return if(url.contains("http://") || url.contains("https://")) url
+        else "https://".plus(url)
+    }
 
-            /**uri 변환*/
-            val realPathFromURI = getRealPathFromURI(uri)
-            val file = File(realPathFromURI)
+    //link 변경 메서드
+    private fun editLinkUrl() {
 
-            /**S3에 저장*/
-            S3Util().getInstance()
-                ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
-                ?.setRegion(Regions.AP_NORTHEAST_2)
-                ?.uploadWithTransferUtility(
-                    this,
-                    "approval-please/approval", file, "test"
-                )
+        //addTextChangedListener는 editText속성을 가지는데 값이 변할때마다 viewModel로 결과가 전달
+        linkDialogEditText.addTextChangedListener { text: Editable? ->
+            text?.let {
+                var url = it.toString()
+                viewModel.setLink(getUrl(url.trim()))
+            }
         }
     }
 }

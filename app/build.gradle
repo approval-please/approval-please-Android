@@ -117,4 +117,7 @@ dependencies {
 
     //AWS
     implementation 'com.amazonaws:aws-android-sdk-s3:2.52.1'
+
+    //Jsoup library
+    implementation 'org.jsoup:jsoup:1.13.1'
 }
