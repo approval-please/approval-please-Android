@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.CommunityItemDto
+import com.umc.approval.data.dto.community.CommunityItemDto
 import com.umc.approval.databinding.FragmentCommunityAllBinding
 import com.umc.approval.ui.adapter.community_fragment.CommunityItemRVAdapter
-import com.umc.approval.ui.adapter.search_fragment.SearchIngRVAdapter
 
 class CommunityAllFragment : Fragment() {
 
@@ -33,12 +32,6 @@ class CommunityAllFragment : Fragment() {
         val view = binding.root
 
         val init_data = mutableListOf<CommunityItemDto>()
-
-        init_data.add(CommunityItemDto("첫번째", "aaaa", "aaaa", "aaaa"))
-        init_data.add(CommunityItemDto("두번째", "", "aaaa", ""))
-        init_data.add(CommunityItemDto("세번째", "aaaa", "", "aaaa"))
-        init_data.add(CommunityItemDto("네번째", "aaaa", "aaaa", "aaaa"))
-        init_data.add(CommunityItemDto("네번째", "", "", ""))
 
         communityItemRVAdapter = CommunityItemRVAdapter(init_data)
 

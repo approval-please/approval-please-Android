@@ -1,4 +1,4 @@
-package com.umc.approval.data.dto
+package com.umc.approval.data.dto.search
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

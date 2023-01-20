@@ -120,4 +120,9 @@ dependencies {
 
     //Jsoup library
     implementation 'org.jsoup:jsoup:1.13.1'
+
+    //okhttp3 library
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
 }

@@ -2,6 +2,7 @@ package com.umc.approval.data.retrofit.instance
 
 import com.google.gson.GsonBuilder
 import com.umc.approval.API.LOCAL_BASE_URL
+import com.umc.approval.data.retrofit.api.CommunityAPI
 import com.umc.approval.data.retrofit.api.LoginAPI
 import com.umc.approval.data.retrofit.api.ProfileAPI
 import com.umc.approval.data.retrofit.api.UploadAPI
@@ -39,5 +40,10 @@ object RetrofitInstance {
     /**upload api*/
     val uploadApi: UploadAPI by lazy {
         retrofit.create(UploadAPI::class.java)
+    }
+
+    /**community api*/
+    val communityApi: CommunityAPI by lazy {
+        retrofit.create(CommunityAPI::class.java)
     }
 }

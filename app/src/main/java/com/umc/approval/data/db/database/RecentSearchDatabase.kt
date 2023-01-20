@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.umc.approval.data.db.dao.RecentSearchDao
-import com.umc.approval.data.dto.KeywordDto
+import com.umc.approval.data.dto.search.KeywordDto
 
 /**
  * 검색 Keyword를 저장할 Database

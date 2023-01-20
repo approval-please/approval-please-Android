@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.CommunityItemDto
+import com.umc.approval.data.dto.community.CommunityItemDto
 import com.umc.approval.databinding.CommunityItemBinding
 
 /**
@@ -15,7 +15,7 @@ class CommunityItemRVAdapter(private val items : List<CommunityItemDto>) : Recyc
     inner class ViewHolder(val binding: CommunityItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data : CommunityItemDto) {
-            binding.reportTextView.text = data.text
+            binding.reportTextView.text = data.body
 
             if (data.vote.toString() == "") {
                 binding.reportVoteLayout.isVisible = false

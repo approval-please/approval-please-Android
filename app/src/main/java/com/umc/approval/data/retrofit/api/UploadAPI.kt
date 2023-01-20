@@ -1,6 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.upload.CategoriesDto
+import com.umc.approval.data.dto.profile.CategoriesDto
 import com.umc.approval.data.dto.upload.UploadDto
 import okhttp3.ResponseBody
 import retrofit2.Call

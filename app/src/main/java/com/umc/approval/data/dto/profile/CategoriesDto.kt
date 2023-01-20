@@ -1,4 +1,4 @@
-package com.umc.approval.data.dto.upload
+package com.umc.approval.data.dto.profile
 
 /**
  * categories dto

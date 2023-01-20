@@ -1,7 +1,7 @@
 package com.umc.approval.data.repository.search
 
 import com.umc.approval.data.db.database.RecentSearchDatabase
-import com.umc.approval.data.dto.KeywordDto
+import com.umc.approval.data.dto.search.KeywordDto
 
 /**
  * RecentSearch Fragment Repository

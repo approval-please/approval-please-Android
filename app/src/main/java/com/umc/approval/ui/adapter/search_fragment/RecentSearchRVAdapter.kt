@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.RecentSearchItemBinding
-import com.umc.approval.data.dto.KeywordDto
+import com.umc.approval.data.dto.search.KeywordDto
 
 /**
  * 최근 검색 데이터를 받아와 연결해주는 RV Adapter

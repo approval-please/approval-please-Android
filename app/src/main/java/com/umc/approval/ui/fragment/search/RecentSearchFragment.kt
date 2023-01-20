@@ -16,7 +16,7 @@ import com.umc.approval.databinding.FragmentRecentSearchBinding
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.search_fragment.RecentSearchRVAdapter
 import com.umc.approval.ui.adapter.search_fragment.SearchIngRVAdapter
-import com.umc.approval.data.dto.KeywordDto
+import com.umc.approval.data.dto.search.KeywordDto
 import com.umc.approval.ui.viewmodel.search.RecentSearchViewModel
 
 /**

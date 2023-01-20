@@ -1,6 +1,5 @@
 package com.umc.approval.data.repository.login
 
-import com.umc.approval.data.dto.UserDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.serverApi
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -11,24 +10,23 @@ import retrofit2.Call
 class LoginFragmentRepository() {
 
     /**
-     * LOGIN API
-     * Id, Access 토큰이나 임시코드를 보내는 API 호출
+     * Social Login API
      * */
     fun login(idToken: String, case: String): Call<ResponseBody> {
-        return serverApi.login(idToken,case)
+        return serverApi.social_login(idToken,case)
     }
 
     /**
-     * 서버와 연결 API
+     * Basic Login API
+     * */
+    fun basic_login(email: String, password: String): Call<ResponseBody> {
+        return serverApi.basic_login(email, password)
+    }
+
+    /**
+     * Connect to Server API
      * */
     fun connectServer(accessToken: String): Call<ResponseBody> {
-        return serverApi.connectServer(accessToken)
-    }
-
-    /**
-     * 사용자 정보 조회 API
-     * */
-    fun userInfo(accessToken: String): Call<UserDto> {
-        return serverApi.userInfo(accessToken)
+        return serverApi.connect_server(accessToken)
     }
 }
