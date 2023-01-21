@@ -1,5 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
+import com.umc.approval.data.dto.UserDto
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -43,4 +44,34 @@ interface LoginAPI {
     @GET("/api/user")
     @Headers("content-type: application/json")
     fun connect_server(@Header("Authorization") accessToken: String):Call<ResponseBody>
+
+    /**
+     * @Post
+     * email
+     * @Get
+     * email check api
+     * */
+    @POST("/email/check")
+    @Headers("content-type: application/json")
+    fun email_check(@Query("email") email : String):Call<ResponseBody>
+
+    /**
+     * @Post
+     * email
+     * @Get
+     * password change api
+     * */
+    @POST("/password/change")
+    @Headers("content-type: application/json")
+    fun password_change(@Query("email") email : String, @Query("password") password : String):Call<ResponseBody>
+
+    /**
+     * @Post
+     * userDto : email, password, nickname, phone
+     * @Get
+     * basic join api
+     * */
+    @POST("/join")
+    @Headers("content-type: application/json")
+    fun join(@Query("user") user : UserDto):Call<ResponseBody>
 }

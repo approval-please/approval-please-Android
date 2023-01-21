@@ -1,5 +1,8 @@
 package com.umc.approval.data.dto
 
 data class UserDto (
-        var username : String = "",
+        var email : String = "",
+        var password : String = "",
+        var nikcname : String = "",
+        var phone : String = "",
 )
