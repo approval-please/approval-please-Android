@@ -6,6 +6,9 @@ import com.umc.approval.data.dto.ApprovalReportDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.HomeApi
 import retrofit2.Call
 
+/**
+ * Home Fragment Repository
+ */
 class HomeFragmentRepository {
     /**
      * 관심부서 결재서류 목록 조회 API
@@ -15,7 +18,7 @@ class HomeFragmentRepository {
     }
 
     /**
-     * 결재 서류 목록 조회 API
+     * 전체 부서 결재서류 목록 조회 API
      */
     fun getDocuments(idToken: String, sortBy: Int): Call<ApprovalPaperDto> {
         return HomeApi.getDocuments(idToken, sortBy)

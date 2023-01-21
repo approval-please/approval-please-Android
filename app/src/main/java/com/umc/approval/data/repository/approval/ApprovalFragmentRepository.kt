@@ -4,6 +4,9 @@ import com.umc.approval.data.dto.ApprovalPaperDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import retrofit2.Call
 
+/**
+ * Approval Fragment Repository
+ */
 class ApprovalFragmentRepository {
     /**
      * 결재서류 목록 조회 API

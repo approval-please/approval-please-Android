@@ -7,8 +7,12 @@ import retrofit2.http.*
 
 interface ParticipantAPI {
     /**
-     * ParticipantAPI
-     * 결재 서류 승인한 유저 목록 조회
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * documentId: 결재 서류 ID
+     * @Get
+     * UserListDto: 유저 정보(profileImage, nickname, level, isFollow) 리스트
+     * 결재 서류 승인 유저 목록 조회 API
      */
     @GET("/approve")
     @Headers("content-type: application/json")
@@ -18,8 +22,12 @@ interface ParticipantAPI {
     ): Call<UserListDto>
 
     /**
-     * ParticipantAPI
-     * 결재 서류 반려한 유저 목록 조회
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * documentId: 결재 서류 ID
+     * @Get
+     * UserListDto: 유저 정보(profileImage, nickname, level, isFollow) 리스트
+     * 결재 서류 반려 유저 목록 조회 API
      */
     @GET("/reject")
     @Headers("content-type: application/json")
@@ -29,8 +37,12 @@ interface ParticipantAPI {
     ): Call<UserListDto>
 
     /**
-     * ParticipantAPI
-     * 유저 팔로우/언팔로우
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * userId: 유저 ID
+     * @Get
+     * followState: 팔로우 상태
+     * 유저 팔로우/언팔로우 API
      */
     @POST("/follow")
     @Headers("content-type: application/json")

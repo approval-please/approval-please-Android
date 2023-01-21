@@ -5,9 +5,12 @@ import com.umc.approval.data.dto.UserListDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.LikeApi
 import retrofit2.Call
 
+/**
+ * Like Activity Repository
+ */
 class LikeActivityRepository {
     /**
-     * 좋아요 누른 유저 목록 조회 API
+     * 결재 서류 좋아요 목록 조회 API
      */
     fun getLikeUsers(idToken: String, documentId: Int): Call<UserListDto> {
         return LikeApi.getLikeUsers(idToken, documentId)

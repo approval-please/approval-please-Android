@@ -7,7 +7,12 @@ import retrofit2.http.*
 
 interface LikeAPI {
     /**
-     * 결재서류 좋아요 누른 유저 목록 조회
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * documentId: 결재 서류 ID
+     * @Get
+     * UserListDto: 유저 정보(profileImage, nickname, level, isFollow) 리스트
+     * 결재서류 좋아요 목록 조회 API
      */
     @GET("/likes")
     @Headers("content-type: application/json")
@@ -17,8 +22,12 @@ interface LikeAPI {
     ): Call<UserListDto>
 
     /**
-     * LikeAPI
-     * 유저 팔로우/언팔로우
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * userId: 유저 ID
+     * @Get
+     * followState: 팔로우 상태
+     * 유저 팔로우/언팔로우 API
      */
     @POST("/follow")
     @Headers("content-type: application/json")
