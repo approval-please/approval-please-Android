@@ -8,13 +8,11 @@ import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVPAd
 
 class CommunityUploadActivity : AppCompatActivity() {
 
-    private val binding: ActivityCommunityUploadBinding by lazy {
-        ActivityCommunityUploadBinding.inflate(layoutInflater)
-    }
+    private lateinit var binding: ActivityCommunityUploadBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //binding = ActivityCommunityUploadBinding.inflate(layoutInflater)
+        binding = ActivityCommunityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val communityUploadVPAdapter = CommunityUploadVPAdapter(this)
@@ -29,6 +27,10 @@ class CommunityUploadActivity : AppCompatActivity() {
             tab.text = tabTitleArray[position]
         }.attach()
 
+        /**액티비티 종료 버튼*/
+        binding.uploadCancelBtn.setOnClickListener {
+            finish()
+        }
     }
 
     fun changeTitle(s: String) {
