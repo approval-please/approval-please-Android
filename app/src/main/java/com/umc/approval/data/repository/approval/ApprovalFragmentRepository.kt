@@ -11,8 +11,8 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 목록 조회 API
      */
-    fun getDocuments(idToken: String, category: Int, sortBy: Int, state: Int): Call<ApprovalPaperDto> {
-        return ApprovalApi.getDocuments(idToken, category, sortBy, state)
+    fun getDocuments(accessToken: String, category: Int, sortBy: Int, state: Int): Call<ApprovalPaperDto> {
+        return ApprovalApi.getDocuments(accessToken, category, sortBy, state)
     }
 
     /**

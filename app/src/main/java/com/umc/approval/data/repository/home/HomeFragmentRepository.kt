@@ -13,29 +13,29 @@ class HomeFragmentRepository {
     /**
      * 관심부서 결재서류 목록 조회 API
      */
-    fun getInterestingCategoryDocuments(idToken: String, category: Int): Call<ApprovalPaperDto> {
-        return HomeApi.getInterestingCategoryDocuments(idToken, category)
+    fun getInterestingCategoryDocuments(accessToken: String, category: Int): Call<ApprovalPaperDto> {
+        return HomeApi.getInterestingCategoryDocuments(accessToken, category)
     }
 
     /**
      * 전체 부서 결재서류 목록 조회 API
      */
-    fun getDocuments(idToken: String, sortBy: Int): Call<ApprovalPaperDto> {
-        return HomeApi.getDocuments(idToken, sortBy)
+    fun getDocuments(sortBy: Int): Call<ApprovalPaperDto> {
+        return HomeApi.getDocuments(sortBy)
     }
 
     /**
      * 인기 게시글 목록 조회 API
      */
-    fun getHotPosts(idToken: String, sortBy: Int): Call<CommunityPostDto> {
-        return HomeApi.getHotPosts(idToken, sortBy)
+    fun getHotPosts(sortBy: Int): Call<CommunityPostDto> {
+        return HomeApi.getHotPosts(sortBy)
     }
 
     /**
      * 결재 보고서 목록 조회 API
      */
-    fun getReports(idToken: String): Call<ApprovalReportDto> {
-        return HomeApi.getReports(idToken)
+    fun getReports(): Call<ApprovalReportDto> {
+        return HomeApi.getReports()
     }
 
 }

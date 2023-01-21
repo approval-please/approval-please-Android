@@ -12,14 +12,14 @@ class LikeActivityRepository {
     /**
      * 결재 서류 좋아요 목록 조회 API
      */
-    fun getLikeUsers(idToken: String, documentId: Int): Call<UserListDto> {
-        return LikeApi.getLikeUsers(idToken, documentId)
+    fun getLikeUsers(accessToken: String, documentId: Int): Call<UserListDto> {
+        return LikeApi.getLikeUsers(accessToken, documentId)
     }
 
     /**
      * 유저 팔로우/언팔로우 API
      */
-    fun setFollowState(idToken: String, userId: Int): Call<FollowStateDto> {
-        return LikeApi.setFollowState(idToken, userId)
+    fun setFollowState(accessToken: String, userId: Int): Call<FollowStateDto> {
+        return LikeApi.setFollowState(accessToken, userId)
     }
 }

@@ -12,21 +12,21 @@ class ParticipantActivityRepository {
     /**
      * 결재 서류 승인 유저 목록 조회 API
      */
-    fun getApproveUsers(idToken: String, documentId: Int): Call<UserListDto> {
-        return ParticipantApi.getApproveUsers(idToken, documentId)
+    fun getApproveUsers(accessToken: String, documentId: Int): Call<UserListDto> {
+        return ParticipantApi.getApproveUsers(accessToken, documentId)
     }
 
     /**
      * 결재 서류 반려 유저 목록 조회 API
      */
-    fun getRejectUsers(idToken: String, documentId: Int): Call<UserListDto> {
-        return ParticipantApi.getRejectUsers(idToken, documentId)
+    fun getRejectUsers(accessToken: String, documentId: Int): Call<UserListDto> {
+        return ParticipantApi.getRejectUsers(accessToken, documentId)
     }
 
     /**
      * 유저 팔로우/언팔로우 API
      */
-    fun setFollowState(idToken: String, userId: Int): Call<FollowStateDto> {
-        return ParticipantApi.setFollowState(idToken, userId)
+    fun setFollowState(accessToken: String, userId: Int): Call<FollowStateDto> {
+        return ParticipantApi.setFollowState(accessToken, userId)
     }
 }
