@@ -1,6 +1,6 @@
 package com.umc.approval.data.repository.upload
 
-import com.umc.approval.data.dto.community.CommunityItemsDto
+import com.umc.approval.data.dto.community.TalkUploadDto
 import com.umc.approval.data.dto.profile.CategoriesDto
 import com.umc.approval.data.dto.upload.UploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.uploadApi
@@ -20,5 +20,10 @@ class UploadRepository() {
     /**approval upload api*/
     fun upload_approval_item(accessToken: String, upload: UploadDto):Call<ResponseBody> {
         return uploadApi.upload_approval(accessToken, upload)
+    }
+
+    /**approval upload api*/
+    fun upload_talk_item(accessToken: String, talkUpload: TalkUploadDto):Call<ResponseBody> {
+        return uploadApi.upload_community_talk(accessToken, talkUpload)
     }
 }

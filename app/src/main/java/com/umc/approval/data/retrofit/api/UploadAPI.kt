@@ -1,5 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
+import com.umc.approval.data.dto.community.TalkUploadDto
 import com.umc.approval.data.dto.profile.CategoriesDto
 import com.umc.approval.data.dto.upload.UploadDto
 import okhttp3.ResponseBody
@@ -23,6 +24,17 @@ interface UploadAPI {
         @Header("Authorization") accessToken: String,
         @Query("upload") upload: UploadDto):Call<ResponseBody>
 
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * upload : body, category, images, tags, voteItems, opengraph 정보
+     * talk upload api
+     * */
+    @POST("/upload/community/talk")
+    @Headers("content-type: application/json")
+    fun upload_community_talk(
+        @Header("Authorization") accessToken: String,
+        @Query("talkUpload") talkUpload: TalkUploadDto):Call<ResponseBody>
 
     /**
      * @Post

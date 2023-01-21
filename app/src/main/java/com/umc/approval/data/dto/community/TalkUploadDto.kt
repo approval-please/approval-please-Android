@@ -4,7 +4,7 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 /**
  * Community Upload dto
  * */
-data class CommunityUploadDto (
+data class TalkUploadDto (
         var body : String = "",
         var category : String = "",
         var images : MutableList<String> = mutableListOf<String>(),
