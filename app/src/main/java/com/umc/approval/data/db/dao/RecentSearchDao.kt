@@ -1,7 +1,7 @@
 package com.umc.approval.data.db.dao
 
 import androidx.room.*
-import com.umc.approval.data.dto.KeywordDto
+import com.umc.approval.data.dto.search.KeywordDto
 
 /**
  * 최근 검색어 DAO

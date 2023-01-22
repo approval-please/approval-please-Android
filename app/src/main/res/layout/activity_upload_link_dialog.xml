@@ -3,12 +3,11 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_gravity="center"
-
-    android:orientation="vertical">
+    android:layout_gravity="center">
 
     <EditText
         android:id="@+id/upload_link_dialog_et"
+        android:padding="5dp"
         android:layout_width="300dp"
         android:layout_height="30dp"
         android:layout_marginLeft="15dp"
@@ -35,29 +34,71 @@
         android:background="@android:color/transparent"
         android:src="@drawable/upload_activity_img_cancel_button"></ImageButton>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/open_graph"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload_link_dialog_et"
-        >
-        <TextView
-            android:id="@+id/upload_link_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TextView>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_link_dialog_et">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/open_graph_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/login_activity_white_box"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/open_graph_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/community_fragment_test_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+            <TextView
+                android:id="@+id/open_graph_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="정보 입니다"
+                android:textSize="14dp"
+                android:textColor="@color/approval_black_color"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                app:layout_constraintTop_toTopOf="@+id/open_graph_image"></TextView>
+
+            <TextView
+                android:id="@+id/open_graph_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="12dp"
+                android:text="url입니다"
+                android:textColor="@color/approval_main_color"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                app:layout_constraintTop_toBottomOf="@+id/open_graph_text"></TextView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="1dp"
 
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload_link_dialog_et"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/open_graph">
 
         <Button
             android:id="@+id/upload_link_dialog_cancel_button"
@@ -66,8 +107,8 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/white"
             android:text="취소"
-            android:textStyle="bold"
-            android:textColor="#8C8C8C"/>
+            android:textColor="#8C8C8C"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/upload_link_dialog_confirm_button"
@@ -76,8 +117,8 @@
             android:layout_weight="1"
             android:backgroundTint="@android:color/white"
             android:text="확인"
-            android:textStyle="bold"
-            android:textColor="#6C39FF"/>
+            android:textColor="#6C39FF"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

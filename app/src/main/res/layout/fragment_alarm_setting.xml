@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.alarm.AlarmSettingFragment">
+
+    <ImageView
+        android:id="@+id/back_to_notification"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:src="@drawable/join_fragment_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <ImageView
+        android:id="@+id/join_text"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/alarm_setting_fragment_main_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+    <LinearLayout
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#BFBFBF"
+        app:layout_constraintTop_toBottomOf="@+id/join_text"
+        android:orientation="horizontal"></LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/line">
+
+        <ImageView
+            android:id="@+id/push_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/alarm_setting_fragment_push_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+
+        <!--approval alarm-->
+        <ImageView
+            android:id="@+id/approval_text"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/alarm_setting_fragment_approval_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/push_text"></ImageView>
+
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/approval_check_bock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/push_text"></androidx.appcompat.widget.AppCompatCheckBox>
+
+        <!--community alarm-->
+        <ImageView
+            android:id="@+id/community_text"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/alarm_setting_fragment_community_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/approval_check_bock"></ImageView>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/community_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/approval_check_bock"></androidx.appcompat.widget.AppCompatCheckBox>
+
+
+        <!--community alarm-->
+        <ImageView
+            android:id="@+id/hot_text"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/alarm_setting_fragment_hot_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/community_check_box"></ImageView>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/hot_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/community_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+
+
+        <!--community alarm-->
+        <ImageView
+            android:id="@+id/info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/alarm_setting_fragment_info_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hot_check_box"></ImageView>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/info_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hot_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+
+
+        <!--community alarm-->
+        <ImageView
+            android:id="@+id/follow"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/alarm_setting_fragment_following_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_check_box"></ImageView>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/follow_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/login_activity_check_box"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_marginTop="25dp"
+        android:id="@+id/move_to_like"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/alarm_setting_fragment_like_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"></ImageView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.approval.data.dto.KeywordDto
+import com.umc.approval.data.dto.search.KeywordDto
 import com.umc.approval.data.repository.search.RecentSearchFragmentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

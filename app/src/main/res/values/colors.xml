@@ -27,4 +27,11 @@
     <color name="app_main_color">#6C39FF</color>
     <color name="unselected_tab_text">#BFBFBF</color>
     <color name="approval_fragment_title">#141414</color>
+
+    <!--Approval Please Color-->
+    <color name="approval_main_color">#6C39FF</color>
+    <color name="approval_gray_color">#BFBFBF</color>
+    <color name="approval_line_color">#D9D9D9</color>
+    <color name="approval_text_color">#8C8C8C</color>
+    <color name="approval_black_color">#141414</color>
 </resources>

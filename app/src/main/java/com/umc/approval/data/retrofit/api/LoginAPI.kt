@@ -6,27 +6,72 @@ import retrofit2.Call
 import retrofit2.http.*
 
 /**
- * login server와 통신하는 API
+ * login API
  * */
 interface LoginAPI {
 
     /**
-     * login API
-     * 임시코드, ID, Access 토큰중 한개 전송해서 토큰 발급 받음
+     * @Post
+     * Header Authorization : idToken(kakao accessToken or google idToken)
+     * Header LoginCase : kakao, google, naver
+     * @Get
+     * Header Authorization : Bearer + 토크 값
+     * social login api
      * */
     @POST("/login")
     @Headers("content-type: application/json")
-    fun login(@Header("Authorization") idToken:
+    fun social_login(@Header("Authorization") idToken:
               String, @Header("LoginCase") case: String):Call<ResponseBody>
 
     /**
-     * User 정보를 가지고 오는
+     * @Post
+     * email, password
+     * @Get
+     * Header Authorization : Bearer + 토크 값
+     * basic login api
+     * */
+    @POST("/login")
+    @Headers("content-type: application/json")
+    fun basic_login(@Query("email") email : String, @Query("password") password : String):Call<ResponseBody>
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * @Get
+     * Header Authorization : Bearer + 토크 값
+     * social login api
      * */
     @GET("/api/user")
     @Headers("content-type: application/json")
-    fun connectServer(@Header("Authorization") accessToken: String):Call<ResponseBody>
+    fun connect_server(@Header("Authorization") accessToken: String):Call<ResponseBody>
 
-    @GET("/userInfo")
+    /**
+     * @Post
+     * email
+     * @Get
+     * email check api
+     * */
+    @POST("/email/check")
     @Headers("content-type: application/json")
-    fun userInfo(@Header("Authorization") accessToken: String):Call<UserDto>
+    fun email_check(@Query("email") email : String):Call<ResponseBody>
+
+    /**
+     * @Post
+     * email
+     * @Get
+     * password change api
+     * */
+    @POST("/password/change")
+    @Headers("content-type: application/json")
+    fun password_change(@Query("email") email : String, @Query("password") password : String):Call<ResponseBody>
+
+    /**
+     * @Post
+     * userDto : email, password, nickname, phone
+     * @Get
+     * basic join api
+     * */
+    @POST("/join")
+    @Headers("content-type: application/json")
+    fun join(@Query("user") user : UserDto):Call<ResponseBody>
 }

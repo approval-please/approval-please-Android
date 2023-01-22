@@ -2,6 +2,9 @@ package com.umc.approval.data.retrofit.instance
 
 import com.google.gson.GsonBuilder
 import com.umc.approval.API.LOCAL_BASE_URL
+import com.umc.approval.data.retrofit.api.CommunityAPI
+import com.umc.approval.data.retrofit.api.ProfileAPI
+import com.umc.approval.data.retrofit.api.UploadAPI
 import com.umc.approval.data.retrofit.api.HomeAPI
 import com.umc.approval.data.retrofit.api.ApprovalAPI
 import com.umc.approval.data.retrofit.api.ParticipantAPI
@@ -33,9 +36,21 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient).baseUrl(LOCAL_BASE_URL).build() //build로 객체 생성
     }
-
+    
     val serverApi: LoginAPI by lazy {
         retrofit.create(LoginAPI::class.java)
+    }
+    /**profile api*/
+    val profileApi: ProfileAPI by lazy {
+        retrofit.create(ProfileAPI::class.java)
+    }
+    /**upload api*/
+    val uploadApi: UploadAPI by lazy {
+        retrofit.create(UploadAPI::class.java)
+    }
+    /**community api*/
+    val communityApi: CommunityAPI by lazy {
+        retrofit.create(CommunityAPI::class.java)
     }
     val HomeApi: HomeAPI by lazy {
         retrofit.create(HomeAPI::class.java)

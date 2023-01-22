@@ -40,7 +40,19 @@ class JoinFragment : Fragment() {
 
         //init value(nickname, password, password_retry, phone, auth)
         init_value()
+
+        //email 입력칸으로 이동
+        back_to_login()
+
         return view
+    }
+
+    /**login fragment로 이동*/
+    private fun back_to_login() {
+        binding.backToEmailLogin.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_joinFragment_to_loginFragment)
+        }
     }
 
     /**

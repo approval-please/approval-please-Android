@@ -54,6 +54,81 @@
         </LinearLayout>
     </ScrollView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/upload_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/open_graph">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/image_rv"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/open_graph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/upload_layout_footer">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/open_graph_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_activity_white_box"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/open_graph_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/community_fragment_test_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+            <TextView
+                android:id="@+id/open_graph_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="정보 입니다"
+                android:textColor="@color/approval_black_color"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                app:layout_constraintTop_toTopOf="@+id/open_graph_image"></TextView>
+
+            <TextView
+                android:id="@+id/open_graph_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="url입니다"
+                android:textColor="@color/approval_main_color"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                app:layout_constraintTop_toBottomOf="@+id/open_graph_text"></TextView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:id="@+id/upload_layout_footer"
         android:layout_width="match_parent"
