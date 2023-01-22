@@ -75,6 +75,7 @@ object RetrofitInstance {
         retrofit.create(NotificationAPI::class.java)
     }
 
+    /**follow api*/
     val followApi : FollowAPI by lazy{
         retrofit.create(FollowAPI::class.java)
     }
