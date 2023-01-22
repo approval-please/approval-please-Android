@@ -3,6 +3,7 @@ package com.umc.approval.data.retrofit.instance
 import com.google.gson.GsonBuilder
 import com.umc.approval.API.LOCAL_BASE_URL
 import com.umc.approval.data.retrofit.api.FollowAPI
+import com.umc.approval.data.retrofit.api.CommunityPostAPI
 import com.umc.approval.data.retrofit.api.LoginAPI
 import com.umc.approval.data.retrofit.api.MyPageAPI
 import com.umc.approval.data.retrofit.api.NotificationAPI
@@ -40,5 +41,7 @@ object RetrofitInstance {
     }
     val mypageAPI : MyPageAPI by lazy{
         retrofit.create(MyPageAPI::class.java)
+    val CommunityPostAPI: CommunityPostAPI by lazy {
+        retrofit.create(CommunityPostAPI::class.java)
     }
 }

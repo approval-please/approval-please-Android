@@ -16,7 +16,7 @@
     <string name="pending_approval">승인대기중</string>
     <string name="all_interesting_category">관심부서 전체</string>
     <string name="paper_info">%1$s∙%2$d 전</string>
-    
+
     <!-- Approval Fragment String -->
     <string name="approval_fragment_title">결재하기</string>
     <string name="all_category">모든 부서</string>

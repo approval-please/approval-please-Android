@@ -2,13 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 인터넷 사용 권한 설정-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 인터넷 사용 권한 설정 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,8 +15,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Approval"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        
+        <activity
+            android:name=".ui.activity.CommunityPostActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.activity.CommunityUploadActivity"
             android:exported="true"
@@ -27,7 +37,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        
         <activity
             android:name=".ui.activity.UploadActivity"
             android:exported="true"
@@ -36,7 +45,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        
         <activity
             android:name=".ui.activity.DocumentCommentActivity"
             android:exported="true">
@@ -44,7 +52,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        
         <activity
             android:name=".ui.activity.InterestingDepartmentActivity"
             android:exported="true">
@@ -64,10 +71,12 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:host="oauth"
+                <data
+                    android:host="oauth"
                     android:scheme="${MANIFEST_KAKAO_KEY}" />
             </intent-filter>
         </activity>
@@ -81,12 +90,11 @@
         <activity
             android:name=".ui.activity.SplashActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"
