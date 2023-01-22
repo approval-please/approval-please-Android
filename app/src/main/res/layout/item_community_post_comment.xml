@@ -6,14 +6,14 @@
     android:layout_marginTop="11dp"
     android:layout_marginEnd="11dp">
     <ImageView
-        android:id="@+id/document_comment_item_profilepic"
+        android:id="@+id/comment_item_profilepic"
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
     <TextView
-        android:id="@+id/document_comment_item_name"
+        android:id="@+id/comment_item_nickname"
         android:layout_width="36dp"
         android:layout_height="16dp"
         android:text="김차장"
@@ -24,6 +24,7 @@
         android:layout_marginStart="34dp"
         android:layout_marginTop="5dp"/>
     <ImageView
+        android:id="@+id/comment_item_rank"
         android:layout_width="26dp"
         android:layout_height="14dp"
         android:src="@drawable/mypage_rank_chajang"
@@ -31,7 +32,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="6.5dp"
         android:layout_marginStart="74dp"/>
-    <ImageView
+    <ImageButton
+        android:id="@+id/comment_item_reply_btn"
         android:layout_width="13dp"
         android:layout_height="13dp"
         android:src="@drawable/document_comment_recyclerview_icon_comment"
@@ -53,7 +55,7 @@
         android:text="댓글 텍스트 예시 comment text example\nabcdefghijklmnopqrstuvwxyz0123456"
         android:textSize="13sp"
         android:textColor="#141414"
-        app:layout_constraintTop_toBottomOf="@id/document_comment_item_profilepic"
+        app:layout_constraintTop_toBottomOf="@id/comment_item_profilepic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="2dp"/>
@@ -77,7 +79,6 @@
         android:layout_marginTop="5.5dp"
         android:layout_marginStart="13dp"/>
     <TextView
-        android:id="@+id/document_comment_item_likes"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
@@ -88,5 +89,5 @@
         app:layout_constraintStart_toEndOf="@id/document_comment_item_likebtn"
         android:layout_marginTop="1.5dp"
         android:layout_marginStart="3dp"/>
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

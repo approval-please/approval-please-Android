@@ -2,11 +2,20 @@ package com.umc.approval.data.retrofit.instance
 
 import com.google.gson.GsonBuilder
 import com.umc.approval.API.LOCAL_BASE_URL
-import com.umc.approval.data.retrofit.api.*
+import com.umc.approval.data.retrofit.api.HomeAPI
+import com.umc.approval.data.retrofit.api.ApprovalAPI
+import com.umc.approval.data.retrofit.api.ParticipantAPI
+import com.umc.approval.data.retrofit.api.LikeAPI
+import com.umc.approval.data.retrofit.api.FollowAPI
+import com.umc.approval.data.retrofit.api.CommunityPostAPI
+import com.umc.approval.data.retrofit.api.LoginAPI
+import com.umc.approval.data.retrofit.api.MyPageAPI
+import com.umc.approval.data.retrofit.api.NotificationAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 object RetrofitInstance {
 
@@ -28,20 +37,28 @@ object RetrofitInstance {
     val serverApi: LoginAPI by lazy {
         retrofit.create(LoginAPI::class.java)
     }
-
     val HomeApi: HomeAPI by lazy {
         retrofit.create(HomeAPI::class.java)
     }
-
     val ApprovalApi: ApprovalAPI by lazy {
         retrofit.create(ApprovalAPI::class.java)
     }
-
     val ParticipantApi: ParticipantAPI by lazy {
         retrofit.create(ParticipantAPI::class.java)
     }
-
     val LikeApi: LikeAPI by lazy {
         retrofit.create(LikeAPI::class.java)
+    }
+    val notificationApi : NotificationAPI by lazy{
+        retrofit.create(NotificationAPI::class.java)
+    }
+    val followApi : FollowAPI by lazy{
+        retrofit.create(FollowAPI::class.java)
+    }
+    val mypageAPI : MyPageAPI by lazy{
+        retrofit.create(MyPageAPI::class.java)
+    }
+    val CommunityPostAPI: CommunityPostAPI by lazy {
+        retrofit.create(CommunityPostAPI::class.java)
     }
 }

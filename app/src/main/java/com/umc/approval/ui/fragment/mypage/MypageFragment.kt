@@ -4,8 +4,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentMypageBinding
+import com.umc.approval.ui.fragment.mypage.follow.FollowFragment
+import com.umc.approval.ui.fragment.mypage.follow.FollowerFragment
+import com.umc.approval.ui.fragment.mypage.setting.SettingFragment
 
 /**
  * MyPage View
@@ -70,6 +75,27 @@ class MypageFragment : Fragment() {
 
             }
         })
+        binding.followerTextview.setOnClickListener {
+            val followFragment = FollowFragment()
+            followFragment.let{
+                activity?.supportFragmentManager?.beginTransaction()!!
+                    .add(R.id.main_layout, it).commit()
+            }
+        }
+        binding.followingTextview.setOnClickListener {
+            val followFragment = FollowFragment()
+            followFragment.let{
+                activity?.supportFragmentManager?.beginTransaction()!!
+                    .add(R.id.main_layout, it).commit()
+            }
+        }
+        binding.mypageSetting.setOnClickListener {
+            val settingFragment = SettingFragment()
+            settingFragment.let{
+                activity?.supportFragmentManager?.beginTransaction()!!
+                    .add(R.id.main_layout, it).commit()
+            }
+        }
     }
 
     /**

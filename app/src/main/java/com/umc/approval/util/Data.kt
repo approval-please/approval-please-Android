@@ -48,3 +48,19 @@ data class Like(
     val user_nickname: String,
     val follow_status: Boolean,
 )
+
+data class VoteItem(
+    val content: String,
+    val check: Boolean,
+    val participation: ArrayList<String>,
+)
+
+data class CommentItem(
+    val id:Int,
+    val user_nickname: String,
+    val user_rank :String,
+    val content:String,
+    val date : String,
+    val like : Int,
+    val replyComment : Int,
+)
