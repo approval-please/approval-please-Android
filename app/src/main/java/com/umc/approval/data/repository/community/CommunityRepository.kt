@@ -1,6 +1,7 @@
 package com.umc.approval.data.repository.community
 
-import com.umc.approval.data.dto.community.CommunityItemsDto
+import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.communityApi
 import retrofit2.Call
 
@@ -9,8 +10,13 @@ import retrofit2.Call
  * */
 class CommunityRepository() {
 
-    /**get approval items*/
-    fun get_approval_items(accessToken: String):Call<CommunityItemsDto> {
-        return communityApi.get_community_items(accessToken)
+    /**get toktoks*/
+    fun get_toks(state: Int):Call<CommunityTokDto> {
+        return communityApi.get_community_tok_items(state)
+    }
+
+    /**get reports*/
+    fun get_reports(state: Int):Call<CommunityReportDto> {
+        return communityApi.get_community_report_items(state)
     }
 }

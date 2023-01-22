@@ -1,6 +1,6 @@
 package com.umc.approval.data.repository.home
 
-import com.umc.approval.data.dto.ApprovalPaperDto
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.CommunityPostDto
 import com.umc.approval.data.dto.ApprovalReportDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.HomeApi

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.community.CommunityItemDto
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentCommunityTalkBinding
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
@@ -38,7 +38,7 @@ class CommunityTalkFragment : Fragment() {
     }
 
     private fun connect_to_community_rv() {
-        val init_data = mutableListOf<CommunityItemDto>()
+        val init_data = mutableListOf<CommunityTok>()
 
         var openGraphDto = OpenGraphDto(
             "https://www.naver.com/",
@@ -48,59 +48,16 @@ class CommunityTalkFragment : Fragment() {
             "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
         )
         init_data.add(
-            CommunityItemDto(
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
+            CommunityTok
+                (
+                "", "", "", "", false, 0, "", mutableListOf(),
+                openGraphDto, 0, 0, 0, 0, "")
         )
         init_data.add(
-            CommunityItemDto
+            CommunityTok
                 (
-                1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
+                "", "", "", "", false, 0, "", mutableListOf(),
+                openGraphDto, 0, 0, 0, 0, "")
         )
 
         communityTalkItemRVAdapter = CommunityTalkItemRVAdapter(init_data)

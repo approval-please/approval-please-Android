@@ -2,20 +2,19 @@ package com.umc.approval.ui.adapter.community_fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.umc.approval.data.dto.community.CommunityItemDto
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.CommunityTalkItemBinding
 
 /**
  * 결재 톡톡 및 보고서를 받아와 연결해주는 RV Adapter
  * */
-class CommunityTalkItemRVAdapter(private val items : List<CommunityItemDto>) : RecyclerView.Adapter<CommunityTalkItemRVAdapter.ViewHolder>() {
+class CommunityTalkItemRVAdapter(private val items : List<CommunityTok>) : RecyclerView.Adapter<CommunityTalkItemRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: CommunityTalkItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(data : CommunityItemDto) {
+        fun binding(data : CommunityTok) {
             if (data.opengraph.image.toString() != "") {
                 binding.talkOpenGraphImage.load(data.opengraph.image)
                 binding.talkOpenGraphText.setText(data.opengraph.title)

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.community.CommunityItemDto
+import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentCommunityReportBinding
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
@@ -38,7 +38,7 @@ class CommunityReportFragment : Fragment() {
     }
 
     private fun connect_to_community_rv() {
-        val init_data = mutableListOf<CommunityItemDto>()
+        val init_data = mutableListOf<CommunityReport>()
 
         var openGraphDto = OpenGraphDto(
             "https://www.naver.com/",
@@ -48,60 +48,24 @@ class CommunityReportFragment : Fragment() {
             "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
         )
         init_data.add(
-            CommunityItemDto
+            CommunityReport
                 (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
+                "", "", "", "", "", mutableListOf(), mutableListOf(),
+                openGraphDto, 0, 0, 0, 0, "")
             )
-        )
+
         init_data.add(
-            CommunityItemDto
+            CommunityReport
                 (
-                1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
+                "", "", "", "", "", mutableListOf(), mutableListOf(),
+                openGraphDto, 0, 0, 0, 0, "")
         )
+
         init_data.add(
-            CommunityItemDto
+            CommunityReport
                 (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                1, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
-        )
-        init_data.add(
-            CommunityItemDto
-                (
-                0, "", "", "", "", "", "",
-                "", "", "", "", mutableListOf(), openGraphDto, 0, 0, 0, 0
-            )
+                "", "", "", "", "", mutableListOf(), mutableListOf(),
+                openGraphDto, 0, 0, 0, 0, "")
         )
 
         communityReportItemRVAdapter = CommunityReportItemRVAdapter(init_data)

@@ -1,26 +1,32 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.community.CommunityItemsDto
-import com.umc.approval.data.dto.profile.CategoriesDto
-import com.umc.approval.data.dto.upload.UploadDto
-import okhttp3.ResponseBody
+import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTokDto
 import retrofit2.Call
 import retrofit2.http.*
 
 /**
- * Community  API
+ * Community API
  * */
 interface CommunityAPI {
 
     /**
      * @Post
-     * accessToken : 사용자 검증 토큰
+     * state : 최신 인기 팔로우 내 글
      * @Get
-     * talk: profileImage, title, title_body, vote, vote_num,
-     * report: images
-     * common: type, nickname, rank, body, image, link, like,scrap, views, replys
+     * CommunityTalkDto
      * */
-    @GET("/community/items")
+    @GET("/community/toktoks")
     @Headers("content-type: application/json")
-    fun get_community_items(@Header("Authorization") accessToken: String):Call<CommunityItemsDto>
+    fun get_community_tok_items(@Query("state") state: Int):Call<CommunityTokDto>
+
+    /**
+     * @Post
+     * state : 최신 인기 팔로우 내 글
+     * @Get
+     * CommunityReportDto
+     * */
+    @GET("/community/reports")
+    @Headers("content-type: application/json")
+    fun get_community_report_items(@Query("state") state: Int):Call<CommunityReportDto>
 }

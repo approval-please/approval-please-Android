@@ -1,6 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.ApprovalPaperDto
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
