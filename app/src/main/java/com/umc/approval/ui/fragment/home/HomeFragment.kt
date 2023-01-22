@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentHomeBinding
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.SearchActivity
-import com.umc.approval.ui.adapter.home_fragment.ApprovalRVAdapter
+import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
-import com.umc.approval.util.ApprovalPaper_HomeFragment
+import com.umc.approval.util.ApprovalPaper
 import com.umc.approval.util.ApprovalReport
 import com.umc.approval.util.Post
 
@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
 
         binding.cgMyInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "관심 부서 선택, $checkedIds")
+            // 카테고리 번호 선택, notify
         }
 
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
@@ -107,54 +108,54 @@ class HomeFragment : Fragment() {
     }
 
     private fun setInterestingDepartment() {
-        val approvalPaperList: ArrayList<ApprovalPaper_HomeFragment> = arrayListOf()  // 샘플 데이터
+        val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
         approvalPaperList.apply{
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(false, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(false, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(false, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
         }
 
-        val dataRVAdapter = ApprovalRVAdapter(approvalPaperList)
+        val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
         val spaceDecoration = HorizontalSpaceItemDecoration(40)
         binding.rvMyInterestingPaper.addItemDecoration(spaceDecoration)
         binding.rvMyInterestingPaper.adapter = dataRVAdapter
         binding.rvMyInterestingPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
         // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalPaper_HomeFragment, pos: Int) {
+        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
+            override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
                 Log.d("로그", "결재 서류 클릭, pos: $pos")
             }
         })
     }
 
     private fun setReviewApprovalPaper() {
-        val approvalPaperList: ArrayList<ApprovalPaper_HomeFragment> = arrayListOf()  // 샘플 데이터
+        val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
         approvalPaperList.apply{
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(false, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(false, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(false, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper_HomeFragment(true, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
         }
 
-        val dataRVAdapter = ApprovalRVAdapter(approvalPaperList)
+        val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
         val spaceDecoration = HorizontalSpaceItemDecoration(40)
         binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
         binding.rvApprovalPaper.adapter = dataRVAdapter
         binding.rvApprovalPaper.layoutManager = GridLayoutManager(activity, 2, RecyclerView.HORIZONTAL, false)
 
         // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalPaper_HomeFragment, pos: Int) {
+        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
+            override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
                 Log.d("로그", "결재 서류 클릭, pos: $pos")
             }
         })

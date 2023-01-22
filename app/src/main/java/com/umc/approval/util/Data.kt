@@ -1,19 +1,7 @@
 package com.umc.approval.util
 
 data class ApprovalPaper(
-    val approval_status: Boolean,
-    val approval_result: Boolean,
-    val title: String,
-    val content: String,
-    val approve_count: Int,
-    val reject_count: Int,
-    val views: Int,
-    val department: String,
-    val date: String,  // 서버 측에서 보내주는 데이터 가공 필요
-)
-
-data class ApprovalPaper_HomeFragment(
-    val approval_status: Boolean,
+    val approval_status: Int, // 0: 승인됨, 1: 반려됨, 2: 승인대기중
     val title: String,
     val content: String,
     val approve_count: Int,
@@ -45,6 +33,20 @@ data class ApprovalReport(
     val comment_count: Int,
     val like_count: Int,
     val date: String,
+)
+
+data class Participant(
+    val user_profile_image: String,
+    val user_rank: String,
+    val user_nickname: String,
+    val follow_status: Boolean,
+)
+
+data class Like(
+    val user_profile_image: String,
+    val user_rank: String,
+    val user_nickname: String,
+    val follow_status: Boolean,
 )
 
 data class VoteItem(
