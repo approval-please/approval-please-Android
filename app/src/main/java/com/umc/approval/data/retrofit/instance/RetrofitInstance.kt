@@ -10,7 +10,6 @@ import com.umc.approval.data.retrofit.api.ApprovalAPI
 import com.umc.approval.data.retrofit.api.ParticipantAPI
 import com.umc.approval.data.retrofit.api.LikeAPI
 import com.umc.approval.data.retrofit.api.FollowAPI
-import com.umc.approval.data.retrofit.api.CommunityPostAPI
 import com.umc.approval.data.retrofit.api.LoginAPI
 import com.umc.approval.data.retrofit.api.MyPageAPI
 import com.umc.approval.data.retrofit.api.NotificationAPI
@@ -18,7 +17,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object RetrofitInstance {
 
@@ -83,9 +81,5 @@ object RetrofitInstance {
 
     val mypageAPI : MyPageAPI by lazy{
         retrofit.create(MyPageAPI::class.java)
-    }
-
-    val CommunityPostAPI: CommunityPostAPI by lazy {
-        retrofit.create(CommunityPostAPI::class.java)
     }
 }
