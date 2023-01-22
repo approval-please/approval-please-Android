@@ -1,4 +1,4 @@
-package com.umc.approval.data.dto.login
+package com.umc.approval.data.dto.login.post
 
 import com.google.gson.annotations.SerializedName
 

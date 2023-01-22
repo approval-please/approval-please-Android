@@ -1,13 +1,16 @@
 package com.umc.approval.data.repository.search
 
 import com.umc.approval.data.db.database.RecentSearchDatabase
-import com.umc.approval.data.dto.search.KeywordDto
+import com.umc.approval.data.dto.search.post.KeywordDto
 
 /**
  * RecentSearch Fragment Repository
  * */
-class RecentSearchFragmentRepository(private val db: RecentSearchDatabase) {
+class SearchFragmentRepository(private val db: RecentSearchDatabase) {
 
+    /**
+     * RoomDB
+     * */
     //최근 8개의 검색어를 가지고 오는 메서드
     suspend fun getAllKeywords() = db.recentSearchDao().getKeywords()
 
@@ -24,4 +27,9 @@ class RecentSearchFragmentRepository(private val db: RecentSearchDatabase) {
 
     //연관 검색어 8개 가지고 오기
     suspend fun getAllRelatedKeyword(query: String) = db.recentSearchDao().getRelatedKeywords(query)
+
+    /**
+     * Retrofit
+     * */
+
 }

@@ -1,7 +1,7 @@
 package com.umc.approval.data.repository.login
 
-import com.umc.approval.data.dto.login.BasicJoinDto
-import com.umc.approval.data.dto.login.SocialJoinDto
+import com.umc.approval.data.dto.login.post.BasicJoinDto
+import com.umc.approval.data.dto.login.post.SocialJoinDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.serverApi
 import okhttp3.ResponseBody
 import retrofit2.Call

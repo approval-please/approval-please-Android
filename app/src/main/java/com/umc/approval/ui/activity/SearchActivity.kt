@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.umc.approval.databinding.ActivitySearchBinding
 import com.umc.approval.data.db.database.RecentSearchDatabase
-import com.umc.approval.data.repository.search.RecentSearchFragmentRepository
+import com.umc.approval.data.repository.search.SearchFragmentRepository
 import com.umc.approval.ui.viewmodel.search.RecentSearchViewModel
 import com.umc.approval.ui.viewmodel.search.RecentSearchViewModelFactory
 
@@ -21,7 +21,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(view)
 
         val database = RecentSearchDatabase.getInstance(this)
-        val dataRepository = RecentSearchFragmentRepository(database)
+        val dataRepository = SearchFragmentRepository(database)
         val factory = RecentSearchViewModelFactory(dataRepository)
         viewModel = ViewModelProvider(this, factory).get(RecentSearchViewModel::class.java)
     }

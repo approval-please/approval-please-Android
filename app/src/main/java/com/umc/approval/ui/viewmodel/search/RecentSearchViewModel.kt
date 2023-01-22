@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.approval.data.dto.search.KeywordDto
-import com.umc.approval.data.repository.search.RecentSearchFragmentRepository
+import com.umc.approval.data.dto.search.post.KeywordDto
+import com.umc.approval.data.repository.search.SearchFragmentRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
  * Recent Search keyword ViewModel
  * */
-class RecentSearchViewModel(private val repository: RecentSearchFragmentRepository) : ViewModel() {
+class RecentSearchViewModel(private val repository: SearchFragmentRepository) : ViewModel() {
 
     /**최근 검색어 변수*/
     private var _recent_keyword = MutableLiveData<List<KeywordDto>>()
