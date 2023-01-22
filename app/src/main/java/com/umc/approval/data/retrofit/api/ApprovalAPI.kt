@@ -8,6 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface ApprovalAPI {
+
     /**
      * @Post
      * accessToken: 사용자 검증 토큰

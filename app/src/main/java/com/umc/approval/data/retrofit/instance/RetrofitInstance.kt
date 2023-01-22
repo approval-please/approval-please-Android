@@ -36,43 +36,55 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient).baseUrl(LOCAL_BASE_URL).build() //build로 객체 생성
     }
-    
+
+    /**login api*/
     val serverApi: LoginAPI by lazy {
         retrofit.create(LoginAPI::class.java)
     }
+
     /**profile api*/
     val profileApi: ProfileAPI by lazy {
         retrofit.create(ProfileAPI::class.java)
     }
+
     /**upload api*/
     val uploadApi: UploadAPI by lazy {
         retrofit.create(UploadAPI::class.java)
     }
+
     /**community api*/
     val communityApi: CommunityAPI by lazy {
         retrofit.create(CommunityAPI::class.java)
     }
+
     val HomeApi: HomeAPI by lazy {
         retrofit.create(HomeAPI::class.java)
     }
+
     val ApprovalApi: ApprovalAPI by lazy {
         retrofit.create(ApprovalAPI::class.java)
     }
+
     val ParticipantApi: ParticipantAPI by lazy {
         retrofit.create(ParticipantAPI::class.java)
     }
+
     val LikeApi: LikeAPI by lazy {
         retrofit.create(LikeAPI::class.java)
     }
+
     val notificationApi : NotificationAPI by lazy{
         retrofit.create(NotificationAPI::class.java)
     }
+
     val followApi : FollowAPI by lazy{
         retrofit.create(FollowAPI::class.java)
     }
+
     val mypageAPI : MyPageAPI by lazy{
         retrofit.create(MyPageAPI::class.java)
     }
+
     val CommunityPostAPI: CommunityPostAPI by lazy {
         retrofit.create(CommunityPostAPI::class.java)
     }

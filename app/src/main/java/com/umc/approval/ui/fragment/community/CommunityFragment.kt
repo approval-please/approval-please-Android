@@ -84,7 +84,7 @@ class CommunityFragment : Fragment() {
         binding.viewPager.adapter = communityVPAdapter
 
         //탭 레이아웃 제목
-        val tabTitleArray = arrayOf("전체", "결제톡톡", "결제보고서")
+        val tabTitleArray = arrayOf("결제톡톡", "결제보고서")
 
         //탭 레이아웃과 뷰페이저 연결
         TabLayoutMediator(binding.communityTab, binding.viewPager) { tab, position ->
