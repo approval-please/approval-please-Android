@@ -41,6 +41,7 @@ object RetrofitInstance {
     }
     val mypageAPI : MyPageAPI by lazy{
         retrofit.create(MyPageAPI::class.java)
+    }
     val CommunityPostAPI: CommunityPostAPI by lazy {
         retrofit.create(CommunityPostAPI::class.java)
     }
