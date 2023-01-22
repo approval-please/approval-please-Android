@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_fragment_mypage_to_fragment_home"
             app:destination="@id/fragment_home" />
+        <action
+            android:id="@+id/action_fragment_mypage_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragment_notification"
@@ -118,5 +121,14 @@
         <action
             android:id="@+id/action_likeSettingFragment_to_alarmSettingFragment"
             app:destination="@id/alarmSettingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.umc.approval.ui.fragment.mypage.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_fragment_mypage"
+            app:destination="@id/fragment_mypage" />
     </fragment>
 </navigation>

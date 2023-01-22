@@ -1,6 +1,7 @@
 package com.umc.approval.data.repository.profile
 
 import com.umc.approval.data.dto.profile.ProfileDto
+import com.umc.approval.data.retrofit.api.ProfileAPI
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.profileApi
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -20,7 +21,7 @@ class ProfileChangeFragmentRepository() {
     /**
      * 프로필 정보 로드 API
      * */
-    fun profile_get(accessToken: String):Call<ResponseBody>{
+    fun profile_get(accessToken: String):Call<ProfileDto>{
         return profileApi.profile_get(accessToken)
     }
 }

@@ -8,15 +8,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentHomeBinding
 import com.umc.approval.ui.activity.LoginActivity
+import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
+import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.ApprovalPaper
 import com.umc.approval.util.ApprovalReport
 import com.umc.approval.util.Post
@@ -29,6 +33,9 @@ class HomeFragment : Fragment() {
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    /**login view model*/
+    private val viewModel by viewModels<LoginFragmentViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -38,6 +45,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        //엑세스 토큰 체크
+        access_token_check()
 
         /**Login Activity로 이동*/
         binding.mypageButton.setOnClickListener {
@@ -85,6 +95,28 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    /**시작시 로그인 상태 확인*/
+    override fun onStart() {
+        super.onStart()
+
+        //view 초기화
+        binding.notLoginStatus.isVisible = true
+        binding.loginStatus.isVisible = false
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+    }
+
+    /**access token 변화를 fragment에서 체크하는 함수*/
+    private fun access_token_check() {
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it != "") {
+                binding.notLoginStatus.isVisible = false
+                binding.loginStatus.isVisible = true
+            }
+        }
     }
 
     /**

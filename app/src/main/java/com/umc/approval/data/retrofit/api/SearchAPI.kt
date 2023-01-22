@@ -13,8 +13,6 @@ import retrofit2.http.*
  * */
 interface SearchAPI {
 
-    //opengraph로 받을 것, 링크는 추가 작업이 필요
-
     /**
      * @Post
      * SearchDto : query, postType = -1, category, state, sortBy, page
