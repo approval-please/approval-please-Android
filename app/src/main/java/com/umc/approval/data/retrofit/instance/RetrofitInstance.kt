@@ -2,6 +2,7 @@ package com.umc.approval.data.retrofit.instance
 
 import com.google.gson.GsonBuilder
 import com.umc.approval.API.LOCAL_BASE_URL
+import com.umc.approval.data.retrofit.api.CommunityPostAPI
 import com.umc.approval.data.retrofit.api.LoginAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,5 +28,9 @@ object RetrofitInstance {
 
     val serverApi: LoginAPI by lazy {
         retrofit.create(LoginAPI::class.java)
+    }
+
+    val CommunityPostAPI: CommunityPostAPI by lazy {
+        retrofit.create(CommunityPostAPI::class.java)
     }
 }
