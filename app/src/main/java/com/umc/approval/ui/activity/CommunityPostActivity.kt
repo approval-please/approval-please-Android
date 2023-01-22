@@ -3,20 +3,12 @@ package com.umc.approval.ui.activity
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.R
 import com.umc.approval.databinding.ActivityCommunityPostBinding
-import com.umc.approval.databinding.ActivityDocumentCommentBinding
-import com.umc.approval.databinding.FragmentApprovalAllCategoryViewBinding
-import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityCommentRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
-import com.umc.approval.util.ApprovalPaper
 import com.umc.approval.util.CommentItem
 import com.umc.approval.util.VoteItem
 

@@ -1,20 +1,18 @@
 package com.umc.approval.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.umc.approval.databinding.ActivityDocumentCommentBinding
+import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 
-class DocumentCommentActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityDocumentCommentBinding
+class DocumentActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityDocumentBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityDocumentCommentBinding.inflate(layoutInflater)
+        binding = ActivityDocumentBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -32,24 +30,23 @@ class DocumentCommentActivity : AppCompatActivity() {
     }
 
     private fun setDocumentData(){
-        binding.row2NameTextview.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+        binding.name.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                 " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \n" +
                 "when an unknown printer took a galley of type and scrambled it to make a type specimen book. \n" +
                 "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n" +
-                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n" +
-                "and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." +
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n"
+
+        binding.title.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                 " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \n" +
                 "when an unknown printer took a galley of type and scrambled it to make a type specimen book. \n" +
                 "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n" +
-                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n" +
-                "and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." +
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n"
+
+        binding.content.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                 " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \n" +
                 "when an unknown printer took a galley of type and scrambled it to make a type specimen book. \n" +
                 "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n" +
-                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n" +
-                "and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n"
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

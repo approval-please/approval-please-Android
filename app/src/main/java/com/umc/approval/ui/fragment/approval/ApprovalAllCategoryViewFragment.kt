@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.approval
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentApprovalAllCategoryViewBinding
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.util.ApprovalPaper
 
@@ -67,7 +69,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         // 클릭 이벤트 처리
         dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
             override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                Log.d("로그", "결재 서류 클릭, pos: $pos")
+                startActivity(Intent(requireContext(), DocumentActivity::class.java))
             }
         })
     }
