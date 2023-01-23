@@ -14,11 +14,11 @@ interface NotificationAPI {
     @Headers("content-type: application/json")
     // NotificationFragment의 '전체' 탭 알림 List 정보 가지고 옴
     fun getNotification(
-        @Header("Authorization") idToken : String) : Call<NotificationDTO>
+        @Header("Authorization") accessToken : String) : Call<NotificationDTO>
     // NotificationFragment의 '활동' 탭 알림 List 정보 가지고 옴
     fun getNotificationActivity(
-        @Header("Authorization") idToken: String) : Call<NotificationDTO>
+        @Header("Authorization") accessToken: String) : Call<NotificationDTO>
     // NotificationFragment의 '서류' 탭 알림 List 정보 가지고 옴
     fun getNotificationDocument(
-        @Header("Authorization") idToken: String) : Call<NotificationDTO>
+        @Header("Authorization") accessToken: String) : Call<NotificationDTO>
 }

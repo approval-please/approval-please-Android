@@ -34,6 +34,11 @@ class DocumentActivity : AppCompatActivity() {
         binding.documentCommentPostLikes.setOnClickListener {
             startActivity(Intent(this, LikeActivity::class.java))
         }
+
+        // like activity로 이동
+        binding.approval.setOnClickListener {
+            startActivity(Intent(this, ParticipantActivity::class.java))
+        }
     }
 
     private fun setComment() {

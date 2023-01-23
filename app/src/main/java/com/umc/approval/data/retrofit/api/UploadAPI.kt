@@ -19,7 +19,7 @@ interface UploadAPI {
      * upload : title, body, images, tags, link 정보
      * approval upload api
      * */
-    @POST("/upload/approval")
+    @POST("/documents")
     @Headers("content-type: application/json")
     fun upload_approval(
         @Header("Authorization") accessToken: String,

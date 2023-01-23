@@ -35,19 +35,4 @@ interface ParticipantAPI {
         @Header("Authorization") accessToken: String,
         @Query("documentId") documentId: Int
     ): Call<CommonUserListDto>
-
-    /**
-     * @Post
-     * accessToken: 사용자 검증 토큰
-     * userId: 유저 ID
-     * @Get
-     * followState: 팔로우 상태
-     * 유저 팔로우/언팔로우 API
-     */
-    @POST("/follow")
-    @Headers("content-type: application/json")
-    fun setFollowState(
-        @Header("Authorization") accessToken: String,
-        @Query("userId") userId: Int
-    ): Call<FollowStateDto>
 }

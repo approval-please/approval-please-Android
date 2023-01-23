@@ -1,7 +1,6 @@
-package com.umc.approval.data.dto
+package com.umc.approval.data.dto.mypage
 
 import com.google.gson.annotations.SerializedName
-import java.util.Date
 /*
 내 정보 구성 data
 */
@@ -24,21 +23,4 @@ data class MyPageDto(
     val rankPromotionPoint : Int,
     @SerializedName("shareLink") // 프로필 공유 링크
     val shareLink : String,
-    /*
-    결재 서류, 커뮤니티, 댓글, 스크랩은 다른 페이지 Fragment 가져오는 거라
-    해당 API / DTO / Repository 생길 시 코드 추가
-    */
-    @SerializedName("recordList") // 실적 탭 data list
-    val recordList : List<RecordDTO>
-)
-/*
-실적 탭 구성 data
-*/
-data class RecordDTO(
-    @SerializedName("date") // 날짜
-    val date : Date,
-    @SerializedName("content") // 내용
-    val content : String,
-    @SerializedName("point") // 포인트
-    val point : Int
 )

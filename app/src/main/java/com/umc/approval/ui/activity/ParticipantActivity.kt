@@ -19,6 +19,10 @@ class ParticipantActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        binding.btnGoBack.setOnClickListener {
+            finish()
+        }
+
         // 데이터 받아와서 승인, 반려자 수 설정
 
         supportFragmentManager
