@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="-12dp">
         <ImageView
+            android:id="@+id/cancel"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/document_comment_icon_leftarrow"
@@ -109,18 +110,29 @@
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
                     app:layout_constraintTop_toTopOf="@+id/row_background_img" />
 
-                <TextView
+                <ImageView
+                    android:id="@+id/profile"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="성명"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
                     android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/follow_profileimage"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
+                    app:layout_constraintTop_toTopOf="@+id/row_background_img" />
+
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="김부장"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#141414"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/profile"
+                    app:layout_constraintStart_toEndOf="@+id/profile"
                     app:layout_constraintTop_toTopOf="@+id/row_background_img" />
 
 
@@ -129,12 +141,12 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_marginTop="12dp"
+                    android:layout_marginRight="5dp"
                     android:src="@drawable/document_comment_post_line"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/name" />
+                    app:layout_constraintTop_toBottomOf="@+id/profile" />
 
                 <TextView
                     android:id="@+id/title_text"
@@ -304,36 +316,82 @@
                     android:textColor="#141414"
                     android:textSize="12dp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/link"
+                    app:layout_constraintBottom_toBottomOf="@+id/open_graph"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
-                    app:layout_constraintTop_toTopOf="@+id/link" />
+                    app:layout_constraintTop_toTopOf="@+id/open_graph" />
 
-                <TextView
-                    android:id="@+id/link"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/open_graph"
                     android:layout_width="0dp"
-                    android:layout_marginLeft="10dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="아이폰 14 Pro"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
-                    app:layout_constraintTop_toBottomOf="@+id/line4" />
+                    app:layout_constraintTop_toBottomOf="@+id/line4" >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/open_graph_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/login_activity_white_box"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/open_graph_image"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/community_fragment_test_image"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+                        <TextView
+                            android:id="@+id/open_graph_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="정보 입니다"
+                            android:textColor="@color/approval_black_color"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                            app:layout_constraintTop_toTopOf="@+id/open_graph_image"></TextView>
+
+                        <TextView
+                            android:id="@+id/open_graph_url"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="url입니다"
+                            android:textColor="@color/approval_main_color"
+                            android:textSize="12dp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/open_graph_image"
+                            app:layout_constraintTop_toBottomOf="@+id/open_graph_text"></TextView>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <ImageView
                     android:id="@+id/line5"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="12dp"
                     android:src="@drawable/document_comment_post_line"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/link" />
+                    app:layout_constraintTop_toBottomOf="@+id/open_graph" />
 
                 <TextView
                     android:id="@+id/approval_text"
@@ -365,12 +423,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/document_comment_postinfo"
-                android:layout_width="328dp"
-                android:layout_height="13dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_height="15dp"
                 app:layout_constraintTop_toBottomOf="@id/document_comment_post"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="13dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/document_comment_post_likes"
                     android:layout_width="wrap_content"
@@ -440,12 +500,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:id="@+id/document_comment_recyclerview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/document_comment_recyclerview_item"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/document_comment_postinfo"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginTop="13dp"/>
