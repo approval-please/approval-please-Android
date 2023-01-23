@@ -1,6 +1,8 @@
 package com.umc.approval.ui.adapter.community_fragment
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -30,9 +32,21 @@ class CommunityReportItemRVAdapter(private val items : List<CommunityReport>) : 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding(items[position])
+        if (itemClick != null){
+            holder.binding.reportDetail.setOnClickListener(View.OnClickListener {
+                itemClick?.move_to_report_activity()
+            })
+        }
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
+
+    /**RV item click event*/
+    interface ItemClick{ //인터페이스
+        fun move_to_report_activity()
+    }
+
+    var itemClick: ItemClick? = null
 }

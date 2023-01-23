@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.CommunityPostActivity">
+    tools:context=".ui.activity.CommunityTokActivity">
 
     <RelativeLayout
         android:id="@+id/community_post_layout_toolbar"

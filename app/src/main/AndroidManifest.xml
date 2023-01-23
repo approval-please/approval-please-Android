@@ -43,7 +43,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.activity.CommunityPostActivity"
+            android:name=".ui.activity.CommunityTokActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -81,6 +81,13 @@
         </activity>
         <activity
             android:name=".ui.activity.SearchActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.activity.CommunityReportActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

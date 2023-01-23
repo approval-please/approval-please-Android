@@ -6,19 +6,19 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.databinding.ActivityCommunityPostBinding
+import com.umc.approval.databinding.ActivityCommunityTokBinding
 import com.umc.approval.ui.adapter.community_post_activity.CommunityCommentRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
 import com.umc.approval.util.CommentItem
 import com.umc.approval.util.VoteItem
 
-class CommunityPostActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityCommunityPostBinding
+class CommunityTokActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityCommunityTokBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityCommunityPostBinding.inflate(layoutInflater)
+        binding = ActivityCommunityTokBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         setVoteList()
