@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 
 class ProfileImageViewModel() : ViewModel() {
 
+    /**profile image uri*/
     private var _profile = MutableLiveData<Uri>()
     val profile : LiveData<Uri>
         get() = _profile

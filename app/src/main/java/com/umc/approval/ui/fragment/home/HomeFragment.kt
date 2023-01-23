@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentHomeBinding
 import com.umc.approval.ui.activity.LoginActivity
-import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter

@@ -5,25 +5,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import coil.load
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.ProfileChangeActivity
-import com.umc.approval.ui.fragment.mypage.follow.FollowFragment
+import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
  * MyPage View
  * */
 class MypageFragment : Fragment() {
 
+    /**init binding*/
     private var _binding : FragmentMypageBinding? = null
     private val binding get() = _binding!!
+
+    /**tab layout*/
     lateinit var tab1: MypageDocumentFragment
     lateinit var tab2: MypageCommunityFragment
     lateinit var tab3: MypageCommentFragment
     lateinit var tab4: MypageScrapFragment
     lateinit var tab5: MypageRecordFragment
+
+    /**mypage view model*/
+    private val viewModel by viewModels<MypageViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,35 +44,60 @@ class MypageFragment : Fragment() {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        /**mypage로 이동*/
-        binding.profileFix.setOnClickListener {
-            startActivity(Intent(requireContext(), ProfileChangeActivity::class.java))
+        //다른 뷰로 이동
+        move_to_other_view()
+
+        //tab layout 초기화
+        init_tab_layout()
+
+        //서버로부터 데이터를 받아온 것을 관찰했을 경우
+        viewModel.myInfo.observe(viewLifecycleOwner) {
+
+            /** Question
+             * 자기소개, 프로필 사진 없을 시
+             * 포인트 세부 사항, 언제 어떻게 레벨업이 될 것인지*/
+
+            //follower
+            binding.followerNumTextview.setText(viewModel.myInfo.value!!.followerNum.toString())
+            //following
+            binding.followingNumTextview.setText(viewModel.myInfo.value!!.followingNum.toString())
+            //nickname
+            binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname.toString())
+            //introduce
+            binding.profileMsgTextview.setText(viewModel.myInfo.value!!.message.toString())
+            //point
+            //rank
+
+            //profile image
+            if (viewModel.myInfo.value!!.followingNum .toString() == "") {
+                binding.profileImage.load(viewModel.myInfo.value!!.profileImg)
+            }
         }
 
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
+    /**Tab layout 초기화*/
+    private fun init_tab_layout() {
         tab1 = MypageDocumentFragment()
         tab2 = MypageCommunityFragment()
         tab3 = MypageCommentFragment()
         tab4 = MypageScrapFragment()
         tab5 = MypageRecordFragment()
         replaceView((tab1))
-        binding.mypageTabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+        binding.mypageTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when(tab?.position){
+                when (tab?.position) {
                     0 -> {
                         replaceView(tab1)
                     }
                     1 -> {
                         replaceView(tab2)
                     }
-                    2->{
+                    2 -> {
                         replaceView(tab3)
                     }
-                    3->{
+                    3 -> {
                         replaceView(tab4)
                     }
                     4 -> {
@@ -72,31 +105,32 @@ class MypageFragment : Fragment() {
                     }
                 }
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
             }
-
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
             }
         })
-        move_to_other_view()
     }
 
     /**다른 UI로 이동하는 함수*/
     private fun move_to_other_view() {
+        //follow 목록으로 이동
         binding.followerTextview.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_fragment_mypage_to_followFragment)
         }
+        //follow 목록으로 이동
         binding.followingTextview.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_fragment_mypage_to_followFragment)
         }
+        //setting 으로 이동
         binding.mypageSetting.setOnClickListener {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_fragment_mypage_to_settingFragment)
+        }//profile 수정으로 이동
+        binding.profileFix.setOnClickListener {
+            startActivity(Intent(requireContext(), ProfileChangeActivity::class.java))
         }
     }
 
@@ -108,10 +142,9 @@ class MypageFragment : Fragment() {
         super.onDestroy()
     }
 
-    // 탭 변경 함수
+    /**탭 클릭시 변경*/
     private fun replaceView(tab: Fragment){
-        var selectedFragment: Fragment? = null
-        selectedFragment = tab
+        var selectedFragment = tab
         selectedFragment.let {
             activity?.supportFragmentManager?.beginTransaction()!!
                 .replace(binding.mypageTabArea.id, it).commit()
