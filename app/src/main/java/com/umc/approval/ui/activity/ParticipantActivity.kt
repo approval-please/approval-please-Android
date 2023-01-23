@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import com.umc.approval.R
-import com.umc.approval.databinding.ActivityInterestingDepartmentBinding
 import com.umc.approval.databinding.ActivityParticipantBinding
 import com.umc.approval.ui.fragment.participant.AgreeFragment
 import com.umc.approval.ui.fragment.participant.RejectFragment
@@ -19,6 +18,10 @@ class ParticipantActivity : AppCompatActivity() {
         binding = ActivityParticipantBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        binding.btnGoBack.setOnClickListener {
+            finish()
+        }
 
         // 데이터 받아와서 승인, 반려자 수 설정
 

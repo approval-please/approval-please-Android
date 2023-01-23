@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.approval
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalAllCategoryViewBinding
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
-import com.umc.approval.util.ApprovalPaper
 
 class ApprovalAllCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalAllCategoryViewBinding? = null
@@ -48,14 +50,32 @@ class ApprovalAllCategoryViewFragment: Fragment() {
     private fun setApprovalPaperList() {
         val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
+
         approvalPaperList.apply{
-            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(0, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(0, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, 0, "30분전",
+                mutableListOf(),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                1000, 32, 12))
+
+            add(ApprovalPaper(1, 0, "30분전",
+                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                1000, 32, 12))
+
+            add(ApprovalPaper(2, 0, "30분전",
+                mutableListOf(),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                1000, 32, 12))
+
+            add(ApprovalPaper(0, 0, "30분전",
+                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                1000, 32, 12))
+
+            add(ApprovalPaper(1, 0, "30분전",
+                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                1000, 32, 12))
         }
 
         val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
@@ -67,7 +87,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         // 클릭 이벤트 처리
         dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
             override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                Log.d("로그", "결재 서류 클릭, pos: $pos")
+                startActivity(Intent(requireContext(), DocumentActivity::class.java))
             }
         })
     }

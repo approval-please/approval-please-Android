@@ -114,110 +114,130 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <HorizontalScrollView
+                <ImageView
+                    android:id="@+id/not_login_status"
+                    android:src="@drawable/home_fragment_not_login"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:overScrollMode="never"
-                    android:paddingTop="5dp"
-                    android:scrollbars="none"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_height="match_parent">
+                </ImageView>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/cg_my_interesting_category"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/login_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <HorizontalScrollView
+                        android:id="@+id/horizontalScrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:overScrollMode="never"
+                        android:paddingTop="5dp"
+                        android:scrollbars="none"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/cg_my_interesting_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="16dp"
+                            app:selectionRequired="true"
+                            app:singleLine="true"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:checked="true"
+                                android:text="@string/all_interesting_category"
+                                android:textSize="11sp"
+                                app:chipCornerRadius="15dp"
+                                app:chipEndPadding="2dp"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:chipStartPadding="0dp" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:checkable="true"
+                                android:gravity="center_vertical"
+                                android:text="디지털기기"
+                                android:textSize="11sp"
+                                app:chipCornerRadius="15dp"
+                                app:chipEndPadding="2dp"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:chipStartPadding="0dp" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:checkable="true"
+                                android:gravity="center_vertical"
+                                android:text="생활가전"
+                                android:textSize="11sp"
+                                app:chipCornerRadius="15dp"
+                                app:chipEndPadding="2dp"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:chipStartPadding="0dp" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:checkable="true"
+                                android:gravity="center_vertical"
+                                android:text="생활용품"
+                                android:textSize="11sp"
+                                app:chipCornerRadius="15dp"
+                                app:chipEndPadding="2dp"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:chipStartPadding="0dp" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:checkable="true"
+                                android:gravity="center_vertical"
+                                android:text="뷰티/미용"
+                                android:textSize="11sp"
+                                app:chipCornerRadius="15dp"
+                                app:chipEndPadding="2dp"
+                                app:chipMinTouchTargetSize="0dp"
+                                app:chipStartPadding="0dp" />
+
+                            <ImageButton
+                                android:id="@+id/add_interest_category_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/transparent"
+                                android:gravity="center_vertical"
+                                android:paddingTop="1dp"
+                                android:src="@drawable/home_fragment_add_interesting_category_button" />
+
+                            <View
+                                android:layout_width="50dp"
+                                android:layout_height="match_parent" />
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </HorizontalScrollView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/rv_my_interesting_paper"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        app:selectionRequired="true"
-                        app:singleLine="true"
-                        app:singleSelection="true">
+                        android:layout_height="138dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
-                        <com.google.android.material.chip.Chip
-                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:checked="true"
-                            android:text="@string/all_interesting_category"
-                            android:textSize="11sp"
-                            app:chipCornerRadius="15dp"
-                            app:chipEndPadding="2dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:chipStartPadding="0dp" />
 
-                        <com.google.android.material.chip.Chip
-                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:checkable="true"
-                            android:gravity="center_vertical"
-                            android:text="디지털기기"
-                            android:textSize="11sp"
-                            app:chipCornerRadius="15dp"
-                            app:chipEndPadding="2dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:chipStartPadding="0dp" />
 
-                        <com.google.android.material.chip.Chip
-                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:checkable="true"
-                            android:gravity="center_vertical"
-                            android:text="생활가전"
-                            android:textSize="11sp"
-                            app:chipCornerRadius="15dp"
-                            app:chipEndPadding="2dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:chipStartPadding="0dp" />
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:checkable="true"
-                            android:gravity="center_vertical"
-                            android:text="생활용품"
-                            android:textSize="11sp"
-                            app:chipCornerRadius="15dp"
-                            app:chipEndPadding="2dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:chipStartPadding="0dp" />
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="22dp"
-                            android:checkable="true"
-                            android:gravity="center_vertical"
-                            android:text="뷰티/미용"
-                            android:textSize="11sp"
-                            app:chipCornerRadius="15dp"
-                            app:chipEndPadding="2dp"
-                            app:chipMinTouchTargetSize="0dp"
-                            app:chipStartPadding="0dp" />
-
-                        <ImageButton
-                            android:id="@+id/add_interest_category_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/transparent"
-                            android:gravity="center_vertical"
-                            android:paddingTop="1dp"
-                            android:src="@drawable/home_fragment_add_interesting_category_button" />
-
-                        <View
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent" />
-                    </com.google.android.material.chip.ChipGroup>
-
-                </HorizontalScrollView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_my_interesting_paper"
-                    android:layout_width="wrap_content"
-                    android:layout_height="138dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout

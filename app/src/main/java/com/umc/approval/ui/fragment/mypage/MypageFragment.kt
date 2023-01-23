@@ -11,8 +11,6 @@ import com.umc.approval.R
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.ProfileChangeActivity
 import com.umc.approval.ui.fragment.mypage.follow.FollowFragment
-import com.umc.approval.ui.fragment.mypage.follow.FollowerFragment
-import com.umc.approval.ui.fragment.mypage.setting.SettingFragment
 
 /**
  * MyPage View
@@ -98,11 +96,7 @@ class MypageFragment : Fragment() {
             }
         }
         binding.mypageSetting.setOnClickListener {
-            val settingFragment = SettingFragment()
-            settingFragment.let{
-                activity?.supportFragmentManager?.beginTransaction()!!
-                    .add(R.id.main_layout, it).commit()
-            }
+            Navigation.findNavController(binding.root).navigate(R.id.action_fragment_mypage_to_settingFragment)
         }
     }
 

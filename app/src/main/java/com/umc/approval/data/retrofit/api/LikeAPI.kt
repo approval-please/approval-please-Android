@@ -1,11 +1,12 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.FollowStateDto
-import com.umc.approval.data.dto.UserListDto
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.common.CommonUserListDto
 import retrofit2.Call
 import retrofit2.http.*
 
 interface LikeAPI {
+
     /**
      * @Post
      * accessToken: 사용자 검증 토큰
@@ -19,7 +20,7 @@ interface LikeAPI {
     fun getLikeUsers(
         @Header("Authorization") accessToken: String,
         @Query("documentId") documentId: Int
-    ): Call<UserListDto>
+    ): Call<CommonUserListDto>
 
     /**
      * @Post

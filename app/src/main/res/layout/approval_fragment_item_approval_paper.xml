@@ -16,20 +16,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintRight_toLeftOf="@id/tv_approval_state"
         android:layout_marginTop="32dp"
-        android:layout_marginStart="13dp"/>
-
+        android:layout_marginStart="15dp"/>
 
     <TextView
         android:id="@+id/tv_approval_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="승인완료"
-        android:textSize="11sp"
-        android:textColor="@color/basic_black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_approval_state_circle"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="27dp"
-        android:layout_marginStart="4dp"/>
+        android:text="승인완료"
+        android:textColor="@color/basic_black"
+        android:textSize="11sp"
+        app:layout_constraintStart_toEndOf="@id/iv_approval_state_circle"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_approval_paper_info"
@@ -44,92 +43,126 @@
         android:layout_marginStart="13dp"
         android:layout_marginTop="27dp"/>
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="13dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="스타벅스 텀블러"
-        android:textStyle="bold"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_approval_state"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="16dp"/>
-    
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="328dp"
-        android:layout_height="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="16dp"
-        android:text="집에 텀블러 다섯개 있는데 이 사이즈는 없고\n 이 색깔도 한정판이라 몇 개 안 나오는 텍스트 집에 텀블러 다섯개 있는데 이 사이즈는 없고"
-        android:textSize="13sp"
-        android:maxLines="2"
-        android:ellipsize="end"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_approval_state"
+        android:orientation="horizontal">
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cg_category"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="6.5dp">
-
-        <com.google.android.material.chip.Chip
-            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:checked="true"
-            android:text="기계"
-            android:textSize="11sp"
-            android:paddingHorizontal="7dp"
-            app:chipCornerRadius="15dp"
-            app:chipEndPadding="2dp"
-            app:chipMinTouchTargetSize="0dp"
-            app:chipStartPadding="0dp"/>
-
-        <com.google.android.material.chip.Chip
-            style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:checked="true"
-            android:text="환경"
-            android:textSize="11sp"
-            android:paddingHorizontal="7dp"
-            app:chipCornerRadius="15dp"
-            app:chipEndPadding="2dp"
-            app:chipMinTouchTargetSize="0dp"
-            app:chipStartPadding="0dp"/>
-
-    </com.google.android.material.chip.ChipGroup>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="3dp"
-        android:paddingTop="2dp"
-        android:src="@drawable/approval_fragment_paper_views"
-        app:layout_constraintBottom_toBottomOf="@id/division_line"
-        app:layout_constraintEnd_toStartOf="@id/tv_views"
-        app:layout_constraintTop_toBottomOf="@id/tv_content"
-        app:layout_constraintVertical_bias="0.25" />
+        <ImageView
+            android:layout_weight="3"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/item_image"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/approval_item_test_image"></ImageView>
 
 
-    <TextView
-        android:id="@+id/tv_views"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="10"
-        android:textColor="@color/gray_text_color"
-        android:textSize="11sp"
-        app:layout_constraintBottom_toBottomOf="@id/division_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_content"
-        app:layout_constraintVertical_bias="0.269" />
+        <LinearLayout
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="스타벅스 텀블러"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_approval_state"/>
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="집에 텀블러 다섯개 있는데 이 사이즈는 없고\n 이 색깔도 한정판이라 몇 개 안 나오는 텍스트 집에 텀블러 다섯개 있는데 이 사이즈는 없고"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+            <LinearLayout
+                android:layout_marginTop="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_weight="1"
+                    android:id="@+id/cg_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:checked="true"
+                        android:paddingHorizontal="7dp"
+                        android:text="기계"
+                        android:textSize="10dp"
+                        app:chipCornerRadius="15dp"
+                        app:chipEndPadding="2dp"
+                        app:chipMinTouchTargetSize="0dp"
+                        app:chipStartPadding="0dp" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:checked="true"
+                        android:paddingHorizontal="7dp"
+                        android:text="환경"
+                        android:textSize="10dp"
+                        app:chipCornerRadius="15dp"
+                        app:chipEndPadding="2dp"
+                        app:chipMinTouchTargetSize="0dp"
+                        app:chipStartPadding="0dp" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <LinearLayout
+                    android:layout_weight="3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:src="@drawable/approval_fragment_paper_views"/>
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/tv_views"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="10"
+                        android:textColor="@color/gray_text_color"
+                        android:layout_gravity="center"
+                        android:textSize="10dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/division_line"
@@ -137,86 +170,85 @@
         android:layout_height="0.5dp"
         android:background="#D9D9D9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cg_category"
+        app:layout_constraintTop_toBottomOf="@id/layout"
         android:layout_marginTop="13dp"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="43dp"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_vertical">
-        <TableRow
-            android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TableRow android:gravity="center">
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/approval_fragment_approve_icon"
-                    android:layout_marginEnd="6dp"/>
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/approval_fragment_approve_icon" />
+
                 <TextView
-                    android:text="승인"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
                     android:layout_marginEnd="6dp"
-                    android:textStyle="bold"
-                    android:textColor="#8C8C8C"/>
+                    android:text="승인"
+                    android:textColor="#8C8C8C"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_approve_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
                     android:textSize="11sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="19dp"
-                android:background="#D9D9D9"/>
+                android:background="#D9D9D9" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/approval_fragment_reject_icon"
-                    android:layout_marginEnd="6dp"/>
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/approval_fragment_reject_icon" />
+
                 <TextView
-                    android:text="반려"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
                     android:layout_marginEnd="6dp"
-                    android:textStyle="bold"
-                    android:textColor="#8C8C8C"/>
+                    android:text="반려"
+                    android:textColor="#8C8C8C"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_reject_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
                     android:textSize="11sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
-       </TableRow>
+        </TableRow>
     </TableLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:id="@+id/approveStatusBarContainer"
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

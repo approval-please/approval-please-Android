@@ -1,8 +1,8 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.ApprovalPaperDto
-import com.umc.approval.data.dto.CommunityPostDto
-import com.umc.approval.data.dto.ApprovalReportDto
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTokDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -10,6 +10,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface HomeAPI {
+
     /**
      * @Post
      * accessToken: 사용자 검증 토큰
@@ -22,7 +23,7 @@ interface HomeAPI {
     @Headers("content-type: application/json")
     fun getInterestingCategoryDocuments(
         @Header("Authorization") accessToken: String,
-        @Query("category") category: Int
+        @Query("state") state: Int
     ): Call<ApprovalPaperDto>
 
     /**
@@ -35,7 +36,7 @@ interface HomeAPI {
     @GET("/documents")
     @Headers("content-type: application/json")
     fun getDocuments(
-        @Query("sortBy") sortBy: Int,
+        @Query("state") state: Int,
     ): Call<ApprovalPaperDto>
 
     /**
@@ -48,8 +49,8 @@ interface HomeAPI {
     @GET("/community/toktok")
     @Headers("content-type: application/json")
     fun getHotPosts(
-        @Query("sortBy") sortBy: Int
-    ): Call<CommunityPostDto>
+        @Query("state") state: Int
+    ): Call<CommunityTokDto>
 
     /**
      * @Get
@@ -58,5 +59,5 @@ interface HomeAPI {
      */
     @GET("/community/reports")
     @Headers("content-type: application/json")
-    fun getReports(): Call<ApprovalReportDto>
+    fun getReports(@Query("state") state: Int): Call<CommunityReportDto>
 }

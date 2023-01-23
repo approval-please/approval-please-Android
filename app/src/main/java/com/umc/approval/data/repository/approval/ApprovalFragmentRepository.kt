@@ -1,6 +1,6 @@
 package com.umc.approval.data.repository.approval
 
-import com.umc.approval.data.dto.ApprovalPaperDto
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import retrofit2.Call
 

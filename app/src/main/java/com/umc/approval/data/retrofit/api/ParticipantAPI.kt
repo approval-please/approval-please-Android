@@ -1,7 +1,7 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.FollowStateDto
-import com.umc.approval.data.dto.UserListDto
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.common.CommonUserListDto
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -19,7 +19,7 @@ interface ParticipantAPI {
     fun getApproveUsers(
         @Header("Authorization") accessToken: String,
         @Query("documentId") documentId: Int
-    ): Call<UserListDto>
+    ): Call<CommonUserListDto>
 
     /**
      * @Post
@@ -34,20 +34,5 @@ interface ParticipantAPI {
     fun getRejectUsers(
         @Header("Authorization") accessToken: String,
         @Query("documentId") documentId: Int
-    ): Call<UserListDto>
-
-    /**
-     * @Post
-     * accessToken: 사용자 검증 토큰
-     * userId: 유저 ID
-     * @Get
-     * followState: 팔로우 상태
-     * 유저 팔로우/언팔로우 API
-     */
-    @POST("/follow")
-    @Headers("content-type: application/json")
-    fun setFollowState(
-        @Header("Authorization") accessToken: String,
-        @Query("userId") userId: Int
-    ): Call<FollowStateDto>
+    ): Call<CommonUserListDto>
 }

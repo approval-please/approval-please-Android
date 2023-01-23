@@ -16,7 +16,7 @@ interface ProfileAPI {
      * profile : nickname, introduce, image 정보
      * 프로필 변경 API
      * */
-    @POST("/profile/change")
+    @POST("/profile/update")
     @Headers("content-type: application/json")
     fun profile_change(
         @Header("Authorization") accessToken: String,
@@ -30,8 +30,8 @@ interface ProfileAPI {
      * profile : nickname, introduce, image 정보
      * 프로필 정보 로드 API
      * */
-    @GET("/profile/get")
+    @GET("/profile/update")
     @Headers("content-type: application/json")
     fun profile_get(
-        @Header("Authorization") accessToken: String):Call<ResponseBody>
+        @Header("Authorization") accessToken: String):Call<ProfileDto>
 }

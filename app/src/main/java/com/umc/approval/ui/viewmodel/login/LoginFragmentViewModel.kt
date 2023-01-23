@@ -49,7 +49,6 @@ class LoginFragmentViewModel() : ViewModel() {
      * */
     fun checkAccessToken() = viewModelScope.launch {
         val tokenValue = AccessTokenDataStore().getAccessToken().first()
-        Log.d("getTokenValue", tokenValue)
 
         val response =  repository.connectServer(tokenValue)
         response.enqueue(object : Callback<ResponseBody> {

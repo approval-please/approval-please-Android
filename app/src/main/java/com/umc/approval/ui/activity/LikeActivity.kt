@@ -24,7 +24,7 @@ class LikeActivity : AppCompatActivity() {
         setLikeList()  // 리사이클러뷰 아이템 & 어댑터 설정
 
         binding.btnGoBack.setOnClickListener {
-            Log.d("로그", "뒤로가기 버튼 클릭")
+            finish()
         }
     }
 
