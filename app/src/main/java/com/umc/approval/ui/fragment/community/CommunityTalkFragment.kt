@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.community
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentCommunityTalkBinding
+import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 
 class CommunityTalkFragment : Fragment() {
@@ -66,6 +68,12 @@ class CommunityTalkFragment : Fragment() {
 
         community_item_rv.adapter = communityTalkItemRVAdapter
         community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
+            override fun move_to_tok_activity() {
+                startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
+            }
+        }
     }
 
     /**

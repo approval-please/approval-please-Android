@@ -99,7 +99,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/report_head_title"></TextView>
 
             <ImageView
-                android:id="@+id/report_imageView9"
+                android:id="@+id/report_detail"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
@@ -115,7 +115,7 @@
                 android:textColor="#141414"
                 android:textSize="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/report_imageView9" />
+                app:layout_constraintTop_toBottomOf="@+id/report_detail" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

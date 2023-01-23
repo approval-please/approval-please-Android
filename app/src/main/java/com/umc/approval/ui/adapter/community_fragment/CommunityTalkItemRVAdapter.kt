@@ -1,6 +1,7 @@
 package com.umc.approval.ui.adapter.community_fragment
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -30,9 +31,21 @@ class CommunityTalkItemRVAdapter(private val items : List<CommunityTok>) : Recyc
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding(items[position])
+        if (itemClick != null){
+            holder.binding.communityApprovalTalkItem.setOnClickListener(View.OnClickListener {
+                itemClick?.move_to_tok_activity()
+            })
+        }
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
+
+    /**RV item click event*/
+    interface ItemClick{ //인터페이스
+        fun move_to_tok_activity()
+    }
+
+    var itemClick: ItemClick? = null
 }
