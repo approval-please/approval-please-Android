@@ -81,22 +81,22 @@ class MypageFragment : Fragment() {
 
             }
         })
+        move_to_other_view()
+    }
+
+    /**다른 UI로 이동하는 함수*/
+    private fun move_to_other_view() {
         binding.followerTextview.setOnClickListener {
-            val followFragment = FollowFragment()
-            followFragment.let{
-                activity?.supportFragmentManager?.beginTransaction()!!
-                    .add(R.id.main_layout, it).commit()
-            }
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_fragment_mypage_to_followFragment)
         }
         binding.followingTextview.setOnClickListener {
-            val followFragment = FollowFragment()
-            followFragment.let{
-                activity?.supportFragmentManager?.beginTransaction()!!
-                    .add(R.id.main_layout, it).commit()
-            }
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_fragment_mypage_to_followFragment)
         }
         binding.mypageSetting.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_fragment_mypage_to_settingFragment)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_fragment_mypage_to_settingFragment)
         }
     }
 

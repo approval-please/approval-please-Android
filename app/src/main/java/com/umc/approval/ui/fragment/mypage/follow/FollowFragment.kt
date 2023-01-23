@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentFollowBinding
 import com.umc.approval.databinding.FragmentNotificationBinding
 
@@ -58,7 +60,8 @@ class FollowFragment : Fragment() {
             }
         })
         binding.followBackarrow.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_followFragment_to_fragment_mypage)
         }
     }
 
