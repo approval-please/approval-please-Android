@@ -27,6 +27,7 @@ class RecentSearchViewModel(private val repository: SearchFragmentRepository) : 
     /**최근 검색어 추가하는 메소드*/
     fun addKeyword(keywordDto: KeywordDto) = viewModelScope.launch(Dispatchers.IO) {
         repository.insertData(keywordDto)
+        searchKeyword()
     }
 
     /**최근 검색어 하나를 삭제해주는 메소드*/
@@ -39,14 +40,5 @@ class RecentSearchViewModel(private val repository: SearchFragmentRepository) : 
     fun deleteAllKeyword() = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteAll()
         searchKeyword()
-    }
-
-    /**연관 검색어 변수*/
-    private var _related_keyword = MutableLiveData<List<KeywordDto>>()
-    val related_keyword : LiveData<List<KeywordDto>>
-        get() = _related_keyword
-
-    fun relatedKeyword(query: String) = viewModelScope.launch {
-        _related_keyword.postValue(repository.getAllRelatedKeyword(query+"%"))
     }
 }
