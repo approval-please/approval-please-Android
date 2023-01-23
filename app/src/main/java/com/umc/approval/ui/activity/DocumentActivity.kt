@@ -1,5 +1,6 @@
 package com.umc.approval.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,11 @@ class DocumentActivity : AppCompatActivity() {
 
         //댓글
         setComment()
+
+        // like activity로 이동
+        binding.documentCommentPostLikes.setOnClickListener {
+            startActivity(Intent(this, LikeActivity::class.java))
+        }
     }
 
     private fun setComment() {

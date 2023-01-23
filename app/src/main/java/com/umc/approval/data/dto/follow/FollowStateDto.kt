@@ -1,4 +1,4 @@
-package com.umc.approval.data.dto
+package com.umc.approval.data.dto.follow
 
 import com.google.gson.annotations.SerializedName
 

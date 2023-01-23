@@ -1,7 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.follow.FollowerDto
-import com.umc.approval.data.dto.follow.FollowingDto
+import com.umc.approval.data.dto.common.CommonUserListDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -19,7 +18,7 @@ interface FollowAPI {
     @GET("/profile/my/followers")
     @Headers("content-type: application/json")
     fun get_follower(
-        @Header("Authorization") accessToken : String) : Call<List<FollowerDto>>
+        @Header("Authorization") accessToken : String) : Call<CommonUserListDto>
 
     /**
      * @Post
@@ -30,5 +29,5 @@ interface FollowAPI {
     @GET("/profile/my/following")
     @Headers("content-type: application/json")
     fun get_following(
-        @Header("Authorization") accessToken : String) : Call<List<FollowingDto>>
+        @Header("Authorization") accessToken : String) : Call<CommonUserListDto>
 }
