@@ -28,10 +28,23 @@
     <color name="unselected_tab_text">#BFBFBF</color>
     <color name="approval_fragment_title">#141414</color>
 
-    <!--Approval Please Color-->
     <color name="approval_main_color">#6C39FF</color>
     <color name="approval_gray_color">#BFBFBF</color>
     <color name="approval_line_color">#D9D9D9</color>
     <color name="approval_text_color">#8C8C8C</color>
     <color name="approval_black_color">#141414</color>
+
+
+    <!--Approval Please Color-->
+    <color name="approval_please_main_color">#6C39FF</color>
+    <color name="approval_please_black_color">#141414</color>
+    <color name="approval_please_bold_gray_color">#8C8C8C</color>
+    <color name="approval_please_medium_gray_color">#BFBFBF</color>
+    <color name="approval_please_light_gray_color">#D9D9D9</color>
+    <color name="approval_please_white_color">#FFFFFF</color>
+    <color name="approval_please_coral_color">#E51373</color>
+    <color name="approval_please_yellow_color">#FFE766</color>
+    <color name="approval_please_sky_color">#A5DAF0</color>
+    <color name="approval_please_green_color">#66FFB6</color>
+
 </resources>
