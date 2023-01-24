@@ -3,7 +3,7 @@ import com.google.gson.annotations.SerializedName
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /**
- * Community Upload dto
+ * Document Upload dto
  * */
 data class ApprovalUploadDto (
         @SerializedName("category")
@@ -12,10 +12,10 @@ data class ApprovalUploadDto (
         var content : String,
         @SerializedName("title")
         var title : String,
-        @SerializedName("opengraph")
-        var opengraph : OpenGraphDto,
-        @SerializedName("tags")
-        var tags : MutableList<String> = mutableListOf<String>(),
+        @SerializedName("link")
+        var opengraph : OpenGraphDto? = null,
+        @SerializedName("tag")
+        var tag : List<String>? = null,
         @SerializedName("images")
-        var images : MutableList<String> = mutableListOf<String>(),
+        var images : List<String>? = null,
 )

@@ -22,8 +22,7 @@ interface UploadAPI {
     @POST("/documents")
     @Headers("content-type: application/json")
     fun upload_approval(
-        @Header("Authorization") accessToken: String,
-        @Query("upload") upload: ApprovalUploadDto):Call<ResponseBody>
+        @Header("Authorization") accessToken: String, upload: ApprovalUploadDto):Call<ResponseBody>
 
     /**
      * @Post
@@ -33,8 +32,7 @@ interface UploadAPI {
     @POST("/community/toktoks")
     @Headers("content-type: application/json")
     fun upload_community_tok(
-        @Header("Authorization") accessToken: String,
-        @Query("toktok") toktok: TalkUploadDto
+        @Header("Authorization") accessToken: String, toktok: TalkUploadDto
     ):Call<ResponseBody>
 
     /**
@@ -45,8 +43,7 @@ interface UploadAPI {
     @POST("/community/reports")
     @Headers("content-type: application/json")
     fun upload_community_report(
-        @Header("Authorization") accessToken: String,
-        @Query("report") report: ReportUploadDto
+        @Header("Authorization") accessToken: String, report: ReportUploadDto
     ):Call<ResponseBody>
 
     /**
