@@ -10,7 +10,7 @@
     <string name="popular">인기</string>
     <string name="latest">최신</string>
     <string name="popular_post">사내 화제! 인기 게시글</string>
-    <string name="approval_report">결재보고서</string>
+    <string name="approval_report">결재 보고서</string>
     <string name="approval_report_sub_text">사원들은 어떤 선택을 했을까요?</string>
     <string name="complete_approval">승인완료</string>
     <string name="pending_approval">승인대기중</string>
