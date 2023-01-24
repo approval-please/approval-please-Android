@@ -13,12 +13,6 @@ class ProfileChangeViewModel() : ViewModel() {
     val load_profile : LiveData<ProfileChange>
         get() = _load_profile
 
-    /**post profile change*/
-    private var _post_profile = MutableLiveData<ProfileChange>()
-    val post_profile : LiveData<ProfileChange>
-        get() = _post_profile
-
-
     /**image*/
     private var _image = MutableLiveData<Uri>()
     val image : LiveData<Uri>
