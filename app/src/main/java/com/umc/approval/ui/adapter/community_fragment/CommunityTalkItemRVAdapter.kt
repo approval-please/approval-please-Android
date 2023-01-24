@@ -6,20 +6,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.data.dto.community.get.CommunityTok
+import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.CommunityTalkItemBinding
 
 /**
  * 결재 톡톡 및 보고서를 받아와 연결해주는 RV Adapter
  * */
-class CommunityTalkItemRVAdapter(private val items : List<CommunityTok>) : RecyclerView.Adapter<CommunityTalkItemRVAdapter.ViewHolder>() {
+class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : RecyclerView.Adapter<CommunityTalkItemRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: CommunityTalkItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data : CommunityTok) {
-            if (data.opengraph.image.toString() != "") {
-                binding.talkOpenGraphImage.load(data.opengraph.image)
-                binding.talkOpenGraphText.setText(data.opengraph.title)
-                binding.talkOpenGraphUrl.setText(data.opengraph.url)
+
+            if (data.linkUrl != null) {
+                binding.talkOpenGraphImage.load(data.linkUrl.get(0).image)
+                binding.talkOpenGraphText.setText(data.linkUrl.get(0).title)
+                binding.talkOpenGraphUrl.setText(data.linkUrl.get(0).url)
             }
         }
     }
@@ -30,7 +32,7 @@ class CommunityTalkItemRVAdapter(private val items : List<CommunityTok>) : Recyc
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding(items[position])
+        holder.binding(items.communityTok[position])
         if (itemClick != null){
             holder.binding.communityApprovalTalkItem.setOnClickListener(View.OnClickListener {
                 itemClick?.move_to_tok_activity()
@@ -39,7 +41,7 @@ class CommunityTalkItemRVAdapter(private val items : List<CommunityTok>) : Recyc
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.communityTok.size
     }
 
     /**RV item click event*/

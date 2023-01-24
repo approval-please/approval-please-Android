@@ -8,28 +8,28 @@ data class CommunityReport (
 
         @SerializedName("nickname")
         var nickname : String,
-        @SerializedName("rank")
-        var rank : String,
-        @SerializedName("title")
-        var title : String,
-        @SerializedName("title_body")
-        var title_body : String,
-        @SerializedName("body")
-        var body : String,
-        @SerializedName("images")
-        var images : MutableList<String> = mutableListOf<String>(),
-        @SerializedName("tags")
-        var tags : MutableList<String> = mutableListOf<String>(),
-        @SerializedName("opengraph")
-        var opengraph : OpenGraphDto,
-        @SerializedName("like")
-        var like : Int,
-        @SerializedName("scrap")
-        var scrap : Int,
+        @SerializedName("level")
+        var level : Int,
+        @SerializedName("documentId")
+        var documentId : Int,
+        @SerializedName("documentState")
+        var documentState : Int,
+        @SerializedName("documentCategory")
+        var documentCategory : Int,
+        @SerializedName("documentTitle")
+        var documentTitle : String,
+        @SerializedName("documentContent")
+        var documentContent : String,
+        @SerializedName("documentTag")
+        var documentTag : MutableList<String>,
+        @SerializedName("reportContent")
+        var reportContent : String,
+        @SerializedName("imageUrl")
+        var imageUrl : MutableList<String>,
+        @SerializedName("linkUrl")
+        var linkUrl : List<OpenGraphDto>,
+        @SerializedName("tag")
+        var tag : MutableList<String>,
         @SerializedName("view")
         var view : Int,
-        @SerializedName("reply")
-        var reply : Int,
-        @SerializedName("updatedAt")
-        val updatedAt: String,
 )
