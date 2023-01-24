@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName
 /**
  * profile get or change dto
  * */
-data class ProfileDto (
+data class ProfileChange (
         @SerializedName("nickname")
-        var nickname : String,
-        @SerializedName("introduce")
-        var introduce : String,
+        var nickname : String ? = null,
+        @SerializedName("introduction")
+        var introduction : String ? = null,
         @SerializedName("image")
-        var image : String,
+        var image : String ? = null,
 )

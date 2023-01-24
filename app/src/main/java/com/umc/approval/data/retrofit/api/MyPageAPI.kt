@@ -3,7 +3,7 @@ package com.umc.approval.data.retrofit.api
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
-import com.umc.approval.data.dto.mypage.MyPageDto
+import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
 import retrofit2.Call
 import retrofit2.http.GET
@@ -17,7 +17,7 @@ interface MyPageAPI {
     @GET("/profile")
     @Headers("content-type: application/json")
     fun get_my_page(
-        @Header("Authorization") accessToken : String) : Call<MyPageDto>
+        @Header("Authorization") accessToken : String) : Call<Profile>
 
     @GET("/profile/my/documents")
     @Headers("content-type: application/json")

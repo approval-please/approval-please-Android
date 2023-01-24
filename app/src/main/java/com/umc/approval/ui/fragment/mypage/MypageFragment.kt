@@ -1,6 +1,7 @@
 package com.umc.approval.ui.fragment.mypage
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.navigation.Navigation
 import coil.load
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
+import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.ProfileChangeActivity
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
@@ -50,31 +52,35 @@ class MypageFragment : Fragment() {
         //tab layout 초기화
         init_tab_layout()
 
+        //init_viewmodel
+        viewModel.init_test_data()
+
         //서버로부터 데이터를 받아온 것을 관찰했을 경우
+        profile_live_data()
+
+        return view
+    }
+
+    /**profile live data*/
+    private fun profile_live_data() {
         viewModel.myInfo.observe(viewLifecycleOwner) {
 
-            /** Question
-             * 자기소개, 프로필 사진 없을 시
-             * 포인트 세부 사항, 언제 어떻게 레벨업이 될 것인지*/
-
             //follower
-            binding.followerNumTextview.setText(viewModel.myInfo.value!!.followerNum.toString())
+            binding.followerNumTextview.setText(viewModel.myInfo.value!!.follows.toString())
             //following
-            binding.followingNumTextview.setText(viewModel.myInfo.value!!.followingNum.toString())
+            binding.followingNumTextview.setText(viewModel.myInfo.value!!.followings.toString())
             //nickname
-            binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname.toString())
+            binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname)
             //introduce
-            binding.profileMsgTextview.setText(viewModel.myInfo.value!!.message.toString())
+            binding.profileMsgTextview.setText(viewModel.myInfo.value!!.introduction)
             //point
             //rank
 
             //profile image
-            if (viewModel.myInfo.value!!.followingNum .toString() == "") {
-                binding.profileImage.load(viewModel.myInfo.value!!.profileImg)
+            if (!viewModel.myInfo.value!!.profileImage.equals(null)) {
+                binding.profileImage.load(viewModel.myInfo.value!!.profileImage)
             }
         }
-
-        return view
     }
 
     /**Tab layout 초기화*/

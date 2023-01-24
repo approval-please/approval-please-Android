@@ -1,5 +1,6 @@
 package com.umc.approval.ui.activity
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
@@ -9,17 +10,21 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API.S3_ACCESS_KEY
 import com.umc.approval.API.S3_ACCESS_SECRET_KEY
+import com.umc.approval.data.dto.profile.ProfileChange
 import com.umc.approval.databinding.ActivityProfileChangeBinding
-import com.umc.approval.ui.viewmodel.profile.ProfileImageViewModel
+import com.umc.approval.ui.viewmodel.profile.ProfileChangeViewModel
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY_PERMISSION
@@ -28,7 +33,7 @@ import java.io.File
 class ProfileChangeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileChangeBinding
-    lateinit var viewModel: ProfileImageViewModel
+    lateinit var viewModel: ProfileChangeViewModel
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,51 +43,133 @@ class ProfileChangeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        /**mypage로 이동*/
-        binding.backToProfile.setOnClickListener {
-            finish()
-        }
+        viewModel = ViewModelProvider(this).get(ProfileChangeViewModel::class.java)
 
-        viewModel = ViewModelProvider(this).get(ProfileImageViewModel::class.java)
+        binding.saveButton.isVisible = false
 
-        viewModel.profile.observe(this) {
-            binding.profileImage.load(it)
-            Log.d("Profile_Image", it.toString())
-        }
+        //초기화 데이터
+        viewModel.init_data()
+
+        //다른 view로 이동
+        move_to_other()
+
+        //load_profile live data
+        load_profile_live_data()
+
+        //live data
+        iamge_live_data()
 
         // 사진첨부 버튼 클릭 이벤트 구현
-        binding.profieChange.setOnClickListener {
-            when {
-                // 갤러리 접근 권한이 있는 경우
-                ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED -> showGallery(this)
+        pick_photo()
 
-                // 갤러리 접근 권한이 없는 경우 && 교육용 팝업을 보여줘야 하는 경우
-                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                -> showPermissionContextPopup()
+        //profile change event 발생
+        save()
 
-                // 권한 요청 하기
-                else -> requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                    PICK_IMAGE_FROM_GALLERY_PERMISSION)
+        edit()
+    }
+
+    /**image introduction nickname live data*/
+    private fun iamge_live_data() {
+        viewModel.image.observe(this) {
+            binding.saveButton.isVisible = true
+            binding.profileImage.load(it)
+        }
+    }
+
+    /***/
+    /*link 변경 메서드*/
+    private fun edit() {
+        binding.nickname.addTextChangedListener { text: Editable? ->
+            text?.let {
+                binding.saveButton.isVisible = true
             }
         }
 
-        //사진 저장 이벤트 구현
+        binding.my.addTextChangedListener { text: Editable? ->
+            text?.let {
+                binding.saveButton.isVisible = true
+            }
+        }
+    }
+
+    /**load_profile_live_data*/
+    private fun load_profile_live_data() {
+        viewModel.load_profile.observe(this) {
+            //닉네임
+            binding.nickname.setText(viewModel.load_profile.value!!.nickname)
+
+            //자기소개
+            binding.my.setText(viewModel.load_profile.value!!.introduction)
+
+            //profile image
+            if (!viewModel.load_profile.value!!.image.equals(null)) {
+                binding.profileImage.load(viewModel.load_profile.value!!.image)
+            }
+        }
+    }
+
+    /**저장 로직*/
+    private fun save() {
         binding.saveButton.setOnClickListener {
 
-            /**uri 변환*/
-            val realPathFromURI = getRealPathFromURI(viewModel.profile.value!!)
-            val file = File(realPathFromURI)
+            var profile = ProfileChange()
 
-            /**S3에 저장*/
-            S3Util().getInstance()
-                ?.setKeys(S3_ACCESS_KEY, S3_ACCESS_SECRET_KEY)
-                ?.setRegion(Regions.AP_NORTHEAST_2)
-                ?.uploadWithTransferUtility(
+            if (viewModel.image.value != null) {
+
+                /**uri 변환*/
+                val realPathFromURI = getRealPathFromURI(viewModel.image.value!!)
+                val file = File(realPathFromURI)
+
+                /**S3에 저장*/
+                S3Util().getInstance()
+                    ?.setKeys(S3_ACCESS_KEY, S3_ACCESS_SECRET_KEY)
+                    ?.setRegion(Regions.AP_NORTHEAST_2)
+                    ?.uploadWithTransferUtility(
+                        this,
+                        "approval-please/profile", file, "test"
+                    )
+
+                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test"
+            }
+
+            profile.nickname = binding.nickname.text.toString()
+            profile.introduction = binding.my.text.toString()
+
+            viewModel.save(profile)
+
+            finish()
+        }
+    }
+
+    /**사진 첨부*/
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun pick_photo() {
+        binding.profieChange.setOnClickListener {
+            when {
+                // 갤러리 접근 권한이 있는 경우
+                ContextCompat.checkSelfPermission(
                     this,
-                    "approval-please/profile", file, "test"
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> showGallery(this)
+
+                // 갤러리 접근 권한이 없는 경우 && 교육용 팝업을 보여줘야 하는 경우
+                shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
+                -> showPermissionContextPopup()
+
+                // 권한 요청 하기
+                else -> requestPermissions(
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    PICK_IMAGE_FROM_GALLERY_PERMISSION
                 )
+            }
+        }
+    }
+
+    /**다른 뷰로 이동*/
+    private fun move_to_other() {
+        /**mypage로 이동*/
+        binding.backToProfile.setOnClickListener {
+            finish()
         }
     }
 
@@ -91,7 +178,6 @@ class ProfileChangeActivity : AppCompatActivity() {
      * */
     private fun showGallery(activity: Activity) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-//        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         activity.startActivityForResult(intent, PICK_IMAGE_FROM_GALLERY)
     }
 
@@ -118,7 +204,6 @@ class ProfileChangeActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            val list = mutableListOf<Uri>()
 
             data?.let { it ->
                 if (it.clipData != null) {   // 사진을 여러개 선택한 경우
@@ -130,7 +215,6 @@ class ProfileChangeActivity : AppCompatActivity() {
                     }
                     for (i in 0 until count) {
                         val imageUri = it.clipData!!.getItemAt(i).uri
-                        list.add(imageUri)
                         viewModel.setImage(imageUri)
                     }
                 } else {      // 1장 선택한 경우
