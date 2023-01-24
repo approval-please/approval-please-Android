@@ -8,52 +8,66 @@
     android:windowSoftInputMode="adjustResize"
     tools:context=".ui.activity.UploadActivity">
 
-    <ImageView
-        android:id="@+id/back_to_approval"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:src="@drawable/upload_activity_cancel_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-    <ImageView
-        android:id="@+id/upload_title_tv"
-        android:layout_width="75dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/upload_activity_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-    <ImageView
-        android:id="@+id/upload_submit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/upload_activity_submit_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="15dp"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/upload_layout_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="15dp"
-        android:background="#BFBFBF"
-        app:layout_constraintTop_toBottomOf="@+id/upload_title_tv"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_height="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/back_to_approval"
+            android:layout_marginLeft="16dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/upload_activity_cancel_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"></ImageView>
+
+        <TextView
+            android:id="@+id/upload_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서류 작성하기"
+            android:textColor="@color/approval_fragment_title"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"></TextView>
+
+        <ImageView
+            android:id="@+id/upload_submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/upload_activity_submit_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"></ImageView>
+
+        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BFBFBF"
+            android:orientation="horizontal"
+            android:elevation="2dp"></LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/upload_layout_toolbar"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/upload_layout_footer"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
@@ -61,74 +75,78 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/upload_layout_toolbar"
-            android:layout_marginTop="15dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_width="60dp"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:text="부 서 명"
                     android:textColor="#141414"
-                    android:textSize="16dp"></TextView>
+                    android:textSize="13dp"></TextView>
                 <TextView
                     android:layout_gravity="center"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
-                    android:text=" : "
+                    android:text=" :"
                     android:textColor="#141414"
-                    android:textSize="16dp"></TextView>
+                    android:textSize="13dp"></TextView>
 
                 <Spinner
                     android:id="@+id/upload_department_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/upload_activity_department_spinner_custom"
-                    android:gravity="center"
-                    android:overlapAnchor="false"
-                    android:popupElevation="16dp"
+                    android:gravity="left"
                     android:textColorHint="#8C8C8C"
                     android:textColor="#141414"
-                    android:textSize="16sp">
+                    android:textSize="16sp"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
+                    android:popupElevation="0.1dp"
+                    android:popupBackground="@drawable/upload_link_square_custom"
+                    android:spinnerMode="dropdown">
                 </Spinner>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="7dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:text="건      명"
                     android:textColor="#141414"
-                    android:textSize="16sp"></TextView>
+                    android:textSize="13sp"></TextView>
                 <TextView
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
-                    android:text=" : "
+                    android:text=" :"
                     android:textColor="#141414"
-                    android:textSize="16sp"></TextView>
+                    android:textSize="13sp"></TextView>
                 <EditText
                     android:id="@+id/upload_title_et"
-                    android:layout_width="280dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxHeight="20dp"
+                    android:layout_marginRight="16dp"
                     android:singleLine="true"
-                    android:layout_marginLeft="10dp"
-                    android:hint="제목을 입력하세요"
+                    android:layout_marginLeft="15dp"
+                    android:hint="제목을 입력하세요."
                     android:background="@android:color/transparent"
                     android:textColorHint="#8C8C8C"
                     android:textColor="#141414"
@@ -137,40 +155,41 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/upload_layout_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:text="내      용"
                     android:textAlignment="gravity"
                     android:textColor="#141414"
-                    android:textSize="16sp"></TextView>
+                    android:textSize="13sp"></TextView>
                 <TextView
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
-                    android:text=" : "
+                    android:text=" :"
                     android:textColor="#141414"
-                    android:textSize="16sp"></TextView>
+                    android:textSize="13sp"></TextView>
 
                 <EditText
                     android:id="@+id/upload_content_et"
-                    android:layout_width="280dp"
-                    android:minHeight="200dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@android:color/transparent"
                     android:gravity="top"
                     android:hint="결재 서류의 내용을 입력하세요."
-                    android:background="@android:color/transparent"
-                    android:textColorHint="#8C8C8C"
+                    android:minHeight="200dp"
+                    android:overScrollMode="never"
                     android:textColor="#141414"
+                    android:textColorHint="#8C8C8C"
                     android:textSize="16sp"></EditText>
             </LinearLayout>
         </LinearLayout>
@@ -180,77 +199,68 @@
         android:id="@+id/upload_layout_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="11dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/upload_image_btn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/upload_activity_image_button"
-                android:textSize="16sp"></ImageButton>
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="  ("
-                android:textColor="#8C8C8C"
-                android:textSize="14sp"></TextView>
-            <TextView
-                android:id="@+id/upload_image_number_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="0"
-                android:textColor="#8C8C8C"
-                android:textSize="14sp"></TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="/4)"
-                android:textColor="#8C8C8C"
-                android:layout_marginRight="20dp"
-                android:textAlignment="center"
-                android:textSize="14sp"></TextView>
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/upload_image_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/upload_activity_image_button"></ImageButton>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="(0/4)"
+                    android:textColor="#8C8C8C"
+                    android:textSize="11sp"></TextView>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upload_item"
                 android:layout_width="match_parent"
-                android:layout_height="60dp">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="55dp"></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
 
         <View
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="#BFBFBF"></View>
+
         <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="11dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -259,74 +269,80 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:src="@drawable/upload_activity_tag_button"
-                android:textSize="16sp"></ImageButton>
+                android:src="@drawable/upload_activity_tag_button"></ImageButton>
+
             <TextView
                 android:id="@+id/upload_tag_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="태그를 입력하세요 (최대 4개)"
+                android:text="태그를 입력하세요 (0/4)"
+                android:textAlignment="center"
                 android:textColor="#8C8C8C"
-                android:textSize="14sp"></TextView>
+                android:textSize="11sp"></TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/upload_hashtag_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
         </LinearLayout>
 
         <View
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:background="#BFBFBF"></View>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="11dp"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/upload_link_btn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="15dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/upload_activity_link_button"
-                android:textSize="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></ImageButton>
+                android:layout_gravity="center"
+                android:src="@drawable/upload_activity_link_button"></ImageButton>
 
             <TextView
                 android:id="@+id/upload_link_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:text="링크 첨부"
                 android:textColor="#8C8C8C"
-                android:textSize="14dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/upload_link_btn"
-                app:layout_constraintTop_toTopOf="@+id/open_graph"></TextView>
+                android:textSize="11dp"></TextView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="15dp"
                 android:id="@+id/open_graph"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/upload_link_btn"
+                app:layout_constraintStart_toEndOf="@id/upload_link_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/open_graph_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/login_activity_white_box"
+                    android:background="@drawable/upload_link_square_custom"
+                    android:elevation="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    >
 
                     <ImageView
                         android:id="@+id/open_graph_image"
@@ -341,31 +357,37 @@
 
                     <TextView
                         android:id="@+id/open_graph_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="10dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
                         android:text="정보 입니다"
                         android:textColor="@color/approval_black_color"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/open_graph_image"
-                        app:layout_constraintTop_toTopOf="@+id/open_graph_image"></TextView>
+                        android:textSize="13dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/open_graph_image"
+                        app:layout_constraintTop_toTopOf="@id/open_graph_image"></TextView>
 
                     <TextView
                         android:id="@+id/open_graph_url"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="url입니다"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginTop="4dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:text="url입니당ㄴㅇ"
                         android:textColor="@color/approval_main_color"
-                        android:textSize="12dp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/open_graph_image"
-                        app:layout_constraintTop_toBottomOf="@+id/open_graph_text"></TextView>
+                        android:textSize="11dp"
+                        app:layout_constraintStart_toEndOf="@id/open_graph_image"
+                        app:layout_constraintTop_toBottomOf="@id/open_graph_text"></TextView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/upload_hashtag_item"
+        style="@style/hashtagStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:checked="true"
+        android:paddingHorizontal="7dp"
+        android:text="기계"
+        android:textSize="10dp"
+        app:chipCornerRadius="15dp"
+        app:chipEndPadding="2dp"
+        android:layout_marginLeft="6dp"
+        app:chipMinTouchTargetSize="0dp"
+        app:chipStartPadding="0dp" />
+
+</LinearLayout>

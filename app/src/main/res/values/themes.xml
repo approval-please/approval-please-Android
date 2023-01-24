@@ -29,4 +29,10 @@
         <item name="chipBackgroundColor">@drawable/approval_fragment_choice_chip_background_color</item>
         <item name="android:textColor">@drawable/approval_fragment_choice_chip_text_color</item>
     </style>
+
+    <!-- home fragment chip custom -->
+    <style name="hashtagStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@drawable/hashtag_chip_background_color</item>
+        <item name="android:textColor">@drawable/hashtag_chip_text_color</item>
+    </style>
 </resources>
