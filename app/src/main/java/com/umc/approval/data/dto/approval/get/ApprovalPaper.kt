@@ -7,10 +7,10 @@ data class ApprovalPaper(
     val state: Int,
     @SerializedName("category")
     val category: Int,
-    @SerializedName("updatedAt")
-    val updatedAt: String,
-    @SerializedName("image")
-    val image: List<String>,
+    @SerializedName("datetime")
+    val datetime: String,
+    @SerializedName("images")
+    val images: List<String>,
     @SerializedName("title")
     val title: String,
     @SerializedName("content")

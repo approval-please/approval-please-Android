@@ -44,8 +44,10 @@ class FollowingFragment : Fragment() {
         //초기 데이터 get
         viewModel.init_followings()
 
+        //라이브데이터 변경 감징
         live_data()
 
+        //텍스트 입력시마다 서버에 연결
         edit()
 
         return view
@@ -60,6 +62,7 @@ class FollowingFragment : Fragment() {
         }
     }
 
+    /**텍스트 입력시마다 서버에 연결*/
     private fun edit() {
         binding.followingSearchbar.addTextChangedListener { text: Editable? ->
             text?.let {

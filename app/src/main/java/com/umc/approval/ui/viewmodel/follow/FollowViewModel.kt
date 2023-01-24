@@ -32,11 +32,11 @@ class FollowViewModel() : ViewModel() {
          * */
 
         var list = mutableListOf<CommonUserDto>()
-        list.add(CommonUserDto("", "김부장", 0, true))
+        list.add(CommonUserDto("", "지사원", 0, true))
         list.add(CommonUserDto("", "김차장", 0, true))
-        list.add(CommonUserDto("", "지차장", 0, true))
-        list.add(CommonUserDto("", "김차장", 0, true))
-        list.add(CommonUserDto("", "김부장", 0, true))
+        list.add(CommonUserDto("", "최부장", 0, true))
+        list.add(CommonUserDto("", "유부장", 0, true))
+        list.add(CommonUserDto("", "김인턴", 0, true))
         list.add(CommonUserDto("", "이부장", 0, true))
         list.add(CommonUserDto("", "지차장", 0, true))
         list.add(CommonUserDto("", "안사원", 0, true))

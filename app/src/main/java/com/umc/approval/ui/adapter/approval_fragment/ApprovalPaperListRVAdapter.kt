@@ -10,25 +10,26 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.databinding.ApprovalFragmentItemApprovalPaperBinding
 
-class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> = arrayListOf()): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
+class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ApprovalFragmentItemApprovalPaperBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding, parent.context)
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(dataList.approvalPaperDto[position])
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int = dataList.approvalPaperDto.size
 
     inner class DataViewHolder(private val binding: ApprovalFragmentItemApprovalPaperBinding, context: Context): RecyclerView.ViewHolder(binding.root) {
         val context = context
         fun bind(data: ApprovalPaper) {
 
-            if (data.image.isEmpty()) {
+            if (data.images.isEmpty()) {
                 binding.itemImage.isVisible = false
             } else {
 //                binding.itemImage.load(data.image.get(0))
@@ -39,7 +40,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
             binding.tvApproveCount.text = data.approveCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
-            binding.tvApprovalPaperInfo.text = "${data.category}∙${data.updatedAt}"
+            binding.tvApprovalPaperInfo.text = "${data.category}∙${data.datetime}"
 
             // 결재 승인 상태에 배경 설정
             when (data.state) {
