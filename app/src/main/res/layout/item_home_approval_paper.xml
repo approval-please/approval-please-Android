@@ -39,6 +39,20 @@
         android:layout_marginTop="11dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <TextView
+        android:id="@+id/tv_image_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+0"
+        android:fontFamily="@font/bold"
+        android:textSize="11sp"
+        android:textColor="@color/approval_please_black_color"
+        app:layout_constraintStart_toStartOf="@id/iv_thumbnail"
+        app:layout_constraintEnd_toEndOf="@id/iv_thumbnail"
+        app:layout_constraintTop_toTopOf="@id/iv_thumbnail"
+        app:layout_constraintBottom_toBottomOf="@id/iv_thumbnail"/>
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contents_container"
         android:layout_width="0dp"

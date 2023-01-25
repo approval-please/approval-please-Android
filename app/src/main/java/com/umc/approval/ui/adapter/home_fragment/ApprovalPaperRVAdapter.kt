@@ -31,13 +31,15 @@ class ApprovalPaperRVAdapter(private val dataList: ArrayList<ApprovalPaper> = ar
             binding.tvApprovalPaperRejectCount.text = data.reject_count.toString()
             binding.tvApprovalPaperViewsCount.text = data.views.toString()
 
-            binding.tvCategory.text = data.department // 수정 필요
+            binding.tvCategory.text = data.department
             binding.tvWriteTime.text = data.date
+            // binding.tvImageCount.text = "+$data.image.size"
 
             if (data.image != null) {
                 binding.ivThumbnail.setImageResource(data.image as Int)
             } else {
                 binding.ivThumbnail.visibility = View.GONE
+                binding.tvImageCount.visibility = View.GONE
                 val layoutParams = binding.contentsContainer.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.marginStart = 0
                 binding.contentsContainer.layoutParams = layoutParams
