@@ -35,8 +35,25 @@ class NotificationDocumentFragment : Fragment() {
         super.onStart()
         binding.notificationDocumentRecyclerview.layoutManager = LinearLayoutManager(this.context)
         val itemList = ArrayList<NotificationItem>()
-        for(i in 0.. 15 ){
-            itemList.add(NotificationItem("김부장", "님이 내 결재 서류를 반려했습니다.", "댓글 내용 예시 텍스트 공간", "2023.01.14"))
+        for(i in 0..10) {
+            itemList.add(
+                NotificationItem(
+                    NotificationItem.TYPE_3,
+                    "김차장",
+                    "님이 내 결재 서류를 승인했습니다.",
+                    "승인 내용 예시 텍스트 abcdefghijklmnopqrstuv",
+                    "2023.01.14"
+                )
+            )
+            itemList.add(
+                NotificationItem(
+                    NotificationItem.TYPE_4,
+                    "최사원",
+                    "님이 내 결재 서류를 반려했습니다.",
+                    "반려 내용 예시 텍스트 abcdefghijklmnopqrstuv",
+                    "2023.01.14"
+                )
+            )
         }
 
         val notificationAdapter = NotificationAdapter(itemList)

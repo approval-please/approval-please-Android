@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="46dp"
     android:layout_marginTop="30dp"
-    android:gravity="center_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="36dp"
@@ -12,32 +11,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="5dp"/>
-    <LinearLayout
+    <TextView
         android:id="@+id/notification_item_title"
         android:gravity="center_vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="45dp">
-        <TextView
-            android:id="@+id/notification_item_title1"
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:text="김차장"
-            style="@style/smallText_black"/>
-        <ImageView
-            android:layout_width="19dp"
-            android:layout_height="10dp"
-            android:src="@drawable/mypage_rank_chajang"
-            android:layout_marginLeft="1dp"/>
-        <TextView
-            android:id="@+id/notification_item_title2"
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:text="님이 내 결재 서류에 댓글을 남겼습니다."
-            style="@style/smallText_black_light"/>
-    </LinearLayout>
+        android:layout_marginStart="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:text="내가 결재한 서류의 결재 보고서가 제출되었습니다."
+        style="@style/smallText_black_light"/>
     <TextView
         android:id="@+id/notification_item_content"
         android:layout_width="wrap_content"
@@ -62,7 +45,7 @@
         android:id="@+id/notification_item_icon"
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:src="@drawable/notification_icon_comment"
+        android:src="@drawable/notification_icon_submit"
         android:scaleType="fitCenter"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,8 +56,7 @@
         android:id="@+id/notification_item_icon_text"
         android:layout_width="18dp"
         android:layout_height="12dp"
-        android:text="댓글"
-        android:textSize="9sp"
+        android:text="제출"
         style="@style/xsmallText_lightgray_light"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@id/notification_item_icon"
