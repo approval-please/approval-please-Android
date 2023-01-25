@@ -13,16 +13,18 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentHomeBinding
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
+import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
-import com.umc.approval.util.ApprovalPaper
-import com.umc.approval.util.ApprovalReport
-import com.umc.approval.util.Post
 
 /**
  * Home View
@@ -34,6 +36,13 @@ class HomeFragment : Fragment() {
 
     /**login view model*/
     private val viewModel by viewModels<LoginFragmentViewModel>()
+
+    /**Community view model*/
+    private val communityViewModel by viewModels<CommunityViewModel>()
+
+    /**Approval view model*/
+    private val approvalViewModel by viewModels<ApprovalViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +57,29 @@ class HomeFragment : Fragment() {
         //엑세스 토큰 체크
         access_token_check()
 
+        //다른 뷰로 이동하는 로직
+        move_to_other_view()
+
+        //전체 서류 가지고오는 로직
+        approvalViewModel.init_all_category_approval()
+
+        //관신 서류 가지고오는 로직
+        approvalViewModel.init_interest_category_approval()
+
+        //tok 서류 가지고오는 로직
+        communityViewModel.init_all_toks()
+
+        //report 서류 가지고오는 로직
+        communityViewModel.init_all_reports()
+
+        //live data
+        live_data()
+
+        return binding.root
+    }
+
+    /**다른 뷰로 이동하는 로직*/
+    private fun move_to_other_view() {
         /**Login Activity로 이동*/
         binding.mypageButton.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
@@ -70,19 +102,13 @@ class HomeFragment : Fragment() {
             Log.d("로그", "결재서류 검토하기 전체 보기 클릭")
         }
 
+
         binding.popularPostViewAllButton.setOnClickListener {
             Log.d("로그", "인기 게시글 전체 보기 클릭")
         }
-
         binding.approvalReportViewAllButton.setOnClickListener {
             Log.d("로그", "결재 보고서 전체 보기 클릭")
         }
-
-        // 각 리사이클러뷰 데이터 & 어댑터 설정
-        setInterestingDepartment()  // 관심 부서 서류
-        setReviewApprovalPaper()  // 결재서류 검토하기
-        setPopularPost()  // 인기 게시글
-        setApprovalReport()  // 결재 보고서
 
         binding.cgMyInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "관심 부서 선택, $checkedIds")
@@ -92,8 +118,6 @@ class HomeFragment : Fragment() {
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "결재서류 정렬 방식 선택, $checkedIds")
         }
-
-        return binding.root
     }
 
     /**시작시 로그인 상태 확인*/
@@ -138,108 +162,75 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setInterestingDepartment() {
-        val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
+    /**live data*/
+    private fun live_data() {
 
-        approvalPaperList.apply{
-            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+        //관심부서
+        approvalViewModel.approval_interest_list.observe(viewLifecycleOwner) {
+
+            val dataRVAdapter = ApprovalPaperRVAdapter(it)
+            val spaceDecoration = HorizontalSpaceItemDecoration(40)
+            binding.rvMyInterestingPaper.addItemDecoration(spaceDecoration)
+            binding.rvMyInterestingPaper.adapter = dataRVAdapter
+            binding.rvMyInterestingPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+            // 클릭 이벤트 처리
+            dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                    Log.d("로그", "결재 서류 클릭, pos: $pos")
+                }
+            })
         }
 
-        val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
-        val spaceDecoration = HorizontalSpaceItemDecoration(40)
-        binding.rvMyInterestingPaper.addItemDecoration(spaceDecoration)
-        binding.rvMyInterestingPaper.adapter = dataRVAdapter
-        binding.rvMyInterestingPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        //전체부서
+        approvalViewModel.approval_all_list.observe(viewLifecycleOwner) {
 
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                Log.d("로그", "결재 서류 클릭, pos: $pos")
-            }
-        })
-    }
+            val dataRVAdapter = ApprovalPaperRVAdapter(it)
+            val spaceDecoration = HorizontalSpaceItemDecoration(40)
+            binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
+            binding.rvApprovalPaper.adapter = dataRVAdapter
+            binding.rvApprovalPaper.layoutManager = GridLayoutManager(activity, 2, RecyclerView.HORIZONTAL, false)
 
-    private fun setReviewApprovalPaper() {
-        val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
-
-        approvalPaperList.apply{
-            add(ApprovalPaper(2, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            // 클릭 이벤트 처리
+            dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                    Log.d("로그", "결재 서류 클릭, pos: $pos")
+                }
+            })
         }
 
-        val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
-        val spaceDecoration = HorizontalSpaceItemDecoration(40)
-        binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
-        binding.rvApprovalPaper.adapter = dataRVAdapter
-        binding.rvApprovalPaper.layoutManager = GridLayoutManager(activity, 2, RecyclerView.HORIZONTAL, false)
+        //tok
+        communityViewModel.tok_list.observe(viewLifecycleOwner) {
 
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                Log.d("로그", "결재 서류 클릭, pos: $pos")
-            }
-        })
-    }
+            val dataRVAdapter = PopularPostRVAdapter(it)
+            val spaceDecoration = HorizontalSpaceItemDecoration(40)
+            binding.rvPopularPost.addItemDecoration(spaceDecoration)
+            binding.rvPopularPost.adapter = dataRVAdapter
+            binding.rvPopularPost.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
-    private fun setPopularPost() {
-        val postList: ArrayList<Post> = arrayListOf()
-
-        postList.apply {
-            add(Post("", "강사원", "부장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", 5, 2, "5시간 전"))
-            add(Post("", "채사원", "대리", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트", 5, 2, "5시간 전"))
-            add(Post("", "김사원", "인턴", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트 테스트테스트", 5, 2, "5시간 전"))
-            add(Post("", "유사원", "사장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트 테스트테스트 테스트테스트", 5, 2, "5시간 전"))
-            add(Post("", "박사원", "부장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트", 5, 2, "5시간 전"))
+            // 클릭 이벤트 처리
+            dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: CommunityTok, pos: Int) {
+                    Log.d("로그", "인기 게시글 클릭, pos: $pos")
+                }
+            })
         }
 
-        val dataRVAdapter = PopularPostRVAdapter(postList)
-        val spaceDecoration = HorizontalSpaceItemDecoration(40)
-        binding.rvPopularPost.addItemDecoration(spaceDecoration)
-        binding.rvPopularPost.adapter = dataRVAdapter
-        binding.rvPopularPost.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        //report
+        communityViewModel.report_list.observe(viewLifecycleOwner) {
 
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: Post, pos: Int) {
-                Log.d("로그", "인기 게시글 클릭, pos: $pos")
-            }
-        })
-    }
+            val dataRVAdapter = ApprovalReportRVAdapter(it)
+            val spaceDecoration = HorizontalSpaceItemDecoration(40)
+            binding.rvApprovalReport.addItemDecoration(spaceDecoration)
+            binding.rvApprovalReport.adapter = dataRVAdapter
+            binding.rvApprovalReport.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
-    private fun setApprovalReport() {
-        val approvalReportList: ArrayList<ApprovalReport> = arrayListOf()
-
-        approvalReportList.apply {
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
+            // 클릭 이벤트 처리
+            dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: CommunityReport, pos: Int) {
+                    Log.d("로그", "결재 보고서 클릭, pos: $pos")
+                }
+            })
         }
-
-        val dataRVAdapter = ApprovalReportRVAdapter(approvalReportList)
-        val spaceDecoration = HorizontalSpaceItemDecoration(40)
-        binding.rvApprovalReport.addItemDecoration(spaceDecoration)
-        binding.rvApprovalReport.adapter = dataRVAdapter
-        binding.rvApprovalReport.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalReport, pos: Int) {
-                Log.d("로그", "결재 보고서 클릭, pos: $pos")
-            }
-        })
     }
 }

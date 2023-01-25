@@ -4,33 +4,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.databinding.ItemHomeApprovalReportBinding
-import com.umc.approval.util.ApprovalReport
 
-class ApprovalReportRVAdapter(private val dataList: ArrayList<ApprovalReport> = arrayListOf()): RecyclerView.Adapter<ApprovalReportRVAdapter.DataViewHolder>() {
+class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): RecyclerView.Adapter<ApprovalReportRVAdapter.DataViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ItemHomeApprovalReportBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(dataList.communityReport[position])
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int = dataList.communityReport.size
 
     inner class DataViewHolder(private val binding: ItemHomeApprovalReportBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ApprovalReport) {
+        fun bind(data: CommunityReport) {
             // 이미지 설정 부분 -> 수정 필요
             // binding.ivProfileImage.setImageResource()
             // binding.ivApprovalReportThumbnail.setImageResource()
-            binding.tvNickname.text = data.user_nickname
-            binding.tvRank.text = data.user_rank
-            binding.tvPostViewsCount.text = data.views.toString()
-            binding.tvPostContent.text = data.content
-            binding.tvPostCommentCount.text = data.comment_count.toString()
-            binding.tvPostLikeCount.text = data.like_count.toString()
-            binding.tvPostWriteTime.text = data.date
+            binding.tvNickname.text = data.nickname
+            binding.tvPostViewsCount.text = data.view.toString()
+            binding.tvPostContent.text = data.reportContent
 
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
@@ -43,7 +41,7 @@ class ApprovalReportRVAdapter(private val dataList: ArrayList<ApprovalReport> = 
 
     // 아이템 클릭 리스너
     interface OnItemClickListner {
-        fun onItemClick(v: View, data: ApprovalReport, pos: Int)
+        fun onItemClick(v: View, data: CommunityReport, pos: Int)
     }
     private var listner: OnItemClickListner?= null
 
