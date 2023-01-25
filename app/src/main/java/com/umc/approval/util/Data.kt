@@ -21,6 +21,7 @@ data class Post(
     val comment_count: Int,
     val like_count: Int,
     val date: String,
+    val image: Any?,
 )
 
 data class ApprovalReport(

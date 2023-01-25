@@ -37,7 +37,8 @@
         android:src="@drawable/item_home_image"
         app:layout_constraintTop_toBottomOf="@id/tv_approval_state"
         android:layout_marginTop="11dp"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_image_count"
@@ -89,6 +90,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"
             android:maxLines="2"
+            android:lineHeight="20sp"
             android:ellipsize="end" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
