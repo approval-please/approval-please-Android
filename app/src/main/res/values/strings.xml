@@ -5,7 +5,7 @@
 
     <!-- Home Fragment String -->
     <string name="my_interest_paper">내 관심부서 서류</string>
-    <string name="review_approval_paper">결재서류 검토하기</string>
+    <string name="review_approval_paper">결재서류 검토하기🗒️</string>
     <string name="view_all">전체보기</string>
     <string name="popular">인기</string>
     <string name="latest">최신</string>

@@ -223,12 +223,12 @@ class HomeFragment : Fragment() {
         val approvalReportList: ArrayList<ApprovalReport> = arrayListOf()
 
         approvalReportList.apply {
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", R.drawable.home_fragment_post_thumbnail))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", R.drawable.home_fragment_post_thumbnail))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
         }
 
         val dataRVAdapter = ApprovalReportRVAdapter(approvalReportList)

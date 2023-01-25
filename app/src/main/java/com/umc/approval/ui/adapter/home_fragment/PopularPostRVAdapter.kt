@@ -31,6 +31,7 @@ class PopularPostRVAdapter(private val dataList: ArrayList<Post> = arrayListOf()
             binding.tvPostCommentCount.text = data.comment_count.toString()
             binding.tvPostLikeCount.text = data.like_count.toString()
             binding.tvPostWriteTime.text = data.date
+            // binding.tvImageCount.text = "+$data.image.size"
 
             if (data.image != null) {
                 binding.ivThumbnail.setImageResource(data.image as Int)
