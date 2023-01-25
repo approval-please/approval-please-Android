@@ -8,28 +8,30 @@
 
     <ImageView
     android:id="@+id/back_to_alarm_fragment"
-    android:layout_marginLeft="18dp"
-    android:layout_marginTop="20dp"
-    android:layout_width="wrap_content"
-    android:layout_height="30dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="12dp"
+    android:layout_width="25dp"
+    android:layout_height="25dp"
     android:src="@drawable/join_fragment_back"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-    <ImageView
+    <TextView
         android:id="@+id/join_text"
-        android:layout_width="85dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/like_setting_fragment_main"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="18dp"
+        android:text="좋아요 및 댓글"
+        style="@style/midText_black_bold"/>
 
     <LinearLayout
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
+        android:elevation="1.5dp"
         android:layout_marginTop="15dp"
         android:background="#BFBFBF"
         app:layout_constraintTop_toBottomOf="@+id/join_text"
@@ -41,79 +43,84 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/line">
 
-        <ImageView
+        <TextView
             android:id="@+id/like_text"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/like_setting_fragment_like"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="37dp"
+            android:text="좋아요"
+            style="@style/midText_black_bold"/>
 
 
         <!--approval alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/like_cancel_text"
             android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/like_setting_fragment_cancel"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/like_text"></ImageView>
-
+            app:layout_constraintTop_toBottomOf="@id/like_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="17dp"
+            android:text="해제"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/like_cancel_check_bock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/like_text"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/like_text"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/like_follower_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/like_setting_fragment_following"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/like_cancel_check_bock"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/like_cancel_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="21dp"
+            android:text="내가 팔로우하는 사람"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/like_follower_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/like_cancel_check_bock"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/like_cancel_check_bock"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/like_all_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/like_setting_fragment_all"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/like_follower_check_box"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/like_follower_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="21dp"
+            android:text="모든 사람"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/like_hot_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/like_follower_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/like_follower_check_box"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -124,79 +131,85 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <ImageView
+        <TextView
             android:id="@+id/reply_text"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/like_setting_fragment_repl"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="89dp"
+            android:text="댓글"
+            style="@style/midText_black_bold"/>
 
 
         <!--approval alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/reply_cancel_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/like_setting_fragment_cancel"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_text"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/reply_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="17dp"
+            android:text="해제"
+            style="@style/midText_black_light"/>
 
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/reply_cancel_check_bock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_text"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/reply_text"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/reply_follower_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/like_setting_fragment_following"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_cancel_check_bock"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/reply_cancel_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="21dp"
+            android:text="내가 팔로우하는 사람"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/reply_follower_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_cancel_check_bock"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/reply_cancel_check_bock"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/reply_all_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/like_setting_fragment_all"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_follower_check_box"></ImageView>
+            app:layout_constraintTop_toBottomOf="@id/reply_follower_text"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="21dp"
+            android:text="모든 사람"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/reply_hot_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reply_follower_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/reply_follower_check_box"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="16dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
