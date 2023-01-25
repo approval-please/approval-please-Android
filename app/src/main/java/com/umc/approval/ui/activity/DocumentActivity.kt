@@ -2,6 +2,7 @@ package com.umc.approval.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -9,9 +10,14 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
+import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 
 class DocumentActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDocumentBinding
+
+    /**Approval view model*/
+    private val viewModel by viewModels<DocumentViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +45,9 @@ class DocumentActivity : AppCompatActivity() {
         binding.approval.setOnClickListener {
             startActivity(Intent(this, ParticipantActivity::class.java))
         }
+
+        //초기화
+        viewModel.init_document()
     }
 
     private fun setComment() {
@@ -60,25 +69,17 @@ class DocumentActivity : AppCompatActivity() {
         binding.documentCommentRecyclerview.adapter = documentCommentAdapter
     }
 
+    /**live data*/
     private fun setDocumentData(){
 
-        binding.content.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
-                " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, \n" +
-                "when an unknown printer took a galley of type and scrambled it to make a type specimen book. \n" +
-                "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. \n" +
-                "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, \n"
+        viewModel.document.observe(this) {
 
-        var openGraphDto = OpenGraphDto(
-            "https://www.naver.com/",
-            "네이버",
-            "네이버",
-            "네이버",
-            "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
-        )
+            binding.content.text = viewModel.document.value!!.content
 
-        binding.openGraphImage.load(openGraphDto.image)
-        binding.openGraphUrl.setText(openGraphDto.url)
-        binding.openGraphText.setText(openGraphDto.title)
+            binding.openGraphImage.load(viewModel.document.value!!.link.image)
+            binding.openGraphUrl.setText(viewModel.document.value!!.link.url)
+            binding.openGraphText.setText(viewModel.document.value!!.link.title)
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
