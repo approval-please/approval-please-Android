@@ -79,7 +79,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         }
 
         val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
-        val spaceDecoration = VerticalSpaceItemDecoration(20)
+        val spaceDecoration = VerticalSpaceItemDecoration(40)
         binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
         binding.rvApprovalPaper.adapter = dataRVAdapter
         binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

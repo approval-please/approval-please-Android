@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FAFAFA">
+    android:background="@color/approval_please_background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,36 +32,20 @@
                     android:layout_height="22dp"
                     android:text="@string/all_interesting_category"
                     android:checked="true"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp"
-                    android:gravity="center"/>
+                    android:textSize="11sp"/>
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:text="생활가전"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp"
-                    android:gravity="center"/>
+                    android:textSize="11sp"/>
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:text="디지털기기"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp"
-                    android:gravity="center"/>
+                    android:text="디지털기기"/>
 
                 <ImageButton
                     android:id="@+id/add_interest_category_button"
@@ -72,7 +56,7 @@
                     android:paddingTop="1dp"
                     android:src="@drawable/approval_fragment_add_interesting_category_button" />
 
-                <View
+                <Space
                     android:layout_width="50dp"
                     android:layout_height="match_parent" />
             </com.google.android.material.chip.ChipGroup>
@@ -81,7 +65,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_approval_paper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:overScrollMode="never"/>
     </LinearLayout>
 
 </FrameLayout>

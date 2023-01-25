@@ -63,7 +63,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
                 1000, 32, 12))
 
             add(ApprovalPaper(1, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
+                mutableListOf(),
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
                 1000, 32, 12))
 
@@ -73,7 +73,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
                 1000, 32, 12))
 
             add(ApprovalPaper(1, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
+                mutableListOf(),
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
                 1000, 32, 12))
 
@@ -84,7 +84,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         }
 
         val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
-        val spaceDecoration = VerticalSpaceItemDecoration(20)
+        val spaceDecoration = VerticalSpaceItemDecoration(40)
         binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
         binding.rvApprovalPaper.adapter = dataRVAdapter
         binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)

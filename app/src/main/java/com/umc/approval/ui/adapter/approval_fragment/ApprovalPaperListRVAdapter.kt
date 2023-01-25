@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.ApprovalFragmentItemApprovalPaperBinding
@@ -30,6 +30,10 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
 
             if (data.image.isEmpty()) {
                 binding.itemImage.isVisible = false
+
+                val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
+                layoutParams.marginStart = 0
+                binding.contentContainer.layoutParams = layoutParams
             } else {
 //                binding.itemImage.load(data.image.get(0))
             }
@@ -39,7 +43,8 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
             binding.tvApproveCount.text = data.approveCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
-            binding.tvApprovalPaperInfo.text = "${data.category}∙${data.updatedAt}"
+            binding.tvCategory.text = data.category.toString()
+            binding.tvWriteTime.text = data.updatedAt
 
             // 결재 승인 상태에 배경 설정
             when (data.state) {
@@ -57,7 +62,6 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
                 }
                 else -> {
                     // 승인 대기중
-                    binding.itemContainer.setBackgroundColor(Color.WHITE)
                     binding.tvApprovalState.text = "승인대기중"
                     binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_pending)
                 }

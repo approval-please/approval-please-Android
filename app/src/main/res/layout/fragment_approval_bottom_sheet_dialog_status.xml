@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/approval_fragment_bottom_sheet_dialog_background"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="33dp"
+        android:layout_height="3dp"
+        android:background="#D9D9D9"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="상태"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:paddingHorizontal="16dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#8C8C8C"
+        android:layout_marginTop="17dp"/>
+
+    <TextView
+        android:id="@+id/dialog_item_all_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="상태 전체"
+        android:textSize="12sp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="15dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#8C8C8C"/>
+
+    <TextView
+        android:id="@+id/dialog_item_approved"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="승인됨"
+        android:textSize="12sp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="15dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#8C8C8C"/>
+
+    <TextView
+        android:id="@+id/dialog_item_rejected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="반려됨"
+        android:textSize="12sp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="15dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#8C8C8C"/>
+
+    <TextView
+        android:id="@+id/dialog_item_pending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="결재 대기중"
+        android:textSize="12sp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="15dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_sort_apply"
+        android:layout_width="69dp"
+        android:layout_height="30dp"
+        android:text="적용하기"
+        android:textSize="11sp"
+        android:insetLeft="0dp"
+        android:insetRight="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        android:backgroundTint="#6C39FF"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="30dp"/>
+
+</LinearLayout>

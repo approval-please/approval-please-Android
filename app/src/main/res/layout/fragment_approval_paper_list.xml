@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:nestedScrollingEnabled="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,10 +15,8 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             app:tabIndicatorFullWidth="false"
-            app:tabSelectedTextColor="@color/app_main_color"
-            app:tabIndicatorColor="#3f3fff"
-            app:tabRippleColor="#00ff0000"
-            app:tabTextColor="@color/unselected_tab_text"
+            app:tabSelectedTextColor="@color/approval_please_main_color"
+            app:tabTextColor="@color/approval_please_medium_gray_color"
             app:tabTextAppearance="@style/tabTextStyle"
             app:tabIndicatorHeight="1.2dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,31 +24,94 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="10dp"/>
 
-        <Spinner
-            android:id="@+id/sp_status"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toStartOf="@id/sp_sort"
-            android:background="@null"
-            android:paddingEnd="10dp"/>
+<!--        <Spinner-->
+<!--            android:id="@+id/sp_status"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/sp_sort"-->
+<!--            android:background="@null"-->
+<!--            android:paddingEnd="10dp"-->
+<!--            android:spinnerMode="dialog"/>-->
 
-        <Spinner
-            android:id="@+id/sp_sort"
+<!--        <Spinner-->
+<!--            android:id="@+id/sp_sort"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:background="@null"-->
+<!--            android:layout_marginEnd="16dp"/>-->
+
+        <LinearLayout
+            android:id="@+id/state_select"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/sort_select"
+            android:paddingEnd="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/approval_fragment_spinner_arrow"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/state_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:textSize="11sp"
+                android:fontFamily="@font/medium"
+                android:text="상태 전체"
+                android:paddingTop="3dp"
+                android:textColor="@color/approval_please_black_color"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sort_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@null"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/approval_fragment_spinner_arrow"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/sort_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:text="최신순"
+                android:padding="0dp"
+                android:paddingTop="3dp"
+                android:textColor="@color/approval_please_black_color"
+                android:fontFamily="@font/medium"/>
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_approval_paper_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </ScrollView>
 </LinearLayout>

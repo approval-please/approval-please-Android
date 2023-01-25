@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FAFAFA">
+    android:background="@color/approval_please_background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,59 +31,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:checked="true"
-                    android:text="@string/all_category"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp"/>
+                    android:text="@string/all_category"/>
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:text="디지털 기기"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp" />
+                    android:text="디지털 기기"/>
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:text="생활가전"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp" />
+                    android:text="생활가전" />
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:text="생활용품"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp" />
+                    android:text="생활용품" />
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:text="가구/인테리어"
-                    android:textSize="11sp"
-                    app:chipCornerRadius="15dp"
-                    app:chipEndPadding="2dp"
-                    app:chipMinTouchTargetSize="0dp"
-                    app:chipStartPadding="0dp" />
+                    android:text="가구/인테리어"/>
 
-
-                <View
+                <Space
                     android:layout_width="20dp"
                     android:layout_height="match_parent" />
 
@@ -93,7 +67,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_approval_paper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
 
         </androidx.recyclerview.widget.RecyclerView>
 

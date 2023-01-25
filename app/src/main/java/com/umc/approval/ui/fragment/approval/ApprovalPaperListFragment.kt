@@ -3,16 +3,16 @@ package com.umc.approval.ui.fragment.approval
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentApprovalPaperListBinding
@@ -62,9 +62,9 @@ class ApprovalPaperListFragment: Fragment() {
             "반려됨",
         )
 
-        val statusSpinner = binding.spStatus
-        statusSpinner.adapter = SpinnerAdapter(statusSpinnerList)
-        statusSpinner.onItemSelectedListener = StatusSpinnerActivity()
+//        val statusSpinner = binding.spStatus
+//        statusSpinner.adapter = SpinnerAdapter(statusSpinnerList)
+//        statusSpinner.onItemSelectedListener = StatusSpinnerActivity()
 
         // 정렬 방식 선택 스피너
         val sortSpinnerList = arrayOf(
@@ -72,9 +72,23 @@ class ApprovalPaperListFragment: Fragment() {
             "인기순",
         )
 
-        val sortSpinner = binding.spSort
-        sortSpinner.adapter = SpinnerAdapter(sortSpinnerList)
-        statusSpinner.onItemSelectedListener = SortSpinnerActivity()
+//        val sortSpinner = binding.spSort
+//        sortSpinner.adapter = SpinnerAdapter(sortSpinnerList)
+//        statusSpinner.onItemSelectedListener = SortSpinnerActivity()
+
+        // 레이아웃을 뷰 객체로 생성
+        val bottomSheetView = LayoutInflater.from(requireContext()).inflate(
+            R.layout.fragment_approval_bottom_sheet_dialog_status, null
+        )
+
+        // bottomSheetDialog 객체 생성
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        binding.stateSelect.setOnClickListener{
+            bottomSheetDialog.show()
+        }
     }
 
     /**
