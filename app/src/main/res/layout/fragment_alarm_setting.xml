@@ -8,30 +8,32 @@
 
     <ImageView
         android:id="@+id/back_to_notification"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:src="@drawable/join_fragment_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-    <ImageView
+    <TextView
         android:id="@+id/join_text"
-        android:layout_width="55dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/alarm_setting_fragment_main_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:text="알림 설정"
+        style="@style/midText_black_bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="18dp"/>
 
     <LinearLayout
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="15dp"
         android:background="#BFBFBF"
+        android:elevation="1.5dp"
         app:layout_constraintTop_toBottomOf="@+id/join_text"
         android:orientation="horizontal"></LinearLayout>
 
@@ -41,134 +43,153 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/line">
 
-        <ImageView
+        <TextView
             android:id="@+id/push_text"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/alarm_setting_fragment_push_text"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="37dp"
+            android:layout_marginLeft="16dp"
+            android:text="푸시 알림"
+            style="@style/midText_black_bold"/>
         <!--approval alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/approval_text"
             android:layout_width="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/alarm_setting_fragment_approval_text"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/push_text"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/push_text"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"
+            android:text="결재하기"
+            style="@style/midText_black_light"/>
 
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/approval_check_bock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/push_text"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/push_text"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/community_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/alarm_setting_fragment_community_text"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/approval_check_bock"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/approval_text"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="16dp"
+            android:text="커뮤니티"
+            style="@style/midText_black_light"/>
+
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/community_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/approval_check_bock"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/approval_check_bock"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/hot_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/alarm_setting_fragment_hot_text"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_check_box"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/community_text"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="16dp"
+            android:text="인기글"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/hot_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/community_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/community_check_box"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/info_text"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/alarm_setting_fragment_info_text"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hot_check_box"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/hot_text"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="16dp"
+            android:text="공지사항"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/info_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hot_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/hot_check_box"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
 
         <!--community alarm-->
-        <ImageView
+        <TextView
             android:id="@+id/follow"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/alarm_setting_fragment_following_text"
+            android:layout_height="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/info_check_box"></ImageView>
+            app:layout_constraintTop_toBottomOf="@+id/info_text"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="16dp"
+            android:text="팔로잉 및 팔로우"
+            style="@style/midText_black_light"/>
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/follow_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:button="@drawable/login_activity_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/info_check_box"></androidx.appcompat.widget.AppCompatCheckBox>
+            app:layout_constraintTop_toBottomOf="@+id/info_check_box"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"></androidx.appcompat.widget.AppCompatCheckBox>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:layout_marginTop="25dp"
-        android:id="@+id/move_to_like"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:src="@drawable/alarm_setting_fragment_like_text"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"></ImageView>
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="16dp"
+        android:text="좋아요 및 댓글"
+        style="@style/midText_black_bold"
+        />
+    <ImageView
+        android:id="@+id/move_to_like"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:src="@drawable/setting_icon_rightarrow"
+        android:scaleType="center"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="16dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
