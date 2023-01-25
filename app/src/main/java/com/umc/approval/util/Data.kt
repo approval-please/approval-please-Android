@@ -9,6 +9,7 @@ data class ApprovalPaper(
     val views: Int,
     val department: String,
     val date: String,  // 서버 측에서 보내주는 데이터 가공 필요
+    val image: Any?,
 )
 
 data class Post(

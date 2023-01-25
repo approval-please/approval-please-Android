@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentHomeBinding
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.MainActivity
@@ -143,13 +144,13 @@ class HomeFragment : Fragment() {
         val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
         approvalPaperList.apply{
-            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
         }
 
         val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
@@ -170,13 +171,13 @@ class HomeFragment : Fragment() {
         val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
         approvalPaperList.apply{
-            add(ApprovalPaper(2, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라 테스트테스트테스트테스트테스트", 4, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
         }
 
         val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)

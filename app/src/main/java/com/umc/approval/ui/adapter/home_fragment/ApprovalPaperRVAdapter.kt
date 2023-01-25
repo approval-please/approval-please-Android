@@ -3,6 +3,8 @@ package com.umc.approval.ui.adapter.home_fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.databinding.ItemHomeApprovalPaperBinding
@@ -29,7 +31,17 @@ class ApprovalPaperRVAdapter(private val dataList: ArrayList<ApprovalPaper> = ar
             binding.tvApprovalPaperRejectCount.text = data.reject_count.toString()
             binding.tvApprovalPaperViewsCount.text = data.views.toString()
 
-            binding.tvApprovalPaperInfo.text = "${data.department}∙${data.date}"  // 수정 필요
+            binding.tvCategory.text = data.department // 수정 필요
+            binding.tvWriteTime.text = data.date
+
+            if (data.image != null) {
+                binding.ivThumbnail.setImageResource(data.image as Int)
+            } else {
+                binding.ivThumbnail.visibility = View.GONE
+                val layoutParams = binding.contentsContainer.layoutParams as ConstraintLayout.LayoutParams
+                layoutParams.marginStart = 0
+                binding.contentsContainer.layoutParams = layoutParams
+            }
 
             // 결재 승인 상태에 따라 이미지, 텍스트 변경
             when (data.approval_status) {
