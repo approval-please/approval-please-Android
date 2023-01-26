@@ -3,6 +3,10 @@ package com.umc.approval.data.dto.approval.get
 import com.google.gson.annotations.SerializedName
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
+/**
+ * 결재 서류 상세 DTO
+ * API 명세서 Check 완료
+ * */
 data class DocumentDto(
     @SerializedName("state")
     val state: Int,

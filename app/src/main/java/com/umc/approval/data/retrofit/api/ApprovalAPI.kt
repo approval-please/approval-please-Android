@@ -1,6 +1,7 @@
 package com.umc.approval.data.retrofit.api
 
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.approval.get.DocumentDto
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -30,4 +31,18 @@ interface ApprovalAPI {
     fun getInterestingCategoryDocuments(
         @Header("Authorization") accessToken: String, @Query("page") page: String, @Query("category") category: String
     ): Call<ApprovalPaperDto>
+
+    /**
+     * @Post
+     * documentId: 개별 Id
+     * @Get
+     * ApprovalPaperDto
+     * 관심부서 결재서류 목록 조회 API
+     * API 명세서 Check 완료
+     */
+    @GET("/documents/{documentId}")
+    @Headers("content-type: application/json")
+    fun getDocumentDetail(
+        @Path("documentId") documentId: String
+    ): Call<DocumentDto>
 }

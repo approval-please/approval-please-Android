@@ -35,14 +35,12 @@ class DocumentActivity : AppCompatActivity() {
         //댓글
         setComment()
 
+        //이전 프래그먼트에서 데이터 가지고 오기
+        viewModel.get_document_detail("0")
+
         // like activity로 이동
         binding.documentCommentPostLikes.setOnClickListener {
             startActivity(Intent(this, LikeActivity::class.java))
-        }
-
-        // like activity로 이동
-        binding.approval.setOnClickListener {
-            startActivity(Intent(this, ParticipantActivity::class.java))
         }
 
         //초기화

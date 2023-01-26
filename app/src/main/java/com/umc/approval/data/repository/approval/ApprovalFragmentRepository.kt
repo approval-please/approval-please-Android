@@ -1,6 +1,7 @@
 package com.umc.approval.data.repository.approval
 
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import retrofit2.Call
 
@@ -19,7 +20,14 @@ class ApprovalFragmentRepository {
     /**
      * 관심부서 결재서류 목록 조회 API
      */
-    fun getInterestingCategoryDocuments(idToken: String, page: String, category: String): Call<ApprovalPaperDto> {
-        return ApprovalApi.getInterestingCategoryDocuments(idToken, page, category)
+    fun getInterestingCategoryDocuments(accessToken: String, page: String, category: String): Call<ApprovalPaperDto> {
+        return ApprovalApi.getInterestingCategoryDocuments(accessToken, page, category)
+    }
+
+    /**
+     * 결재서류 상세 조회 API
+     */
+    fun getDocumentDetail(documentId: String): Call<DocumentDto> {
+        return ApprovalApi.getDocumentDetail(documentId)
     }
 }
