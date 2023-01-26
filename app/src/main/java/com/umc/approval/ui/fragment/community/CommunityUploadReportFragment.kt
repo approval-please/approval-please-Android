@@ -35,7 +35,7 @@ import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
 import com.umc.approval.databinding.FragmentCommunityUploadReportBinding
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
-import com.umc.approval.ui.viewmodel.upload.CommunityReportUploadViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils

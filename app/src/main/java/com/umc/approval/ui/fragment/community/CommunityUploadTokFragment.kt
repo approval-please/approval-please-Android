@@ -34,7 +34,7 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.*
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
-import com.umc.approval.ui.viewmodel.upload.CommunityTalkUploadViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityTokUploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -43,12 +43,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-class CommunityUploadTalkFragment : Fragment() {
+class CommunityUploadTokFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadTalkBinding
 
     /**Community Talk Upload Viewmodel*/
-    lateinit var viewModel: CommunityTalkUploadViewModel
+    lateinit var viewModel: CommunityTokUploadViewModel
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -93,7 +93,7 @@ class CommunityUploadTalkFragment : Fragment() {
         binding = FragmentCommunityUploadTalkBinding.inflate(layoutInflater)
 
         /*View Model 초기화*/
-        viewModel = ViewModelProvider(this).get(CommunityTalkUploadViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CommunityTokUploadViewModel::class.java)
 
         /*Open Graph manager 초기화*/
         manager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -122,6 +122,11 @@ class CommunityUploadTalkFragment : Fragment() {
         linkButton = binding.uploadLinkBtn
         linkButton.setOnClickListener{
             showLinkDialog();
+        }
+
+        //리스트에 값이 변경될 때마다 rv 실행
+        viewModel.opengraph_list.observe(viewLifecycleOwner) {
+
         }
 
         return binding.root
@@ -183,6 +188,10 @@ class CommunityUploadTalkFragment : Fragment() {
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener {
             linkDialog.dismiss()
+
+            if (viewModel.opengraph != null) {
+                viewModel.setOpengraph_list(viewModel.opengraph.value!!)
+            }
         }
 
         /*link url 바뀔때 마다 적용*/
@@ -416,12 +425,6 @@ class CommunityUploadTalkFragment : Fragment() {
             opengraphId.isVisible = true
             opengraphText.setText(it.title)
             opengraphUrl.setText(it.url)
-            opengraphImage.load(it.image)
-
-            binding.openGraph.isVisible = true
-            binding.openGraphText.setText(it.title)
-            binding.openGraphUrl.setText(it.url)
-            binding.openGraphImage.load(it.image)
-        }
+            opengraphImage.load(it.image) }
     }
 }

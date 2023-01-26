@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.fragment.community.CommunityUploadReportFragment
-import com.umc.approval.ui.fragment.community.CommunityUploadTalkFragment
+import com.umc.approval.ui.fragment.community.CommunityUploadTokFragment
 
 class CommunityUploadVPAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity){
 
@@ -16,7 +16,7 @@ class CommunityUploadVPAdapter(fragmentActivity: FragmentActivity) : FragmentSta
     override fun createFragment(position: Int): Fragment {
         return when(position){
             0 -> {
-                CommunityUploadTalkFragment()
+                CommunityUploadTokFragment()
             }
             1 -> {
                 CommunityUploadReportFragment()

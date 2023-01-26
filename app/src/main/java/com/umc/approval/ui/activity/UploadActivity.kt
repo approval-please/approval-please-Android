@@ -38,7 +38,6 @@ import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
 import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.approval.UploadDocumentViewModel
-import com.umc.approval.ui.viewmodel.upload.UploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
