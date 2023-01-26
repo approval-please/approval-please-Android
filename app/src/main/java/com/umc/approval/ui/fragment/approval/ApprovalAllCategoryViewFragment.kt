@@ -46,6 +46,8 @@ class ApprovalAllCategoryViewFragment: Fragment() {
             Log.d("로그", "부서 선택, $checkedIds")
         }
 
+        viewModel.test()
+
         return view
     }
 

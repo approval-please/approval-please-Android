@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem

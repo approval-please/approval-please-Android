@@ -1,11 +1,10 @@
 package com.umc.approval.data.retrofit.api
 
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable.Param
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApprovalAPI {
 
@@ -46,4 +45,9 @@ interface ApprovalAPI {
         @Query("sortBy") sortBy: Int,
         @Query("state") state: Int,
     ): Call<ApprovalPaperDto>
+
+    /**테스트*/
+    @POST("/test")
+    @Headers("content-type: application/json")
+    fun test(@Body approvalDto: ApprovalPaperDto): Call<ApprovalPaperDto>
 }

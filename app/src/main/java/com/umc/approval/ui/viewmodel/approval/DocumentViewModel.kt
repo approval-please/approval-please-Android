@@ -8,6 +8,10 @@ import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import kotlinx.coroutines.launch
 
+/**
+ * Document 상세 보기 페이지
+ * 서버로부터 데이터를 받아와 뷰에 적용하는 로직 필요
+ * */
 class DocumentViewModel() : ViewModel() {
 
     private var _document = MutableLiveData<DocumentDto>()

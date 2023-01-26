@@ -10,17 +10,19 @@ data class ApprovalPaper(
     @SerializedName("datetime")
     val datetime: String,
     @SerializedName("images")
-    val images: List<String>,
+    val images: List<String> ?= null,
     @SerializedName("title")
     val title: String,
     @SerializedName("content")
     val content: String,
-    @SerializedName("tag")
-    val tag: List<String>,
+    @SerializedName("tags")
+    val tag: List<String> ?= null,
     @SerializedName("view")
     val view: Int,
     @SerializedName("approveCount")
     val approveCount: Int,
     @SerializedName("rejectCount")
     val rejectCount: Int,
+    @SerializedName("rejectCou")
+    val rejectCou: Int ?= null,
 )
