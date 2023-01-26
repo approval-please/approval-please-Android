@@ -37,6 +37,15 @@
         <item name="fontFamily">@font/medium</item>
     </style>
 
+    <!-- bottom sheet dialog custom -->
+    <style name="RoundCornerBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundCornerModalStyle</item>
+    </style>
+
+    <style name="RoundCornerModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/approval_fragment_bottom_sheet_dialog_background</item>
+    </style>
+
     <!-- approval paper tag chip custom -->
     <style name="customTag" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@drawable/approval_fragment_choice_chip_background_color</item>

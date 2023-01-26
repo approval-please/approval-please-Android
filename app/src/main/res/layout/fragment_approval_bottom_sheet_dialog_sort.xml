@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="상태"
+        android:text="정렬"
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/bold"
@@ -35,11 +35,11 @@
         android:orientation="vertical">
 
         <RadioButton
-            android:id="@+id/dialog_item_all_status"
+            android:id="@+id/dialog_item_latest"
             android:button="@color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="상태 전체"
+            android:text="최신순"
             android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
             android:textSize="12sp"
             android:paddingHorizontal="16dp"
@@ -52,47 +52,14 @@
             android:background="@color/approval_please_bold_gray_color"/>
 
         <RadioButton
-            android:id="@+id/dialog_item_approved"
+            android:id="@+id/dialog_item_popular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:button="@color/transparent"
             android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
-            android:text="승인됨"
+            android:text="인기순"
             android:textSize="12sp"
             android:fontFamily="@font/medium"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="15dp"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:background="@color/approval_please_bold_gray_color"/>
-
-        <RadioButton
-            android:id="@+id/dialog_item_rejected"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@color/transparent"
-            android:fontFamily="@font/medium"
-            android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
-            android:text="반려됨"
-            android:textSize="12sp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="15dp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:background="@color/approval_please_bold_gray_color"/>
-
-        <RadioButton
-            android:id="@+id/dialog_item_pending"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@color/transparent"
-            android:fontFamily="@font/medium"
-            android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
-            android:text="결재 대기중"
-            android:textSize="12sp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="15dp"/>
     </RadioGroup>
