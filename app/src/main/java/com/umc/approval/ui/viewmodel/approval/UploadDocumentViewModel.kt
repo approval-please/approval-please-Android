@@ -47,18 +47,22 @@ class UploadDocumentViewModel() : ViewModel() {
     val tags : LiveData<List<String>>
         get() = _tags
 
+    /**image 선택시 적용*/
     fun setImage(images: List<Uri>) {
         _pic.postValue(images)
     }
 
+    /**link가 올바른 경우 Opengraph 적용*/
     fun setOpengraph(og: OpenGraphDto) {
         _opengraph.postValue(og)
     }
 
+    /**link 선택시 적용*/
     fun setLink(li: String) {
         _link.postValue(li)
     }
 
+    /**tag 선택시 적용*/
     fun setTags(tags: List<String>) {
         _tags.postValue(tags)
     }

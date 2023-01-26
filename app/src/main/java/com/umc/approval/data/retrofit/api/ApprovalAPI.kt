@@ -2,6 +2,7 @@ package com.umc.approval.data.retrofit.api
 
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import retrofit2.Call
 import retrofit2.http.*
@@ -59,4 +60,16 @@ interface ApprovalAPI {
     fun uploadDocument(
         @Header("Authorization") accessToken: String, @Body upload: ApprovalUploadDto
     ):Call<ApprovalUploadDto>
+
+    /**
+     * @Post
+     * documentId: 댓글 서류를 의미
+     * @Get
+     * CommentListDto
+     * 댓글 리스트 API
+     * API 명세서 Check 완료
+     */
+    @GET("/documents/comments")
+    @Headers("content-type: application/json")
+    fun getComments(@Query("documentId") documentId: Int): Call<CommentListDto>
 }
