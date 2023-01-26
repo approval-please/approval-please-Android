@@ -86,7 +86,7 @@ class ApprovalViewModel() : ViewModel() {
         }
 
         //서버로부터 받아온 데이터
-        val approvalPageDto = ApprovalPaperDto(0,0,0,approvalPaperList)
+        val approvalPageDto = ApprovalPaperDto(approvalPaperList)
 
         //데이터 삽입
         _approval_all_list.postValue(approvalPageDto)
@@ -139,7 +139,7 @@ class ApprovalViewModel() : ViewModel() {
         }
 
         //서버로부터 받아온 데이터
-        val approvalPageDto = ApprovalPaperDto(0,0,0,approvalPaperList)
+        val approvalPageDto = ApprovalPaperDto(approvalPaperList)
 
         //데이터 삽입
         _approval_interest_list.postValue(approvalPageDto)

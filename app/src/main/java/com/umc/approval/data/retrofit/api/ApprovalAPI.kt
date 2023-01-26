@@ -67,7 +67,7 @@ interface ApprovalAPI {
      * @Get
      * CommentListDto
      * 댓글 리스트 API
-     * API 명세서 Check 완료
+     * API 명세서 Check 미완료
      */
     @GET("/documents/comments")
     @Headers("content-type: application/json")

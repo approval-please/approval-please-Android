@@ -7,12 +7,6 @@ import com.google.gson.annotations.SerializedName
  * API 명세서 Check 완료
  * */
 data class ApprovalPaperDto(
-    @SerializedName("page")
-    val page: Int,
-    @SerializedName("totalPage")
-    val totalPage: Int,
-    @SerializedName("totalElement")
-    val totalElement: Int,
     @SerializedName("content")
     val approvalPaperDto: List<ApprovalPaper>
 )
