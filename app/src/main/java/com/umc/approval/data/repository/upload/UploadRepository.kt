@@ -13,16 +13,6 @@ import retrofit2.Call
  * */
 class UploadRepository() {
 
-    /**카테고리 정보 로드 api*/
-    fun get_categoires(accessToken: String):Call<CategoriesDto> {
-        return uploadApi.get_categories(accessToken)
-    }
-
-    /**approval upload api*/
-    fun upload_approval_item(accessToken: String, upload: ApprovalUploadDto):Call<ResponseBody> {
-        return uploadApi.upload_approval(accessToken, upload)
-    }
-
     /**tok upload api*/
     fun upload_tok_item(accessToken: String, toktok: TalkUploadDto):Call<ResponseBody> {
         return uploadApi.upload_community_tok(accessToken, toktok)

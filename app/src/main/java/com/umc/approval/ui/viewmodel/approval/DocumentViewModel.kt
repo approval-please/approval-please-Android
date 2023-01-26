@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository

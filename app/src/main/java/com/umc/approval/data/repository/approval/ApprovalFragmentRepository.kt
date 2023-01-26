@@ -2,6 +2,7 @@ package com.umc.approval.data.repository.approval
 
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import retrofit2.Call
 
@@ -29,5 +30,12 @@ class ApprovalFragmentRepository {
      */
     fun getDocumentDetail(documentId: String): Call<DocumentDto> {
         return ApprovalApi.getDocumentDetail(documentId)
+    }
+
+    /**
+     * 결재서류 업로드 API
+     */
+    fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ApprovalUploadDto> {
+        return ApprovalApi.uploadDocument(accessToken, upload)
     }
 }

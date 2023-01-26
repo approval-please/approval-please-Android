@@ -37,6 +37,7 @@ import com.umc.approval.databinding.ActivityUploadBinding
 import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
 import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
+import com.umc.approval.ui.viewmodel.approval.UploadDocumentViewModel
 import com.umc.approval.ui.viewmodel.upload.UploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
@@ -56,7 +57,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var uploadFile: ApprovalUploadDto
 
     /**Upload Viewmodel*/
-    lateinit var viewModel: UploadViewModel
+    lateinit var viewModel: UploadDocumentViewModel
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -96,7 +97,7 @@ class UploadActivity : AppCompatActivity() {
         setContentView(view)
 
         /*View Model 초기화*/
-        viewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(UploadDocumentViewModel::class.java)
 
         /*Open Graph manager 초기화*/
         manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -136,7 +137,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    /**upload*/
+    /**파일을 업로드하는 로직*/
     private fun upload_item() {
         binding.uploadSubmitBtn.setOnClickListener {
 
@@ -158,7 +159,7 @@ class UploadActivity : AppCompatActivity() {
                 uploadFile.tag = viewModel.tags.value
             }
 
-            viewModel.upload(uploadFile)
+            viewModel.post_document(uploadFile)
             finish()
         }
     }

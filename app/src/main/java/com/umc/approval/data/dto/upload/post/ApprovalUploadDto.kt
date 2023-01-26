@@ -3,7 +3,8 @@ import com.google.gson.annotations.SerializedName
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /**
- * Document Upload dto
+ * 서류 업로드 DTO
+ * API 명세서 Check 완료
  * */
 data class ApprovalUploadDto (
         @SerializedName("category")
