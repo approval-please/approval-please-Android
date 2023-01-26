@@ -8,8 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,6 +18,7 @@ import retrofit2.Response
 /**
  * Approval Fragment 페이지
  * 전체 부서와 관심부서 정보를 서버에서 받아와 적용하는 로직 필요
+ * ViewModel 체크 완료
  * */
 class ApprovalViewModel() : ViewModel() {
 
@@ -33,7 +35,13 @@ class ApprovalViewModel() : ViewModel() {
     val approval_interest_list : LiveData<ApprovalPaperDto>
         get() = _approval_interest_list
 
+    /**엑세스 토큰 여부 판단 라이브데이터*/
+    private var _has_accessToken = MutableLiveData<Boolean>()
+    val has_accessToken : LiveData<Boolean>
+        get() = _has_accessToken
+
     /**
+     * 데모데이 영상을 위한 로직
      * 전체부서 가지고 오는 로직
      * */
     fun init_all_category_approval() = viewModelScope.launch {
@@ -86,6 +94,7 @@ class ApprovalViewModel() : ViewModel() {
 
 
     /**
+     * 데모데이 영상을 위한 로직
      * 관심부서 가지고오는 로직
      * */
     fun init_interest_category_approval() = viewModelScope.launch {
@@ -137,22 +146,49 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 테스트
+     * 모든 documents 목록을 반환받는 메소드
+     * 정상 동작 Check 완료
      * */
-    fun test() = viewModelScope.launch {
+    fun get_all_documents(page: String, category: String) = viewModelScope.launch {
 
-        var approvalPaper = ApprovalPaper(0,0,
-            "today", null, "텀블러", "살까요", listOf("가정", "환경"), 0, 0, 0)
-
-        val approvalPaperDto = ApprovalPaperDto(0,0,0, listOf(approvalPaper))
-
-        val response = repository.test(approvalPaperDto)
+        val response = repository.getDocuments(page, category)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
+                    //나중에 서버와 연결시 활성화
+                    //_approval_all_list.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ApprovalPaperDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 모든 documents 목록을 반환받는 메소드
+     * 정상 동작 Check 완료
+     * */
+    fun get_interesting_documents(page: String, category: String) = viewModelScope.launch {
+
+        //엑세스 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.getInterestingCategoryDocuments(accessToken, page, category)
+        response.enqueue(object : Callback<ApprovalPaperDto> {
+            override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    //나중에 서버와 연결시 활성화
+                    //_approval_interest_list.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+
+                    //엑세스 토큰이 없거나 만료된 경우
+                    _has_accessToken.postValue(false)
                 }
             }
             override fun onFailure(call: Call<ApprovalPaperDto>, t: Throwable) {

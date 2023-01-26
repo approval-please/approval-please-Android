@@ -15,13 +15,15 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalInterestingCategoryViewBinding
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.activity.InterestingDepartmentActivity
+import com.umc.approval.ui.activity.LoginActivity
+import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 
 class ApprovalInterestingCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalInterestingCategoryViewBinding? = null
     private val binding get() = _binding!!
 
-    /**mypage view model*/
+    /**approval view model 초기화*/
     private val viewModel by viewModels<ApprovalViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +40,12 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         //live data
         live_data()
 
-        //서버로부터 데이터를 받아옴
+        //서버로부터 데이터를 받아옴, 데모데이용 나중에 삭제
         viewModel.init_interest_category_approval()
 
+        /**부서 선택마다 서버에 연결*/
         binding.cgInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "부서 선택, $checkedIds")
+            viewModel.get_all_documents("0", checkedIds.get(0).toString())
         }
 
         binding.addInterestCategoryButton.setOnClickListener {
@@ -51,7 +54,23 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             startActivity(intent)
         }
 
+        //모든 관심 서류 목록 조회
+        viewModel.get_interesting_documents("0", "0")
+
+        //엑세스 토큰이 없으면 로그인으로 이동
+        not_has_access_token()
+
         return view
+    }
+
+    /**엑세스 토큰이 없으면 로그인 엑티비티로 이동*/
+    private fun not_has_access_token() {
+        viewModel.has_accessToken.observe(viewLifecycleOwner) {
+            if (!it) {
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                requireActivity().finish()
+            }
+        }
     }
 
     /**

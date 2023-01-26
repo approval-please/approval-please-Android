@@ -39,14 +39,16 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         //live data
         live_data()
 
+        //초기 데이터, 데모데이용 나중에 삭제
+        viewModel.get_all_documents("0", "0")
+
         //서버로부터 데이터를 받아옴
         viewModel.init_all_category_approval()
 
+        /**부서 선택마다 로직 설정*/
         binding.cgAllCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "부서 선택, $checkedIds")
+            viewModel.get_all_documents("0", checkedIds.get(0).toString())
         }
-
-        viewModel.test()
 
         return view
     }

@@ -2,6 +2,10 @@ package com.umc.approval.data.dto.approval.get
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * 결재 서류 DTO
+ * API 명세서 Check 완료
+ * */
 data class ApprovalPaper(
     @SerializedName("state")
     val state: Int,
@@ -23,6 +27,4 @@ data class ApprovalPaper(
     val approveCount: Int,
     @SerializedName("rejectCount")
     val rejectCount: Int,
-    @SerializedName("rejectCou")
-    val rejectCou: Int ?= null,
 )
