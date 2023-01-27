@@ -50,31 +50,30 @@ class ApprovalAllCategoryViewFragment: Fragment() {
     private fun setApprovalPaperList() {
         val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
-
         approvalPaperList.apply{
             add(ApprovalPaper(0, 0, "30분전",
-                mutableListOf(),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("가전", "환경"),
                 1000, 32, 12))
 
             add(ApprovalPaper(1, 0, "30분전",
-                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                mutableListOf(),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "가구"),
+                1000, 32, 12))
+
+            add(ApprovalPaper(0, 0, "30분전",
+                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("환경"),
+                1000, 32, 12))
+
+            add(ApprovalPaper(1, 0, "30분전",
+                mutableListOf(),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계"),
                 1000, 32, 12))
 
             add(ApprovalPaper(2, 0, "30분전",
-                mutableListOf(),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12))
-
-            add(ApprovalPaper(0, 0, "30분전",
-                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12))
-
-            add(ApprovalPaper(1, 0, "30분전",
-                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
+                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
+                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경"),
                 1000, 32, 12))
         }
 

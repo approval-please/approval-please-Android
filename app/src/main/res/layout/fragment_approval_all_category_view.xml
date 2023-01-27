@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
                     android:checked="true"
-                    android:text="@string/all_category"/>
+                    android:text="모든 부서"/>
 
                 <com.google.android.material.chip.Chip
                     style="@style/Colors_Widget.MaterialComponents.Chip.Choice"

@@ -52,6 +52,11 @@ data class Like(
     val follow_status: Boolean,
 )
 
+data class InterestingCategory(
+    val category: String,
+    var selected: Boolean,
+)
+
 data class VoteItem(
     val content: String,
     val check: Boolean,

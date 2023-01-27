@@ -2,11 +2,13 @@ package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
@@ -73,6 +75,13 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
                     listner?.onItemClick(itemView, data, pos)
                 }
             }
+
+            // 태그 리사이클러뷰 설정
+            val tagRVAdapter = TagRVAdapter(data.tag)
+            val spaceDecoration = HorizontalSpaceItemDecoration(25)
+            binding.rvTag.addItemDecoration(spaceDecoration)
+            binding.rvTag.adapter = tagRVAdapter
+            binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         }
     }
 
@@ -86,4 +95,15 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
         this.listner = listner
     }
 
+    // 아이템 간 간격 조절 기능
+    inner class HorizontalSpaceItemDecoration(private val width: Int) :
+        RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.right = width
+        }
+    }
 }
