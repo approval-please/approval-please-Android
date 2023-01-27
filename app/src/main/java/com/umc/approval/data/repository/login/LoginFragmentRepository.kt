@@ -1,7 +1,10 @@
 package com.umc.approval.data.repository.login
 
-import com.umc.approval.data.dto.login.get.EmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
+import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
 import com.umc.approval.data.dto.login.post.BasicJoinDto
+import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.serverApi
 import okhttp3.ResponseBody
@@ -15,15 +18,22 @@ class LoginFragmentRepository() {
     /**
      * Email Check API
      * */
-    fun email_check(email: String): Call<EmailCheckDto> {
+    fun email_check(email: String): Call<ReturnEmailCheckDto> {
         return serverApi.email_check(email)
+    }
+
+    /**
+     * Phone Auth Request API
+     * */
+    fun phone_auth_request(phoneNumber: String): Call<ReturnPhoneAuthRequestDto> {
+        return serverApi.phone_auth_request(phoneNumber)
     }
 
     /**
      * Phone Check API
      * */
-    fun phone_check(phoneNumber: String): Call<ResponseBody> {
-        return serverApi.phone_check(phoneNumber)
+    fun phone_auth(auth: PhoneAuthDto): Call<ReturnPhoneAuthDto> {
+        return serverApi.phone_auth(auth)
     }
 
     /**

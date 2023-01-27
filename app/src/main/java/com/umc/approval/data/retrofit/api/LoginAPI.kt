@@ -1,7 +1,10 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.login.get.EmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
+import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
 import com.umc.approval.data.dto.login.post.BasicJoinDto
+import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -22,7 +25,7 @@ interface LoginAPI {
      * */
     @POST("/auth/email")
     @Headers("content-type: application/json")
-    fun email_check(@Body email : String):Call<EmailCheckDto>
+    fun email_check(@Body email : String):Call<ReturnEmailCheckDto>
 
     /**
      * @Post
@@ -30,10 +33,19 @@ interface LoginAPI {
      * @Get
      * Success: status(0: 번호 존재 X, 1: 번호 존재 O)
      * */
-    //phoneNum만 체크하면 될것 같음, 하이픈 제외하고 보내겠음
     @POST("/auth/cert")
     @Headers("content-type: application/json")
-    fun phone_check(@Query("phoneNumber") phoneNumber : String):Call<ResponseBody>
+    fun phone_auth_request(@Body phoneNumber : String):Call<ReturnPhoneAuthRequestDto>
+
+    /**
+     * @Post
+     * phoneNumber
+     * @Get
+     * Success: status(0: 번호 존재 X, 1: 번호 존재 O)
+     * */
+    @POST("/auth/cert/check")
+    @Headers("content-type: application/json")
+    fun phone_auth(@Body auth : PhoneAuthDto):Call<ReturnPhoneAuthDto>
 
     /**
      * @Post

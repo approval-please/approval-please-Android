@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.approval.data.dto.login.get.EmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
 import com.umc.approval.dataStore.AccessTokenDataStore
 import com.umc.approval.data.repository.login.LoginFragmentRepository
 import kotlinx.coroutines.flow.first
@@ -23,8 +23,8 @@ class LoginFragmentViewModel() : ViewModel() {
     val accessToken : LiveData<String>
         get() = _accessToken
 
-    private var _email_check = MutableLiveData<EmailCheckDto>()
-    val email_check : LiveData<EmailCheckDto>
+    private var _email_check = MutableLiveData<ReturnEmailCheckDto>()
+    val email_check : LiveData<ReturnEmailCheckDto>
         get() = _email_check
 
     /**
@@ -94,8 +94,8 @@ class LoginFragmentViewModel() : ViewModel() {
     fun emailCheck(email : String) = viewModelScope.launch {
 
         val response = repository.email_check(email)
-        response.enqueue(object : Callback<EmailCheckDto> {
-            override fun onResponse(call: Call<EmailCheckDto>, response: Response<EmailCheckDto>) {
+        response.enqueue(object : Callback<ReturnEmailCheckDto> {
+            override fun onResponse(call: Call<ReturnEmailCheckDto>, response: Response<ReturnEmailCheckDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
                     _email_check.postValue(response.body())
@@ -103,7 +103,7 @@ class LoginFragmentViewModel() : ViewModel() {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<EmailCheckDto>, t: Throwable) {
+            override fun onFailure(call: Call<ReturnEmailCheckDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
