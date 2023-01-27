@@ -48,7 +48,9 @@ class ProfileChangeActivity : AppCompatActivity() {
         binding.saveButton.isVisible = false
 
         //초기화 데이터
-        viewModel.init_data()
+//        viewModel.init_data()
+
+        viewModel.my_profile()
 
         //다른 view로 이동
         move_to_other()
@@ -102,8 +104,8 @@ class ProfileChangeActivity : AppCompatActivity() {
             binding.my.setText(viewModel.load_profile.value!!.introduction)
 
             //profile image
-            if (!viewModel.load_profile.value!!.image.equals(null)) {
-                binding.profileImage.load(viewModel.load_profile.value!!.image)
+            if (!viewModel.load_profile.value!!.profileImage.equals(null)) {
+                binding.profileImage.load(viewModel.load_profile.value!!.profileImage)
             }
         }
     }
@@ -126,16 +128,16 @@ class ProfileChangeActivity : AppCompatActivity() {
                     ?.setRegion(Regions.AP_NORTHEAST_2)
                     ?.uploadWithTransferUtility(
                         this,
-                        "approval-please/profile", file, "test"
+                        "approval-please/profile", file, "my"
                     )
 
-                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test"
+                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/my"
             }
 
             profile.nickname = binding.nickname.text.toString()
             profile.introduction = binding.my.text.toString()
 
-            viewModel.save(profile)
+            viewModel.change_profile(profile)
 
             finish()
         }

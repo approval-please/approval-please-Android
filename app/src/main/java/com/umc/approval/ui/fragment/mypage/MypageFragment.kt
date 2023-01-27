@@ -54,7 +54,10 @@ class MypageFragment : Fragment() {
         init_tab_layout()
 
         //init_viewmodel
-        viewModel.init_test_data()
+//        viewModel.init_test_data()
+
+        //서버로부터 데이터 받아오기
+        viewModel.my_profile()
 
         //서버로부터 데이터를 받아온 것을 관찰했을 경우
         profile_live_data()

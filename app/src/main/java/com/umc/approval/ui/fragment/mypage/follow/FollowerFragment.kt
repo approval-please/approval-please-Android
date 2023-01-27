@@ -44,6 +44,8 @@ class FollowerFragment : Fragment() {
         //텍스트 입력시마다 서버에 연결
         edit()
 
+        viewModel.my_followers()
+
         return view
     }
 
@@ -51,7 +53,7 @@ class FollowerFragment : Fragment() {
     private fun live_data() {
         viewModel.followers.observe(viewLifecycleOwner) {
             binding.followerRecyclerview.layoutManager = LinearLayoutManager(this.context)
-            val followerAdapter = FollowerAdapter(it)
+            val followerAdapter = FollowerAdapter(it.followDto)
             binding.followerRecyclerview.adapter = followerAdapter
         }
     }
@@ -60,7 +62,7 @@ class FollowerFragment : Fragment() {
     private fun edit() {
         binding.followerSearchbar.addTextChangedListener { text: Editable? ->
             text?.let {
-                viewModel.get_followers(it.toString())
+//                viewModel.get_followers(it.toString())
             }
         }
     }

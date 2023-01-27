@@ -7,16 +7,18 @@ import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.data.dto.common.CommonUserListDto
+import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.data.dto.search.post.KeywordDto
 import com.umc.approval.databinding.FollowRecyclerviewItemBinding
 
-class FollowerAdapter(val itemList : MutableList<CommonUserDto>)
+class FollowerAdapter(val itemList : List<FollowDto>)
     : RecyclerView.Adapter<FollowerAdapter.FollowerViewHolder>(){
 
     inner class FollowerViewHolder(val binding : FollowRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun binding(data : CommonUserDto) {
+        fun binding(data : FollowDto) {
             //일단 이름만 설정
             binding.followItemName.setText(data.nickname)
+            binding.followItemProfilepic.load(data.profileImage)
         }
     }
 

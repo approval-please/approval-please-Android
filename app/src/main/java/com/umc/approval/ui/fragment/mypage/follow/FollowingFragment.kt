@@ -9,14 +9,8 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.tabs.TabLayout
-import com.umc.approval.databinding.FragmentFollowBinding
 import com.umc.approval.databinding.FragmentFollowingBinding
-import com.umc.approval.databinding.FragmentNotificationBinding
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
-import com.umc.approval.ui.adapter.follow_fragment.FollowerItem
-import com.umc.approval.ui.adapter.follow_fragment.FollowingAdapter
-import com.umc.approval.ui.adapter.follow_fragment.FollowingItem
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 
 /**
@@ -27,7 +21,7 @@ class FollowingFragment : Fragment() {
     private var _binding : FragmentFollowingBinding? = null
     private val binding get() = _binding!!
 
-    /**login view model*/
+    /**Follow view model*/
     private val viewModel by viewModels<FollowViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +38,9 @@ class FollowingFragment : Fragment() {
         //초기 데이터 get
         viewModel.init_followings()
 
+        //서버에서 데이터 가지고오기
+        viewModel.my_followings()
+
         //라이브데이터 변경 감징
         live_data()
 
@@ -57,7 +54,7 @@ class FollowingFragment : Fragment() {
     private fun live_data() {
         viewModel.followings.observe(viewLifecycleOwner) {
             binding.followingRecyclerview.layoutManager = LinearLayoutManager(this.context)
-            val followerAdapter = FollowerAdapter(it)
+            val followerAdapter = FollowerAdapter(it.followDto)
             binding.followingRecyclerview.adapter = followerAdapter
         }
     }
@@ -66,7 +63,7 @@ class FollowingFragment : Fragment() {
     private fun edit() {
         binding.followingSearchbar.addTextChangedListener { text: Editable? ->
             text?.let {
-                viewModel.get_followings(it.toString())
+//                viewModel.get_followings(it.toString())
             }
         }
     }
