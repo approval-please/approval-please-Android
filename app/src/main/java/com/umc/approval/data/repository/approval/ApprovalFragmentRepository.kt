@@ -6,6 +6,7 @@ import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.comment.DocumentCommentDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
+import okhttp3.ResponseBody
 import retrofit2.Call
 
 /**
@@ -46,5 +47,12 @@ class ApprovalFragmentRepository {
      */
     fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ApprovalUploadDto> {
         return ApprovalApi.uploadDocument(accessToken, upload)
+    }
+
+    /**
+     * 결재서류 업로드 API
+     */
+    fun deleteDocument(accessToken: String, documentId: String): Call<ResponseBody> {
+        return ApprovalApi.deleteDocument(accessToken, documentId)
     }
 }

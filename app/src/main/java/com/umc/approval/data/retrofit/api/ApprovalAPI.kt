@@ -4,6 +4,7 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -60,6 +61,19 @@ interface ApprovalAPI {
     fun uploadDocument(
         @Header("Authorization") accessToken: String, @Body upload: ApprovalUploadDto
     ):Call<ApprovalUploadDto>
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * upload: 업로드할 Document 데이터
+     * 서류 업로드 API
+     * API 명세서 Check 완료
+     * */
+    @DELETE("/documents/{documentId}")
+    @Headers("content-type: application/json")
+    fun deleteDocument(
+        @Header("Authorization") accessToken: String, @Path("documentId") documentId: String
+    ):Call<ResponseBody>
 
     /**
      * @Post

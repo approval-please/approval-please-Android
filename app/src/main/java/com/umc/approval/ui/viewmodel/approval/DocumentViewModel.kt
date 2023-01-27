@@ -10,7 +10,10 @@ import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.comment.DocumentCommentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -93,6 +96,29 @@ class DocumentViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<CommentListDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * document를 삭제하는 메서드
+     * 정상 동작 Check 완료, 단 연결 필요
+     * */
+    fun delete_document(documentId : String) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.deleteDocument(accessToken, documentId)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

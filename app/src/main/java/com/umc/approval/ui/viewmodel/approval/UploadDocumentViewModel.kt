@@ -13,6 +13,7 @@ import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,7 +70,7 @@ class UploadDocumentViewModel() : ViewModel() {
 
 
     /**
-     * 모든 documents 목록을 반환받는 메소드
+     * 서류를 등록하는 메서드
      * 정상 동작 Check 완료
      * */
     fun post_document(upload: ApprovalUploadDto) = viewModelScope.launch {
