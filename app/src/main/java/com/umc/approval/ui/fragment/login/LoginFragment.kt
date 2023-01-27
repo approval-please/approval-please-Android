@@ -255,10 +255,13 @@ class LoginFragment : Fragment() {
                 //check가 성공적으로 진행되었을때
                 viewModel.email_check.observe(viewLifecycleOwner) {
 
+                    val to_password = LoginFragmentDirections.actionLoginFragmentToPasswordFragment(binding.email.text.toString())
+                    val to_join = LoginFragmentDirections.actionLoginFragmentToJoinFragment(binding.email.text.toString())
+
                     if (viewModel.email_check.value!!.status == 1) { //일반 회원인 경우
-                        Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_passwordFragment)
+                        Navigation.findNavController(binding.root).navigate(to_password)
                     } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
-                        Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_joinFragment)
+                        Navigation.findNavController(binding.root).navigate(to_join)
                     } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
                         /**
                          * 다이얼로그 제작 및 연결 필요

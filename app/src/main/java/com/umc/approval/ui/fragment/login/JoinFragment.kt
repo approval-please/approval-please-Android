@@ -11,7 +11,9 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.umc.approval.R
+import com.umc.approval.data.dto.login.post.BasicJoinDto
 import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.databinding.FragmentJoinBinding
 import com.umc.approval.ui.viewmodel.login.JoinViewModel
@@ -20,6 +22,8 @@ import java.util.regex.Pattern
 class JoinFragment : Fragment() {
     private var _binding : FragmentJoinBinding? = null
     private val binding get() = _binding!!
+
+    val get_email : JoinFragmentArgs by navArgs()
 
     private val viewModel by viewModels<JoinViewModel>()
 
@@ -131,6 +135,17 @@ class JoinFragment : Fragment() {
 
         /**회원가입 체크 체크*/
         binding.join.setOnClickListener {
+
+            val basicJoinDto = BasicJoinDto("팀", get_email.email, "aa2618", "01012345678")
+
+            //join
+            viewModel.join(basicJoinDto)
+
+            viewModel.join_state.observe(viewLifecycleOwner) {
+                if (it == true) {
+                    requireActivity().finish()
+                }
+            }
 
             /**닉네임 체크*/
             if (binding.nickname.text.toString() == "" || binding.nickname.text.isEmpty()) {

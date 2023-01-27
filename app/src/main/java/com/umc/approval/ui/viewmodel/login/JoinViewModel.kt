@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
 import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
+import com.umc.approval.data.dto.login.post.BasicJoinDto
 import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.repository.login.LoginFragmentRepository
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +32,11 @@ class JoinViewModel() : ViewModel() {
     private var _phone_auth = MutableLiveData<Int>()
     val phone_auth : LiveData<Int>
         get() = _phone_auth
+
+    /**인증 받았는지 상태 확인하는 라이브 데이터*/
+    private var _join_state = MutableLiveData<Boolean>()
+    val join_state : LiveData<Boolean>
+        get() = _join_state
 
     /**phone_auth 초기화*/
     fun phone_auth_to_zero() {
@@ -72,7 +79,7 @@ class JoinViewModel() : ViewModel() {
             override fun onResponse(call: Call<ReturnPhoneAuthDto>, response: Response<ReturnPhoneAuthDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    if (response.body()!!.isDuplicate == true) { //만약 폰넘버가 중복되지 않으면
+                    if (response.body()!!.isDuplicate == false) { //만약 폰넘버가 중복되지 않으면
                         _phone_auth.postValue(1)
                     } else { //만약 폰넘버가 중복되면
                         _phone_auth.postValue(2)
@@ -82,6 +89,28 @@ class JoinViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<ReturnPhoneAuthDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 일반 회원가입
+     * 정상 동작 Check 완료
+     * */
+    fun join(basicJoinDto: BasicJoinDto) = viewModelScope.launch {
+
+        val response = repository.basic_join(basicJoinDto)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _join_state.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

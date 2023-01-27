@@ -31,7 +31,8 @@ interface LoginAPI {
      * @Post
      * phoneNumber
      * @Get
-     * Success: status(0: 번호 존재 X, 1: 번호 존재 O)
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/cert")
     @Headers("content-type: application/json")
@@ -41,7 +42,8 @@ interface LoginAPI {
      * @Post
      * phoneNumber
      * @Get
-     * Success: status(0: 번호 존재 X, 1: 번호 존재 O)
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/cert/check")
     @Headers("content-type: application/json")
@@ -49,12 +51,14 @@ interface LoginAPI {
 
     /**
      * @Post
-     * BasicJoinDto : nickname, email, password, phoneNumber
+     * BasicJoinDto
      * @Get
+     * API 명세서 Check 완료
+     * 반환값 설정 필요
      * */
     @POST("/auth/signup")
     @Headers("content-type: application/json")
-    fun basic_join(@Query("user") user : BasicJoinDto):Call<ResponseBody>
+    fun basic_join(@Body basicJoinDto: BasicJoinDto):Call<ResponseBody>
 
     /**
      * @Post
@@ -63,8 +67,6 @@ interface LoginAPI {
      * @Get
      * Header Authorization: Bearer Access Token
      * */
-    //join하면 다시 로그인 페이지로 이동 아니면 로그인 상태 유지?? social은 바로 토큰 받자!
-    //토큰 발급 받자마자 소셜 로그아웃 예정, 토큰 발급 받으면 굳이 다시 로그인할 필요 없음, 다시 로그인 버튼을 누를 필요는 없으므로 이렇게 진행
     @POST("/auth/signup/sns")
     @Headers("content-type: application/json")
     fun social_join(@Header("Authorization") accessToken: String, @Query("user") user : SocialJoinDto):Call<ResponseBody>
