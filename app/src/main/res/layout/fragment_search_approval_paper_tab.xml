@@ -1,29 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:nestedScrollingEnabled="true">
+    android:background="@color/approval_please_background_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/filter_container"
         android:layout_width="match_parent"
-        android:layout_height="25dp">
+        android:layout_height="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rv_search_result_approval_paper"
+        android:layout_marginTop="25dp">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            app:tabIndicatorFullWidth="false"
-            app:tabSelectedTextColor="@color/approval_please_main_color"
-            app:tabTextColor="@color/approval_please_medium_gray_color"
-            app:tabTextAppearance="@style/tabTextStyle"
-            app:tabIndicatorHeight="1.2dp"
-            app:layout_constraintStart_toStartOf="parent"
+        <LinearLayout
+            android:id="@+id/category_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="20dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintEnd_toStartOf="@id/state_select">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/approval_fragment_spinner_arrow"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/category_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="0dp"
+                android:textSize="11sp"
+                android:fontFamily="@font/medium"
+                android:text="부서 전체"
+                android:paddingTop="3dp"
+                android:textColor="@color/approval_please_black_color"/>
+
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/state_select"
             android:layout_width="wrap_content"
@@ -32,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/sort_select"
-            android:paddingEnd="10dp">
+            android:layout_marginEnd="20dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -81,20 +100,14 @@
                 android:fontFamily="@font/medium"/>
 
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search_result_approval_paper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
         android:overScrollMode="never"
-        android:scrollbars="none">
+        app:layout_constraintTop_toBottomOf="@id/filter_container"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_approval_paper_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

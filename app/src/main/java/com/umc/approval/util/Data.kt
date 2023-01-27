@@ -57,6 +57,11 @@ data class InterestingCategory(
     var selected: Boolean,
 )
 
+data class CategorySelectDialogItem(
+    val category: String,
+    var isChecked: Boolean,
+)
+
 data class VoteItem(
     val content: String,
     val check: Boolean,
