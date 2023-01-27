@@ -3,7 +3,7 @@ package com.umc.approval.data.dto.login.post
 import com.google.gson.annotations.SerializedName
 
 /**
- * 소셜 로그인시 Dto
+ * 소셜 회원가입시 Dto
  * API 명세서 Check 완료
  * */
 data class SocialJoinDto (

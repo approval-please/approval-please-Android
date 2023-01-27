@@ -1,9 +1,11 @@
 package com.umc.approval.data.retrofit.api
 
+import com.umc.approval.data.dto.login.get.ReturnBasicLoginDto
 import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
 import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
 import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
 import com.umc.approval.data.dto.login.post.BasicJoinDto
+import com.umc.approval.data.dto.login.post.BasicLoginDto
 import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import okhttp3.ResponseBody
@@ -62,6 +64,17 @@ interface LoginAPI {
 
     /**
      * @Post
+     * BasicLoginDto
+     * @Get
+     * Access Token
+     * API 명세서 Check 완료
+     * */
+    @POST("/auth/login")
+    @Headers("content-type: application/json")
+    fun basic_login(@Query("email") email : String, @Query("password") password : String):Call<ReturnBasicLoginDto>
+
+    /**
+     * @Post
      * Header Authorization: Bearer accessToken
      * SocialJoinDto : nickname, phoneNumber, socialType
      * @Get
@@ -70,16 +83,6 @@ interface LoginAPI {
     @POST("/auth/signup/sns")
     @Headers("content-type: application/json")
     fun social_join(@Header("Authorization") accessToken: String, @Query("user") user : SocialJoinDto):Call<ResponseBody>
-
-    /**
-     * @Post
-     * email, password
-     * @Get
-     * Header Authorization : Bearer + 토크 값
-     * */
-    @POST("/auth/login")
-    @Headers("content-type: application/json")
-    fun basic_login(@Query("email") email : String, @Query("password") password : String):Call<ResponseBody>
 
     /**
      * @Post

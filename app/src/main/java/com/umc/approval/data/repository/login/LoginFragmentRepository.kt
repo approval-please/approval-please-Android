@@ -1,9 +1,11 @@
 package com.umc.approval.data.repository.login
 
+import com.umc.approval.data.dto.login.get.ReturnBasicLoginDto
 import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
 import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
 import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
 import com.umc.approval.data.dto.login.post.BasicJoinDto
+import com.umc.approval.data.dto.login.post.BasicLoginDto
 import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.serverApi
@@ -53,7 +55,7 @@ class LoginFragmentRepository() {
     /**
      * Basic Login API
      * */
-    fun basic_login(email: String, password: String): Call<ResponseBody> {
+    fun basic_login(email: String, password: String): Call<ReturnBasicLoginDto> {
         return serverApi.basic_login(email, password)
     }
 
