@@ -249,17 +249,21 @@ class LoginFragment : Fragment() {
 
             if (pattern.matcher(email).matches()) {
                 binding.emailValid.isVisible = false
-                Toast.makeText(requireContext(), "유효한 이메일입니다", Toast.LENGTH_SHORT).show()
 
-                /**
-                 * 유효한 email에 대해 회원 여부 확인후 view 이동
-                 * */
-                if (email.toString() == "cswcsm02@gmail.com") {
-                    Toast.makeText(requireContext(), "회원입니다", Toast.LENGTH_SHORT).show()
-                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_passwordFragment)
-                } else {
-                    Toast.makeText(requireContext(), "회원가입이 필요합니다", Toast.LENGTH_SHORT).show()
-                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_joinFragment)
+                viewModel.emailCheck(binding.email.text.toString())
+
+                //check가 성공적으로 진행되었을때
+                viewModel.email_check.observe(viewLifecycleOwner) {
+
+                    if (viewModel.email_check.value!!.status == 1) { //일반 회원인 경우
+                        Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_passwordFragment)
+                    } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
+                        Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_joinFragment)
+                    } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
+                        /**
+                         * 다이얼로그 제작 및 연결 필요
+                         * */
+                    }
                 }
 
             } else {

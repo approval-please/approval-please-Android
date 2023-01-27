@@ -1,5 +1,6 @@
 package com.umc.approval.data.repository.login
 
+import com.umc.approval.data.dto.login.get.EmailCheckDto
 import com.umc.approval.data.dto.login.post.BasicJoinDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.serverApi
@@ -14,7 +15,7 @@ class LoginFragmentRepository() {
     /**
      * Email Check API
      * */
-    fun email_check(email: String): Call<ResponseBody> {
+    fun email_check(email: String): Call<EmailCheckDto> {
         return serverApi.email_check(email)
     }
 

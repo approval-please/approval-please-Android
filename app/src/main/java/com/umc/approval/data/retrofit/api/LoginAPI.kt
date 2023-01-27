@@ -1,5 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
+import com.umc.approval.data.dto.login.get.EmailCheckDto
 import com.umc.approval.data.dto.login.post.BasicJoinDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import okhttp3.ResponseBody
@@ -16,10 +17,12 @@ interface LoginAPI {
      * email
      * @Get
      * Success: status(0: 계정 존재 X, 1: 일반 계정 존재, 2: SNS 계정 존재)
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/email")
     @Headers("content-type: application/json")
-    fun email_check(@Query("email") email : String):Call<ResponseBody>
+    fun email_check(@Body email : String):Call<EmailCheckDto>
 
     /**
      * @Post
