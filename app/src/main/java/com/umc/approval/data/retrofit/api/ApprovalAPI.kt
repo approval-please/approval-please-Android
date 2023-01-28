@@ -3,6 +3,7 @@ package com.umc.approval.data.retrofit.api
 import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
@@ -89,6 +90,18 @@ interface ApprovalAPI {
     fun agreeDocument(
         @Header("Authorization") accessToken: String, @Path("documentId") documentId: String, @Body agreePostDto: AgreePostDto
     ):Call<AgreeDto>
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * 서류 업로드 API
+     * API 명세서 Check 완료
+     * */
+    @POST("/approvals")
+    @Headers("content-type: application/json")
+    fun agreeMyDocument(
+        @Header("Authorization") accessToken: String, @Body agreeMyPostDto: AgreeMyPostDto
+    ):Call<ResponseBody>
 
     /**
      * @Post

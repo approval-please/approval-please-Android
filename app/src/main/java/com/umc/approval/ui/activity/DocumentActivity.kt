@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
@@ -49,6 +50,8 @@ class DocumentActivity : AppCompatActivity() {
 
         //초기화
         viewModel.init_document()
+
+        viewModel.agree_my_document(AgreeMyPostDto(0,false))
     }
 
     private fun setComment() {
