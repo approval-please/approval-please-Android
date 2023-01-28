@@ -11,9 +11,19 @@ import retrofit2.Call
  */
 class CommentRepository {
 
-    fun getComments(accessToken: String?= null, documentId: Int?=null,
+    fun getDocumentComments(accessToken: String?= null, documentId: Int?=null,
                     toktokId : Int?=null, reportId : Int?=null): Call<CommentListDto> {
         return commentAPI.getComments(documentId = documentId)
+    }
+
+    fun getTokComments(accessToken: String?= null, documentId: Int?=null,
+                            toktokId : Int?=null, reportId : Int?=null): Call<CommentListDto> {
+        return commentAPI.getComments(toktokId = toktokId)
+    }
+
+    fun getReportComments(accessToken: String?= null, documentId: Int?=null,
+                            toktokId : Int?=null, reportId : Int?=null): Call<CommentListDto> {
+        return commentAPI.getComments(reportId = reportId)
     }
 
     fun postComments(accessToken: String, commentPostDto: CommentPostDto): Call<ResponseBody> {

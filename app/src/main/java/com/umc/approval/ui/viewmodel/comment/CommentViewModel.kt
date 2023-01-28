@@ -32,17 +32,59 @@ class CommentViewModel() : ViewModel() {
     /**approval repository*/
     private val repository = CommentRepository()
 
-    private var _document = MutableLiveData<DocumentDto>()
-    val document : LiveData<DocumentDto>
-        get() = _document
-
     /**
      * 모든 comments 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
     fun get_document_comments() = viewModelScope.launch {
 
-        val response = repository.getComments(documentId = 1)
+        val response = repository.getDocumentComments(documentId = 1)
+        response.enqueue(object : Callback<CommentListDto> {
+            override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    //나중에 서버와 연결시 활성화
+                    //_approval_all_list.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<CommentListDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 모든 comments 목록을 반환받는 메소드
+     * 정상 동작 Check 완료
+     * */
+    fun get_tok_comments() = viewModelScope.launch {
+
+        val response = repository.getTokComments(toktokId = 1)
+        response.enqueue(object : Callback<CommentListDto> {
+            override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    //나중에 서버와 연결시 활성화
+                    //_approval_all_list.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<CommentListDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 모든 comments 목록을 반환받는 메소드
+     * 정상 동작 Check 완료
+     * */
+    fun get_report_comments() = viewModelScope.launch {
+
+        val response = repository.getReportComments(reportId = 1)
         response.enqueue(object : Callback<CommentListDto> {
             override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
                 if (response.isSuccessful) {

@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
@@ -40,11 +39,6 @@ class DocumentActivity : AppCompatActivity() {
 
         //이전 프래그먼트에서 데이터 가지고 오기
         viewModel.get_document_detail("0")
-
-        //댓글 가지고 오기
-        commentViewModel.get_document_comments()
-
-        commentViewModel.post_comments(CommentPostDto(content = "123", image = "13"))
 
         // like activity로 이동
         binding.documentCommentPostLikes.setOnClickListener {
