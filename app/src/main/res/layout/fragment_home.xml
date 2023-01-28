@@ -166,82 +166,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/cg_my_interesting_category"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            app:selectionRequired="true"
-                            app:singleLine="true"
-                            app:singleSelection="true">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_category"
                                 android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checked="true"
-                                android:text="@string/all_interesting_category"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp"
-                                android:fontFamily="@font/medium"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="디지털기기"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp"
-                                android:fontFamily="@font/medium"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="생활가전"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp"
-                                android:fontFamily="@font/medium"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="생활용품"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp"
-                                android:fontFamily="@font/medium"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="뷰티/미용"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp"
-                                android:fontFamily="@font/medium"/>
+                                android:layout_height="wrap_content"
+                                android:overScrollMode="never">
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <ImageButton
                                 android:id="@+id/add_interest_category_button"
@@ -249,14 +184,14 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
                                 android:gravity="center_vertical"
-                                android:paddingTop="1dp"
-                                android:src="@drawable/home_fragment_add_interesting_category_button" />
+                                android:layout_gravity="center"
+                                android:src="@drawable/approval_fragment_add_interesting_category_button" />
 
                             <Space
                                 android:layout_width="50dp"
                                 android:layout_height="match_parent" />
-                        </com.google.android.material.chip.ChipGroup>
 
+                        </LinearLayout>
                     </HorizontalScrollView>
 
                     <androidx.recyclerview.widget.RecyclerView

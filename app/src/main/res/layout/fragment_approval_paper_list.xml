@@ -8,7 +8,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="25dp">
+        android:layout_height="25dp"
+        android:background="@color/approval_please_white_color"
+        android:elevation="4dp">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"

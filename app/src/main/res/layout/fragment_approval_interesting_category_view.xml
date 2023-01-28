@@ -45,8 +45,6 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_approval_paper"
             android:layout_width="match_parent"

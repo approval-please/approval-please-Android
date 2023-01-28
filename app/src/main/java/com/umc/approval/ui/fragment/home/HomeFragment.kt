@@ -15,15 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentHomeBinding
+import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.activity.SearchActivity
+import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.ApprovalPaper
 import com.umc.approval.util.ApprovalReport
+import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Post
 
 /**
@@ -86,10 +89,7 @@ class HomeFragment : Fragment() {
         setPopularPost()  // 인기 게시글
         setApprovalReport()  // 결재 보고서
 
-        binding.cgMyInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "관심 부서 선택, $checkedIds")
-            // 카테고리 번호 선택, notify
-        }
+        setInterestingCategoryList()
 
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "결재서류 정렬 방식 선택, $checkedIds")
@@ -241,6 +241,39 @@ class HomeFragment : Fragment() {
         dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListner {
             override fun onItemClick(v: View, data: ApprovalReport, pos: Int) {
                 Log.d("로그", "결재 보고서 클릭, pos: $pos")
+            }
+        })
+    }
+
+    private fun setInterestingCategoryList() {
+        val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
+
+        interestingCategory.apply{
+            add(InterestingCategory("관심 부서 전체", true))
+            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("생활가전", false))
+            add(InterestingCategory("생활용품", false))
+            add(InterestingCategory("미용", false))
+        }
+
+        val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
+        val spaceDecoration = HorizontalSpaceItemDecoration(25)
+        binding.rvCategory.addItemDecoration(spaceDecoration)
+        binding.rvCategory.adapter = categoryRVAdapter
+        binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+        binding.addInterestCategoryButton.setOnClickListener {
+            Log.d("로그", "관심 부서 추가 버튼 클릭")
+            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 클릭 이벤트 처리
+        categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
+            override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
+                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
+
+                // API 호출하여 InterestingCategory 갱신
             }
         })
     }
