@@ -1,5 +1,6 @@
 package com.umc.approval.data.repository.comment
 
+import android.util.Log
 import com.umc.approval.data.dto.comment.get.CommentListDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.commentAPI
@@ -28,5 +29,9 @@ class CommentRepository {
 
     fun postComments(accessToken: String, commentPostDto: CommentPostDto): Call<ResponseBody> {
         return commentAPI.postComment(accessToken, commentPostDto)
+    }
+
+    fun deleteComment(accessToken: String, commentId : String): Call<ResponseBody> {
+        return commentAPI.deleteComment(accessToken, commentId)
     }
 }

@@ -125,4 +125,34 @@ class CommentViewModel() : ViewModel() {
             }
         })
     }
+
+    /**
+     * 모든 comments 목록을 반환받는 메소드
+     * 정상 동작 Check 완료
+     * */
+    fun delete_comments(type: Int, commentId : String) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.deleteComment(accessToken, commentId)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    if (type == 0) {
+                        get_document_comments()
+                    } else if (type == 1) {
+                        get_tok_comments()
+                    } else if (type == 2) {
+                        get_report_comments()
+                    }
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
 }

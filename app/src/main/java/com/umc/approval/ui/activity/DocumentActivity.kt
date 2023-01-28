@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem

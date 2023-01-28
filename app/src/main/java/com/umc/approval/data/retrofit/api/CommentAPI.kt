@@ -19,4 +19,8 @@ interface CommentAPI {
     @POST("/comments")
     @Headers("content-type: application/json")
     fun postComment(@Header("Authorization") accessToken: String, @Body commentPostDto: CommentPostDto): Call<ResponseBody>
+
+    @DELETE("/comments/{commentId}")
+    @Headers("content-type: application/json")
+    fun deleteComment(@Header("Authorization") accessToken: String, @Path("commentId") commentId : String): Call<ResponseBody>
 }
