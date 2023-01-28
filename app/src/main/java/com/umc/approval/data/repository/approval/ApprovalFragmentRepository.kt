@@ -3,9 +3,10 @@ package com.umc.approval.data.repository.approval
 import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.get.LikeReturnDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
-import com.umc.approval.data.dto.comment.get.CommentListDto
+import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import okhttp3.ResponseBody
@@ -63,5 +64,12 @@ class ApprovalFragmentRepository {
      */
     fun agreeMyDocument(accessToken: String, agreeMyPostDto: AgreeMyPostDto): Call<ResponseBody> {
         return ApprovalApi.agreeMyDocument(accessToken, agreeMyPostDto)
+    }
+
+    /**
+     * 내 결재서류 승인 API
+     */
+    fun like(accessToken: String, likeDto: LikeDto): Call<LikeReturnDto> {
+        return ApprovalApi.like(accessToken, likeDto)
     }
 }

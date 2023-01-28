@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.get.LikeReturnDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.approval.post.LikeDto
+import com.umc.approval.data.dto.approval.post.TokLikeDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
@@ -146,6 +149,26 @@ class DocumentViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+
+    fun document_like() = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.like(accessToken, LikeDto(documentId = 1))
+        response.enqueue(object : Callback<LikeReturnDto> {
+            override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<LikeReturnDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

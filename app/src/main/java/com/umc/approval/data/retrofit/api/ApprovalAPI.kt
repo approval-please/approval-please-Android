@@ -3,9 +3,10 @@ package com.umc.approval.data.retrofit.api
 import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.get.LikeReturnDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
-import com.umc.approval.data.dto.comment.get.CommentListDto
+import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -102,4 +103,11 @@ interface ApprovalAPI {
     fun agreeMyDocument(
         @Header("Authorization") accessToken: String, @Body agreeMyPostDto: AgreeMyPostDto
     ):Call<ResponseBody>
+
+
+    @POST("/likes")
+    @Headers("content-type: application/json")
+    fun like(
+        @Header("Authorization") accessToken: String, @Body likeDto: LikeDto
+    ): Call<LikeReturnDto>
 }
