@@ -47,9 +47,10 @@ class DocumentViewModel() : ViewModel() {
         )
 
         //서버로부터 받아온 데이터
-        val documentDto = DocumentDto(2,1, "23/01/11 15:30",
+        val documentDto = DocumentDto(1,2,1, "23/01/11 15:30",
             "aws", "팀", mutableListOf("aws", "aws"), "아이폰 14 pro", "아이폰 14 pro 살까요 말까요",
-            openGraphDto, mutableListOf("태그", "태그"), 13, 2, 10, 10, 20, 20)
+            openGraphDto, mutableListOf("태그", "태그"), 13, 2, 10, 10,
+            20, 20, false)
 
         //데이터 삽입
         _document.postValue(documentDto)

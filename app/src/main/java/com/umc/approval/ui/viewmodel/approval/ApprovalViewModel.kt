@@ -50,38 +50,38 @@ class ApprovalViewModel() : ViewModel() {
 
         approvalPaperList.apply{
             add(
-                ApprovalPaper(0, 0, "30분전",
-                mutableListOf(),
+                ApprovalPaper(1,0, 0, "30분전",
+                    "",
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12)
+                1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(1, 0, "30분전",
-                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                ApprovalPaper(1,1, 0, "30분전",
+                "",
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12)
+                1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(2, 0, "30분전",
-                mutableListOf(),
+                ApprovalPaper(1,2, 0, "30분전",
+                "",
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12)
+                1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(0, 0, "30분전",
-                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                ApprovalPaper(1,0, 0, "30분전",
+                "",
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12)
+                1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(1, 0, "30분전",
-                mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                ApprovalPaper(1, 1, 0, "30분전",
+                "",
                 "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12)
+                1000, 32, 12, 1)
             )
         }
 
@@ -103,38 +103,38 @@ class ApprovalViewModel() : ViewModel() {
 
         approvalPaperList.apply{
             add(
-                ApprovalPaper(0, 0, "30분전",
-                    mutableListOf(),
+                ApprovalPaper(1,0, 0, "30분전",
+                    "",
                     "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12)
+                    1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(1, 0, "30분전",
-                    mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                ApprovalPaper(1,1, 0, "30분전",
+                    "",
                     "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12)
+                    1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(2, 0, "30분전",
-                    mutableListOf(),
+                ApprovalPaper(1,2, 0, "30분전",
+                    "",
                     "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12)
+                    1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(0, 0, "30분전",
-                    mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                ApprovalPaper(1,0, 0, "30분전",
+                    "",
                     "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12)
+                    1000, 32, 12, 1)
             )
 
             add(
-                ApprovalPaper(1, 0, "30분전",
-                    mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
+                ApprovalPaper(1,1, 0, "30분전",
+                    "",
                     "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12)
+                    1000, 32, 12, 1)
             )
         }
 
@@ -149,9 +149,9 @@ class ApprovalViewModel() : ViewModel() {
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
-    fun get_all_documents(page: String, category: String) = viewModelScope.launch {
+    fun get_all_documents(category: String) = viewModelScope.launch {
 
-        val response = repository.getDocuments(page, category)
+        val response = repository.getDocuments(category)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {
@@ -172,12 +172,12 @@ class ApprovalViewModel() : ViewModel() {
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
-    fun get_interesting_documents(page: String, category: String) = viewModelScope.launch {
+    fun get_interesting_documents(category: String) = viewModelScope.launch {
 
         //엑세스 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.getInterestingCategoryDocuments(accessToken, page, category)
+        val response = repository.getInterestingCategoryDocuments(accessToken, category)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {

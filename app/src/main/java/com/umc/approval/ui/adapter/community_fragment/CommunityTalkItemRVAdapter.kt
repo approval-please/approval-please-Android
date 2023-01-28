@@ -18,10 +18,10 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
         fun binding(data : CommunityTok) {
 
-            if (data.linkUrl != null) {
-                binding.talkOpenGraphImage.load(data.linkUrl.get(0).image)
-                binding.talkOpenGraphText.setText(data.linkUrl.get(0).title)
-                binding.talkOpenGraphUrl.setText(data.linkUrl.get(0).url)
+            if (data.link != null) {
+                binding.talkOpenGraphImage.load(data.link.get(0).image)
+                binding.talkOpenGraphText.setText(data.link.get(0).title)
+                binding.talkOpenGraphUrl.setText(data.link.get(0).url)
             }
         }
     }

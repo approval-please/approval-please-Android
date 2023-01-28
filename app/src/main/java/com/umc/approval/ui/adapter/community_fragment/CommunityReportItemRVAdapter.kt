@@ -19,10 +19,10 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
 
         fun binding(data : CommunityReport) {
 
-            if (data.linkUrl != null) {
-                binding.reportOpenGraphImage.load(data.linkUrl.get(0).image)
-                binding.reportOpenGraphText.setText(data.linkUrl.get(0).title)
-                binding.reportOpenGraphUrl.setText(data.linkUrl.get(0).url)
+            if (data.reportLink != null) {
+                binding.reportOpenGraphImage.load(data.reportLink.get(0).image)
+                binding.reportOpenGraphText.setText(data.reportLink.get(0).title)
+                binding.reportOpenGraphUrl.setText(data.reportLink.get(0).url)
             }
         }
     }

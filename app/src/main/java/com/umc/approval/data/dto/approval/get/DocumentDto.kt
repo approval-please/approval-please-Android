@@ -8,6 +8,9 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
  * API 명세서 Check 완료
  * */
 data class DocumentDto(
+
+    @SerializedName("documentId")
+    val documentId: Int,
     @SerializedName("state")
     val state: Int,
     @SerializedName("category")
@@ -40,4 +43,6 @@ data class DocumentDto(
     val likedCount: Int,
     @SerializedName("commentCount")
     val commentCount: Int,
+    @SerializedName("isModified")
+    val isModified: Boolean,
 )

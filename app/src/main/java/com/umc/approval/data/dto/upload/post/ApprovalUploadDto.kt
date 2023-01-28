@@ -8,11 +8,11 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
  * */
 data class ApprovalUploadDto (
         @SerializedName("category")
-        var category : Int,
+        var category : Int? = null,
         @SerializedName("content")
-        var content : String,
+        var content : String? = null,
         @SerializedName("title")
-        var title : String,
+        var title : String? = null,
         @SerializedName("link")
         var opengraph : OpenGraphDto? = null,
         @SerializedName("tag")

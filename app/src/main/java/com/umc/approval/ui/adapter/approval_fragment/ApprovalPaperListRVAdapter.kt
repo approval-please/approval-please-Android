@@ -29,7 +29,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         val context = context
         fun bind(data: ApprovalPaper) {
 
-            if (data.images != null) {
+            if (data.image != null) {
                 binding.itemImage.isVisible = false
             } else {
 //                binding.itemImage.load(data.image.get(0))

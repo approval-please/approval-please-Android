@@ -17,15 +17,15 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 목록 조회 API
      */
-    fun getDocuments(page: String, category: String): Call<ApprovalPaperDto> {
-        return ApprovalApi.getDocuments(page, category)
+    fun getDocuments(category: String): Call<ApprovalPaperDto> {
+        return ApprovalApi.getDocuments(category)
     }
 
     /**
      * 관심부서 결재서류 목록 조회 API
      */
-    fun getInterestingCategoryDocuments(accessToken: String, page: String, category: String): Call<ApprovalPaperDto> {
-        return ApprovalApi.getInterestingCategoryDocuments(accessToken, page, category)
+    fun getInterestingCategoryDocuments(accessToken: String, category: String): Call<ApprovalPaperDto> {
+        return ApprovalApi.getInterestingCategoryDocuments(accessToken, category)
     }
 
     /**

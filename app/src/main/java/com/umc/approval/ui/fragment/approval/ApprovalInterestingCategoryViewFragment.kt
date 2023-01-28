@@ -45,7 +45,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
 
         /**부서 선택마다 서버에 연결*/
         binding.cgInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            viewModel.get_all_documents("0", checkedIds.get(0).toString())
+            viewModel.get_all_documents(checkedIds.get(0).toString())
         }
 
         binding.addInterestCategoryButton.setOnClickListener {
@@ -55,7 +55,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         }
 
         //모든 관심 서류 목록 조회
-        viewModel.get_interesting_documents("0", "0")
+        viewModel.get_interesting_documents("0")
 
         //엑세스 토큰이 없으면 로그인으로 이동
         not_has_access_token()

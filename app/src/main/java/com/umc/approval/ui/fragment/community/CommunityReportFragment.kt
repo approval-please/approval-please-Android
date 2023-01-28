@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentCommunityReportBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
-import com.umc.approval.ui.viewmodel.community.CommunityViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 
 class CommunityReportFragment : Fragment() {
 
@@ -22,7 +22,7 @@ class CommunityReportFragment : Fragment() {
     //Community Image RV Adapter
     private lateinit var communityReportItemRVAdapter: CommunityReportItemRVAdapter
 
-    private val viewModel by viewModels<CommunityViewModel>()
+    private val viewModel by viewModels<CommunityReportViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +37,8 @@ class CommunityReportFragment : Fragment() {
         val view = binding.root
 
         viewModel.init_all_reports()
+
+        viewModel.get_all_reports(-1)
 
         connect_to_community_rv()
 

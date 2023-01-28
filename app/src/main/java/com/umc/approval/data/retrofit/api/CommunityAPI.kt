@@ -22,7 +22,7 @@ interface CommunityAPI {
      * */
     @GET("/community/toktoks")
     @Headers("content-type: application/json")
-    fun get_community_tok_items(@Query("state") state: Int):Call<CommunityTokDto>
+    fun get_community_tok_items(@Query("sortBy") sortBy: Int):Call<CommunityTokDto>
 
     /**
      * @Post
@@ -32,7 +32,7 @@ interface CommunityAPI {
      * */
     @GET("/community/reports")
     @Headers("content-type: application/json")
-    fun get_community_report_items(@Query("state") state: Int):Call<CommunityReportDto>
+    fun get_community_report_items(@Query("sortBy") sortBy: Int):Call<CommunityReportDto>
 
     /**
      * @Get

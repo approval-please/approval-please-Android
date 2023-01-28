@@ -19,7 +19,7 @@ interface ApprovalAPI {
      */
     @GET("/documents")
     @Headers("content-type: application/json")
-    fun getDocuments(@Query("page") page: String, @Query("category") category: String): Call<ApprovalPaperDto>
+    fun getDocuments(@Query("category") category: String): Call<ApprovalPaperDto>
 
     /**
      * @Post
@@ -32,7 +32,7 @@ interface ApprovalAPI {
     @GET("/documents/likes")
     @Headers("content-type: application/json")
     fun getInterestingCategoryDocuments(
-        @Header("Authorization") accessToken: String, @Query("page") page: String, @Query("category") category: String
+        @Header("Authorization") accessToken: String, @Query("category") category: String
     ): Call<ApprovalPaperDto>
 
     /**

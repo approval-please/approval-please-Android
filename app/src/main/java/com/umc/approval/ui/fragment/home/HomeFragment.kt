@@ -23,7 +23,8 @@ import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
-import com.umc.approval.ui.viewmodel.community.CommunityViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 
 /**
@@ -38,7 +39,10 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<LoginFragmentViewModel>()
 
     /**Community view model*/
-    private val communityViewModel by viewModels<CommunityViewModel>()
+    private val reportViewModel by viewModels<CommunityReportViewModel>()
+
+    /**Community view model*/
+    private val tokViewModel by viewModels<CommunityTokViewModel>()
 
     /**Approval view model*/
     private val approvalViewModel by viewModels<ApprovalViewModel>()
@@ -67,10 +71,10 @@ class HomeFragment : Fragment() {
         approvalViewModel.init_interest_category_approval()
 
         //tok 서류 가지고오는 로직
-        communityViewModel.init_all_toks()
+        tokViewModel.init_all_toks()
 
         //report 서류 가지고오는 로직
-        communityViewModel.init_all_reports()
+        reportViewModel.init_all_reports()
 
         //live data
         live_data()
@@ -200,7 +204,7 @@ class HomeFragment : Fragment() {
         }
 
         //tok
-        communityViewModel.tok_list.observe(viewLifecycleOwner) {
+        tokViewModel.tok_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = PopularPostRVAdapter(it)
             val spaceDecoration = HorizontalSpaceItemDecoration(40)
@@ -217,7 +221,7 @@ class HomeFragment : Fragment() {
         }
 
         //report
-        communityViewModel.report_list.observe(viewLifecycleOwner) {
+        reportViewModel.report_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalReportRVAdapter(it)
             val spaceDecoration = HorizontalSpaceItemDecoration(40)
