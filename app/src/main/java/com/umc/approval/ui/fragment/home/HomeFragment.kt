@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentHomeBinding
 import com.umc.approval.ui.activity.InterestingDepartmentActivity
@@ -22,12 +23,14 @@ import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
+import com.umc.approval.ui.adapter.home_fragment.BannerVPAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.ApprovalPaper
 import com.umc.approval.util.ApprovalReport
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Post
+import me.relex.circleindicator.CircleIndicator3
 
 /**
  * Home View
@@ -90,6 +93,7 @@ class HomeFragment : Fragment() {
         setApprovalReport()  // 결재 보고서
 
         setInterestingCategoryList()
+        setBannerImage()
 
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "결재서류 정렬 방식 선택, $checkedIds")
@@ -276,5 +280,21 @@ class HomeFragment : Fragment() {
                 // API 호출하여 InterestingCategory 갱신
             }
         })
+    }
+
+    /**
+     * 배너 이미지 어댑터 설정
+     */
+    private fun setBannerImage() {
+        val photoUrlList = listOf(R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner)
+
+        // 뷰페이저에 어댑터 ㅇ녀결
+        val photoVPAdatper = BannerVPAdapter(photoUrlList)
+        binding.vpHomeBanner.adapter = photoVPAdatper
+        binding.vpHomeBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        // 인디케이터 생성 미 적용
+        val indicator: CircleIndicator3 = binding.indicator
+        indicator.setViewPager(binding.vpHomeBanner)
     }
 }
