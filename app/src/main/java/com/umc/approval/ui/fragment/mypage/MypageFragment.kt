@@ -65,6 +65,12 @@ class MypageFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("test", "테스트")
+        viewModel.my_profile()
+    }
+
     /**profile live data*/
     private fun profile_live_data() {
         viewModel.myInfo.observe(viewLifecycleOwner) {

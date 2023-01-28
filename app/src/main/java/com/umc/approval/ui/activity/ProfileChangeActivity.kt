@@ -138,8 +138,6 @@ class ProfileChangeActivity : AppCompatActivity() {
             profile.introduction = binding.my.text.toString()
 
             viewModel.change_profile(profile)
-
-            finish()
         }
     }
 

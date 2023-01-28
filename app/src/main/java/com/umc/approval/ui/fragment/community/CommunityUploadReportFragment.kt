@@ -25,6 +25,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -36,6 +37,7 @@ import com.umc.approval.databinding.FragmentCommunityUploadReportBinding
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -49,8 +51,7 @@ class CommunityUploadReportFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadReportBinding
 
-    /**Community Report Upload Viewmodel*/
-    lateinit var viewModel: CommunityReportUploadViewModel
+    private val viewModel by activityViewModels<CommunityUploadViewModel>()
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -99,9 +100,6 @@ class CommunityUploadReportFragment : Fragment() {
             Log.d("결재서류", "결재서류 선택 버튼")
         }
 
-        /*View Model 초기화*/
-        viewModel = ViewModelProvider(this).get(CommunityReportUploadViewModel::class.java)
-
         /*Open Graph manager 초기화*/
         manager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -128,6 +126,11 @@ class CommunityUploadReportFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setLink(1)
     }
 
     /*링크 첨부 다이얼로그*/

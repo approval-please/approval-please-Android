@@ -73,7 +73,7 @@ interface CommunityAPI {
     @POST("/community/toktoks")
     @Headers("content-type: application/json")
     fun upload_community_tok(
-        @Header("Authorization") accessToken: String, toktok: TalkUploadDto
+        @Header("Authorization") accessToken: String, @Body toktok: TalkUploadDto
     ):Call<ResponseBody>
 
     /**
@@ -84,6 +84,6 @@ interface CommunityAPI {
     @POST("/community/reports")
     @Headers("content-type: application/json")
     fun upload_community_report(
-        @Header("Authorization") accessToken: String, report: ReportUploadDto
+        @Header("Authorization") accessToken: String, @Body report: ReportUploadDto
     ):Call<ResponseBody>
 }

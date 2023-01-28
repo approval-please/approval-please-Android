@@ -8,13 +8,13 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 data class ReportUploadDto (
 
         @SerializedName("documentId")
-        var documentId : Int,
+        var documentId : Int? = null,
         @SerializedName("content")
-        var content : String,
-        @SerializedName("opengraphs")
-        var opengraphs : MutableList<OpenGraphDto>,
-        @SerializedName("tags")
-        var tags : MutableList<String> = mutableListOf<String>(),
+        var content : String? = null,
+        @SerializedName("link")
+        var link : MutableList<OpenGraphDto>? = null,
+        @SerializedName("tag")
+        var tag : MutableList<String>? = null,
         @SerializedName("images")
-        var images : MutableList<String> = mutableListOf<String>(),
+        var images : MutableList<String>? = null,
 )

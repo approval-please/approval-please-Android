@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -35,6 +37,7 @@ import com.umc.approval.databinding.*
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityTokUploadViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -47,8 +50,7 @@ class CommunityUploadTokFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadTalkBinding
 
-    /**Community Talk Upload Viewmodel*/
-    lateinit var viewModel: CommunityTokUploadViewModel
+    private val viewModel by activityViewModels<CommunityUploadViewModel>()
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -92,9 +94,6 @@ class CommunityUploadTokFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCommunityUploadTalkBinding.inflate(layoutInflater)
 
-        /*View Model 초기화*/
-        viewModel = ViewModelProvider(this).get(CommunityTokUploadViewModel::class.java)
-
         /*Open Graph manager 초기화*/
         manager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -126,10 +125,17 @@ class CommunityUploadTokFragment : Fragment() {
 
         //리스트에 값이 변경될 때마다 rv 실행
         viewModel.opengraph_list.observe(viewLifecycleOwner) {
-
+            Log.d("test", it.toString())
         }
 
+        binding.uploadImageBtn
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setLink(0)
     }
 
     /**category spinner*/
