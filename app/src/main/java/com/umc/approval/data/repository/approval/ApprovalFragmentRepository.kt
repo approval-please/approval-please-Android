@@ -5,8 +5,7 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
-import com.umc.approval.data.dto.comment.CommentListDto
-import com.umc.approval.data.dto.comment.DocumentCommentDto
+import com.umc.approval.data.dto.comment.get.CommentListDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import okhttp3.ResponseBody
@@ -36,13 +35,6 @@ class ApprovalFragmentRepository {
      */
     fun getDocumentDetail(documentId: String): Call<DocumentDto> {
         return ApprovalApi.getDocumentDetail(documentId)
-    }
-
-    /**
-     * 댓글 목록 API
-     */
-    fun getComments(documentId: Int): Call<CommentListDto> {
-        return ApprovalApi.getComments(documentId)
     }
 
     /**

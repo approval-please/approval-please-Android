@@ -1,0 +1,22 @@
+package com.umc.approval.data.retrofit.api
+
+import com.umc.approval.data.dto.comment.get.CommentListDto
+import com.umc.approval.data.dto.comment.post.CommentPostDto
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.http.*
+
+interface CommentAPI {
+
+    @GET("/comments")
+    @Headers("content-type: application/json")
+    fun getComments(
+                    @Header("Authorization") accessToken: String?= null,
+                    @Query("documentId") documentId: Int?=null,
+                    @Query("toktokId") toktokId: Int?=null,
+                    @Query("reportId") reportId: Int?=null): Call<CommentListDto>
+
+    @POST("/comments")
+    @Headers("content-type: application/json")
+    fun postComment(@Header("Authorization") accessToken: String, @Body commentPostDto: CommentPostDto): Call<ResponseBody>
+}

@@ -5,7 +5,7 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
-import com.umc.approval.data.dto.comment.CommentListDto
+import com.umc.approval.data.dto.comment.get.CommentListDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -102,16 +102,4 @@ interface ApprovalAPI {
     fun agreeMyDocument(
         @Header("Authorization") accessToken: String, @Body agreeMyPostDto: AgreeMyPostDto
     ):Call<ResponseBody>
-
-    /**
-     * @Post
-     * documentId: 댓글 서류를 의미
-     * @Get
-     * CommentListDto
-     * 댓글 리스트 API
-     * API 명세서 Check 미완료
-     */
-    @GET("/documents/comments")
-    @Headers("content-type: application/json")
-    fun getComments(@Query("documentId") documentId: Int): Call<CommentListDto>
 }

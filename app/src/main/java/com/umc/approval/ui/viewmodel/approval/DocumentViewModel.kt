@@ -9,8 +9,6 @@ import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
-import com.umc.approval.data.dto.comment.CommentListDto
-import com.umc.approval.data.dto.comment.DocumentCommentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
@@ -77,29 +75,6 @@ class DocumentViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<DocumentDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-    }
-
-    /**
-     * 모든 comments 목록을 반환받는 메소드
-     * 정상 동작 Check 완료
-     * */
-    fun get_comments() = viewModelScope.launch {
-
-        val response = repository.getComments(1)
-        response.enqueue(object : Callback<CommentListDto> {
-            override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<CommentListDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

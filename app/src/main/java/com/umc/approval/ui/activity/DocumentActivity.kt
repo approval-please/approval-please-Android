@@ -6,18 +6,19 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
-import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
+import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 
 class DocumentActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDocumentBinding
 
     /**Approval view model*/
     private val viewModel by viewModels<DocumentViewModel>()
+    private val commentViewModel by viewModels<CommentViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,9 @@ class DocumentActivity : AppCompatActivity() {
         viewModel.get_document_detail("0")
 
         //댓글 가지고 오기
-        viewModel.get_comments()
+        commentViewModel.get_document_comments()
+
+        commentViewModel.post_comments(CommentPostDto(content = "123", image = "13"))
 
         // like activity로 이동
         binding.documentCommentPostLikes.setOnClickListener {
@@ -50,8 +53,6 @@ class DocumentActivity : AppCompatActivity() {
 
         //초기화
         viewModel.init_document()
-
-        viewModel.agree_my_document(AgreeMyPostDto(0,false))
     }
 
     private fun setComment() {
