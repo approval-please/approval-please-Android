@@ -120,153 +120,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nickname" />
 
-    <!--password-->
-    <TextView
-        android:id="@+id/password_text"
-        android:text="비밀번호"
-        android:fontFamily="@font/medium"
-        android:textColor="@color/approval_please_black_color"
-        android:textSize="13sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nickname" />
-
-    <EditText
-        android:inputType="textPassword"
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginHorizontal="16dp"
-        android:background="@drawable/login_activity_white_box"
-        android:hint="8자 이상 특수문자를 포함해 조합해 주세요."
-        android:maxLines="1"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textSize="16sp"
-        android:fontFamily="@font/medium"
-        android:textColor="@color/approval_please_black_color"
-        android:textColorHint="@color/approval_please_medium_gray_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_text" />
-
-    <ImageView
-        android:id="@+id/password_text_remove"
-        android:layout_marginEnd="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_activity_text_remove"
-        app:layout_constraintBottom_toBottomOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintTop_toTopOf="@+id/password" />
-
-    <ImageView
-        android:visibility="invisible"
-        android:id="@+id/password_success"
-        android:layout_marginEnd="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_activity_valid_success"
-        app:layout_constraintBottom_toBottomOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintTop_toTopOf="@+id/password" />
-
-    <ImageView
-        android:visibility="invisible"
-        android:id="@+id/password_fail"
-        android:layout_marginEnd="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_activity_valid_fail"
-        app:layout_constraintBottom_toBottomOf="@+id/password"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintTop_toTopOf="@+id/password" />
-
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/password_valid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
-        android:text="8자 이상 특수문자 조합해 주세요."
-        android:textColor="#FF0000"
-        android:layout_marginTop="47dp"
-        android:textSize="11sp"
-        android:fontFamily="@font/medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/password" />
-
-
-    <EditText
-        android:inputType="textPassword"
-        android:id="@+id/password_retry"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="67dp"
-        android:layout_marginHorizontal="16dp"
-        android:background="@drawable/login_activity_white_box"
-        android:hint="비밀번호를 재확인해주세요."
-        android:maxLines="1"
-        android:paddingLeft="10dp"
-        android:textSize="16sp"
-        android:fontFamily="@font/medium"
-        android:singleLine="true"
-        android:textColor="@color/approval_please_black_color"
-        android:textColorHint="@color/approval_please_medium_gray_color"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_text" />
-
-    <ImageView
-        android:id="@+id/password_retry_text_remove"
-        android:layout_marginEnd="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_activity_text_remove"
-        app:layout_constraintBottom_toBottomOf="@+id/password_retry"
-        app:layout_constraintEnd_toEndOf="@+id/password_retry"
-        app:layout_constraintTop_toTopOf="@+id/password_retry" />
-
-    <ImageView
-        android:visibility="invisible"
-        android:id="@+id/password_retry_success"
-        android:layout_marginEnd="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_activity_valid_success"
-        app:layout_constraintBottom_toBottomOf="@+id/password_retry"
-        app:layout_constraintEnd_toEndOf="@+id/password_retry"
-        app:layout_constraintTop_toTopOf="@+id/password_retry" />
-
-    <ImageView
-        android:visibility="invisible"
-        android:id="@+id/password_retry_fail"
-        android:layout_marginEnd="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/login_activity_valid_fail"
-        app:layout_constraintBottom_toBottomOf="@+id/password_retry"
-        app:layout_constraintEnd_toEndOf="@+id/password_retry"
-        app:layout_constraintTop_toTopOf="@+id/password_retry" />
-
-    <TextView
-        android:visibility="invisible"
-        android:id="@+id/password_retry_valid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
-        android:text="비밀번호가 일치하지 않습니다."
-        android:textColor="#FF0000"
-        android:textSize="11sp"
-        android:fontFamily="@font/medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/password_retry"
-        android:layout_marginTop="47dp"/>
-
     <!--phone-->
     <TextView
         android:id="@+id/phone_text"
@@ -279,7 +132,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="25dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_retry" />
+        app:layout_constraintTop_toBottomOf="@+id/nickname" />
 
     <EditText
         android:id="@+id/phone"
@@ -448,12 +301,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/auth" />
 
-        <!--agree_all-->
+    <!--agree_all-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/join"
         app:layout_constraintTop_toBottomOf="@+id/auth"
         android:layout_marginTop="15dp">
 
@@ -656,7 +508,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:layout_marginTop="22dp"
         android:id="@+id/join"
         android:insetTop="0dp"
         android:insetBottom="0dp"
@@ -669,6 +520,7 @@
         android:layout_height="42dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
-        android:backgroundTint="@color/approval_please_medium_gray_color"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/approval_please_medium_gray_color"
+        android:layout_marginBottom="24dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
