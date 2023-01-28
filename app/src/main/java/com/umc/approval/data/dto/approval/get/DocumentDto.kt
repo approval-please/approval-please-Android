@@ -36,9 +36,9 @@ data class DocumentDto(
     @SerializedName("level")
     val level: Int,
     @SerializedName("approveCount")
-    val approveCount: Int,
+    var approveCount: Int,
     @SerializedName("rejectCount")
-    val rejectCount: Int,
+    var rejectCount: Int,
     @SerializedName("likedCount")
     val likedCount: Int,
     @SerializedName("commentCount")

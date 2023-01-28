@@ -1,7 +1,9 @@
 package com.umc.approval.data.retrofit.api
 
+import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import okhttp3.ResponseBody
@@ -74,6 +76,19 @@ interface ApprovalAPI {
     fun deleteDocument(
         @Header("Authorization") accessToken: String, @Path("documentId") documentId: String
     ):Call<ResponseBody>
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * upload: 업로드할 Document 데이터
+     * 서류 업로드 API
+     * API 명세서 Check 완료
+     * */
+    @POST("/documents/{documentId}")
+    @Headers("content-type: application/json")
+    fun agreeDocument(
+        @Header("Authorization") accessToken: String, @Path("documentId") documentId: String, @Body agreePostDto: AgreePostDto
+    ):Call<AgreeDto>
 
     /**
      * @Post

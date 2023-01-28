@@ -1,7 +1,9 @@
 package com.umc.approval.data.repository.approval
 
+import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.comment.DocumentCommentDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
@@ -54,5 +56,12 @@ class ApprovalFragmentRepository {
      */
     fun deleteDocument(accessToken: String, documentId: String): Call<ResponseBody> {
         return ApprovalApi.deleteDocument(accessToken, documentId)
+    }
+
+    /**
+     * 결재서류 승인 API
+     */
+    fun agreeDocument(accessToken: String, documentId: String, agreePostDto: AgreePostDto): Call<AgreeDto> {
+        return ApprovalApi.agreeDocument(accessToken, documentId, agreePostDto)
     }
 }

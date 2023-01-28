@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.CommentListDto
 import com.umc.approval.data.dto.comment.DocumentCommentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
@@ -120,6 +122,31 @@ class DocumentViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * document를 삭제하는 메서드
+     * 정상 동작 Check 완료, 단 연결 필요
+     * */
+    fun agree_document(documentId : String, agreePostDto: AgreePostDto) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.agreeDocument(accessToken, documentId, agreePostDto)
+        response.enqueue(object : Callback<AgreeDto> {
+            override fun onResponse(call: Call<AgreeDto>, response: Response<AgreeDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _document.value!!.approveCount = response.body()!!.approveCount
+                    _document.value!!.rejectCount = response.body()!!.rejectCount
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<AgreeDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
