@@ -7,10 +7,11 @@
     tools:context=".ui.fragment.notification.NotificationActivityFragment">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notification_activity_recyclerview"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/notification_recyclerview_item"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

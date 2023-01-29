@@ -52,6 +52,12 @@ class ProfileChangeActivity : AppCompatActivity() {
 
         viewModel.my_profile()
 
+        /**mypage로 이동*/
+
+        binding.backToProfile.setOnClickListener {
+            finish()
+        }
+
         //다른 view로 이동
         move_to_other()
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="328dp"
+    android:layout_width="match_parent"
     android:layout_height="36dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="12.5dp"
@@ -28,22 +28,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="김부장"
-        android:textSize="13sp"
-        android:textColor="#141414"
+        style="@style/midText_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/follow_item_rank"
         android:layout_marginStart="4dp"/>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/follow_btn"
         android:layout_width="45dp"
-        android:layout_height="34dp"
+        android:layout_height="22dp"
+        android:background="@drawable/shape_document_approve_button"
         android:backgroundTint="#BFBFBF"
-        android:minHeight="0dp"
-        android:minWidth="0dp"
-        android:padding="0dp"
-        android:textSize="11sp"
         android:text="팔로잉"
+        android:textAppearance="@style/smallText_gray_light"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

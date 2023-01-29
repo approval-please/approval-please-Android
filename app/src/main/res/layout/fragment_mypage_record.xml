@@ -6,24 +6,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.mypage.MypageRecordFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="12dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
         <ImageView
-            android:layout_width="328dp"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:scaleType="fitXY"
             android:src="@drawable/mypage_record_row_background"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="0.2dp"/>
         <TextView
             android:id="@+id/record_item_date"
-            android:layout_width="61dp"
+            android:layout_width="23dp"
             android:layout_height="16dp"
             android:text="날짜"
-            android:textSize="13sp"
-            android:textColor="#6C39FF"
+            style="@style/midText_purple_light"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="9dp"
@@ -33,30 +36,28 @@
             android:layout_width="148dp"
             android:layout_height="16dp"
             android:text="내용"
-            android:textSize="13sp"
-            android:textColor="#6C39FF"
+            style="@style/midText_purple_light"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/record_item_date"
-            android:layout_marginLeft="24dp"
+            android:layout_marginLeft="62dp"
             android:layout_marginTop="7dp"/>
         <TextView
-            android:layout_width="62dp"
+            android:layout_width="35dp"
             android:layout_height="16dp"
             android:text="포인트"
-            android:textSize="13sp"
-            android:textColor="#6C39FF"
+            style="@style/midText_purple_light"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/record_item_content"
-            android:layout_marginLeft="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="26dp"
             android:layout_marginTop="7dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:overScrollMode="never"
+        android:nestedScrollingEnabled="false"
         android:id="@+id/mypage_record_recyclerview"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="319dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/mypage_record_item"
         android:layout_marginTop="55dp"
         android:layout_marginBottom="12dp"/>
-
 </FrameLayout>

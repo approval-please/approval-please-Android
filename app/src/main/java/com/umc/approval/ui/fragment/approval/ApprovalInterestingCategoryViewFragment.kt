@@ -15,7 +15,6 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalInterestingCategoryViewBinding
 import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.activity.LoginActivity
-import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter

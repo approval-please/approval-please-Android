@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /**Community Item Dto*/
-data class CommunityTok (
+data class CommunityTok(
 
         @SerializedName("toktokId")
         var toktokId : Int,

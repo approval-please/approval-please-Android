@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentCommunityReportBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 

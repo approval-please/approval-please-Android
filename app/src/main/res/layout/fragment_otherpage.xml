@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".check.collie.OtherpageFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,23 +18,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="사원증"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
+            style="@style/TopTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"/>
         <ImageButton
             android:id="@+id/otherpage_setting"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/mypage_icon_settings"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/otherpage_setting_icon2"
+            android:scaleType="fitXY"
             android:background="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="21dp"/>
         <ImageButton
             android:id="@+id/otherpage_share"
             android:layout_width="22dp"
@@ -56,7 +56,7 @@
                 android:layout_gravity="center"
                 android:layout_width="145dp"
                 android:layout_height="145dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/face_1"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_gravity="bottom"
                 android:layout_width="28dp"
@@ -95,130 +95,129 @@
         <LinearLayout
             android:id="@+id/otherpage_nickname_area"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="28dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/otherpage_rank_imageview"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="3dp"
             android:layout_marginStart="99dp"
             android:layout_marginEnd="99dp"
             android:gravity="center">
             <TextView
+                android:layout_gravity="center_vertical"
                 android:id="@+id/otherpage_nickname_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="23sp"
-                android:text="nickname"
-                android:textStyle="bold"
-                android:textColor="#141414"
+                android:layout_height="26dp"
+                android:text="Nickname"
+                android:gravity="top"
+                style="@style/biggestText_black_bold"
                 android:layout_marginRight="5dp"/>
             <Button
                 android:id="@+id/follow_btn"
+                android:layout_gravity="bottom"
                 android:layout_width="45dp"
-                android:layout_height="34dp"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
-                android:padding="0dp"
-                android:textSize="11sp"
+                android:layout_height="24dp"
+                android:background="@drawable/shape_profile_share_button"
                 android:text="팔로우"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:fontFamily="@font/light"
+                android:includeFontPadding="false"
+                android:padding="0dp"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
-        <TextView
-            android:id="@+id/otherpage_follower_textview"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/otherpage_follow_area"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text= "팔로워"
-            android:textColor="#000000"
+            android:layout_height="16dp"
+            android:layout_marginTop="9dp"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/otherpage_follower_num_textview"
-            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="120dp"/>
-        <TextView
-            android:id="@+id/otherpage_follower_num_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="00"
-            android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/otherpage_follower_textview"
-            app:layout_constraintEnd_toStartOf="@id/otherpage_following_textview"
-            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="7.5dp"/>
-        <TextView
-            android:id="@+id/otherpage_following_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text= "팔로잉"
-            android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/otherpage_follower_num_textview"
-            app:layout_constraintEnd_toStartOf="@id/otherpage_following_num_textview"
-            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="7.5dp"/>
-        <TextView
-            android:id="@+id/otherpage_following_num_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="00"
-            android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/otherpage_following_textview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/otherpage_nickname_area"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="120dp"/>
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:id="@+id/otherpage_follower_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="팔로워 100"
+                style="@style/midText_black_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/otherpage_following_textview"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+            <TextView
+                android:id="@+id/otherpage_following_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text= "팔로잉 100"
+                style="@style/midText_black_light"
+                app:layout_constraintStart_toEndOf="@id/otherpage_follower_textview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="7.5dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:id="@+id/profile_msg_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
             android:text="프로필 메세지 샘플입니다."
-            android:textColor="#000000"
+            style="@style/midText_black_light"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/otherpage_follower_textview"
+            app:layout_constraintTop_toBottomOf="@id/otherpage_follow_area"
             android:layout_marginTop="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
             android:text="승진 포인트"
-            android:textColor="#141414"
+            style="@style/midText_black"
             app:layout_constraintStart_toStartOf="@id/otherpage_progressbar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="343dp"/>
         <TextView
+            android:id="@+id/point_num1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:text="000 / 00000"
-            android:textColor="#141414"
+            android:text="000"
+            style="@style/smallText_black"
+            app:layout_constraintEnd_toStartOf="@id/point_num2"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="345dp"/>
+        <TextView
+            android:id="@+id/point_num2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / 00000"
+            style="@style/smallText_darkgray"
             app:layout_constraintEnd_toEndOf="@id/otherpage_progressbar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="345dp"/>
-        <ProgressBar
+        <SeekBar
             android:id="@+id/otherpage_progressbar"
             android:layout_width="276dp"
-            android:layout_height="8dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="8dp"
+            android:layout_marginTop="369dp"
+            android:clickable="false"
             android:max="100"
-            android:progress="50"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
             android:progressDrawable="@drawable/mypage_progressbar_style"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:thumb="@drawable/mypage_point_icon"
+            android:thumbOffset="0dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="369dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:splitTrack="false" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/otherpage_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="24dp"
             app:tabSelectedTextColor="#6C39FF"
             app:tabTextColor="#BFBFBF"
+            app:tabTextAppearance="@style/midText_gray"
             app:tabIndicatorHeight="1.2dp"
             app:tabIndicatorFullWidth="false"
             app:layout_constraintTop_toTopOf="@id/otherpage_progressbar"
@@ -232,10 +231,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="커뮤니티"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="댓글 단 글"/>
         </com.google.android.material.tabs.TabLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <FrameLayout

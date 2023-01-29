@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalAllCategoryViewBinding
 import com.umc.approval.ui.activity.DocumentActivity
-import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter

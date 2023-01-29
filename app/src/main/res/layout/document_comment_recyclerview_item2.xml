@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="15dp">
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/document_comment_reply_icon"
+        android:layout_marginTop="4dp"/>
+    <ImageView
+        android:id="@+id/document_comment_item_profilepic"
+        android:layout_marginStart="26dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/follow_profileimage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/document_comment_item_name"
+        android:layout_width="36dp"
+        android:layout_height="16dp"
+        android:text="김차장"
+        style="@style/midText_black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="5dp"/>
+    <ImageView
+        android:layout_width="26dp"
+        android:layout_height="14dp"
+        android:src="@drawable/mypage_rank_chajang"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="6.5dp"
+        android:layout_marginStart="100dp"/>
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@drawable/document_comment_recyclerview_icon_comment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="7.4dp"
+        android:layout_marginEnd="28dp"/>
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:src="@drawable/document_comment_recyclerview_icon_menu"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="7.4dp"/>
+
+    <TextView
+        android:id="@+id/document_comment_item_content"
+        android:layout_marginStart="26dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="댓글 텍스트 예시 comment text example\nabcdefghijklmnopqrstuvwxyz0123456"
+        style="@style/midText_black_light"
+        app:layout_constraintTop_toBottomOf="@id/document_comment_item_profilepic" />
+
+    <TextView
+        android:id="@+id/document_comment_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:layout_marginTop="5dp"
+        android:text="12/31 1 시간 전"
+        android:textColor="#8C8C8C"
+        android:textSize="10dp"
+        android:fontFamily="@font/medium"
+        app:layout_constraintStart_toStartOf="@+id/document_comment_item_content"
+        app:layout_constraintTop_toBottomOf="@id/document_comment_item_content" />
+    <ImageButton
+        android:id="@+id/document_comment_item_likebtn"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:src="@drawable/document_comment_recyclerview_icon_like"
+        app:layout_constraintTop_toBottomOf="@id/document_comment_item_content"
+        app:layout_constraintStart_toEndOf="@id/document_comment_item_date"
+        android:layout_marginTop="5.5dp"
+        android:layout_marginStart="13dp"/>
+    <TextView
+        android:id="@+id/document_comment_item_likes"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:text="5"
+        style="@style/smallText_gray"
+        app:layout_constraintTop_toBottomOf="@id/document_comment_item_content"
+        app:layout_constraintStart_toEndOf="@id/document_comment_item_likebtn"
+        android:layout_marginTop="1.5dp"
+        android:layout_marginStart="3dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,8 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="88dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="15dp">
     <ImageView
@@ -18,8 +16,7 @@
         android:layout_width="36dp"
         android:layout_height="16dp"
         android:text="김차장"
-        android:textSize="13sp"
-        android:textColor="#141414"
+        style="@style/midText_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="34dp"
@@ -54,8 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="댓글 텍스트 예시 comment text example\nabcdefghijklmnopqrstuvwxyz0123456"
-        android:textColor="#141414"
-        android:textSize="13sp"
+        style="@style/midText_black_light"
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_profilepic" />
 
     <TextView
@@ -66,6 +62,7 @@
         android:text="12/31 1 시간 전"
         android:textColor="#8C8C8C"
         android:textSize="10dp"
+        android:fontFamily="@font/medium"
         app:layout_constraintStart_toStartOf="@+id/document_comment_item_content"
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_content" />
     <ImageButton
@@ -83,11 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="18dp"
         android:text="5"
-        android:textSize="11sp"
-        android:textColor="#BFBFBF"
+        style="@style/smallText_gray"
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_content"
         app:layout_constraintStart_toEndOf="@id/document_comment_item_likebtn"
         android:layout_marginTop="1.5dp"
         android:layout_marginStart="3dp"/>
-    
 </androidx.constraintlayout.widget.ConstraintLayout>

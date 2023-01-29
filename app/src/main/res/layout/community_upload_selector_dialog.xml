@@ -3,35 +3,39 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/transparent"
+    android:background="@drawable/upload_activity_round_dialog_custom">
 
     <ImageView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/indicator"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/community_fragment_selector_text"
+        android:text="글쓰기"
+        android:textSize="16dp"
+        android:textColor="@color/approval_main_color"
+        android:fontFamily="@font/bold"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/text"></ImageView>
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/text"></TextView>
 
     <ImageView
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
         android:src="@drawable/upload_activity_cancel_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text"></ImageView>
@@ -42,28 +46,40 @@
         android:layout_height="1dp"
         android:background="@color/approval_line_color"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         android:orientation="horizontal"></LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/talk_talk"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/line1">
+        app:layout_constraintTop_toBottomOf="@+id/line1"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:weightSum="7">
 
         <TextView
-            android:id="@+id/talk_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="결제 톡톡"
-            android:textStyle="bold"
+            android:gravity="left"
+            android:text="결제톡톡"
+            android:textSize="12dp"
             android:textColor="@color/black"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            android:fontFamily="@font/medium"></TextView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_weight="6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구매 관련 다양한 이야기를 자유롭게 작성해 보세요."
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/light"></TextView>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -74,26 +90,37 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/talk_talk"></LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/report"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:layout_constraintTop_toBottomOf="@+id/line2">
+        app:layout_constraintTop_toBottomOf="@+id/line2"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:weightSum="7">
 
         <TextView
-            android:id="@+id/report_text"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="결제 보고서"
-            android:textStyle="bold"
+            android:gravity="left"
+            android:text="결제보고서"
+            android:textSize="12dp"
             android:textColor="@color/black"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:fontFamily="@font/medium"></TextView>
 
+        <TextView
+            android:layout_weight="6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="처리가 완료된 결재 서류에 대해 보고서를 작성해 보세요."
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/light"></TextView>
 
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

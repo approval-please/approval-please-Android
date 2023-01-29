@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentCommunityTalkBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
-import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 
 class CommunityTalkFragment : Fragment() {

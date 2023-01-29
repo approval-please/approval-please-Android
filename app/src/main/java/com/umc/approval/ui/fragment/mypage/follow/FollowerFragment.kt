@@ -1,12 +1,10 @@
 package com.umc.approval.ui.fragment.mypage.follow
 
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.approval.databinding.FragmentFollowerBinding
@@ -42,8 +40,6 @@ class FollowerFragment : Fragment() {
         live_data()
 
         //텍스트 입력시마다 서버에 연결
-        edit()
-
         viewModel.my_followers()
 
         return view
@@ -55,15 +51,6 @@ class FollowerFragment : Fragment() {
             binding.followerRecyclerview.layoutManager = LinearLayoutManager(this.context)
             val followerAdapter = FollowerAdapter(it.followDto)
             binding.followerRecyclerview.adapter = followerAdapter
-        }
-    }
-
-    /**텍스트 입력시마다 서버에 연결*/
-    private fun edit() {
-        binding.followerSearchbar.addTextChangedListener { text: Editable? ->
-            text?.let {
-//                viewModel.get_followers(it.toString())
-            }
         }
     }
 

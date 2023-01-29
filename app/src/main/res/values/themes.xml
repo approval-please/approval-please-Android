@@ -61,4 +61,24 @@
         <item name="android:textSize">11sp</item>
         <item name="fontFamily">@font/light</item>
     </style>
+
+    <!--bottomsheetdialog custom-->
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_profile_share_dialog</item>
+    </style>
+
+    <!-- hashtag chip custom -->
+    <style name="hashtagStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@drawable/hashtag_chip_background_color</item>
+        <item name="android:textColor">@drawable/hashtag_chip_text_color</item>
+    </style>
+
+    <!-- tab text size   -->
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">11sp</item>
+    </style>
 </resources>

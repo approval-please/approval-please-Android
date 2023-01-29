@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/vote_item_et"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="7dp"
+        android:hint="항목 입력"
+        android:fontFamily="@font/medium"
+        android:paddingLeft="11dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="27dp"
+        android:textSize="13dp"
+        android:background="@drawable/upload_activity_round_dialog_custom">
+    </EditText>
+
+    <ImageButton
+        android:id="@+id/vote_item_erase_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/vote_item_cancel_button"
+        android:background="@color/transparent"
+        app:layout_constraintEnd_toEndOf="@id/vote_item_et"
+        app:layout_constraintTop_toTopOf="@id/vote_item_et"
+        app:layout_constraintBottom_toBottomOf="@id/vote_item_et"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"></ImageButton>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
