@@ -26,9 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:text="영화·공연 서류"
-            android:textColor="#141414"
-            android:textStyle="bold"
-            android:textSize="13sp"
+            style="@style/midText_black_bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,9 +88,9 @@
 
                 <ImageView
                     android:id="@+id/row_background_img"
-                    android:layout_width="50dp"
+                    android:layout_width="44dp"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
                     android:src="@drawable/document_comment_post_background"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -102,9 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="성명"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
+                    style="@style/smallText_black"
                     app:layout_constraintBottom_toTopOf="@+id/line1"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
@@ -112,10 +108,10 @@
 
                 <ImageView
                     android:id="@+id/profile"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="4.5dp"
                     android:src="@drawable/follow_profileimage"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
                     app:layout_constraintTop_toTopOf="@+id/row_background_img" />
@@ -125,15 +121,24 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:text="김부장"
                     android:layout_marginLeft="10dp"
                     android:textColor="#141414"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/light"
                     app:layout_constraintBottom_toBottomOf="@+id/profile"
                     app:layout_constraintStart_toEndOf="@+id/profile"
-                    app:layout_constraintTop_toTopOf="@+id/row_background_img" />
+                    app:layout_constraintTop_toTopOf="@+id/profile" />
+                
+                <ImageView
+                    android:id="@+id/rank"
+                    android:layout_width="26dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/mypage_rank_chajang"
+                    app:layout_constraintTop_toTopOf="@id/name"
+                    app:layout_constraintBottom_toBottomOf="@id/name"
+                    app:layout_constraintStart_toEndOf="@id/name"
+                    android:layout_marginStart="5dp"/>
 
 
                 <ImageView
@@ -141,7 +146,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="4.5dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/document_comment_post_line"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
@@ -153,32 +158,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="건명"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
+                    style="@style/smallText_black"
                     app:layout_constraintBottom_toBottomOf="@+id/title"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
                     app:layout_constraintTop_toTopOf="@+id/title" />
 
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:id="@+id/title"
-                    android:layout_width="0dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="9dp"
                     android:text="아이폰 14 Pro"
                     android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/light"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
                     app:layout_constraintTop_toBottomOf="@+id/line1" />
 
 
                 <ImageView
                     android:id="@+id/line2"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="9dp"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
@@ -193,24 +196,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="내용"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
+                    style="@style/smallText_black"
                     app:layout_constraintBottom_toBottomOf="@+id/content"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
                     app:layout_constraintTop_toTopOf="@+id/content" />
 
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:id="@+id/content"
-                    android:layout_width="0dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="9dp"
                     android:text="아이폰 14 Pro"
                     android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
                     app:layout_constraintTop_toBottomOf="@+id/line2" />
@@ -221,7 +223,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="9dp"
                     android:src="@drawable/document_comment_post_line"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="parent"
@@ -232,18 +234,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="참고\n사진"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
+                    style="@style/smallText_black"
                     app:layout_constraintBottom_toBottomOf="@+id/image_line_2"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
                     app:layout_constraintTop_toTopOf="@+id/image_line_1" />
 
                 <LinearLayout
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop= "13dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginEnd="14dp"
                     android:id="@+id/image_line_1"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
@@ -251,27 +253,32 @@
 
                     <ImageView
                         android:id="@+id/image1"
+                        android:background="@drawable/shape_profile_share_button"
                         android:layout_weight="1"
                         android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/community_fragment_test_image" />
+                        android:src="@drawable/community_fragment_test_image"
+                        android:layout_marginEnd="5dp"/>
 
                     <ImageView
                         android:id="@+id/image2"
+                        android:background="@drawable/shape_profile_change_background"
                         android:scaleType="centerCrop"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:src="@drawable/community_fragment_test_image"/>
+                        android:src="@drawable/community_fragment_test_image"
+                        android:layout_marginStart="5dp"/>
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:id="@+id/image_line_2"
-                    android:layout_width="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
@@ -279,18 +286,20 @@
 
                     <ImageView
                         android:id="@+id/image3"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/shape_profile_share_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:scaleType="centerCrop"
                         android:src="@drawable/community_fragment_test_image" />
 
                     <ImageView
                         android:id="@+id/image4"
+                        android:layout_marginStart="5dp"
+                        android:background="@drawable/shape_profile_share_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:scaleType="centerCrop"
                         android:src="@drawable/community_fragment_test_image"/>
@@ -302,7 +311,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="13dp"
                     android:src="@drawable/document_comment_post_line"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="parent"
@@ -313,20 +322,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="참조"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
+                    style="@style/smallText_black"
                     app:layout_constraintBottom_toBottomOf="@+id/open_graph"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
                     app:layout_constraintTop_toTopOf="@+id/open_graph" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="15dp"
                     android:id="@+id/open_graph"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginTop="12dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/row_background_img"
@@ -386,7 +393,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/document_comment_post_line"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
@@ -398,34 +405,69 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="결재"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:textColor="#141414"
-                    android:textSize="12dp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/approval"
+                    style="@style/smallText_black"
+                    app:layout_constraintBottom_toBottomOf="@+id/approve_area"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
-                    app:layout_constraintTop_toTopOf="@+id/approval" />
+                    app:layout_constraintTop_toTopOf="@+id/approve_area" />
+                <LinearLayout
+                    android:id="@+id/approve_area"
+                    android:layout_width="261dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintTop_toTopOf="@id/line5"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/row_background_img"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/approve_button"
+                        android:layout_width="118dp"
+                        android:layout_height="33dp"
+                        android:paddingStart="40dp"
+                        android:paddingEnd="22dp"
+                        android:background="@drawable/shape_document_approve_button"
+                        android:text="승인 00"
+                        android:textAppearance="@style/smallText_darkgray_bold"
+                        android:layout_marginEnd="12dp"
+                        android:includeFontPadding="false" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/refuse_button"
+                        android:layout_width="118dp"
+                        android:layout_height="33dp"
+                        android:paddingStart="40dp"
+                        android:paddingEnd="22dp"
+                        android:background="@drawable/shape_document_approve_button"
+                        android:text="반려 00"
+                        android:textAppearance="@style/smallText_darkgray_bold"
+                        android:layout_marginStart="12dp"
+                        android:includeFontPadding="false"/>
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/approval"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/doccument_activity_approval_image"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/row_background_img"
-                    app:layout_constraintTop_toBottomOf="@+id/line5"></ImageView>
-
+                    android:id="@+id/approve_button_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/document_approval_icon"
+                    app:layout_constraintTop_toTopOf="@id/approve_area"
+                    app:layout_constraintBottom_toBottomOf="@id/approve_area"
+                    app:layout_constraintStart_toStartOf="@id/approve_area"
+                    android:layout_marginStart="28dp"/>
+                <ImageView
+                    android:id="@+id/refuse_button_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/document_refusal_icon"
+                    app:layout_constraintTop_toTopOf="@id/approve_area"
+                    app:layout_constraintBottom_toBottomOf="@id/approve_area"
+                    app:layout_constraintStart_toStartOf="@id/approve_area"
+                    android:layout_marginStart="170dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/document_comment_postinfo"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_height="15dp"
                 app:layout_constraintTop_toBottomOf="@id/document_comment_post"
                 app:layout_constraintStart_toStartOf="parent"
@@ -438,9 +480,11 @@
                     android:text="좋아요 2"
                     android:textSize="11sp"
                     android:textColor="#D9D9D9"
+                    android:fontFamily="@font/medium"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="16dp"/>
                 <TextView
                     android:id="@+id/document_comment_post_between"
                     android:layout_width="wrap_content"
@@ -448,6 +492,7 @@
                     android:text="·"
                     android:textSize="11sp"
                     android:textColor="#D9D9D9"
+                    android:fontFamily="@font/medium"
                     app:layout_constraintStart_toEndOf="@id/document_comment_post_likes"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -459,6 +504,7 @@
                     android:text="댓글 3"
                     android:textSize="11sp"
                     android:textColor="#D9D9D9"
+                    android:fontFamily="@font/medium"
                     app:layout_constraintStart_toEndOf="@id/document_comment_post_between"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -471,6 +517,7 @@
                     android:text="2 시간 전"
                     android:textSize="11sp"
                     android:textColor="#D9D9D9"
+                    android:fontFamily="@font/medium"
                     app:layout_constraintEnd_toStartOf="@id/document_comment_post_between2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -482,6 +529,7 @@
                     android:text="·"
                     android:textSize="11sp"
                     android:textColor="#D9D9D9"
+                    android:fontFamily="@font/medium"
                     app:layout_constraintEnd_toStartOf="@id/document_comment_post_views"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -493,6 +541,8 @@
                     android:text="조회수 34"
                     android:textSize="11sp"
                     android:textColor="#D9D9D9"
+                    android:fontFamily="@font/medium"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -500,8 +550,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:id="@+id/document_comment_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

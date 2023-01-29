@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--가장 큰 크기 (23sp) 폰트 목록 -->
+    <style name="biggestText_black_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">23sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+
+    <!--앱 상단 타이틀-->
+    <style name="TopTitle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+
+    <!--큰 크기(15sp) 폰트 목록 (색상 / 스타일 다르니 참고해 적용)-->
+    <!--검정-->
+    <style name="bigText_black" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <style name="bigText_black_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <style name="bigText_black_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+
+    <!--진회색-->
+    <style name="bigText_darkgray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="bigText_darkgray_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="bigText_darkgray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+
+    <!--회색-->
+    <style name="bigText_gray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="bigText_gray_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="bigText_gray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <!--보라-->
+    <style name="bigText_purple" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+    <style name="bigText_purple_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+    <style name="bigText_purple_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+
+    <!--중간 크기 (13sp) 폰트 목록 (색상 / 스타일 다르니 참고해 적용)-->
+    <!--검정-->
+    <style name="midText_black" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <style name="midText_black_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <style name="midText_black_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+
+    <!--진회색-->
+    <style name="midText_darkgray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="midText_darkgray_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="midText_darkgray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+
+    <!--회색-->
+    <style name="midText_gray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="midText_gray_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="midText_gray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+
+    <!--보라-->
+    <style name="midText_purple" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+    <style name="midText_purple_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+    <style name="midText_purple_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+
+    <!--작은 크기 (11sp) 폰트 목록 (색상 / 스타일 다르니 참고해 적용)-->
+    <!--검정-->
+    <style name="smallText_black" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <style name="smallText_black_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <style name="smallText_black_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+
+    <!--진회색-->
+    <style name="smallText_darkgray_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="smallText_darkgray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <style name="smallText_darkgray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+
+    <!--회색-->
+    <style name="smallText_gray_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="smallText_gray" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <style name="smallText_gray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+
+    <!--보라-->
+    <style name="smallText_purple" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+    <style name="smallText_purple_bold" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+    <style name="smallText_purple_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+
+
+    <!--가장 작은 크기 (9sp) 폰트 목록 (색상 / 스타일 다르니 참고해 적용)-->
+    <!--검정-->
+    <style name="xsmallText_black_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">#141414</item>
+    </style>
+    <!--진회색-->
+    <style name="xsmallText_darkgray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">#8C8C8C</item>
+    </style>
+    <!--회색-->
+    <style name="xsmallText_gray_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">#BFBFBF</item>
+    </style>
+    <!--보라-->
+    <style name="xsmallText_purple_light" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/light</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textColor">#6C39FF</item>
+    </style>
+</resources>

@@ -17,9 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="알림"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
+            style="@style/TopTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="16dp"
@@ -38,13 +36,13 @@
             android:id="@+id/notification_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            app:tabSelectedTextColor="#6C39FF"
-            app:tabTextColor="#BFBFBF"
+            style="@style/midText_gray"
             app:tabIndicatorHeight="1.2dp"
             app:tabIndicatorFullWidth="false"
             app:layout_constraintTop_toBottomOf="@id/notification_setting"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            app:tabTextAppearance="@style/midText_gray">
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

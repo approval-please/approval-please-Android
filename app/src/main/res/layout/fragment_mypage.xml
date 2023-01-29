@@ -5,233 +5,267 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.mypage.MypageFragment">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mypage_profile_area"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/mypage_background"
-        android:elevation="2dp"
-        android:paddingBottom="4dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내 사원증"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"/>
-        <ImageButton
-            android:id="@+id/mypage_setting"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/mypage_icon_settings"
-            android:background="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="24dp"/>
-        <ImageButton
-            android:id="@+id/mypage_share"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:src="@drawable/mypage_icon_share"
-            android:background="#FFFFFF"
-            app:layout_constraintEnd_toStartOf="@id/mypage_setting"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="26dp"
-            android:layout_marginTop="24dp"/>
-
-        <FrameLayout
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="61dp">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_gravity="center"
-                android:layout_width="145dp"
-                android:layout_height="145dp"
-                android:src="@drawable/face_1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_fix"
-                android:layout_gravity="bottom"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:scaleX="1.05"
-                android:scaleY="1.05"
-                android:src="@drawable/mypage_icon_pen"
-                android:layout_marginLeft="102.5dp"/>
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:gravity="center_vertical"
-            android:textSize="13sp"
-            android:text="현재 직급"
-            android:textColor="#8C8C8C"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="228dp"
-            android:layout_marginLeft="137.5dp"
-            android:layout_marginRight="173.5dp"/>
-        <ImageView
-            android:id="@+id/rank_imageview"
-            android:layout_width="33dp"
-            android:layout_height="18dp"
-            android:src="@drawable/mypage_rank_chajang"
-            android:scaleType="fitCenter"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="228dp"
-            android:layout_marginLeft="191.5dp"
-            android:layout_marginRight="136.5dp"/>
-        <TextView
-            android:id="@+id/nickname_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="23sp"
-            android:text="nickname"
-            android:textStyle="bold"
-            android:textColor="#141414"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rank_imageview"
-            android:layout_marginTop="10dp"/>
-        <TextView
-            android:id="@+id/follower_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:text= "팔로워"
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/follower_num_textview"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="120dp"/>
-        <TextView
-            android:id="@+id/follower_num_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:text="100"
-            android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/follower_textview"
-            app:layout_constraintEnd_toStartOf="@id/following_textview"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="7.5dp"/>
-        <TextView
-            android:id="@+id/following_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:text= "팔로잉"
-            android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/follower_num_textview"
-            app:layout_constraintEnd_toStartOf="@id/following_num_textview"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="7.5dp"/>
-        <TextView
-            android:id="@+id/following_num_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13dp"
-            android:text="100"
-            android:textColor="#000000"
-            app:layout_constraintStart_toEndOf="@id/following_textview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nickname_textview"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="120dp"/>
-        <TextView
-            android:id="@+id/profile_msg_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:text="프로필 메세지 샘플입니다."
-            android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/follower_textview"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="승진 포인트"
-            android:textColor="#141414"
-            app:layout_constraintStart_toStartOf="@id/mypage_progressbar"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="343dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:text="000 / 00000"
-            android:textColor="#141414"
-            app:layout_constraintEnd_toEndOf="@id/mypage_progressbar"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="345dp"/>
-        <ProgressBar
-            android:id="@+id/mypage_progressbar"
-            android:layout_width="276dp"
-            android:layout_height="8dp"
-            android:max="100"
-            android:progress="50"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:progressDrawable="@drawable/mypage_progressbar_style"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="369dp"/>
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/mypage_tabLayout"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            app:tabSelectedTextColor="#6C39FF"
-            app:tabTextColor="#BFBFBF"
-            app:tabIndicatorHeight="1.2dp"
-            app:tabIndicatorFullWidth="false"
-            app:layout_constraintTop_toTopOf="@id/mypage_progressbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="28dp">
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mypage_profile_area"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="결재서류"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+                android:background="@drawable/mypage_background"
+                android:elevation="2dp"
+                android:paddingBottom="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="-131dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="내 사원증"
+                    style="@style/TopTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/mypage_setting"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/mypage_icon_settings"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/mypage_share"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="26dp"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/mypage_icon_share"
+                    app:layout_constraintEnd_toStartOf="@id/mypage_setting"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:layout_width="145dp"
+                    android:layout_height="145dp"
+                    android:layout_marginTop="61dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="145dp"
+                        android:layout_height="145dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/face_1" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_fix"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="102.5dp"
+                        android:scaleX="1.05"
+                        android:scaleY="1.05"
+                        android:src="@drawable/mypage_icon_pen" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="137.5dp"
+                    android:layout_marginTop="228dp"
+                    android:layout_marginRight="173.5dp"
+                    android:gravity="center_vertical"
+                    android:text="현재 직급"
+                    style="@style/midText_darkgray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/rank_imageview"
+                    android:layout_width="33dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="191.5dp"
+                    android:layout_marginTop="228dp"
+                    android:layout_marginRight="136.5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/mypage_rank_chajang"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/nickname_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="top"
+                    android:text="Nickname"
+                    style="@style/biggestText_black_bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rank_imageview" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/follow_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="9dp"
+                    app:layout_constraintTop_toBottomOf="@id/nickname_textview"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <TextView
+                        android:id="@+id/follower_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="7.5dp"
+                        android:text="팔로워 100"
+                        style="@style/midText_black_light"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/following_textview"/>
+
+                    <TextView
+                        android:id="@+id/following_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="7.5dp"
+                        android:text="팔로잉 100"
+                        style="@style/midText_black_light"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/follower_textview"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/profile_msg_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="프로필 메세지 샘플입니다."
+                    style="@style/midText_black_light"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/follow_area" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="343dp"
+                    android:text="승진 포인트"
+                    style="@style/midText_black"
+                    app:layout_constraintStart_toStartOf="@id/mypage_progressbar"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/point_num1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="345dp"
+                    android:text="000"
+                    style="@style/smallText_black"
+                    app:layout_constraintEnd_toStartOf="@id/point_num2"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/point_num2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="345dp"
+                    android:text=" / 00000"
+                    style="@style/smallText_darkgray"
+                    app:layout_constraintEnd_toEndOf="@id/mypage_progressbar"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--
+                <ProgressBar
+                    android:id="@+id/mypage_progressbar"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="276dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="369dp"
+                    android:max="100"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/mypage_progressbar_style"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                    -->
+                <SeekBar
+                    android:id="@+id/mypage_progressbar"
+                    android:layout_width="276dp"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="8dp"
+                    android:layout_marginTop="369dp"
+                    android:clickable="false"
+                    android:max="100"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:progressDrawable="@drawable/mypage_progressbar_style"
+                    android:thumb="@drawable/mypage_point_icon"
+                    android:thumbOffset="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:splitTrack="false" />
+
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/mypage_tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="28dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/mypage_progressbar"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorHeight="1.2dp"
+                    app:tabTextAppearance="@style/midText_gray"
+                    app:tabSelectedTextColor="#6C39FF">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="결재서류" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="커뮤니티" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="댓글" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="스크랩" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="실적" />
+                </com.google.android.material.tabs.TabLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/mypage_tabArea"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="커뮤니티"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="댓글"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="스크랩"/>
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="실적"/>
-        </com.google.android.material.tabs.TabLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <FrameLayout
-        android:id="@+id/mypage_tabArea"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/mypage_profile_area"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                app:layout_constraintTop_toBottomOf="@id/mypage_profile_area"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
