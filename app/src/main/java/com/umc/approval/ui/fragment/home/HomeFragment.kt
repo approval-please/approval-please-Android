@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
         //전체 서류 가지고오는 로직
         approvalViewModel.init_all_category_approval()
 
-        //관신 서류 가지고오는 로직
+        //관심 서류 가지고오는 로직
         approvalViewModel.init_interest_category_approval()
 
         //tok 서류 가지고오는 로직
@@ -282,7 +282,7 @@ class HomeFragment : Fragment() {
     private fun setBannerImage() {
         val photoUrlList = listOf(R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner)
 
-        // 뷰페이저에 어댑터 ㅇ녀결
+        // 뷰페이저에 어댑터 연결
         val photoVPAdatper = BannerVPAdapter(photoUrlList)
         binding.vpHomeBanner.adapter = photoVPAdatper
         binding.vpHomeBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL

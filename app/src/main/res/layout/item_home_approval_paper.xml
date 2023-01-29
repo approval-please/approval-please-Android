@@ -45,7 +45,7 @@
         android:id="@+id/tv_image_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+0"
+        android:text="+1"
         android:fontFamily="@font/bold"
         android:textSize="11sp"
         android:textColor="@color/approval_please_black_color"
