@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -111,8 +112,8 @@ class LoginFragment : Fragment() {
             val alertDialog = builder.show()
 
             //dialog의 view Component 접근
-            val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
-            val keep_going = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+            val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+            val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
 
             dialog_cancel.setOnClickListener {
                 alertDialog.cancel()
@@ -187,8 +188,8 @@ class LoginFragment : Fragment() {
             val alertDialog = builder.show()
 
             //dialog의 view Component 접근
-            val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
-            val keep_going = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+            val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+            val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
 
             dialog_cancel.setOnClickListener {
                 alertDialog.cancel()

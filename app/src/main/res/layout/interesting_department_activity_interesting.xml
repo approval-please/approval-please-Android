@@ -22,7 +22,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="부서 이름"
         android:textSize="15sp"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/approval_please_black_color"/>
 
     <ImageButton
         android:id="@+id/btn_star"

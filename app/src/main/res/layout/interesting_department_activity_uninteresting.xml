@@ -12,7 +12,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:text="부서 이름"
-        android:textSize="15sp"/>
+        android:textSize="15sp"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/approval_please_black_color"/>
 
     <ImageButton
         android:id="@+id/btn_star"
@@ -21,6 +23,6 @@
         android:src="@drawable/interesting_department_activity_empty_star"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/transparent"/>
+        android:background="@color/transparent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

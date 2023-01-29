@@ -8,10 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.approval.R
@@ -53,28 +51,40 @@ class ApprovalPaperListFragment: Fragment() {
             tab.text = tabTitleArray[position]
         }.attach()
 
-        // 상태 선택 스피너
-        val statusSpinnerList = arrayOf(
-            "전체",
-            "승인완료",
-            "승인대기중",
-            "승인됨",
-            "반려됨",
-        )
+        binding.stateSelect.setOnClickListener {
+            // bottomSheetDialog 객체 생성
+            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment()
+            bottomSheetDialog.setStyle(
+                DialogFragment.STYLE_NORMAL,
+                R.style.RoundCornerBottomSheetDialogTheme
+            )
+            bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
+        }
 
-        val statusSpinner = binding.spStatus
-        statusSpinner.adapter = SpinnerAdapter(statusSpinnerList)
-        statusSpinner.onItemSelectedListener = StatusSpinnerActivity()
+        binding.sortSelect.setOnClickListener {
+            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment()
+            bottomSheetDialog.setStyle(
+                DialogFragment.STYLE_NORMAL,
+                R.style.RoundCornerBottomSheetDialogTheme
+            )
+            bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
+        }
 
-        // 정렬 방식 선택 스피너
-        val sortSpinnerList = arrayOf(
-            "최신순",
-            "인기순",
-        )
+        childFragmentManager
+            .setFragmentResultListener("status", this) { requestKey, bundle ->
+                val result = bundle.getString("result")
+                binding.stateText.text = result
 
-        val sortSpinner = binding.spSort
-        sortSpinner.adapter = SpinnerAdapter(sortSpinnerList)
-        statusSpinner.onItemSelectedListener = SortSpinnerActivity()
+                // 리사이클러뷰 아이템 갱신
+            }
+
+        childFragmentManager
+            .setFragmentResultListener("sort", this) { requestKey, bundle ->
+                val result = bundle.getString("result")
+                binding.sortText.text = result
+
+                // 리사이클러뷰 아이템 갱신
+            }
     }
 
     /**
@@ -83,86 +93,5 @@ class ApprovalPaperListFragment: Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    inner class StatusSpinnerActivity : Activity(), AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-            when (pos) {
-                0 -> {
-                    // 스피너 클릭 이벤트 정의
-                    Log.d("로그", "스피너 아이템 클릭")
-                }
-                1 -> {
-                    Log.d("로그", "스피너 아이템 클릭")
-                }
-                else -> {
-                    Log.d("로그", "스피너 아이템 클릭")
-                }
-            }
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {
-            // Another interface callback
-        }
-    }
-
-    inner class SortSpinnerActivity : Activity(), AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
-            when (pos) {
-                0 -> {
-                    // 스피너 클릭 이벤트 정의
-                    Log.d("로그", "스피너 아이템 클릭")
-                }
-                1 -> {
-                    Log.d("로그", "스피너 아이템 클릭")
-                }
-                else -> {
-                    Log.d("로그", "스피너 아이템 클릭")
-                }
-            }
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>) {
-            // Another interface callback
-        }
-    }
-
-    inner class SpinnerAdapter(spinnerItem: Array<String>): BaseAdapter() {
-        val context = requireContext()
-        val data = spinnerItem
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-        override fun getCount() = data.size
-
-        override fun getItem(position: Int): Any {
-            return data[position]
-        }
-
-        override fun getItemId(position: Int): Long {
-            return position.toLong()
-        }
-
-        // 스피너 클릭 전에 보여지는 레이아웃
-        @SuppressLint("ViewHolder", "MissingInflatedId")
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var rootView = LayoutInflater.from(context).inflate(R.layout.approval_fragment_spinner_custom, parent, false)
-            val text = rootView.findViewById<TextView>(R.id.spinner_item_text)
-            val icon = rootView.findViewById<ImageView>(R.id.spinner_arrow)
-
-            text.text = data[position]
-            icon.setImageResource(R.drawable.approval_fragment_spinner_arrow)
-
-            return rootView
-        }
-
-        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            var rootView = LayoutInflater.from(context).inflate(R.layout.approval_fragment_spinner_item, parent, false)
-            val text = rootView.findViewById<TextView>(R.id.spinner_item_text)
-
-            text.text = data[position]
-
-            return rootView
-        }
-
     }
 }
