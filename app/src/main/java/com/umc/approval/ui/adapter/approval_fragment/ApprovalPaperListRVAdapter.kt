@@ -89,11 +89,13 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
             /**
              * tag RecyclerView
              * */
-            val tagRVAdapter = TagRVAdapter(data.tag)
-            val spaceDecoration = HorizontalSpaceItemDecoration(25)
-            binding.rvTag.addItemDecoration(spaceDecoration)
-            binding.rvTag.adapter = tagRVAdapter
-            binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            if (data.tag != null) {
+                val tagRVAdapter = TagRVAdapter(data.tag)
+                val spaceDecoration = HorizontalSpaceItemDecoration(25)
+                binding.rvTag.addItemDecoration(spaceDecoration)
+                binding.rvTag.adapter = tagRVAdapter
+                binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            }
         }
     }
 

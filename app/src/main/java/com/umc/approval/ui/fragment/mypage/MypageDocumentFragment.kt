@@ -64,13 +64,26 @@ class MypageDocumentFragment : Fragment() {
                 // 리사이클러뷰 아이템 갱신
             }
 
-        setDocumentList()
+        viewModel.get_my_documents()
+
+        /**라이브 데이터*/
+        viewModel.document.observe(viewLifecycleOwner) {
+
+            val dataRVAdapter = ApprovalPaperListRVAdapter(it)
+            val spaceDecoration = VerticalSpaceItemDecoration(40)
+            binding.rvMypageDocument.addItemDecoration(spaceDecoration)
+            binding.rvMypageDocument.adapter = dataRVAdapter
+            binding.rvMypageDocument.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+            // 클릭 이벤트 처리
+            dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                }
+            })
+        }
 
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     /**
@@ -79,33 +92,6 @@ class MypageDocumentFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    /**
-     * 결재 서류 리사이클러뷰 아이템 설정
-     */
-    private fun setDocumentList() {
-
-        var approvalPaperList = ApprovalPaperDto(listOf(ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-            "", 0,0,32,32, "50분전",
-            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-            "", 0,0,32,32, "50분전",
-            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-            "", 0,0,32,32, "50분전",
-            1000)))
-
-        val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
-        val spaceDecoration = VerticalSpaceItemDecoration(40)
-        binding.rvMypageDocument.addItemDecoration(spaceDecoration)
-        binding.rvMypageDocument.adapter = dataRVAdapter
-        binding.rvMypageDocument.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                startActivity(Intent(requireContext(), DocumentActivity::class.java))
-            }
-        })
     }
 
     // 아이템 간 간격 조절 기능

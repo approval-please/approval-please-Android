@@ -89,6 +89,12 @@ interface MyPageAPI {
         @Header("Authorization") accessToken : String, @Path("userId") userId: Int,
         @Query("state") state: Int?=null, @Query("isApproved") isApproved: Int?=null) : Call<ApprovalPaperDto>
 
+    /**내 실적 가지고 오기*/
+    @GET("/profile/my/performances")
+    @Headers("content-type: application/json")
+    fun get_my_performances(
+        @Header("Authorization") accessToken : String) : Call<RecordDto>
+
     @GET("/profile/my/community/toktoks")
     @Headers("content-type: application/json")
     fun get_my_toktoks(
@@ -138,9 +144,4 @@ interface MyPageAPI {
     @Headers("content-type: application/json")
     fun get_my_scrap_reports(
         @Header("Authorization") accessToken : String, @Query("postType") postType : Int) : Call<CommunityReportDto>
-
-    @GET("/profile/my/performances")
-    @Headers("content-type: application/json")
-    fun get_my_performances(
-        @Header("Authorization") accessToken : String, @Path("userId") userId:Int) : Call<RecordDto>
 }
