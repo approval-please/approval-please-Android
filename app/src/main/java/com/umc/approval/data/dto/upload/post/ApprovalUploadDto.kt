@@ -3,19 +3,20 @@ import com.google.gson.annotations.SerializedName
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /**
- * Community Upload dto
+ * 서류 업로드 DTO
+ * API 명세서 Check 완료
  * */
 data class ApprovalUploadDto (
         @SerializedName("category")
-        var category : Int,
+        var category : Int? = null,
         @SerializedName("content")
-        var content : String,
+        var content : String? = null,
         @SerializedName("title")
-        var title : String,
-        @SerializedName("opengraph")
-        var opengraph : OpenGraphDto,
-        @SerializedName("tags")
-        var tags : MutableList<String> = mutableListOf<String>(),
+        var title : String? = null,
+        @SerializedName("link")
+        var opengraph : OpenGraphDto? = null,
+        @SerializedName("tag")
+        var tag : List<String>? = null,
         @SerializedName("images")
-        var images : MutableList<String> = mutableListOf<String>(),
+        var images : List<String>? = null,
 )

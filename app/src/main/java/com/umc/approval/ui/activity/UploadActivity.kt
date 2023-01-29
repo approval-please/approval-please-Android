@@ -17,7 +17,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -33,11 +32,12 @@ import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
+import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.databinding.ActivityUploadBinding
 import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
 import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
-import com.umc.approval.ui.viewmodel.upload.UploadViewModel
+import com.umc.approval.ui.viewmodel.approval.UploadDocumentViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -52,8 +52,11 @@ class UploadActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
 
+    /**서버로 보낼 데이터*/
+    private lateinit var uploadFile: ApprovalUploadDto
+
     /**Upload Viewmodel*/
-    lateinit var viewModel: UploadViewModel
+    lateinit var viewModel: UploadDocumentViewModel
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -75,6 +78,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var opengraphUrl : TextView
     private lateinit var opengraphImage : ImageView
     private lateinit var opengraphId : ConstraintLayout
+    private lateinit var linkDialog: Dialog
 
     /*다이얼로그 버튼*/
     private lateinit var dialogCancelButton : Button
@@ -92,7 +96,7 @@ class UploadActivity : AppCompatActivity() {
         setContentView(view)
 
         /*View Model 초기화*/
-        viewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(UploadDocumentViewModel::class.java)
 
         /*Open Graph manager 초기화*/
         manager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -122,23 +126,39 @@ class UploadActivity : AppCompatActivity() {
         /*제출 버튼 클릭 이벤트 후 approval fragment 로 이동*/
         upload_item()
 
+        /**init dialog*/
+        showLinkDialog()
+
         /*태그 입력 다이얼로그 열기*/
         tagButton = binding.uploadTagBtn
         tagButton.setOnClickListener{
             showTagDialog()
         }
-
-        /*링크 첨부 다이얼로그*/
-        linkButton = binding.uploadLinkBtn
-        linkButton.setOnClickListener{
-            showLinkDialog()
-        }
     }
 
-    /**upload*/
+    /**파일을 업로드하는 로직*/
     private fun upload_item() {
         binding.uploadSubmitBtn.setOnClickListener {
-            S3_connect()
+
+            uploadFile = ApprovalUploadDto(0, binding.uploadTitleEt.text.toString()
+                , binding.uploadContentEt.text.toString())
+
+            //링크가 있을 경우
+            if (viewModel.opengraph.value != null) {
+                uploadFile.opengraph = viewModel.opengraph.value
+            }
+
+            //사진이 있을 경우
+            if (viewModel.pic.value != null) {
+                S3_connect()
+            }
+
+            //태그가 있을 경우
+            if (viewModel.tags.value != null) {
+                uploadFile.tag = viewModel.tags.value
+            }
+
+            viewModel.post_document(uploadFile)
             finish()
         }
     }
@@ -238,7 +258,7 @@ class UploadActivity : AppCompatActivity() {
 
     /*링크 첨부 다이얼로그*/
     private fun showLinkDialog() {
-        val linkDialog = Dialog(this);
+        linkDialog = Dialog(this)
         linkDialogBinding = ActivityUploadLinkDialogBinding.inflate(layoutInflater)
 
         linkDialog.setContentView(linkDialogBinding.root)
@@ -273,11 +293,14 @@ class UploadActivity : AppCompatActivity() {
             linkDialogEditText.setText("")
         }
 
+        /*링크 첨부 다이얼로그*/
+        linkButton = binding.uploadLinkBtn
+        linkButton.setOnClickListener{
+            linkDialog.show()
+        }
+
         /*link url 바뀔때 마다 적용*/
         editLinkUrl()
-
-        /*link 팝업*/
-        linkDialog.show()
     }
 
     /**observe graph live data 변경 시*/
@@ -457,6 +480,9 @@ class UploadActivity : AppCompatActivity() {
      * */
     /*S3 connect*/
     private fun S3_connect() {
+
+        val imageList = mutableListOf<String>()
+
         for (uri in viewModel.pic.value!!) {
 
             /**uri 변환*/
@@ -471,7 +497,11 @@ class UploadActivity : AppCompatActivity() {
                     this,
                     "approval-please/approval", file, "test"
                 )
+
+            imageList.add("aws")
         }
+
+        uploadFile.images = imageList
     }
 
     /*File Uri for S3 connect*/

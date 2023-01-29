@@ -2,23 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:src="@drawable/join_fragment_dialog_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </ImageView>
+    android:layout_height="wrap_content"
+    android:background="@drawable/join_fragment_dialog_background">
 
     <TextView
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="이미 가입한 계정입니다."
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이미 가입한 계정이 있어요!"
+        android:layout_gravity="center"
+        android:fontFamily="@font/light"
+        android:textSize="11sp"
+        android:textColor="@color/approval_please_black_color"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </TextView>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/social_logo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/join_fragment_dialog_naver_logo"
+            android:elevation="1dp" />
+
+        <TextView
+            android:layout_marginStart="8dp"
+            android:text="f***0526@n***r.com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/approval_please_black_color"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="20dp"
@@ -33,31 +52,37 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <TextView
             android:id="@+id/back"
             android:layout_gravity="center"
-            android:src="@drawable/join_fragment_dialog_back"
+            android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ImageView>
+            android:layout_height="match_parent"
+            android:text="취소"
+            android:fontFamily="@font/bold"
+            android:textAlignment="center"
+            android:textSize="11sp"
+            android:textColor="@color/approval_please_bold_gray_color" />
 
         <ImageView
             android:layout_weight="2"
             android:src="@drawable/join_fragment_dialog_line"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ImageView>
+            android:layout_height="wrap_content" />
 
-        <ImageView
+        <TextView
             android:id="@+id/back_fragment"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/join_fragment_dialog_back_email"
+            android:text="로그인 화면으로 돌아가기"
+            android:textAlignment="center"
+            android:fontFamily="@font/bold"
+            android:textSize="11sp"
+            android:textColor="@color/approval_please_main_color"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ImageView>
+            android:layout_height="match_parent"
+            android:gravity="center"/>
 
     </LinearLayout>
 

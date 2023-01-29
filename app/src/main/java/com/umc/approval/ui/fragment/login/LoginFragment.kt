@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -111,8 +112,8 @@ class LoginFragment : Fragment() {
             val alertDialog = builder.show()
 
             //dialog의 view Component 접근
-            val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
-            val keep_going = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+            val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+            val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
 
             dialog_cancel.setOnClickListener {
                 alertDialog.cancel()
@@ -126,6 +127,15 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun get_kakao_email() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+            }
+            else if (user != null) {
+                Log.d("test", user.kakaoAccount!!.email.toString())
+            }
+        }
+    }
 
     /**
      * 카카오 로그인 로직
@@ -174,6 +184,9 @@ class LoginFragment : Fragment() {
                 /**
                  * 로그인 성공시 서버로 엑세스토큰 발급 요청
                  * */
+
+                get_kakao_email()
+
                 viewModel.login(token.accessToken.toString(), "kakao")
             }
         }
@@ -187,8 +200,8 @@ class LoginFragment : Fragment() {
             val alertDialog = builder.show()
 
             //dialog의 view Component 접근
-            val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
-            val keep_going = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+            val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+            val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
 
             dialog_cancel.setOnClickListener {
                 alertDialog.cancel()
@@ -249,17 +262,24 @@ class LoginFragment : Fragment() {
 
             if (pattern.matcher(email).matches()) {
                 binding.emailValid.isVisible = false
-                Toast.makeText(requireContext(), "유효한 이메일입니다", Toast.LENGTH_SHORT).show()
 
-                /**
-                 * 유효한 email에 대해 회원 여부 확인후 view 이동
-                 * */
-                if (email.toString() == "cswcsm02@gmail.com") {
-                    Toast.makeText(requireContext(), "회원입니다", Toast.LENGTH_SHORT).show()
-                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_passwordFragment)
-                } else {
-                    Toast.makeText(requireContext(), "회원가입이 필요합니다", Toast.LENGTH_SHORT).show()
-                    Navigation.findNavController(binding.root).navigate(R.id.action_loginFragment_to_joinFragment)
+                viewModel.emailCheck(binding.email.text.toString())
+
+                //check가 성공적으로 진행되었을때
+                viewModel.email_check.observe(viewLifecycleOwner) {
+
+                    val to_password = LoginFragmentDirections.actionLoginFragmentToPasswordFragment(binding.email.text.toString())
+                    val to_join = LoginFragmentDirections.actionLoginFragmentToJoinFragment(binding.email.text.toString())
+
+                    if (viewModel.email_check.value!!.status == 1) { //일반 회원인 경우
+                        Navigation.findNavController(binding.root).navigate(to_password)
+                    } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
+                        Navigation.findNavController(binding.root).navigate(to_join)
+                    } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
+                        /**
+                         * 다이얼로그 제작 및 연결 필요
+                         * */
+                    }
                 }
 
             } else {

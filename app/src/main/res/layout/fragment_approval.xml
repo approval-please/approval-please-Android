@@ -25,8 +25,8 @@
                 app:layout_goneMarginStart="16dp"
                 android:text="@string/approval_fragment_title"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="@color/approval_fragment_title"/>
+                android:fontFamily="@font/bold"
+                android:textColor="@color/approval_please_black_color"/>
 
             <ImageButton
                 android:id="@+id/search_button"

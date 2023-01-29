@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 /**Community Item Dto*/
 data class CommunityReportDto (
-        @SerializedName("communityReport")
-        var communityReport : MutableList<CommunityReport> = mutableListOf<CommunityReport>()
+        @SerializedName("content")
+        var communityReport : List<CommunityReport>
 )

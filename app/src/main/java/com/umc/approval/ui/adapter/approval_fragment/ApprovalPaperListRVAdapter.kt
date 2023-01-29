@@ -1,47 +1,65 @@
 package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
-import android.graphics.Color
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.databinding.ApprovalFragmentItemApprovalPaperBinding
+import com.umc.approval.util.Utils.categoryMap
 
-class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> = arrayListOf()): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
+class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ApprovalFragmentItemApprovalPaperBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding, parent.context)
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(dataList.approvalPaperDto[position])
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int = dataList.approvalPaperDto.size
 
     inner class DataViewHolder(private val binding: ApprovalFragmentItemApprovalPaperBinding, context: Context): RecyclerView.ViewHolder(binding.root) {
         val context = context
         fun bind(data: ApprovalPaper) {
 
-            if (data.image.isEmpty()) {
+            /**
+             * 이미지가 없으면 이미지 제외하고 처리
+             * 이미지가 있으면 로드
+             * */
+            if (data.image == null) {
                 binding.itemImage.isVisible = false
+                val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
+                layoutParams.marginStart = 0
+                binding.contentContainer.layoutParams = layoutParams
             } else {
-//                binding.itemImage.load(data.image.get(0))
+                binding.itemImage.load(data.image)
+                binding.itemImage.clipToOutline = true
             }
 
-//            binding.tvTitle.text = data.title
-//            binding.tvContent.text = data.content
+            /**
+             * 제목, 내용, 승인, 거절, 뷰, 카테고리, 작성시간표시
+             * */
+            binding.tvTitle.text = data.title
+            binding.tvContent.text = data.content
             binding.tvApproveCount.text = data.approveCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
-            binding.tvApprovalPaperInfo.text = "${data.category}∙${data.updatedAt}"
+            binding.tvCategory.text = categoryMap[data.category]
+            binding.tvWriteTime.text = data.datetime
 
-            // 결재 승인 상태에 배경 설정
+            /**
+             * 승인 상태에 따라 처리
+             * */
             when (data.state) {
                 0 -> {
                     // 승인됨
@@ -57,7 +75,6 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
                 }
                 else -> {
                     // 승인 대기중
-                    binding.itemContainer.setBackgroundColor(Color.WHITE)
                     binding.tvApprovalState.text = "승인대기중"
                     binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_pending)
                 }
@@ -68,6 +85,17 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
                 itemView.setOnClickListener {
                     listner?.onItemClick(itemView, data, pos)
                 }
+            }
+
+            /**
+             * tag RecyclerView
+             * */
+            if (data.tag != null) {
+                val tagRVAdapter = TagRVAdapter(data.tag)
+                val spaceDecoration = HorizontalSpaceItemDecoration(25)
+                binding.rvTag.addItemDecoration(spaceDecoration)
+                binding.rvTag.adapter = tagRVAdapter
+                binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
         }
     }
@@ -82,4 +110,15 @@ class ApprovalPaperListRVAdapter(private val dataList: ArrayList<ApprovalPaper> 
         this.listner = listner
     }
 
+    // 아이템 간 간격 조절 기능
+    inner class HorizontalSpaceItemDecoration(private val width: Int) :
+        RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.right = width
+        }
+    }
 }

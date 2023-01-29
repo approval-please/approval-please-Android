@@ -34,6 +34,9 @@
     <color name="approval_text_color">#8C8C8C</color>
     <color name="approval_black_color">#141414</color>
 
+    <!-- 필요한 컬러 -->
+    <color name="approval_please_background_color">#FAFAFA</color>
+
 
     <!--Approval Please Color-->
     <color name="approval_please_main_color">#6C39FF</color>

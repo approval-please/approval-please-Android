@@ -17,6 +17,7 @@
         android:src="@drawable/follow_searchbar_background"
         android:scaleType="fitXY"/>
     <EditText
+        android:id="@+id/following_searchbar"
         android:layout_width="308dp"
         android:layout_height="21dp"
         android:textSize="16sp"

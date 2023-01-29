@@ -4,13 +4,17 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <TextView
         android:layout_marginTop="30dp"
         android:layout_gravity="center"
-        android:src="@drawable/login_fragment_naver_click"
+        android:text="'결재부탁'에서 '네이버'를\n 열려고 합니다."
+        android:textAlignment="center"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/approval_please_black_color"
+        android:lineHeight="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </ImageView>
+    </TextView>
 
     <LinearLayout
         android:layout_marginTop="20dp"
@@ -25,31 +29,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <TextView
             android:id="@+id/back"
             android:layout_gravity="center"
-            android:src="@drawable/join_fragment_dialog_back"
+            android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ImageView>
+            android:layout_height="match_parent"
+            android:text="취소"
+            android:fontFamily="@font/bold"
+            android:textAlignment="center"
+            android:textSize="11sp"
+            android:textColor="@color/approval_please_bold_gray_color" />
 
         <ImageView
             android:layout_weight="2"
             android:src="@drawable/join_fragment_dialog_line"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ImageView>
-
-        <ImageView
+            android:layout_height="wrap_content" />
+        <TextView
             android:id="@+id/back_fragment"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center"
-            android:src="@drawable/login_fragment_social_login_dialog_open"
+            android:text="열기"
+            android:textAlignment="center"
+            android:fontFamily="@font/bold"
+            android:textSize="11sp"
+            android:textColor="@color/approval_please_main_color"
             android:layout_weight="1"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ImageView>
+            android:layout_height="match_parent"
+            android:gravity="center"/>
 
     </LinearLayout>
 

@@ -6,13 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.community.get.CommunityReport
-import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentCommunityReportBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
+import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 
 class CommunityReportFragment : Fragment() {
 
@@ -21,6 +21,8 @@ class CommunityReportFragment : Fragment() {
 
     //Community Image RV Adapter
     private lateinit var communityReportItemRVAdapter: CommunityReportItemRVAdapter
+
+    private val viewModel by viewModels<CommunityReportViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,52 +36,30 @@ class CommunityReportFragment : Fragment() {
         _binding = FragmentCommunityReportBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        viewModel.init_all_reports()
+
+        viewModel.get_all_reports(-1)
+
         connect_to_community_rv()
 
         return view
     }
 
     private fun connect_to_community_rv() {
-        val init_data = mutableListOf<CommunityReport>()
 
-        var openGraphDto = OpenGraphDto(
-            "https://www.naver.com/",
-            "네이버",
-            "네이버",
-            "네이버",
-            "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
-        )
-        init_data.add(
-            CommunityReport
-                (
-                "", "", "", "", "", mutableListOf(), mutableListOf(),
-                openGraphDto, 0, 0, 0, 0, "")
-            )
+        viewModel.report_list.observe(viewLifecycleOwner) {
 
-        init_data.add(
-            CommunityReport
-                (
-                "", "", "", "", "", mutableListOf(), mutableListOf(),
-                openGraphDto, 0, 0, 0, 0, "")
-        )
+            communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
 
-        init_data.add(
-            CommunityReport
-                (
-                "", "", "", "", "", mutableListOf(), mutableListOf(),
-                openGraphDto, 0, 0, 0, 0, "")
-        )
+            val community_item_rv: RecyclerView = binding.communityRvItem
 
-        communityReportItemRVAdapter = CommunityReportItemRVAdapter(init_data)
+            community_item_rv.adapter = communityReportItemRVAdapter
+            community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        val community_item_rv: RecyclerView = binding.communityRvItem
-
-        community_item_rv.adapter = communityReportItemRVAdapter
-        community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-
-        communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
-            override fun move_to_report_activity() {
-                startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+            communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
+                override fun move_to_report_activity() {
+                    startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                }
             }
         }
     }

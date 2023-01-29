@@ -7,20 +7,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.databinding.CommunityReportItemBinding
 
 /**
  * 결재 톡톡 및 보고서를 받아와 연결해주는 RV Adapter
  * */
-class CommunityReportItemRVAdapter(private val items : List<CommunityReport>) : RecyclerView.Adapter<CommunityReportItemRVAdapter.ViewHolder>() {
+class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : RecyclerView.Adapter<CommunityReportItemRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: CommunityReportItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data : CommunityReport) {
-            if (data.opengraph.image.toString() != "") {
-                binding.reportOpenGraphImage.load(data.opengraph.image)
-                binding.reportOpenGraphText.setText(data.opengraph.title)
-                binding.reportOpenGraphUrl.setText(data.opengraph.url)
+
+            if (data.reportLink != null) {
+                binding.reportOpenGraphImage.load(data.reportLink.get(0).image)
+                binding.reportOpenGraphText.setText(data.reportLink.get(0).title)
+                binding.reportOpenGraphUrl.setText(data.reportLink.get(0).url)
             }
         }
     }
@@ -31,7 +33,7 @@ class CommunityReportItemRVAdapter(private val items : List<CommunityReport>) : 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding(items[position])
+        holder.binding(items.communityReport[position])
         if (itemClick != null){
             holder.binding.reportDetail.setOnClickListener(View.OnClickListener {
                 itemClick?.move_to_report_activity()
@@ -40,7 +42,7 @@ class CommunityReportItemRVAdapter(private val items : List<CommunityReport>) : 
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return items.communityReport.size
     }
 
     /**RV item click event*/

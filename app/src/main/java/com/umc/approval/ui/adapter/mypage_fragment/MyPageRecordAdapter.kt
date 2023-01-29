@@ -4,14 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
+import com.umc.approval.data.dto.mypage.Record
+import com.umc.approval.data.dto.mypage.RecordDto
+import com.umc.approval.data.dto.search.post.KeywordDto
 import com.umc.approval.databinding.MypageRecordItemBinding
 
-class MyPageRecordAdapter(val itemList: ArrayList<MyPageRecordItem>) :
+class MyPageRecordAdapter(val items: RecordDto) :
 RecyclerView.Adapter<MyPageRecordAdapter.MyPageRecordViewHolder>() {
+
     inner class MyPageRecordViewHolder(val binding: MypageRecordItemBinding) : RecyclerView.ViewHolder(binding.root){
-        val time_textview = binding.recordItemDate
-        val content_textview = binding.recordItemContent
-        val point_textview =  binding.recordItemPoint
+
+        fun binding(data : Record) {
+            binding.recordItemContent.text = data.content
+            binding.recordItemDate.text = data.datetime
+            binding.recordItemPoint.text = data.point.toString()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPageRecordViewHolder {
@@ -20,12 +27,10 @@ RecyclerView.Adapter<MyPageRecordAdapter.MyPageRecordViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyPageRecordViewHolder, position: Int) {
-        holder.time_textview.text = itemList[position].time
-        holder.content_textview.text = itemList[position].content
-        holder.point_textview.text = itemList[position].point
+        holder.binding(items.content[position])
     }
 
     override fun getItemCount(): Int {
-        return itemList.count()
+        return items.content.size
     }
 }

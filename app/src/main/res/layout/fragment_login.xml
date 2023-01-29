@@ -7,60 +7,64 @@
     tools:context=".ui.fragment.login.LoginFragment">
 
     <ImageView
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:id="@+id/back_to_main_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/login_fragment_back_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/title"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="70dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/login_fragment_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_to_main_activity"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/back_to_main_activity" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="168dp"
+        android:layout_marginStart="165dp"
         android:layout_marginTop="63dp"
         android:src="@drawable/login_fragment_logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title"></ImageView>
+        app:layout_constraintTop_toTopOf="@+id/title" />
 
-    <ImageView
-        android:layout_marginLeft="20dp"
+    <TextView
+        android:layout_marginStart="16dp"
         android:layout_marginTop="80dp"
-        android:src="@drawable/login_fragment_email_text"
+        android:text="이메일"
+        android:fontFamily="@font/medium"
+        android:textSize="13sp"
         android:id="@+id/emailText"
+        android:textColor="@color/approval_please_black_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
-    </ImageView>
+    </TextView>
 
     <EditText
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/login_activity_white_box"
         android:hint="이메일을 입력해주세요."
         android:maxLines="1"
-        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
         android:singleLine="true"
-        android:textColor="#000000"
-        android:textColorHint="#A0A0A0"
+        android:textColor="@color/approval_please_black_color"
+        android:textColorHint="@color/approval_please_medium_gray_color"
+        android:textSize="15sp"
+        android:fontFamily="@font/medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailText" />
@@ -68,13 +72,13 @@
     <ImageView
         android:visibility="invisible"
         android:id="@+id/valid_fail"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/login_activity_valid_fail"
         app:layout_constraintBottom_toBottomOf="@+id/email"
         app:layout_constraintEnd_toEndOf="@+id/email"
-        app:layout_constraintTop_toTopOf="@+id/email"></ImageView>
+        app:layout_constraintTop_toTopOf="@+id/email" />
 
     <ImageView
         android:id="@+id/text_remove"
@@ -84,53 +88,66 @@
         android:src="@drawable/login_activity_text_remove"
         app:layout_constraintBottom_toBottomOf="@+id/email"
         app:layout_constraintEnd_toEndOf="@+id/email"
-        app:layout_constraintTop_toTopOf="@+id/email"></ImageView>
+        app:layout_constraintTop_toTopOf="@+id/email" />
 
-    <ImageView
+    <TextView
         android:id="@+id/email_valid"
         android:visibility="invisible"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="23dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginStart="23dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login_fragment_email_fail"
+        android:text="올바른 이메일 형식을 입력하세요."
+        android:textColor="#FF0000"
+        android:textSize="11sp"
+        android:fontFamily="@font/medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"></ImageView>
+        app:layout_constraintTop_toTopOf="@+id/email" />
 
-    <ImageView
+    <com.google.android.material.button.MaterialButton
         android:layout_marginTop="30dp"
         android:id="@+id/email_login_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="0dp"
+        android:text="이메일로 계속하기"
+        android:fontFamily="@font/bold"
+        android:textSize="15sp"
+        android:layout_marginHorizontal="16dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:src="@drawable/login_fragment_basic_login"
+        android:layout_height="42dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"></ImageView>
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        android:backgroundTint="@color/approval_please_medium_gray_color"/>
 
     <LinearLayout
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout">
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:gravity="center">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/login_fragment_line"></ImageView>
+            android:src="@drawable/login_fragment_line" />
+
+        <TextView
+            android:text="SNS 계정으로 로그인"
+            android:textSize="11sp"
+            android:fontFamily="@font/medium"
+            android:textColor="@color/approval_please_black_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/login_fragment_sns_login_text"></ImageView>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/login_fragment_line"></ImageView>
+            android:src="@drawable/login_fragment_line" />
     </LinearLayout>
 
     <LinearLayout
@@ -146,21 +163,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/login_fragment_kakao_login"></ImageView>
+            android:src="@drawable/login_fragment_kakao_login" />
 
         <ImageView
             android:id="@+id/naver_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/login_fragment_naver_login"></ImageView>
+            android:src="@drawable/login_fragment_naver_login" />
 
         <ImageView
             android:id="@+id/google_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_weight="1"
-            android:src="@drawable/login_fragment_google_login"></ImageView>
+            android:src="@drawable/login_fragment_google_login" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,28 @@
 package com.umc.approval.ui.fragment.search
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.tabs.TabLayoutMediator
+import com.umc.approval.data.dto.search.post.KeywordDto
 import com.umc.approval.databinding.FragmentRecentSearchBinding
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.search_fragment.RecentSearchRVAdapter
-import com.umc.approval.data.dto.search.post.KeywordDto
+import com.umc.approval.ui.adapter.search_fragment.SearchResultVPAdapter
 import com.umc.approval.ui.viewmodel.search.RecentSearchViewModel
+
 
 /**
  * 최근 검색어 View
@@ -55,6 +64,7 @@ class RecentSearchFragment : Fragment() {
                 viewModel.addKeyword(KeywordDto(0, binding.search.text.toString(), "cswcsm02@gmail.com"))
                 handled = true
             }
+
             handled
         }
 
@@ -65,6 +75,40 @@ class RecentSearchFragment : Fragment() {
 
         /**최근 검색어 RecyclerView를 생성해주는 함수*/
         recent_keyword_recycler_view()
+
+        // 탭 레이아웃과 뷰페이저 연결
+        val searchResultVPAdater = SearchResultVPAdapter(this)
+        binding.vpSearchResult.adapter = searchResultVPAdater
+
+        val tabTitleArray = arrayOf(
+            "결재서류",
+            "결재톡톡",
+            "결재보고서",
+            "사원"
+        )
+
+        TabLayoutMediator(binding.tabLayout, binding.vpSearchResult) { tab, position ->
+            tab.text = tabTitleArray[position]
+        }.attach()
+
+        // 엔터 버튼 누르면 검색 결과 화면 보이게
+        binding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+
+                    binding.beforeSearchFrame.visibility = View.GONE
+                    binding.searchResultFrame.visibility = View.VISIBLE
+                    binding.search.isCursorVisible = false
+
+                    // 키보드 내리기
+                    val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(binding.search.windowToken, 0)
+
+                    return true
+                }
+                return false
+            }
+        })
     }
 
     /**최근 검색어 RV를 초기화 및 최근 검색어 삭제 메서드*/

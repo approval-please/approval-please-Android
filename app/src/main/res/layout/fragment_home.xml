@@ -5,12 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.home.HomeFragment"
-    android:background="@color/home_fragment_background_color">
+    android:background="@color/approval_please_background_color">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginHorizontal="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -19,7 +20,6 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:src="@drawable/home_fragment_app_logo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,6 @@
                 android:id="@+id/mypage_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:background="@color/transparent"
                 android:src="@drawable/home_fragment_mypage_button"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -52,48 +51,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:scrollbars="none"
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/home_banner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/vp_home_banner"
+                    android:clipToPadding="false"
+                    android:layout_width="328dp"
+                    android:layout_height="160dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="1dp"
-                    android:src="@drawable/home_fragment_banner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/indicator"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:text="인디케이터"
+                    app:ci_drawable="@drawable/banner_indicator_selected"
+                    app:ci_drawable_unselected="@drawable/banner_indicator_unselected"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/home_banner" />
+                    app:layout_constraintTop_toBottomOf="@id/vp_home_banner"
+                    app:ci_margin="2dp"
+                    app:ci_animator="@animator/scale_none"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp">
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:id="@+id/my_interesting_paper_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:text="@string/my_interest_paper"
-                        android:textColor="@color/basic_black"
+                        android:textColor="@color/approval_black_color"
                         android:textSize="15sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -107,24 +110,54 @@
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:text="@string/view_all"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/approval_please_medium_gray_color"
+                        android:textSize="13sp"
+                        android:fontFamily="@font/medium"
+                        android:drawablePadding="2dp"
+                        android:padding="0dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/not_login_status"
-                    android:src="@drawable/home_fragment_not_login"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </ImageView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+                    
+                    <ImageView
+                        android:id="@+id/not_login_status_background_image"
+                        android:src="@drawable/home_fragment_not_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </ImageView>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_interesting_category"
+                        android:layout_width="199dp"
+                        android:layout_height="33dp"
+                        android:backgroundTint="@color/approval_please_main_color"
+                        android:text="지금 시작하기"
+                        android:textColor="@color/approval_please_white_color"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/bold"
+                        android:insetBottom="0dp"
+                        android:insetTop="0dp"
+                        android:padding="0dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="49dp"
+                        android:elevation="2dp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/login_status"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
 
                     <HorizontalScrollView
                         android:id="@+id/horizontalScrollView"
@@ -137,78 +170,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <com.google.android.material.chip.ChipGroup
-                            android:id="@+id/cg_my_interesting_category"
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="16dp"
-                            app:selectionRequired="true"
-                            app:singleLine="true"
-                            app:singleSelection="true">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_category"
                                 android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checked="true"
-                                android:text="@string/all_interesting_category"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp" />
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="디지털기기"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp" />
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="생활가전"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp" />
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="생활용품"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp" />
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="22dp"
-                                android:checkable="true"
-                                android:gravity="center_vertical"
-                                android:text="뷰티/미용"
-                                android:textSize="11sp"
-                                app:chipCornerRadius="15dp"
-                                app:chipEndPadding="2dp"
-                                app:chipMinTouchTargetSize="0dp"
-                                app:chipStartPadding="0dp" />
+                                android:layout_height="wrap_content"
+                                android:overScrollMode="never">
+                            </androidx.recyclerview.widget.RecyclerView>
 
                             <ImageButton
                                 android:id="@+id/add_interest_category_button"
@@ -216,44 +188,40 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/transparent"
                                 android:gravity="center_vertical"
-                                android:paddingTop="1dp"
-                                android:src="@drawable/home_fragment_add_interesting_category_button" />
+                                android:layout_gravity="center"
+                                android:src="@drawable/approval_fragment_add_interesting_category_button" />
 
-                            <View
+                            <Space
                                 android:layout_width="50dp"
                                 android:layout_height="match_parent" />
-                        </com.google.android.material.chip.ChipGroup>
 
+                        </LinearLayout>
                     </HorizontalScrollView>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="16dp"
                         android:id="@+id/rv_my_interesting_paper"
+                        android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="138dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
-
-
+                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+                        android:overScrollMode="never"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp">
+                    android:layout_marginTop="40dp">
 
                     <TextView
                         android:id="@+id/review_approval_paper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/bold"
                         android:text="@string/review_approval_paper"
-                        android:textColor="@color/basic_black"
+                        android:textColor="@color/approval_please_black_color"
                         android:textSize="15sp"
-                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -262,13 +230,16 @@
                         android:id="@+id/review_approval_paper_view_all_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:padding="0dp"
+                        android:drawablePadding="2dp"
                         android:background="@color/transparent"
                         android:drawableEnd="@drawable/home_fragment_view_all_arrow"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:text="@string/view_all"
-                        android:textColor="@color/gray_text_color"
+                        android:textColor="@color/approval_please_medium_gray_color"
                         android:textSize="13sp"
+                        android:fontFamily="@font/medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -278,8 +249,7 @@
                     android:id="@+id/cg_approval_paper_sort"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:singleSelection="true"
@@ -296,7 +266,8 @@
                         app:chipCornerRadius="15dp"
                         app:chipEndPadding="2dp"
                         app:chipMinTouchTargetSize="0dp"
-                        app:chipStartPadding="0dp" />
+                        app:chipStartPadding="0dp"
+                        android:fontFamily="@font/medium"/>
 
                     <com.google.android.material.chip.Chip
                         style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
@@ -308,7 +279,8 @@
                         app:chipCornerRadius="15dp"
                         app:chipEndPadding="2dp"
                         app:chipMinTouchTargetSize="0dp"
-                        app:chipStartPadding="0dp" />
+                        app:chipStartPadding="0dp"
+                        android:fontFamily="@font/medium"/>
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -316,23 +288,22 @@
                     android:id="@+id/rv_approval_paper"
                     android:layout_width="wrap_content"
                     android:layout_height="320dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginTop="15dp"
+                    android:overScrollMode="never"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp">
+                    android:layout_marginTop="40dp">
 
                     <TextView
                         android:id="@+id/popular_post_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:text="@string/popular_post"
-                        android:textColor="@color/basic_black"
+                        android:textColor="@color/approval_please_black_color"
                         android:textSize="15sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -346,7 +317,10 @@
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:text="@string/view_all"
-                        android:textColor="@color/gray_text_color"
+                        android:padding="0dp"
+                        android:drawablePadding="2dp"
+                        android:textColor="@color/approval_please_medium_gray_color"
+                        android:fontFamily="@font/medium"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -357,23 +331,22 @@
                     android:id="@+id/rv_popular_post"
                     android:layout_width="wrap_content"
                     android:layout_height="230dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginTop="15dp"
+                    android:overScrollMode="never"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp">
+                    android:layout_marginTop="40dp">
 
                     <TextView
                         android:id="@+id/approval_report_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:text="@string/approval_report"
-                        android:textColor="@color/basic_black"
+                        android:textColor="@color/approval_please_black_color"
                         android:textSize="15sp"
-                        android:textStyle="bold"
+                        android:fontFamily="@font/bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -387,7 +360,10 @@
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:text="@string/view_all"
-                        android:textColor="@color/gray_text_color"
+                        android:padding="0dp"
+                        android:drawablePadding="2dp"
+                        android:textColor="@color/approval_please_medium_gray_color"
+                        android:fontFamily="@font/medium"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -396,10 +372,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
                         android:text="@string/approval_report_sub_text"
-                        android:textColor="@color/black"
+                        android:textColor="@color/approval_please_black_color"
+                        android:fontFamily="@font/medium"
                         android:textSize="11sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/approval_report_title" />
@@ -409,9 +385,9 @@
                     android:id="@+id/rv_approval_report"
                     android:layout_width="wrap_content"
                     android:layout_height="230dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="24dp" />
+                    android:layout_marginBottom="24dp"
+                    android:overScrollMode="never"/>
 
             </LinearLayout>
         </ScrollView>
