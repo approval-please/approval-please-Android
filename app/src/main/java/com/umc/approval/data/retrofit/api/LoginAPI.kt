@@ -1,27 +1,17 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.login.get.ReturnBasicLoginDto
-import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
-import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
-import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
-import com.umc.approval.data.dto.login.post.BasicJoinDto
-import com.umc.approval.data.dto.login.post.BasicLoginDto
-import com.umc.approval.data.dto.login.post.PhoneAuthDto
-import com.umc.approval.data.dto.login.post.SocialJoinDto
+import com.umc.approval.data.dto.login.get.*
+import com.umc.approval.data.dto.login.post.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
 /**
- * login API
+ * 로그인 및 회원가입 관련 기능 API
  * */
 interface LoginAPI {
 
     /**
-     * @Post
-     * email
-     * @Get
-     * Success: status(0: 계정 존재 X, 1: 일반 계정 존재, 2: SNS 계정 존재)
      * API 명세서 Check 완료
      * 반환값 설정 완료
      * */
@@ -60,7 +50,7 @@ interface LoginAPI {
      * */
     @POST("/auth/signup")
     @Headers("content-type: application/json")
-    fun basic_join(@Body basicJoinDto: BasicJoinDto):Call<ResponseBody>
+    fun basic_join(@Body basicJoinDto: BasicJoinDto):Call<ReturnBasicLoginDto>
 
     /**
      * @Post
@@ -82,7 +72,7 @@ interface LoginAPI {
      * */
     @POST("/auth/signup/sns")
     @Headers("content-type: application/json")
-    fun social_join(@Header("Authorization") accessToken: String, @Query("user") user : SocialJoinDto):Call<ResponseBody>
+    fun social_join(@Body user : SocialJoinDto):Call<ReturnBasicLoginDto>
 
     /**
      * @Post
@@ -92,7 +82,7 @@ interface LoginAPI {
      * */
     @POST("/auth/kakao")
     @Headers("content-type: application/json")
-    fun social_login(@Header("Authorization") accessToken : String):Call<ResponseBody>
+    fun social_login(@Header("Authorization") accessToken : String):Call<ReturnSocialLoginDto>
 
     /**
      * @Post
@@ -101,7 +91,7 @@ interface LoginAPI {
      * */
     @POST("/auth/reset")
     @Headers("content-type: application/json")
-    fun password_change(@Query("email") email : String, @Query("password") password : String):Call<ResponseBody>
+    fun password_change(@Body passwordChangeDto: PasswordChangeDto):Call<ResponseBody>
 
     /**
      * @Post

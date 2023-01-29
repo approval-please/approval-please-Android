@@ -72,16 +72,16 @@ class HomeFragment : Fragment() {
         move_to_other_view()
 
         //전체 서류 가지고오는 로직
-        approvalViewModel.init_all_category_approval()
+        approvalViewModel.get_all_documents()
 
         //관신 서류 가지고오는 로직
-        approvalViewModel.init_interest_category_approval()
+        approvalViewModel.get_all_documents()
 
         //tok 서류 가지고오는 로직
-        tokViewModel.init_all_toks()
+        tokViewModel.get_all_toks(0)
 
         //report 서류 가지고오는 로직
-        reportViewModel.init_all_reports()
+        reportViewModel.get_all_reports(0)
 
         //live data
         live_data()

@@ -60,8 +60,8 @@ class DocumentActivity : AppCompatActivity() {
             startActivity(Intent(this, LikeActivity::class.java))
         }
 
-        //초기화
-        viewModel.init_document()
+        viewModel.get_document_detail("0")
+
 
         // 승인, 반려 버튼 클릭 처리
         setVote()
@@ -76,6 +76,31 @@ class DocumentActivity : AppCompatActivity() {
                 val dialog = RefuseDialog()
                 dialog.show(supportFragmentManager, dialog.tag)
             }
+        }
+
+
+        viewModel.document.observe(this) {
+
+            binding.profile.load(it.profileImage)
+            binding.name.text = it.nickname
+            binding.title.text = it.title
+            binding.content.text = it.content
+
+            binding.openGraphImage.load(it.link.image)
+            binding.openGraphText.text = it.link.title
+            binding.openGraphUrl.text = it.link.url
+
+
+            binding.approveButton.text = "승인" + it.approveCount
+            binding.refuseButton.text = "승인" + it.rejectCount
+
+            binding.documentCommentPostLikes.text = it.likedCount.toString()
+            binding.documentCommentPostViews.text = it.view.toString()
+            binding.documentCommentPostComments.text = it.commentCount.toString()
+
+            binding.image1.load(it.imageUrl.get(0))
+            binding.image2.load(it.imageUrl.get(1))
+            binding.image3.load(it.imageUrl.get(2))
         }
     }
 

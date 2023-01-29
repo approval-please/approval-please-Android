@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnSocialLoginDto
 import com.umc.approval.dataStore.AccessTokenDataStore
 import com.umc.approval.data.repository.login.LoginFragmentRepository
 import kotlinx.coroutines.flow.first
@@ -23,9 +24,20 @@ class LoginFragmentViewModel() : ViewModel() {
     val accessToken : LiveData<String>
         get() = _accessToken
 
+    /**이메일 체크 라이브 데이터*/
     private var _email_check = MutableLiveData<ReturnEmailCheckDto>()
     val email_check : LiveData<ReturnEmailCheckDto>
         get() = _email_check
+
+    /**소셜로그인 체크 라이브 데이터*/
+    private var _social_check = MutableLiveData<ReturnSocialLoginDto>()
+    val social_status : LiveData<ReturnSocialLoginDto>
+        get() = _social_check
+
+    /**소셜로그인 체크 라이브 데이터*/
+    private var _kakao_email = MutableLiveData<String>()
+    val kakao_email : LiveData<String>
+        get() = _kakao_email
 
     /**
      * 로그인 성공시 엑세스 토큰 발급
@@ -44,6 +56,28 @@ class LoginFragmentViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * Kakao 소셜 로그인
+     * */
+    fun social_login(accessToken: String, email: String) = viewModelScope.launch {
+
+        val response = repository.social_login("Bearer " + accessToken)
+        _kakao_email.postValue(email)
+
+        response.enqueue(object : Callback<ReturnSocialLoginDto> {
+            override fun onResponse(call: Call<ReturnSocialLoginDto>, response: Response<ReturnSocialLoginDto>) {
+                if (response.isSuccessful) {
+                    _social_check.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ReturnSocialLoginDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

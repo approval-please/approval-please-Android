@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.umc.approval.R
 import com.umc.approval.data.dto.login.post.BasicLoginDto
 import com.umc.approval.databinding.FragmentPasswordBinding
+import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.BasicLoginViewModel
 
 /**
@@ -21,7 +23,7 @@ class PasswordFragment : Fragment() {
     private var _binding : FragmentPasswordBinding? = null
     private val binding get() = _binding!!
 
-    val get_email : JoinFragmentArgs by navArgs()
+    val get_email : PasswordFragmentArgs by navArgs()
 
     private val viewModel by viewModels<BasicLoginViewModel>()
 
@@ -47,6 +49,12 @@ class PasswordFragment : Fragment() {
 
         //move to passwordResetFragment
         moveToPasswordResetFragment()
+
+        //로그인 성공시 메인 화면으로 이동
+        viewModel.success.observe(viewLifecycleOwner) {
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
+        }
 
         return view
     }
@@ -75,8 +83,10 @@ class PasswordFragment : Fragment() {
      * */
     private fun moveToPasswordResetFragment() {
         binding.passwordForgot.setOnClickListener {
-            Navigation.findNavController(binding.root)
-                .navigate(R.id.action_passwordFragment_to_passwordResetFragment)
+
+            val to_password_reset = PasswordFragmentDirections.actionPasswordFragmentToPasswordResetFragment(get_email.email)
+
+            Navigation.findNavController(binding.root).navigate(to_password_reset)
         }
     }
 
@@ -85,9 +95,6 @@ class PasswordFragment : Fragment() {
      * */
     private fun login() {
         binding.loginButton.setOnClickListener {
-
-            val password = binding.password.text
-
             val basicLoginDto = BasicLoginDto(get_email.email, binding.password.text.toString())
             viewModel.login(basicLoginDto)
         }

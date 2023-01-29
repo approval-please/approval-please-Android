@@ -37,8 +37,6 @@ class CommunityReportFragment : Fragment() {
         _binding = FragmentCommunityReportBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel.init_all_reports()
-
         viewModel.get_all_reports(-1)
 
         connect_to_community_rv()

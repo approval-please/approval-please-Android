@@ -6,9 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.umc.approval.R
+import com.umc.approval.data.dto.login.post.PasswordChangeDto
 import com.umc.approval.databinding.FragmentPasswordResetBinding
+import com.umc.approval.ui.viewmodel.login.PasswordChangeViewModel
 import java.util.regex.Pattern
 
 /**
@@ -18,6 +22,10 @@ class PasswordResetFragment : Fragment() {
 
     private var _binding : FragmentPasswordResetBinding? = null
     private val binding get() = _binding!!
+
+    val get_email : PasswordResetFragmentArgs by navArgs()
+
+    private val viewModel by viewModels<PasswordChangeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +87,8 @@ class PasswordResetFragment : Fragment() {
                 if (binding.password.text.toString() == binding.passwordRetry.text.toString()) {
                     proper_retry_password()
                     Navigation.findNavController(binding.root).navigate(R.id.action_passwordResetFragment_to_passwordChangeFragment)
+
+                    viewModel.password_change(PasswordChangeDto(get_email.email, binding.password.text.toString()))
                 } else {
                     not_proper_retry_password()
                 }

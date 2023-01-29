@@ -43,8 +43,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
 
         viewModel.get_all_documents(null)
 
-        viewModel.init_all_category_approval()
-        
+
         setAllCategoryList()  // 카테고리 리사이클러뷰 데이터 & 어댑터 설정
         
         return view
@@ -78,8 +77,6 @@ class ApprovalAllCategoryViewFragment: Fragment() {
                     /**결재서류 아이디를 넘김*/
                     val intent = Intent(requireContext(), DocumentActivity::class.java)
                     intent.putExtra("documentId", data.documentId.toString())
-
-                    Log.d("documentId", data.documentId.toString())
 
                     startActivity(intent)
                 }

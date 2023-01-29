@@ -76,6 +76,21 @@ class LoginFragment : Fragment() {
         //엑세스 토큰
         access_token_check()
 
+        //카카오 로그인 시
+        viewModel.social_status.observe(viewLifecycleOwner) {
+            val status = viewModel.social_status.value!!.status
+
+            //최초 로그인 시
+            if (status == 0) {
+                val to_social_join = LoginFragmentDirections.actionLoginFragmentToSocialJoinFragment(viewModel.kakao_email.value.toString())
+                Navigation.findNavController(binding.root).navigate(to_social_join)
+            } else if (status == 2) {
+                Toast.makeText(requireContext(), "계정이 존재합니다", Toast.LENGTH_SHORT).show()
+            } else if (status == 1) {
+                viewModel.setAccessToken("Bearer " + viewModel.accessToken.value.toString())
+            }
+        }
+
         return view
     }
 
@@ -127,16 +142,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun get_kakao_email() {
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-            }
-            else if (user != null) {
-                Log.d("test", user.kakaoAccount!!.email.toString())
-            }
-        }
-    }
-
     /**
      * 카카오 로그인 로직
      * */
@@ -181,13 +186,14 @@ class LoginFragment : Fragment() {
             }
             else if (token != null) {
 
-                /**
-                 * 로그인 성공시 서버로 엑세스토큰 발급 요청
-                 * */
-
-                get_kakao_email()
-
-                viewModel.login(token.accessToken.toString(), "kakao")
+                UserApiClient.instance.me { user, error ->
+                    if (error != null) {
+                    }
+                    else if (user != null) {
+                        //로그인 진행
+                        viewModel.social_login(user.kakaoAccount!!.email.toString(), user.kakaoAccount!!.email.toString())
+                    }
+                }
             }
         }
 
@@ -223,19 +229,13 @@ class LoginFragment : Fragment() {
      * */
     override fun onStart() {
         super.onStart()
-
-        /**
-         * AccessToken 확인해서 로그인 상태인지 아닌지 확인
-         * */
         viewModel.checkAccessToken()
     }
 
-    /**access token 변화를 fragment에서 체크하는 함수*/
+    /**엑세스 토큰이 존재하는 경우 삭제*/
     private fun access_token_check() {
         viewModel.accessToken.observe(viewLifecycleOwner) {
             if (it != "") {
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
                 requireActivity().finish()
             }
         }
@@ -276,18 +276,14 @@ class LoginFragment : Fragment() {
                     } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
                         Navigation.findNavController(binding.root).navigate(to_join)
                     } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
-                        /**
-                         * 다이얼로그 제작 및 연결 필요
-                         * */
+                        Toast.makeText(requireContext(), "SNS 계정이 존재합니다", Toast.LENGTH_SHORT).show()
                     }
                 }
-
             } else {
                 binding.email.setBackgroundResource(R.drawable.login_activity_red_box)
                 binding.validFail.isVisible = true
                 binding.textRemove.isVisible = false
                 binding.emailValid.isVisible = true
-                Toast.makeText(requireContext(), "유효한 이메일아닙니다", Toast.LENGTH_SHORT).show()
             }
         }
     }

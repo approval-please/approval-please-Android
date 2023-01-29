@@ -418,6 +418,8 @@ class UploadActivity : AppCompatActivity() {
         //Dialog Opengraph 초기화
         opengraphId.isVisible = false
 
+        linkString = ""
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialogEditText.setText(linkString) //초기화

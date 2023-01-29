@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_loginFragment_to_joinFragment"
             app:destination="@id/joinFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_socialJoinFragment"
+            app:destination="@id/socialJoinFragment" />
     </fragment>
     <fragment
         android:id="@+id/passwordFragment"
@@ -54,6 +57,9 @@
         <action
             android:id="@+id/action_passwordResetFragment_to_passwordChangeFragment"
             app:destination="@id/passwordChangeFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/passwordChangeFragment"
@@ -62,5 +68,15 @@
         <action
             android:id="@+id/action_passwordChangeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/socialJoinFragment"
+        android:name="com.umc.approval.ui.fragment.login.SocialJoinFragment"
+        android:label="SocialJoinFragment" >
+        <action
+            android:id="@+id/action_socialJoinFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <argument android:name="email"
+            app:argType="string" />
     </fragment>
 </navigation>

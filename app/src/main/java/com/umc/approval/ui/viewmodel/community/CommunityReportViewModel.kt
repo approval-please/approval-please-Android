@@ -83,8 +83,7 @@ class CommunityReportViewModel() : ViewModel() {
             override fun onResponse(call: Call<CommunityReportDto>, response: Response<CommunityReportDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+                    _report_list.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

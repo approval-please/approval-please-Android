@@ -1,13 +1,7 @@
 package com.umc.approval.data.repository.login
 
-import com.umc.approval.data.dto.login.get.ReturnBasicLoginDto
-import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
-import com.umc.approval.data.dto.login.get.ReturnPhoneAuthDto
-import com.umc.approval.data.dto.login.get.ReturnPhoneAuthRequestDto
-import com.umc.approval.data.dto.login.post.BasicJoinDto
-import com.umc.approval.data.dto.login.post.BasicLoginDto
-import com.umc.approval.data.dto.login.post.PhoneAuthDto
-import com.umc.approval.data.dto.login.post.SocialJoinDto
+import com.umc.approval.data.dto.login.get.*
+import com.umc.approval.data.dto.login.post.*
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.serverApi
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -41,15 +35,15 @@ class LoginFragmentRepository() {
     /**
      * Basic Join API
      * */
-    fun basic_join(user : BasicJoinDto): Call<ResponseBody> {
+    fun basic_join(user : BasicJoinDto): Call<ReturnBasicLoginDto> {
         return serverApi.basic_join(user)
     }
 
     /**
      * Social Join API
      * */
-    fun social_join(accessToken: String, user : SocialJoinDto): Call<ResponseBody> {
-        return serverApi.social_join(accessToken, user)
+    fun social_join(user : SocialJoinDto): Call<ReturnBasicLoginDto> {
+        return serverApi.social_join(user)
     }
 
     /**
@@ -62,15 +56,15 @@ class LoginFragmentRepository() {
     /**
      * Social Join API
      * */
-    fun social_login(accessToken: String): Call<ResponseBody> {
+    fun social_login(accessToken: String): Call<ReturnSocialLoginDto> {
         return serverApi.social_login(accessToken)
     }
 
     /**
      * Password Change API
      * */
-    fun password_change(email: String, password: String): Call<ResponseBody> {
-        return serverApi.password_change(email, password)
+    fun password_change(passwordChangeDto: PasswordChangeDto): Call<ResponseBody> {
+        return serverApi.password_change(passwordChangeDto)
     }
 
     /**
