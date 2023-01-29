@@ -54,7 +54,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         setInterestingCategoryList()
 
         //모든 관심 서류 목록 조회
-        viewModel.get_interesting_documents("0")
+        viewModel.get_interesting_documents(null)
 
         //엑세스 토큰이 없으면 로그인으로 이동
         not_has_access_token()

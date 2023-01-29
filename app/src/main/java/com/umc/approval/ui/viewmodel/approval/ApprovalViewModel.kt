@@ -50,38 +50,21 @@ class ApprovalViewModel() : ViewModel() {
 
         approvalPaperList.apply{
             add(
-                ApprovalPaper(1,0, 0, "30분전",
-                    "",
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12, 1)
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(1,1, 0, "30분전",
-                "",
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12, 1)
+                ApprovalPaper(1,2, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,2,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(1,2, 0, "30분전",
-                "",
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12, 1)
-            )
-
-            add(
-                ApprovalPaper(1,0, 0, "30분전",
-                "",
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12, 1)
-            )
-
-            add(
-                ApprovalPaper(1, 1, 0, "30분전",
-                "",
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                1000, 32, 12, 1)
+                ApprovalPaper(2,1, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,1,32,32, "50분전",
+                    1000)
             )
         }
 
@@ -103,38 +86,21 @@ class ApprovalViewModel() : ViewModel() {
 
         approvalPaperList.apply{
             add(
-                ApprovalPaper(1,0, 0, "30분전",
-                    "",
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12, 1)
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(1,1, 0, "30분전",
-                    "",
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12, 1)
+                ApprovalPaper(1,2, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,2,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(1,2, 0, "30분전",
-                    "",
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12, 1)
-            )
-
-            add(
-                ApprovalPaper(1,0, 0, "30분전",
-                    "",
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12, 1)
-            )
-
-            add(
-                ApprovalPaper(1,1, 0, "30분전",
-                    "",
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12, 1)
+                ApprovalPaper(2,1, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,1,32,32, "50분전",
+                    1000)
             )
         }
 
@@ -149,7 +115,7 @@ class ApprovalViewModel() : ViewModel() {
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
-    fun get_all_documents(category: String) = viewModelScope.launch {
+    fun get_all_documents(category: String?=null) = viewModelScope.launch {
 
         val response = repository.getDocuments(category)
         response.enqueue(object : Callback<ApprovalPaperDto> {
@@ -172,7 +138,7 @@ class ApprovalViewModel() : ViewModel() {
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
-    fun get_interesting_documents(category: String) = viewModelScope.launch {
+    fun get_interesting_documents(category: String?= null) = viewModelScope.launch {
 
         //엑세스 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
         val accessToken = AccessTokenDataStore().getAccessToken().first()

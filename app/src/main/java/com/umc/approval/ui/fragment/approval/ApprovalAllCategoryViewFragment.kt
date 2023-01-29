@@ -42,7 +42,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         //live data
         live_data()
 
-        viewModel.get_all_documents("0")
+        viewModel.get_all_documents(null)
 
         viewModel.init_all_category_approval()
         
@@ -71,11 +71,18 @@ class ApprovalAllCategoryViewFragment: Fragment() {
             binding.rvApprovalPaper.layoutManager =
                 LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-            // 클릭 이벤트 처리
+            /**결재서류 클릭시 해당 결재서류로 이동*/
             dataRVAdapter.setOnItemClickListener(object :
                 ApprovalPaperListRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+
+                    /**결재서류 아이디를 넘김*/
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+
+                    Log.d("documentId", data.documentId.toString())
+
+                    startActivity(intent)
                 }
             })
         }
@@ -115,9 +122,12 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         // 클릭 이벤트 처리
         categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
             override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
-                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
-
-                // API 호출하여 ApprovalPaperList 갱신
+                var num = pos-1
+                if (num == -1) {
+                    viewModel.get_all_documents(null)
+                } else {
+                    viewModel.get_all_documents((pos-1).toString())
+                }
             }
         })
     }

@@ -2,6 +2,7 @@ package com.umc.approval.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 
 class DocumentActivity : AppCompatActivity() {
+
     private lateinit var binding : ActivityDocumentBinding
 
     /**Approval view model*/
@@ -39,7 +41,8 @@ class DocumentActivity : AppCompatActivity() {
         setComment()
 
         //이전 프래그먼트에서 데이터 가지고 오기
-        viewModel.get_document_detail("0")
+        val documentId = intent.getStringExtra("documentId")
+        viewModel.get_document_detail(documentId.toString())
 
         // like activity로 이동
         binding.documentCommentPostLikes.setOnClickListener {

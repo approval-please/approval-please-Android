@@ -9,26 +9,26 @@ import com.google.gson.annotations.SerializedName
 data class ApprovalPaper(
     @SerializedName("documentId")
     val documentId: Int,
-    @SerializedName("state")
-    val state: Int,
     @SerializedName("category")
     val category: Int,
-    @SerializedName("datetime")
-    val datetime: String,
-    @SerializedName("image")
-    val image: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("content")
     val content: String,
-    @SerializedName("tags")
+    @SerializedName("tag")
     val tag: List<String>,
-    @SerializedName("view")
-    val view: Int,
+    @SerializedName("image")
+    val image: String,
+    @SerializedName("imageCount")
+    val imageCount: Int,
+    @SerializedName("state")
+    val state: Int,
     @SerializedName("approveCount")
     val approveCount: Int,
     @SerializedName("rejectCount")
     val rejectCount: Int,
-    @SerializedName("imageCount")
-    val imageCount: Int
+    @SerializedName("datetime")
+    val datetime: String,
+    @SerializedName("view")
+    val view: Int,
 )

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
@@ -18,6 +19,7 @@ import com.umc.approval.databinding.FragmentMypageDocumentBinding
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
+import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
  * MyPage 결재 서류 tab View
@@ -26,6 +28,8 @@ class MypageDocumentFragment : Fragment() {
 
     private var _binding : FragmentMypageDocumentBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<MypageViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,16 +86,13 @@ class MypageDocumentFragment : Fragment() {
      */
     private fun setDocumentList() {
 
-        var approvalPaperList = ApprovalPaperDto(listOf(ApprovalPaper(
-            1,1, 1,"","","","",
-            mutableListOf("기계", "환경 "), 0, 0, 0,0
-        ),ApprovalPaper(
-            1,1, 1,"","","","",
-            mutableListOf("기계", "환경 "), 0, 0, 0,0
-        ),ApprovalPaper(
-            1,1, 1,"","","","",
-            mutableListOf("기계", "환경 "), 0, 0, 0,0
-        )))
+        var approvalPaperList = ApprovalPaperDto(listOf(ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000)))
 
         val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
         val spaceDecoration = VerticalSpaceItemDecoration(40)

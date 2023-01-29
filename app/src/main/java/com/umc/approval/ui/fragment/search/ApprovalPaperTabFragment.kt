@@ -108,16 +108,13 @@ class ApprovalPaperTabFragment: Fragment() {
 
     private fun setApprovalPaperList() {
 
-        var approvalPaperList = ApprovalPaperDto(listOf(ApprovalPaper(
-            1,1, 1,"","","","",
-            mutableListOf("기계", "환경 "), 0, 0, 0,0
-        ),ApprovalPaper(
-            1,1, 1,"","","","",
-            mutableListOf("기계", "환경 "), 0, 0, 0,0
-        ),ApprovalPaper(
-            1,1, 1,"","","","",
-            mutableListOf("기계", "환경 "), 0, 0, 0,0
-        )))
+        var approvalPaperList = ApprovalPaperDto(listOf(ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000)))
 
         val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
         val spaceDecoration = VerticalSpaceItemDecoration(40)

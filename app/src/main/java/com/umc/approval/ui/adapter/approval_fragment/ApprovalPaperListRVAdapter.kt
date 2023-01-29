@@ -1,7 +1,6 @@
 package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +9,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.databinding.ApprovalFragmentItemApprovalPaperBinding
+import com.umc.approval.util.Utils.categoryMap
 
 class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -31,26 +32,33 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         val context = context
         fun bind(data: ApprovalPaper) {
 
-            if (data.image != null) {
+            /**
+             * 이미지가 없으면 이미지 제외하고 처리
+             * 이미지가 있으면 로드
+             * */
+            if (data.image == null) {
                 binding.itemImage.isVisible = false
-
                 val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.marginStart = 0
                 binding.contentContainer.layoutParams = layoutParams
             } else {
-//                binding.itemImage.load(data.image.get(0))
+                binding.itemImage.load(data.image)
             }
 
-//            binding.tvTitle.text = data.title
-//            binding.tvContent.text = data.content
+            /**
+             * 제목, 내용, 승인, 거절, 뷰, 카테고리, 작성시간표시
+             * */
+            binding.tvTitle.text = data.title
+            binding.tvContent.text = data.content
             binding.tvApproveCount.text = data.approveCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
-
-            binding.tvCategory.text = data.category.toString()
+            binding.tvCategory.text = categoryMap[data.category]
             binding.tvWriteTime.text = data.datetime
 
-            // 결재 승인 상태에 배경 설정
+            /**
+             * 승인 상태에 따라 처리
+             * */
             when (data.state) {
                 0 -> {
                     // 승인됨
@@ -78,7 +86,9 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
                 }
             }
 
-            // 태그 리사이클러뷰 설정
+            /**
+             * tag RecyclerView
+             * */
             val tagRVAdapter = TagRVAdapter(data.tag)
             val spaceDecoration = HorizontalSpaceItemDecoration(25)
             binding.rvTag.addItemDecoration(spaceDecoration)

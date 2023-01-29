@@ -11,10 +11,8 @@ import androidx.navigation.Navigation
 import coil.load
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
-import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.ProfileChangeActivity
-import com.umc.approval.ui.fragment.approval.ApprovalAllCategoryViewFragment
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
@@ -27,7 +25,7 @@ class MypageFragment : Fragment() {
     private val binding get() = _binding!!
 
     /**tab layout*/
-    lateinit var tab1: ApprovalAllCategoryViewFragment
+    lateinit var tab1: MypageDocumentFragment
     lateinit var tab2: MypageCommunityFragment
     lateinit var tab3: MypageCommentFragment
     lateinit var tab4: MypageScrapFragment
@@ -95,7 +93,7 @@ class MypageFragment : Fragment() {
 
     /**Tab layout 초기화*/
     private fun init_tab_layout() {
-        tab1 = ApprovalAllCategoryViewFragment()
+        tab1 = MypageDocumentFragment()
         tab2 = MypageCommunityFragment()
         tab3 = MypageCommentFragment()
         tab4 = MypageScrapFragment()

@@ -29,13 +29,6 @@ class ProfileChangeViewModel() : ViewModel() {
     val image : LiveData<Uri>
         get() = _image
 
-    /**init data*/
-    fun init_data() {
-//        //서버에서 가지고 오는 데이터
-//        val profileChange = ProfileChange("팀", "저는 안드로이드 파트 개발을 진행중입니다")
-//        _load_profile.postValue(profileChange)
-    }
-
     /**set image data*/
     fun setImage(image: Uri) {
         _image.postValue(image)

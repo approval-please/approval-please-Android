@@ -1,5 +1,6 @@
 package com.umc.approval.data.repository.mypage
 
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.profile.ProfileChange
@@ -24,5 +25,13 @@ class MyPageFragmentRepository {
 
     fun change_my_profile(accessToken : String, profileChange: ProfileChange) : Call<ResponseBody>{
         return mypageAPI.change_my_profile(accessToken, profileChange)
+    }
+
+    fun get_my_documents(accessToken : String, state: Int?=null, isApproved: Int?=null) : Call<ApprovalPaperDto>{
+        return mypageAPI.get_my_documment(accessToken, state, isApproved)
+    }
+
+    fun get_other_documents(accessToken : String, userId: Int, state: Int?=null, isApproved: Int?=null) : Call<ApprovalPaperDto>{
+        return mypageAPI.get_other_documment(accessToken, userId, state, isApproved)
     }
 }

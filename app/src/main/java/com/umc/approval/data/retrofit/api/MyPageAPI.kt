@@ -75,15 +75,19 @@ interface MyPageAPI {
         @Header("Authorization") accessToken : String, @Body profileChange: ProfileChange) : Call<ResponseBody>
 
 
+    /**내 서류 가지고 오기*/
     @GET("/profile/my/documents")
     @Headers("content-type: application/json")
     fun get_my_documment(
-        @Header("Authorization") accessToken : String, @Query("state") state : Int) : Call<ApprovalPaperDto>
+        @Header("Authorization") accessToken : String,
+        @Query("state") state: Int?=null, @Query("isApproved") isApproved: Int?=null) : Call<ApprovalPaperDto>
 
+    /**내 서류 가지고 오기*/
     @GET("/profile/{userId}/documents")
     @Headers("content-type: application/json")
     fun get_other_documment(
-        @Header("Authorization") accessToken : String, @Query("state") state : Int, @Path("userId") userId:Int) : Call<ApprovalPaperDto>
+        @Header("Authorization") accessToken : String, @Path("userId") userId: Int,
+        @Query("state") state: Int?=null, @Query("isApproved") isApproved: Int?=null) : Call<ApprovalPaperDto>
 
     @GET("/profile/my/community/toktoks")
     @Headers("content-type: application/json")

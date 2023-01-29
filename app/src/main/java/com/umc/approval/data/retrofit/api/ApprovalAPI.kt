@@ -23,8 +23,7 @@ interface ApprovalAPI {
      */
     @GET("/documents")
     @Headers("content-type: application/json")
-    fun getDocuments(@Query("category") category: String): Call<ApprovalPaperDto>
-
+    fun getDocuments(@Query("category") category: String?= null): Call<ApprovalPaperDto>
     /**
      * @Post
      * accessToken: 사용자 검증 토큰, 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
@@ -36,7 +35,7 @@ interface ApprovalAPI {
     @GET("/documents/likes")
     @Headers("content-type: application/json")
     fun getInterestingCategoryDocuments(
-        @Header("Authorization") accessToken: String, @Query("category") category: String
+        @Header("Authorization") accessToken: String, @Query("category") category: String?= null
     ): Call<ApprovalPaperDto>
 
     /**
