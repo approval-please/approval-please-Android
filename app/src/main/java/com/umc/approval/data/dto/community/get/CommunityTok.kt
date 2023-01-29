@@ -4,34 +4,32 @@ import com.google.gson.annotations.SerializedName
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /**Community Item Dto*/
-data class CommunityTok (
+data class CommunityTok(
 
         @SerializedName("nickname")
-        var nickname : String,
+        var nickname: String,
         @SerializedName("profileImage")
-        var profileImage : String,
+        var profileImage: String,
         @SerializedName("rank")
-        var rank : String,
+        var rank: String,
         @SerializedName("body")
-        var body : String,
-        @SerializedName("isVote")
-        var isVote : Boolean,
-        @SerializedName("voteParticipants")
-        var voteParticipants : Int,
+        var body: String,
+        @SerializedName("voteInfo")
+        var voteInfo: CommunityVoteInfo?,
         @SerializedName("image")
-        var image : String,
+        var image: MutableList<String> = mutableListOf<String>(),
         @SerializedName("tags")
-        var tags : MutableList<String> = mutableListOf<String>(),
+        var tags: MutableList<String> = mutableListOf<String>(),
         @SerializedName("opengraph")
-        var opengraph : OpenGraphDto,
+        var opengraph: MutableList<OpenGraphDto> = mutableListOf<OpenGraphDto>(),
         @SerializedName("like")
-        var like : Int,
+        var like: Int,
         @SerializedName("scrap")
-        var scrap : Int,
+        var scrap: Int,
         @SerializedName("view")
-        var view : Int,
+        var view: Int,
         @SerializedName("reply")
-        var reply : Int,
+        var reply: Int,
         @SerializedName("updatedAt")
         val updatedAt: String,
 )

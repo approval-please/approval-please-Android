@@ -69,6 +69,9 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagDialogBinding : ActivityUploadTagDialogBinding
     private lateinit var tagButton : ImageButton
     private lateinit var tagTextView : TextView
+    /*태그 데이터*/
+    private lateinit var tagString : String
+    private lateinit var tagArray : List<String>
 
     /*링크 다이얼로그*/
     private lateinit var linkDialogBinding : ActivityUploadLinkDialogBinding
@@ -86,9 +89,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagDialogEditText :EditText
     private lateinit var linkDialogEditText :EditText
 
-    /*태그 데이터*/
-    private lateinit var tagString : String
-    private lateinit var tagArray : List<String>
+
 
     /*링크 데이터*/
     private lateinit var linkString :String
@@ -178,8 +179,6 @@ class UploadActivity : AppCompatActivity() {
                 popup.height = 100
             }
         }
-
-
     }
     /**category spinner*/
     private fun select_category() {
@@ -241,7 +240,6 @@ class UploadActivity : AppCompatActivity() {
 
         // set popup height
         popupWindow.height = 250
-
 
         binding.uploadDepartmentSpinner.avoidDropdownFocus()
         binding.uploadDepartmentSpinner.adapter = adapter

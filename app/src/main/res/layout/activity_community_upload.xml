@@ -6,65 +6,65 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.CommunityUploadActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/upload_layout_toolbar"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="52dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_height="60dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/upload_cancel_btn"
-            android:layout_width="17dp"
-            android:layout_height="17dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/upload_activity_cancel_button"></ImageButton>
+            android:layout_marginLeft="16dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/upload_activity_cancel_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"></ImageView>
+
         <TextView
             android:id="@+id/upload_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:gravity="center"
-            android:text="서류 작성하기"
-            android:textColor="#161616"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="게시글 작성하기"
+            android:textColor="@color/approval_fragment_title"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"></TextView>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/upload_submit_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp"
-            android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/upload_activity_submit_button"></ImageButton>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/community_submit_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"></ImageView>
 
-    </RelativeLayout>
+        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#BFBFBF"
+            android:orientation="horizontal"
+            android:elevation="2dp"></LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/upload_community_tab"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/upload_activity_round_dialog_custom"
         app:layout_constraintTop_toBottomOf="@id/upload_layout_toolbar"
@@ -72,16 +72,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:tabRippleColor = "@null"
         app:tabIndicatorGravity="stretch"
-        app:tabIndicatorColor="#E3D9FF"
+        app:tabIndicatorColor="@color/transparent"
         app:tabIndicator="@drawable/upload_activity_round_tab_custom"
         app:tabIndicatorFullWidth="true"
-        app:tabSelectedTextColor="#6C39FF"></com.google.android.material.tabs.TabLayout>
+        app:tabSelectedTextColor="#6C39FF"
+        app:tabTextColor="#8C8C8C"
+        app:tabTextAppearance="@style/tab_text"
+        ></com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/upload_tab_vp"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

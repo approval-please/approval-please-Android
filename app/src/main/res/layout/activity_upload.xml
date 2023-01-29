@@ -102,7 +102,7 @@
                 <Spinner
                     android:id="@+id/upload_department_spinner"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="6dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@drawable/upload_activity_department_spinner_custom"

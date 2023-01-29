@@ -2,10 +2,13 @@ package com.umc.approval.ui.fragment.community
 
 import android.Manifest
 import android.app.Activity
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -13,7 +16,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,16 +27,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
+import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.databinding.FragmentCommunityUploadReportBinding
 import com.umc.approval.ui.activity.CommunityUploadActivity
+import com.umc.approval.ui.activity.CommunityUploadDocumentListActivity
+import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
+import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.upload.CommunityReportUploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
@@ -74,6 +82,19 @@ class CommunityUploadReportFragment : Fragment() {
     private lateinit var opengraphImage : ImageView
     private lateinit var opengraphId : ConstraintLayout
 
+    /*태그 다이얼로그*/
+    private lateinit var tagDialogBinding : ActivityUploadTagDialogBinding
+    private lateinit var tagButton : ImageButton
+    private lateinit var tagTextView : TextView
+    private lateinit var tagDialogEditText :EditText
+
+    /*태그 데이터*/
+    private lateinit var tagString : String
+    private lateinit var tagArray : List<String>
+
+    val voteList : ArrayList<String> = arrayListOf()
+    val linkList : ArrayList<OpenGraphDto> = ArrayList()
+
     lateinit var communityUploadActivity: CommunityUploadActivity
 
     override fun onAttach(context: Context) {
@@ -81,7 +102,6 @@ class CommunityUploadReportFragment : Fragment() {
         communityUploadActivity = context as CommunityUploadActivity
         //communityUploadActivity.changeTitle("결재서류 작성하기")
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,8 +126,9 @@ class CommunityUploadReportFragment : Fragment() {
         manager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
 
         //opengraph 초기화
-        binding.openGraph.isVisible = false
         binding.imageRv.isVisible = false
+        binding.openGraphLayout.isVisible = false
+        binding.uploadHashtagItem.isVisible = false
 
         /*이미지 선택시 실행되는 메서드*/
         observe_pic()
@@ -122,15 +143,29 @@ class CommunityUploadReportFragment : Fragment() {
         opengraph_observe()
 
         /*링크 첨부 다이얼로그*/
-        linkButton = binding.uploadLinkBtn
-        linkButton.setOnClickListener{
+        binding.uploadLinkBtn.setOnClickListener{
             showLinkDialog()
+        }
+
+        /*태그 입력 다이얼로그 열기*/
+        tagString = ""
+        binding.uploadTagBtn.setOnClickListener{
+            showTagDialog()
+        }
+
+        binding.documentBtn.setOnClickListener{
+            // 클릭 이벤트 처리
+            val intent = Intent(requireContext(), CommunityUploadDocumentListActivity::class.java)
+            startActivityForResult(intent, 2000)
         }
 
         return binding.root
     }
 
+    lateinit var imageUrl : String
+
     /*링크 첨부 다이얼로그*/
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun showLinkDialog() {
         val linkDialog = Dialog(communityUploadActivity);
         linkDialogBinding = ActivityUploadLinkDialogBinding.inflate(layoutInflater)
@@ -150,10 +185,6 @@ class CommunityUploadReportFragment : Fragment() {
         //Dialog Opengraph 초기화
         opengraphId.isVisible = false
 
-        /*검색 삭제*/
-        linkEraseButton.setOnClickListener{
-            linkDialogEditText.setText("")
-        }
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
@@ -162,8 +193,37 @@ class CommunityUploadReportFragment : Fragment() {
         }
 
         /*확인버튼*/
-        dialogConfirmButton.setOnClickListener {
+        dialogConfirmButton.setOnClickListener{
+            // tagTextView.setText(tagDialogEditText.text.toString())
+            binding.openGraphLayout.isVisible = true
+
+            if(opengraphId.isVisible){
+
+                var openGraphDto : OpenGraphDto = OpenGraphDto()
+                openGraphDto.url = opengraphUrl.text.toString()
+                openGraphDto.title = opengraphText.text.toString()
+                openGraphDto.image = imageUrl
+
+                Log.d("dd", openGraphDto.toString())
+
+                if(linkList.size < 4) {
+                    linkList.apply {
+                        add(openGraphDto)
+                    }
+                    var imageCount = "(" + linkList.size + "/4)"
+                    binding.imageLinkTv.setText(imageCount)
+                }
+                val dataRVAdapter = CommunityUploadLinkItemRVAdapter(linkList)
+                binding.uploadLinkItem.adapter = dataRVAdapter
+                binding.uploadLinkItem.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            }
+
             linkDialog.dismiss()
+        }
+
+
+        linkEraseButton.setOnClickListener{
+            linkDialogEditText.setText("")
         }
 
         /*link url 바뀔때 마다 적용*/
@@ -172,6 +232,7 @@ class CommunityUploadReportFragment : Fragment() {
         /*link 팝업*/
         linkDialog.show()
     }
+
 
     /**image upload event*/
     @RequiresApi(Build.VERSION_CODES.M)
@@ -231,6 +292,7 @@ class CommunityUploadReportFragment : Fragment() {
             .show()
     }
 
+
     /**사진 선택(갤러리에서 나온) 이후 실행되는 함수*/
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -255,6 +317,15 @@ class CommunityUploadReportFragment : Fragment() {
                     list.add(imageUri)
                     viewModel.setImage(list)
                 }
+            }
+        }else if (requestCode == 2000) {
+            if (resultCode == RESULT_OK) {
+                val resultMsg = data?.getStringExtra("title")
+                binding.documentBtn.text = resultMsg
+
+            } else if (resultCode == RESULT_CANCELED) {
+                val resultMsg = data?.getStringExtra("title")
+            } else {
             }
         }
     }
@@ -343,7 +414,6 @@ class CommunityUploadReportFragment : Fragment() {
 
             //link 변경시 opengraph 초기화
             opengraphId.isVisible = false
-            binding.openGraph.isVisible = false
 
             manager.hideSoftInputFromWindow(
                 requireActivity().currentFocus?.windowToken,
@@ -398,12 +468,110 @@ class CommunityUploadReportFragment : Fragment() {
             opengraphText.setText(it.title)
             opengraphUrl.setText(it.url)
             opengraphImage.load(it.image)
+            imageUrl = it.image.toString()
 
-            binding.openGraph.isVisible = true
-            binding.openGraphText.setText(it.title)
-            binding.openGraphUrl.setText(it.url)
-            binding.openGraphImage.load(it.image)
         }
     }
 
-}
+    /*태그 다이얼로그*/
+    private fun showTagDialog(){
+        val tagDialog = Dialog(communityUploadActivity);
+        tagDialogBinding = ActivityUploadTagDialogBinding.inflate(layoutInflater)
+
+        tagDialog.setContentView(tagDialogBinding.root)
+        tagDialog.setCanceledOnTouchOutside(true)
+        tagDialog.setCancelable(true)
+        dialogCancelButton = tagDialogBinding.uploadTagDialogCancelButton
+        dialogConfirmButton = tagDialogBinding.uploadTagDialogConfirmButton
+        tagDialogEditText = tagDialogBinding.uploadTagDialogEt
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener{
+            tagDialog.dismiss()
+        }
+
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            // tagTextView.setText(tagDialogEditText.text.toString())
+            tagString = tagDialogEditText.text.toString()
+            binding.uploadHashtagItem.isVisible = true
+            if(tagString.length>1){
+                tagArray = tagString.split(" ")
+
+//                tagTextView.setText("("+tagArray.size+"/4)");
+                var tagCount = "(" + tagArray.size + "/4)"
+                binding.imageTagTv.text = tagCount
+
+                val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
+            }
+
+            tagDialog.dismiss()
+        }
+
+
+        /*태그 입력 동적코드*/
+//        tagDialogEditText.setOnClickListener(View.OnClickListener {
+//            if(tagDialogEditText.text.toString().length==0){
+//                tagDialogEditText.setText("#");
+//                tagDialogEditText.setSelection(tagDialogEditText.text.length)
+//            }
+//        })
+
+        //val spannableStringBuilder = SpannableStringBuilder(text)
+        tagDialogEditText.setText(tagString)
+
+        var originText = ""
+        var hashtagCount = 0;
+
+//        tagDialogEditText.addTextChangedListener(object:TextWatcher{
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//                originText = s.toString();
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                var text = s.toString()
+//                var textLength = text.length-1;
+//                if(hashtagCount >= 4){
+//                    tagDialogEditText.setText(originText)
+//                }
+//
+//                if(text[textLength] == ' '){
+//                    val timer = Timer()
+////                    timer.schedule(object : TimerTask() {
+////                        override fun run() {
+////                            runOnUiThread {
+//                                hashtagCount = 0;
+//                                for(i in 0..textLength){
+//                                    if(text[i] == ' '){
+//                                        hashtagCount++;
+//                                        val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
+//                                        spannableStringBuilder.setSpan(
+//                                            ForegroundColorSpan(Color.parseColor("#6C39FF")),
+//                                            //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
+//                                            0,
+//                                            i,
+//                                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                                        )
+//                                        if(hashtagCount <= 4){
+//                                            tagDialogEditText.setText(spannableStringBuilder.append('#'))
+//                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+//                                        }
+//                                    }
+//                                }
+////                            }
+////                        }
+////                    }, 10)
+//                }
+//            }
+//        })
+        tagDialog.show()
+    }
+
+ }

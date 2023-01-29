@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/community_vote_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    tools:context=".ui.activity.CommunityTokActivity"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/community_post_vote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray_text_color"
+            app:layout_constraintStart_toStartOf="@id/community_post_vote"
+            app:layout_constraintTop_toTopOf="@+id/community_post_vote"></View>
+
+        <ImageView
+            android:id="@+id/vote_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/community_vote_image"></ImageView>
+
+        <TextView
+            android:id="@+id/community_post_vote_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="13dp"
+            android:text="텀블러"
+            android:fontFamily="@font/medium"
+            android:textColor="#6C39FF"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/vote_image"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/community_post_vote_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/medium"
+            android:text="투표진행중"
+            android:textColor="#141414"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/community_post_vote_title"
+            app:layout_constraintTop_toTopOf="parent"></TextView>
+
+        <TextView
+            android:id="@+id/community_post_vote_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/light"
+            android:text="복수선택"
+            android:textColor="@color/gray_text_color"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="@id/community_post_vote"
+            app:layout_constraintTop_toTopOf="@id/community_post_vote"></TextView>
+
+        <TextView
+            android:id="@+id/community_post_vote_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/light"
+            android:text=" · "
+            android:textColor="@color/gray_text_color"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@id/community_post_vote_option"
+            app:layout_constraintTop_toTopOf="@id/community_post_vote"></TextView>
+
+        <TextView
+            android:id="@+id/community_post_vote_participant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/light"
+            android:text="0명 참여"
+            android:textColor="@color/gray_text_color"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toStartOf="@id/community_post_vote_dot"
+            app:layout_constraintTop_toTopOf="@id/community_post_vote"></TextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vote_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/vote_button"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="16dp"                    android:layout_height="35dp"
+        android:background="@drawable/upload_activity_round_dialog_custom"
+        android:backgroundTint="@color/approval_main_color"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="투표하기"
+            android:fontFamily="@font/medium"
+            android:textSize="16sp"
+            android:textColor="@color/approval_please_white_color"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"></TextView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/gray_text_color"></View>
+</LinearLayout>

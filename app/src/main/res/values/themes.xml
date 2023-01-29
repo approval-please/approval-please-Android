@@ -30,9 +30,14 @@
         <item name="android:textColor">@drawable/approval_fragment_choice_chip_text_color</item>
     </style>
 
-    <!-- home fragment chip custom -->
+    <!-- hashtag chip custom -->
     <style name="hashtagStyle" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@drawable/hashtag_chip_background_color</item>
         <item name="android:textColor">@drawable/hashtag_chip_text_color</item>
+    </style>
+
+    <!-- tab text size   -->
+    <style name="tab_text" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">11sp</item>
     </style>
 </resources>

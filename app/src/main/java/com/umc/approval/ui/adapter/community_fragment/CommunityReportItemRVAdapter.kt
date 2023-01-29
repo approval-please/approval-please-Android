@@ -4,10 +4,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.umc.approval.App.Companion.context
 import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.databinding.CommunityReportItemBinding
+import com.umc.approval.ui.activity.MainActivity
+import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
+import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import kotlin.coroutines.coroutineContext
 
 /**
  * 결재 톡톡 및 보고서를 받아와 연결해주는 RV Adapter
@@ -17,10 +25,51 @@ class CommunityReportItemRVAdapter(private val items : List<CommunityReport>) : 
     inner class ViewHolder(val binding: CommunityReportItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data : CommunityReport) {
-            if (data.opengraph.image.toString() != "") {
-                binding.reportOpenGraphImage.load(data.opengraph.image)
-                binding.reportOpenGraphText.setText(data.opengraph.title)
-                binding.reportOpenGraphUrl.setText(data.opengraph.url)
+
+            /*결재서류 부분*/
+            if(data.document.image.size == 0){
+                binding.communityDocumentLayout.ivApprovalReportThumbnail.isVisible = false
+            }else{
+                binding.communityDocumentLayout.ivApprovalReportThumbnail.load(data.document.image[0])
+                if(data.document.image.size > 1){
+                    binding.communityDocumentLayout.documentImageCountTv.text = "+" + (data.document.image.size - 1).toString()
+                }
+            }
+
+            binding.communityDocumentLayout.documentTitle.text = data.document.title
+            binding.communityDocumentLayout.documentContent.text = data.document.content
+
+            /*결재 보고서 부분*/
+            binding.reportCategoryItemText.text = data.body // 내용
+            binding.reportUserName.text = data.nickname
+            binding.reportViewText.text = data.view.toString()
+            binding.tvLikeCount.text = data.like.toString()
+            binding.tvCommentCount.text = data.reply.toString()
+
+
+            if(data.images.size ==0){
+                binding.uploadImageLayout.isVisible = false
+            }else{
+                var imageRVAdapter = CommunityImageRVAdapter(data.images as ArrayList<String>)
+                binding.imageRv.adapter = imageRVAdapter
+                binding.imageRv.layoutManager =
+                    LinearLayoutManager(context(), LinearLayoutManager.HORIZONTAL, false)
+            }
+
+            if(data.tags.size == 0){
+                binding.uploadHashtagItem.isVisible = false
+            }else{
+                val dataRVAdapter = UploadHashtagRVAdapter(data.tags)
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(context(), RecyclerView.HORIZONTAL, false)
+            }
+
+            if (data.opengraph.size > 0) {
+                binding.reportOpenGraphImage.load(data.opengraph[0].image)
+                binding.reportOpenGraphText.setText(data.opengraph[0].title)
+                binding.reportOpenGraphUrl.setText(data.opengraph[0].url)
+            }else{
+                binding.reportLinkLayout.isVisible = false
             }
         }
     }
@@ -33,7 +82,7 @@ class CommunityReportItemRVAdapter(private val items : List<CommunityReport>) : 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding(items[position])
         if (itemClick != null){
-            holder.binding.reportDetail.setOnClickListener(View.OnClickListener {
+            holder.binding.communityDocumentLayout.documentBtn.setOnClickListener(View.OnClickListener {
                 itemClick?.move_to_report_activity()
             })
         }
