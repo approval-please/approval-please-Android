@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="33dp"
+        android:layout_height="3dp"
+        android:background="#D9D9D9"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="16dp">
+    
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리"
+            android:textSize="16sp"
+            android:fontFamily="@font/bold"
+            android:layout_gravity="center"
+            android:textColor="@color/approval_black_color" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_apply"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            app:backgroundTint="@color/approval_please_main_color"
+            android:text="적용하기"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textSize="11sp"
+            android:fontFamily="@font/light"
+            android:padding="0dp"
+            android:layout_gravity="center"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/approval_please_bold_gray_color"
+        android:layout_marginTop="17dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="300dp" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+
+</LinearLayout>

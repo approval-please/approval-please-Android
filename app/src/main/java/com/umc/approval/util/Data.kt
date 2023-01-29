@@ -9,6 +9,7 @@ data class ApprovalPaper(
     val views: Int,
     val department: String,
     val date: String,  // 서버 측에서 보내주는 데이터 가공 필요
+    val image: Any?,
 )
 
 data class Post(
@@ -20,6 +21,7 @@ data class Post(
     val comment_count: Int,
     val like_count: Int,
     val date: String,
+    val image: Any?,
 )
 
 data class ApprovalReport(
@@ -33,6 +35,7 @@ data class ApprovalReport(
     val comment_count: Int,
     val like_count: Int,
     val date: String,
+    val image: Any?,
 )
 
 data class Participant(
@@ -47,6 +50,16 @@ data class Like(
     val user_rank: String,
     val user_nickname: String,
     val follow_status: Boolean,
+)
+
+data class InterestingCategory(
+    val category: String,
+    var selected: Boolean,
+)
+
+data class CategorySelectDialogItem(
+    val category: String,
+    var isChecked: Boolean,
 )
 
 data class VoteItem(

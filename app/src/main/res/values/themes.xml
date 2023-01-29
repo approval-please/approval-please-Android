@@ -21,6 +21,7 @@
     <!-- approval fragment tab custom -->
     <style name="tabTextStyle" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/medium</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -28,6 +29,37 @@
     <style name="Colors_Widget.MaterialComponents.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipBackgroundColor">@drawable/approval_fragment_choice_chip_background_color</item>
         <item name="android:textColor">@drawable/approval_fragment_choice_chip_text_color</item>
+        <item name="chipCornerRadius">15dp</item>
+        <item name="chipEndPadding">2dp</item>
+        <item name="chipMinTouchTargetSize">0dp</item>
+        <item name="chipStartPadding">0dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAppearance">@style/chipText</item>
+    </style>
+
+    <style name="chipText">
+        <item name="fontFamily">@font/medium</item>
+    </style>
+
+    <!-- bottom sheet dialog custom -->
+    <style name="RoundCornerBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundCornerModalStyle</item>
+    </style>
+
+    <style name="RoundCornerModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/approval_fragment_bottom_sheet_dialog_background</item>
+    </style>
+
+    <!-- approval paper tag chip custom -->
+    <style name="customTag" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@drawable/approval_fragment_choice_chip_background_color</item>
+        <item name="android:textColor">@drawable/approval_fragment_choice_chip_text_color</item>
+        <item name="chipCornerRadius">15dp</item>
+        <item name="chipEndPadding">2dp</item>
+        <item name="chipMinTouchTargetSize">0dp</item>
+        <item name="chipStartPadding">0dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="fontFamily">@font/light</item>
     </style>
 
     <!--bottomsheetdialog custom-->

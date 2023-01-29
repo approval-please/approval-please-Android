@@ -13,17 +13,24 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentHomeBinding
+import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.activity.SearchActivity
+import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
+import com.umc.approval.ui.adapter.home_fragment.BannerVPAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.ApprovalPaper
 import com.umc.approval.util.ApprovalReport
+import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Post
+import me.relex.circleindicator.CircleIndicator3
 
 /**
  * Home View
@@ -85,10 +92,8 @@ class HomeFragment : Fragment() {
         setPopularPost()  // 인기 게시글
         setApprovalReport()  // 결재 보고서
 
-        binding.cgMyInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "관심 부서 선택, $checkedIds")
-            // 카테고리 번호 선택, notify
-        }
+        setInterestingCategoryList()
+        setBannerImage()
 
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "결재서류 정렬 방식 선택, $checkedIds")
@@ -143,13 +148,13 @@ class HomeFragment : Fragment() {
         val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
         approvalPaperList.apply{
-            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
         }
 
         val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
@@ -170,13 +175,13 @@ class HomeFragment : Fragment() {
         val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
         approvalPaperList.apply{
-            add(ApprovalPaper(2, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 4, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
-            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전"))
+            add(ApprovalPaper(0, "스타벅스 텀블러 1", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(2, "스타벅스 텀블러 2", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라 테스트테스트테스트테스트테스트", 4, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 3", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 1, 10, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(1, "스타벅스 텀블러 4", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(0, "스타벅스 텀블러 5", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 5, "디지털기기", "5시간 전", null))
+            add(ApprovalPaper(1, "스타벅스 텀블러 6", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", R.drawable.item_home_image))
+            add(ApprovalPaper(2, "스타벅스 텀블러 7", "스타벅스 텀블러 골라주세요! 테스트테스트블라블라", 5, 3, 2, "디지털기기", "5시간 전", null))
         }
 
         val dataRVAdapter = ApprovalPaperRVAdapter(approvalPaperList)
@@ -197,11 +202,11 @@ class HomeFragment : Fragment() {
         val postList: ArrayList<Post> = arrayListOf()
 
         postList.apply {
-            add(Post("", "강사원", "부장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", 5, 2, "5시간 전"))
-            add(Post("", "채사원", "대리", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트", 5, 2, "5시간 전"))
-            add(Post("", "김사원", "인턴", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트 테스트테스트", 5, 2, "5시간 전"))
-            add(Post("", "유사원", "사장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트 테스트테스트 테스트테스트", 5, 2, "5시간 전"))
-            add(Post("", "박사원", "부장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트", 5, 2, "5시간 전"))
+            add(Post("", "강사원", "부장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", 5, 2, "5시간 전", null))
+            add(Post("", "채사원", "대리", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트", 5, 2, "5시간 전", R.drawable.home_fragment_post_thumbnail))
+            add(Post("", "김사원", "인턴", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트 테스트테스트", 5, 2, "5시간 전", R.drawable.home_fragment_post_thumbnail))
+            add(Post("", "유사원", "사장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트 테스트테스트 테스트테스트", 5, 2, "5시간 전", null))
+            add(Post("", "박사원", "부장", 10, "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요 테스트테스트", 5, 2, "5시간 전", null))
         }
 
         val dataRVAdapter = PopularPostRVAdapter(postList)
@@ -222,12 +227,12 @@ class HomeFragment : Fragment() {
         val approvalReportList: ArrayList<ApprovalReport> = arrayListOf()
 
         approvalReportList.apply {
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
-            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전"))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", R.drawable.home_fragment_post_thumbnail))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", R.drawable.home_fragment_post_thumbnail))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
+            add(ApprovalReport("", "강사원", "부장", "집에 텀블러 다섯개", "집에 텀블러 다섯개 있는데\n이 사이즈는 없어서 고민돼요", "", 10, 5, 2, "5시간 전", null))
         }
 
         val dataRVAdapter = ApprovalReportRVAdapter(approvalReportList)
@@ -242,5 +247,54 @@ class HomeFragment : Fragment() {
                 Log.d("로그", "결재 보고서 클릭, pos: $pos")
             }
         })
+    }
+
+    private fun setInterestingCategoryList() {
+        val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
+
+        interestingCategory.apply{
+            add(InterestingCategory("관심 부서 전체", true))
+            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("생활가전", false))
+            add(InterestingCategory("생활용품", false))
+            add(InterestingCategory("미용", false))
+        }
+
+        val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
+        val spaceDecoration = HorizontalSpaceItemDecoration(25)
+        binding.rvCategory.addItemDecoration(spaceDecoration)
+        binding.rvCategory.adapter = categoryRVAdapter
+        binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+        binding.addInterestCategoryButton.setOnClickListener {
+            Log.d("로그", "관심 부서 추가 버튼 클릭")
+            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 클릭 이벤트 처리
+        categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
+            override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
+                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
+
+                // API 호출하여 InterestingCategory 갱신
+            }
+        })
+    }
+
+    /**
+     * 배너 이미지 어댑터 설정
+     */
+    private fun setBannerImage() {
+        val photoUrlList = listOf(R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner)
+
+        // 뷰페이저에 어댑터 ㅇ녀결
+        val photoVPAdatper = BannerVPAdapter(photoUrlList)
+        binding.vpHomeBanner.adapter = photoVPAdatper
+        binding.vpHomeBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        // 인디케이터 생성 미 적용
+        val indicator: CircleIndicator3 = binding.indicator
+        indicator.setViewPager(binding.vpHomeBanner)
     }
 }
