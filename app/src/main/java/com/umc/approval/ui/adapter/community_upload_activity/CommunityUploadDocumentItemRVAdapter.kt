@@ -1,11 +1,9 @@
 package com.umc.approval.ui.adapter.community_upload_activity
 
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.ItemUploadDocumentBinding
@@ -44,7 +42,7 @@ class CommunityUploadDocumentItemRVAdapter (private var dataList: ArrayList<Appr
             }
 
             binding.documentTitleTv.text = data.title
-            binding.documentUpdateDateTv.text = data.updatedAt
+            binding.documentUpdateDateTv.text = data.datetime
 
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {

@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_fragment_mypage_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_fragment_mypage_to_followFragment"
+            app:destination="@id/followFragment" />
     </fragment>
     <fragment
         android:id="@+id/fragment_notification"
@@ -129,6 +132,15 @@
         tools:layout="@layout/fragment_setting" >
         <action
             android:id="@+id/action_settingFragment_to_fragment_mypage"
+            app:destination="@id/fragment_mypage" />
+    </fragment>
+    <fragment
+        android:id="@+id/followFragment"
+        android:name="com.umc.approval.ui.fragment.mypage.follow.FollowFragment"
+        android:label="fragment_follow"
+        tools:layout="@layout/fragment_follow" >
+        <action
+            android:id="@+id/action_followFragment_to_fragment_mypage"
             app:destination="@id/fragment_mypage" />
     </fragment>
 </navigation>

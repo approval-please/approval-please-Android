@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.databinding.FragmentSearchApprovalPaperTabBinding
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
@@ -106,44 +107,14 @@ class ApprovalPaperTabFragment: Fragment() {
     }
 
     private fun setApprovalPaperList() {
-        val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
 
-        approvalPaperList.apply{
-            add(
-                ApprovalPaper(0, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("가전", "환경"),
-                1000, 32, 12)
-            )
-
-            add(
-                ApprovalPaper(1, 0, "30분전",
-                mutableListOf(),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "가구"),
-                1000, 32, 12)
-            )
-
-            add(
-                ApprovalPaper(0, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("환경"),
-                1000, 32, 12)
-            )
-
-            add(
-                ApprovalPaper(1, 0, "30분전",
-                mutableListOf(),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계"),
-                1000, 32, 12)
-            )
-
-            add(
-                ApprovalPaper(2, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경"),
-                1000, 32, 12)
-            )
-        }
+        var approvalPaperList = ApprovalPaperDto(listOf(ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000),ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+            "", 0,0,32,32, "50분전",
+            1000)))
 
         val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
         val spaceDecoration = VerticalSpaceItemDecoration(40)

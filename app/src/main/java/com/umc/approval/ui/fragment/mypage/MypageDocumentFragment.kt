@@ -9,16 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.databinding.FragmentMypageDocumentBinding
-import com.umc.approval.databinding.FragmentMypageRecordBinding
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
-import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
-import com.umc.approval.util.ApprovalPaper
+import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
  * MyPage 결재 서류 tab View
@@ -27,6 +28,8 @@ class MypageDocumentFragment : Fragment() {
 
     private var _binding : FragmentMypageDocumentBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<MypageViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,13 +64,26 @@ class MypageDocumentFragment : Fragment() {
                 // 리사이클러뷰 아이템 갱신
             }
 
-        setDocumentList()
+        viewModel.get_my_documents()
+
+        /**라이브 데이터*/
+        viewModel.document.observe(viewLifecycleOwner) {
+
+            val dataRVAdapter = ApprovalPaperListRVAdapter(it)
+            val spaceDecoration = VerticalSpaceItemDecoration(40)
+            binding.rvMypageDocument.addItemDecoration(spaceDecoration)
+            binding.rvMypageDocument.adapter = dataRVAdapter
+            binding.rvMypageDocument.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+            // 클릭 이벤트 처리
+            dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                }
+            })
+        }
 
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     /**
@@ -76,73 +92,6 @@ class MypageDocumentFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    /**
-     * 결재 서류 리사이클러뷰 아이템 설정
-     */
-    private fun setDocumentList() {
-        val approvalPaperList: ArrayList<com.umc.approval.data.dto.approval.get.ApprovalPaper> = arrayListOf()  // 샘플 데이터
-
-        approvalPaperList.apply{
-            add(
-                com.umc.approval.data.dto.approval.get.ApprovalPaper(
-                    0, 0, "30분전",
-                    mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("가전", "환경"),
-                    1000, 32, 12
-                )
-            )
-
-            add(
-                com.umc.approval.data.dto.approval.get.ApprovalPaper(
-                    1, 0, "30분전",
-                    mutableListOf(),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "가구"),
-                    1000, 32, 12
-                )
-            )
-
-            add(
-                com.umc.approval.data.dto.approval.get.ApprovalPaper(
-                    0, 0, "30분전",
-                    mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("환경"),
-                    1000, 32, 12
-                )
-            )
-
-            add(
-                com.umc.approval.data.dto.approval.get.ApprovalPaper(
-                    1, 0, "30분전",
-                    mutableListOf(),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계"),
-                    1000, 32, 12
-                )
-            )
-
-            add(
-                com.umc.approval.data.dto.approval.get.ApprovalPaper(
-                    2, 0, "30분전",
-                    mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경"),
-                    1000, 32, 12
-                )
-            )
-        }
-
-        val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
-        val spaceDecoration = VerticalSpaceItemDecoration(40)
-        binding.rvMypageDocument.addItemDecoration(spaceDecoration)
-        binding.rvMypageDocument.adapter = dataRVAdapter
-        binding.rvMypageDocument.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: com.umc.approval.data.dto.approval.get.ApprovalPaper, pos: Int) {
-                startActivity(Intent(requireContext(), DocumentActivity::class.java))
-            }
-        })
     }
 
     // 아이템 간 간격 조절 기능

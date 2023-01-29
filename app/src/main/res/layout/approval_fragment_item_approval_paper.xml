@@ -98,6 +98,7 @@
 
         <ImageView
             android:id="@+id/item_image"
+            android:background="@drawable/image_background"
             android:scaleType="centerCrop"
             android:layout_width="90dp"
             android:layout_height="90dp"

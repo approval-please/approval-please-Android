@@ -29,48 +29,33 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
 
         documentList.apply {
             add(
-                ApprovalPaper(
-                    2, 0, "30분전",
-                    mutableListOf(),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12
-                )
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(
-                    1, 0, "30분전",
-                    mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12
-                )
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(
-                    2, 0, "30분전",
-                    mutableListOf(),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12
-                )
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(
-                    1, 0, "30분전",
-                    mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12
-                )
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
 
             add(
-                ApprovalPaper(
-                    1, 0, "30분전",
-                    mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"),
-                    "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경 "),
-                    1000, 32, 12
-                )
+                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
+                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    1000)
             )
         }
 

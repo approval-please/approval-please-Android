@@ -1,6 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.profile.ProfileDto
+import com.umc.approval.data.dto.profile.ProfileChange
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -20,7 +20,7 @@ interface ProfileAPI {
     @Headers("content-type: application/json")
     fun profile_change(
         @Header("Authorization") accessToken: String,
-        @Query("profile") profile: ProfileDto):Call<ResponseBody>
+        @Query("profile") profile: ProfileChange):Call<ResponseBody>
 
 
     /**
@@ -33,5 +33,5 @@ interface ProfileAPI {
     @GET("/profile/update")
     @Headers("content-type: application/json")
     fun profile_get(
-        @Header("Authorization") accessToken: String):Call<ProfileDto>
+        @Header("Authorization") accessToken: String):Call<ProfileChange>
 }

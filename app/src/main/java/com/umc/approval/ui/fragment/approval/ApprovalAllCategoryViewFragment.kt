@@ -8,19 +8,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalAllCategoryViewBinding
 import com.umc.approval.ui.activity.DocumentActivity
-import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
+import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.util.InterestingCategory
 
 class ApprovalAllCategoryViewFragment: Fragment() {
+
     private var _binding : FragmentApprovalAllCategoryViewBinding? = null
     private val binding get() = _binding!!
+
+    /**mypage view model*/
+    private val viewModel by viewModels<ApprovalViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +38,15 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         _binding = FragmentApprovalAllCategoryViewBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        setApprovalPaperList()  // 리사이클러뷰 데이터 & 어댑터 설정
+        //live data
+        live_data()
 
+        viewModel.get_all_documents(null)
+
+        viewModel.init_all_category_approval()
+        
         setAllCategoryList()  // 카테고리 리사이클러뷰 데이터 & 어댑터 설정
-
+        
         return view
     }
 
@@ -48,48 +58,33 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         super.onDestroy()
     }
 
-    private fun setApprovalPaperList() {
-        val approvalPaperList: ArrayList<ApprovalPaper> = arrayListOf()  // 샘플 데이터
+    /**live data*/
+    private fun live_data() {
 
-        approvalPaperList.apply{
-            add(ApprovalPaper(0, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("가전", "환경"),
-                1000, 32, 12))
+        viewModel.approval_all_list.observe(viewLifecycleOwner) {
 
-            add(ApprovalPaper(1, 0, "30분전",
-                mutableListOf(),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "가구"),
-                1000, 32, 12))
+            val dataRVAdapter = ApprovalPaperListRVAdapter(it)
+            val spaceDecoration = VerticalSpaceItemDecoration(40)
+            binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
+            binding.rvApprovalPaper.adapter = dataRVAdapter
+            binding.rvApprovalPaper.layoutManager =
+                LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-            add(ApprovalPaper(0, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("환경"),
-                1000, 32, 12))
+            /**결재서류 클릭시 해당 결재서류로 이동*/
+            dataRVAdapter.setOnItemClickListener(object :
+                ApprovalPaperListRVAdapter.OnItemClickListner {
+                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
 
-            add(ApprovalPaper(1, 0, "30분전",
-                mutableListOf(),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계"),
-                1000, 32, 12))
+                    /**결재서류 아이디를 넘김*/
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
 
-            add(ApprovalPaper(2, 0, "30분전",
-                mutableListOf("https://www.backmarket.co.kr/used-refurbished/iPhone-13-Pro-128GB-Gold-Unlocked/2"),
-                "아이폰 14 Pro", "새로 출시된 아이폰 골드입니다", mutableListOf("기계", "환경"),
-                1000, 32, 12))
+                    Log.d("documentId", data.documentId.toString())
+
+                    startActivity(intent)
+                }
+            })
         }
-
-        val dataRVAdapter = ApprovalPaperListRVAdapter(approvalPaperList)
-        val spaceDecoration = VerticalSpaceItemDecoration(40)
-        binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
-        binding.rvApprovalPaper.adapter = dataRVAdapter
-        binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-
-        // 클릭 이벤트 처리
-        dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
-            override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                startActivity(Intent(requireContext(), DocumentActivity::class.java))
-            }
-        })
     }
 
     private fun setAllCategoryList() {
@@ -126,9 +121,12 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         // 클릭 이벤트 처리
         categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
             override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
-                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
-
-                // API 호출하여 ApprovalPaperList 갱신
+                var num = pos-1
+                if (num == -1) {
+                    viewModel.get_all_documents(null)
+                } else {
+                    viewModel.get_all_documents((pos-1).toString())
+                }
             }
         })
     }

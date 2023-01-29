@@ -8,17 +8,11 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.Insets.add
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.TextWatcher
-import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
@@ -33,26 +27,23 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
-import com.umc.approval.App.Companion.context
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.*
 import com.umc.approval.ui.activity.CommunityUploadActivity
-import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVoteItemRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
+import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
-import com.umc.approval.ui.viewmodel.upload.CommunityTalkUploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
-import com.umc.approval.util.VoteItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,12 +51,11 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CommunityUploadTalkFragment : Fragment() {
+class CommunityUploadTokFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadTalkBinding
 
-    /**Community Talk Upload Viewmodel*/
-    lateinit var viewModel: CommunityTalkUploadViewModel
+    private val viewModel by activityViewModels<CommunityUploadViewModel>()
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -122,9 +112,6 @@ class CommunityUploadTalkFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCommunityUploadTalkBinding.inflate(layoutInflater)
 
-        /*View Model 초기화*/
-        viewModel = ViewModelProvider(this).get(CommunityTalkUploadViewModel::class.java)
-
         /*Open Graph manager 초기화*/
         manager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -154,6 +141,13 @@ class CommunityUploadTalkFragment : Fragment() {
             showLinkDialog();
         }
 
+        //리스트에 값이 변경될 때마다 rv 실행
+        viewModel.opengraph_list.observe(viewLifecycleOwner) {
+            Log.d("test", it.toString())
+        }
+
+        binding.uploadImageBtn
+
         //vote 초기화
         initVote()
         setVoteList()
@@ -163,7 +157,13 @@ class CommunityUploadTalkFragment : Fragment() {
         binding.uploadTagBtn.setOnClickListener{
             showTagDialog()
         }
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setLink(0)
     }
 
 
@@ -361,6 +361,10 @@ class CommunityUploadTalkFragment : Fragment() {
             }
 
             linkDialog.dismiss()
+
+            if (viewModel.opengraph != null) {
+                viewModel.setOpengraph_list(viewModel.opengraph.value!!)
+            }
         }
 
 
@@ -601,7 +605,6 @@ class CommunityUploadTalkFragment : Fragment() {
             opengraphUrl.setText(it.url)
             opengraphImage.load(it.image)
             imageUrl = it.image.toString()
-
         }
     }
 

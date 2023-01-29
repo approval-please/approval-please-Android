@@ -1,17 +1,17 @@
 package com.umc.approval.ui.fragment.login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.umc.approval.R
+import com.umc.approval.data.dto.login.post.BasicLoginDto
 import com.umc.approval.databinding.FragmentPasswordBinding
-import com.umc.approval.ui.activity.MainActivity
+import com.umc.approval.ui.viewmodel.login.BasicLoginViewModel
 
 /**
  * basic login password view
@@ -20,6 +20,10 @@ class PasswordFragment : Fragment() {
 
     private var _binding : FragmentPasswordBinding? = null
     private val binding get() = _binding!!
+
+    val get_email : JoinFragmentArgs by navArgs()
+
+    private val viewModel by viewModels<BasicLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,19 +88,8 @@ class PasswordFragment : Fragment() {
 
             val password = binding.password.text
 
-            Toast.makeText(requireContext(), password.toString(), Toast.LENGTH_SHORT).show()
-
-            if (password.toString() == "12345678") {
-                Toast.makeText(requireContext(), "로그인에 성공하였습니다", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(requireContext(), MainActivity::class.java))
-                requireActivity().finish()
-            } else {
-                binding.password.setBackgroundResource(R.drawable.login_activity_red_box)
-                binding.validFail.isVisible = true
-                binding.textRemove.isVisible = false
-                binding.passwordValid.isVisible = true
-                Toast.makeText(requireContext(), "비밀번호가 잘못되었습니다", Toast.LENGTH_SHORT).show()
-            }
+            val basicLoginDto = BasicLoginDto(get_email.email, binding.password.text.toString())
+            viewModel.login(basicLoginDto)
         }
     }
 

@@ -7,12 +7,12 @@ import retrofit2.Call
 
 class FollowFragmentRepository() {
 
-    fun get_follower(accessToken : String) : Call<CommonUserListDto>{
-        return followApi.get_follower(accessToken)
+    fun get_follower(accessToken : String, query: String) : Call<CommonUserListDto>{
+        return followApi.get_follower(accessToken, query)
     }
 
-    fun get_following(accessToken : String) : Call<CommonUserListDto>{
-        return followApi.get_following(accessToken)
+    fun get_following(accessToken : String, query: String) : Call<CommonUserListDto>{
+        return followApi.get_following(accessToken, query)
     }
 
     fun follow(accessToken : String, userId: Int) : Call<FollowStateDto>{

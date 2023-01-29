@@ -17,7 +17,7 @@ interface FollowAPI {
     @GET("/profile/my/followers")
     @Headers("content-type: application/json")
     fun get_follower(
-        @Header("Authorization") accessToken : String) : Call<CommonUserListDto>
+        @Header("Authorization") accessToken : String, @Query("query") query: String) : Call<CommonUserListDto>
 
     /**
      * @Post
@@ -28,7 +28,7 @@ interface FollowAPI {
     @GET("/profile/my/following")
     @Headers("content-type: application/json")
     fun get_following(
-        @Header("Authorization") accessToken : String) : Call<CommonUserListDto>
+        @Header("Authorization") accessToken : String, @Query("query") query: String) : Call<CommonUserListDto>
 
     /**
      * @Post

@@ -1,41 +1,44 @@
 package com.umc.approval.ui.fragment.mypage
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import coil.load
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEachIndexed
-import androidx.core.view.marginStart
-import androidx.navigation.Navigation
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
 import com.umc.approval.check.collie.OtherpageFragment
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.ProfileChangeActivity
-import com.umc.approval.ui.fragment.mypage.follow.FollowFragment
+import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
  * MyPage View
  * */
 class MypageFragment : Fragment() {
 
+    /**init binding*/
     private var _binding : FragmentMypageBinding? = null
     private val binding get() = _binding!!
+
+    /**tab layout*/
     lateinit var tab1: MypageDocumentFragment
     lateinit var tab2: MypageCommunityFragment
     lateinit var tab3: MypageCommentFragment
     lateinit var tab4: MypageScrapFragment
     lateinit var tab5: MypageRecordFragment
+
+    /**mypage view model*/
+    private val viewModel by viewModels<MypageViewModel>()
 
     /*포인트 프로그레스 바 작동 확인을 위한 임시 데이터*/
     var userpoint = 250.0f
@@ -53,10 +56,17 @@ class MypageFragment : Fragment() {
         _binding = FragmentMypageBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        /**mypage로 이동*/
-        binding.profileFix.setOnClickListener {
-            startActivity(Intent(requireContext(), ProfileChangeActivity::class.java))
-        }
+        //다른 뷰로 이동
+        move_to_other_view()
+
+        //tab layout 초기화
+        init_tab_layout()
+
+        //서버로부터 데이터 받아오기
+        viewModel.my_profile()
+
+        //서버로부터 데이터를 받아온 것을 관찰했을 경우
+        profile_live_data()
 
         /* 프로필 링크 공유 Dialog 하단에 발생 */
         binding.mypageShare.setOnClickListener {
@@ -72,9 +82,36 @@ class MypageFragment : Fragment() {
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+        Log.d("test", "테스트")
+        viewModel.my_profile()
+    }
 
+    /**profile live data*/
+    private fun profile_live_data() {
+        viewModel.myInfo.observe(viewLifecycleOwner) {
+
+            //follower
+            binding.followerTextview.setText(viewModel.myInfo.value!!.follows.toString())
+            //following
+            binding.followingTextview.setText(viewModel.myInfo.value!!.followings.toString())
+            //nickname
+            binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname)
+            //introduce
+            binding.profileMsgTextview.setText(viewModel.myInfo.value!!.introduction)
+            //point
+            //rank
+
+            //profile image
+            if (!viewModel.myInfo.value!!.profileImage.equals(null)) {
+                binding.profileImage.load(viewModel.myInfo.value!!.profileImage)
+            }
+        }
+    }
+
+    /**Tab layout 초기화*/
+    private fun init_tab_layout() {
         tab1 = MypageDocumentFragment()
         tab2 = MypageCommunityFragment()
         tab3 = MypageCommentFragment()
@@ -118,7 +155,6 @@ class MypageFragment : Fragment() {
                     }
                 }
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 /* 미선택된 탭의 font 다시 medium으로 돌아가도록 처리 */
                 val viewGroupTab = viewGroup.getChildAt(tab?.position!!.toInt()) as ViewGroup
@@ -129,27 +165,30 @@ class MypageFragment : Fragment() {
                     }
                 }
             }
-
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
             }
         })
+    }
+
+    /**다른 UI로 이동하는 함수*/
+    private fun move_to_other_view() {
+        //follow 목록으로 이동
         binding.followerTextview.setOnClickListener {
-            val followFragment = FollowFragment()
-            followFragment.let{
-                activity?.supportFragmentManager?.beginTransaction()!!
-                    .add(R.id.main_layout, it).commit()
-            }
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_fragment_mypage_to_followFragment)
         }
+        //follow 목록으로 이동
         binding.followingTextview.setOnClickListener {
-            val followFragment = FollowFragment()
-            followFragment.let{
-                activity?.supportFragmentManager?.beginTransaction()!!
-                    .add(R.id.main_layout, it).commit()
-            }
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_fragment_mypage_to_followFragment)
         }
+        //setting 으로 이동
         binding.mypageSetting.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.action_fragment_mypage_to_settingFragment)
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_fragment_mypage_to_settingFragment)
+        }//profile 수정으로 이동
+        binding.profileFix.setOnClickListener {
+            startActivity(Intent(requireContext(), ProfileChangeActivity::class.java))
         }
         binding.mypageProgressbar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener{
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -180,9 +219,9 @@ class MypageFragment : Fragment() {
         super.onDestroy()
     }
 
-    // 탭 변경 함수
-    private fun replaceView(tab: Fragment) {
-        var selectedFragment: Fragment? = null
+    /**탭 클릭시 변경*/
+    private fun replaceView(tab: Fragment){
+        var selectedFragment = tab
         selectedFragment = tab
         selectedFragment.let {
             activity?.supportFragmentManager?.beginTransaction()!!

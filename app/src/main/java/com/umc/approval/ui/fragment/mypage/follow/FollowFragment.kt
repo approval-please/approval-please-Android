@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentFollowBinding
 import com.umc.approval.databinding.FragmentNotificationBinding
+import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 
 /**
  * 팔로우 / 팔로잉 목록 Fragment View
@@ -18,6 +22,9 @@ class FollowFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var tab1 : FollowerFragment
     lateinit var tab2 : FollowingFragment
+
+    /**Follow view model*/
+    private val viewModel by viewModels<FollowViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +37,13 @@ class FollowFragment : Fragment() {
     ): View? {
         _binding = FragmentFollowBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        viewModel.my_followings()
+
+        viewModel.followings.observe(viewLifecycleOwner) {
+            binding.followNickname.setText(it.nickname.toString())
+        }
+
         return view
     }
 
@@ -58,7 +72,8 @@ class FollowFragment : Fragment() {
             }
         })
         binding.followBackarrow.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_followFragment_to_fragment_mypage)
         }
     }
 

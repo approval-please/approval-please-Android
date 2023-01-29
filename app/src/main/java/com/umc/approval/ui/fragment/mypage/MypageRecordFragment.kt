@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.approval.databinding.FragmentMypageRecordBinding
+import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
  * MyPage 실적 tab View
@@ -17,6 +19,8 @@ class MypageRecordFragment : Fragment() {
 
     private var _binding : FragmentMypageRecordBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<MypageViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,23 +32,18 @@ class MypageRecordFragment : Fragment() {
     ): View? {
         _binding = FragmentMypageRecordBinding.inflate(inflater, container, false)
         val view = binding.root
-        return view
-    }
 
-    override fun onStart() {
-        super.onStart()
+        viewModel.get_my_performances()
+
         binding.mypageRecordRecyclerview.layoutManager = LinearLayoutManager(this.context)
-        val itemList = ArrayList<MyPageRecordItem>()
-        itemList.add(MyPageRecordItem("어제", "서류 작성", "+100"))
-        itemList.add(MyPageRecordItem("22.12.31", "결재 보고서 작성", "+2100"))
-        for (i in 1..10){
-            itemList.add(MyPageRecordItem("22.12.31", "서류 댓글 작성 테스트", "+10000"))
+
+        viewModel.performances.observe(viewLifecycleOwner) {
+            val mypageRecordAdapter = MyPageRecordAdapter(it)
+            mypageRecordAdapter.notifyDataSetChanged()
+            binding.mypageRecordRecyclerview.adapter = mypageRecordAdapter
         }
 
-        val mypageRecordAdapter = MyPageRecordAdapter(itemList)
-        mypageRecordAdapter.notifyDataSetChanged()
-
-        binding.mypageRecordRecyclerview.adapter = mypageRecordAdapter
+        return view
     }
 
     /**

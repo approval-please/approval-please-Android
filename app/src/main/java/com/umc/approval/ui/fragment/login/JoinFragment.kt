@@ -9,14 +9,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.umc.approval.R
+import com.umc.approval.data.dto.login.post.BasicJoinDto
+import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.databinding.FragmentJoinBinding
+import com.umc.approval.ui.viewmodel.login.JoinViewModel
 import java.util.regex.Pattern
 
 class JoinFragment : Fragment() {
     private var _binding : FragmentJoinBinding? = null
     private val binding get() = _binding!!
+
+    val get_email : JoinFragmentArgs by navArgs()
+
+    private val viewModel by viewModels<JoinViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,29 +104,28 @@ class JoinFragment : Fragment() {
 
             /**휴대폰 인증이 정상적인 경우*/
             if (Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", binding.phone.text)) {
-                //올바른 휴대폰 번혼
-                if (binding.phone.text.toString() == "01012345678") {
-                    not_proper_phone()
-                    dialog()
-                } else {
-                    proper_phone()
-                }
-            } else {
-                //올바르지 않은 휴대폰 번호
-                not_proper_phone()
+
+                viewModel.phone_request(binding.phone.text.toString())
             }
         }
 
         /**인증번호 확인 로직*/
         binding.authCheckButton.setOnClickListener {
 
-            /**인증번호가 올바른 경우 + 폰을 정상적으로 입력 했을 경우*/
-            if (binding.phoneSuccess.isVisible && (binding.auth.text.toString() == "123456")) {
-                //올바른 휴대번호 및 올바른 인증
-                proper_phone_auth()
-            } else {
-                //휴대번호가 올바르지 않았거나 인증번호가 틀릴 경우
-                not_proper_phone_auth()
+            val phoneAuthDto = PhoneAuthDto(binding.phone.text.toString(), binding.auth.text.toString())
+            viewModel.phone_auth_request(phoneAuthDto)
+
+            //viewmodel livedata
+            viewModel.phone_auth.observe(viewLifecycleOwner) {
+
+                if (it == 1) {//올바른 번호이면
+                    proper_phone_auth()
+                    proper_phone()
+                } else if (it == 2) { //올바른 번호가 아니면
+                    not_proper_phone_auth()
+                    not_proper_phone()
+                    dialog()
+                }
             }
         }
     }
@@ -127,6 +135,17 @@ class JoinFragment : Fragment() {
 
         /**회원가입 체크 체크*/
         binding.join.setOnClickListener {
+
+            val basicJoinDto = BasicJoinDto("팀", get_email.email, "aa2618", "01012345678")
+
+            //join
+            viewModel.join(basicJoinDto)
+
+            viewModel.join_state.observe(viewLifecycleOwner) {
+                if (it == true) {
+                    requireActivity().finish()
+                }
+            }
 
             /**닉네임 체크*/
             if (binding.nickname.text.toString() == "" || binding.nickname.text.isEmpty()) {
@@ -305,6 +324,7 @@ class JoinFragment : Fragment() {
 
         dialog_cancel.setOnClickListener {
             alertDialog.cancel()
+            viewModel.phone_auth_to_zero()
         }
 
         back_to_login.setOnClickListener {
