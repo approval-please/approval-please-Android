@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.community.get.CommunityTok
+import com.umc.approval.data.dto.community.get.CommunityVoteInfo
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentCommunityTalkBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
@@ -49,17 +50,29 @@ class CommunityTalkFragment : Fragment() {
             "네이버",
             "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
         )
-        init_data.add(
-            CommunityTok
-                (
-                "", "", "", "", false, 0, "", mutableListOf(),
-                openGraphDto, 0, 0, 0, 0, "")
+
+        var communityVoteInfo = CommunityVoteInfo(
+            "아롱",
+            "텀블러",
+            "투표진행중",
+            "복수선택",
+            5,
+            null
         )
+
+
         init_data.add(
             CommunityTok
                 (
-                "", "", "", "", false, 0, "", mutableListOf(),
-                openGraphDto, 0, 0, 0, 0, "")
+                "아롱", "", "", "내용내용내요내용", null,  mutableListOf("https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"), mutableListOf("dfs"),
+                mutableListOf(openGraphDto), 0, 0, 0, 0, "")
+        )
+
+        init_data.add(
+            CommunityTok
+                (
+                "아롱", "", "", "내용내용내요내용", communityVoteInfo, mutableListOf(""), mutableListOf("dfs"),
+                mutableListOf(openGraphDto), 0, 0, 0, 0, "")
         )
 
         communityTalkItemRVAdapter = CommunityTalkItemRVAdapter(init_data)

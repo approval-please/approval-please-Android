@@ -5,8 +5,7 @@
             <solid android:color="@android:color/transparent"/>
         </shape>
     </item>
-    <item android:gravity="center_vertical|right"
-        android:right="10dp">
+    <item android:gravity="center_vertical|right">
         <layer-list>
             <item  android:gravity="right" android:width="25dp" android:height="25dp" >
                 <bitmap android:src="@drawable/upload_activity_department_button" android:tint="@color/black"/>
@@ -14,3 +13,6 @@
         </layer-list>
     </item>
 </layer-list>
+
+
+

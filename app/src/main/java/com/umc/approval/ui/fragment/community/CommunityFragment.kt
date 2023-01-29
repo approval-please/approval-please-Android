@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
@@ -58,8 +59,8 @@ class CommunityFragment : Fragment() {
 
             //dialog의 view Component 접근
             val dialog_cancel = bottomSheetView.findViewById<ImageView>(R.id.cancel)
-            val select_talk = bottomSheetView.findViewById<ConstraintLayout>(R.id.talk_talk)
-            val select_report = bottomSheetView.findViewById<ConstraintLayout>(R.id.report)
+            val select_talk = bottomSheetView.findViewById<LinearLayout>(R.id.talk_talk)
+            val select_report = bottomSheetView.findViewById<LinearLayout>(R.id.report)
 
             dialog_cancel!!.setOnClickListener {
                 bottomSheetDialog.cancel()

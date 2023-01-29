@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- checked chip -->
+    <item android:color="@color/selected_button_background_color" android:state_enabled="true" android:state_selected="true"/>
+
+    <!-- unchecked chip -->
+    <item android:color="@color/selected_button_background_color"/>
+</selector>

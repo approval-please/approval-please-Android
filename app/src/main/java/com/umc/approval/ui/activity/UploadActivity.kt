@@ -1,7 +1,6 @@
 package com.umc.approval.ui.activity
 
 import android.Manifest
-import android.R
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -17,10 +16,12 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,14 +30,17 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
+import com.umc.approval.R
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityUploadBinding
 import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
 import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
+import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.upload.UploadViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
@@ -65,6 +69,9 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagDialogBinding : ActivityUploadTagDialogBinding
     private lateinit var tagButton : ImageButton
     private lateinit var tagTextView : TextView
+    /*태그 데이터*/
+    private lateinit var tagString : String
+    private lateinit var tagArray : List<String>
 
     /*링크 다이얼로그*/
     private lateinit var linkDialogBinding : ActivityUploadLinkDialogBinding
@@ -82,6 +89,10 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagDialogEditText :EditText
     private lateinit var linkDialogEditText :EditText
 
+
+
+    /*링크 데이터*/
+    private lateinit var linkString :String
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,12 +135,14 @@ class UploadActivity : AppCompatActivity() {
 
         /*태그 입력 다이얼로그 열기*/
         tagButton = binding.uploadTagBtn
+        tagString = ""
         tagButton.setOnClickListener{
             showTagDialog()
         }
 
         /*링크 첨부 다이얼로그*/
         linkButton = binding.uploadLinkBtn
+        linkString = ""
         linkButton.setOnClickListener{
             showLinkDialog()
         }
@@ -143,12 +156,95 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
+    private fun dipToPixels(dipValue: Float): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dipValue,
+            resources.displayMetrics
+        )
+    }
+
+    fun Spinner.avoidDropdownFocus() {
+        val listPopup = Spinner::class.java
+            .getDeclaredField("mPopup")
+            .apply { isAccessible = true }
+            .get(this)
+        if (listPopup is ListPopupWindow) {
+            val popup = ListPopupWindow::class.java
+                .getDeclaredField("mPopup")
+                .apply { isAccessible = true }
+                .get(listPopup)
+            if (popup is PopupWindow) {
+                popup.isFocusable = false
+                popup.height = 100
+            }
+        }
+    }
     /**category spinner*/
     private fun select_category() {
-        var departments = arrayOf("부서를 선택해주세요", "디지털 기기", "생활 가전", "생활 용품", "가구/인테리어")
-        val adapter: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, R.layout.simple_spinner_item, departments)
+        var departments = arrayOf(
+            "디지털 기기",
+            "생활 가전",
+            "생활 용품",
+            "가구 / 인테리어",
+            "주방 / 건강",
+            "출산 / 유아동",
+            "패션 의류 / 잡화",
+            "뷰티 / 미용",
+            "스포츠 / 레저 / 헬스",
+            "취미 / 게임 / 완구",
+            "문구 / 오피스",
+            "도서 / 음악",
+            "티켓 / 교환권",
+            "식품",
+            "동물 / 식물",
+            "영화 / 공연",
+            "자동차 / 공구",
+            "기타 물품",
+        )
+
+        val adapter = object : ArrayAdapter<String>(this, R.layout.item_upload_spinner) {
+
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+
+                val v = super.getView(position, convertView, parent)
+
+                if (position == count) {
+                    //마지막 포지션의 textView 를 힌트 용으로 사용합니다.
+                    (v.findViewById<View>(R.id.tvItemSpinner) as TextView).text = ""
+                    //아이템의 마지막 값을 불러와 hint로 추가해 줍니다.
+                    (v.findViewById<View>(R.id.tvItemSpinner) as TextView).hint = getItem(count)
+                }
+
+                return v
+            }
+
+            override fun getCount(): Int {
+                //마지막 아이템은 힌트용으로만 사용하기 때문에 getCount에 1을 빼줍니다.
+                return super.getCount() - 1
+            }
+        }
+
+        adapter.addAll(departments.toMutableList())
+
+        adapter.add("부서를 선택해주세요.")
+
+        val newsSourceSpinner = findViewById<View>(R.id.upload_department_spinner) as Spinner
+
+
+        val popup = Spinner::class.java.getDeclaredField("mPopup")
+        popup.isAccessible = true
+
+        // Get private mPopup member variable and try cast to ListPopupWindow
+        val popupWindow = popup[newsSourceSpinner] as ListPopupWindow
+
+        // set popup height
+        popupWindow.height = 250
+
+        binding.uploadDepartmentSpinner.avoidDropdownFocus()
         binding.uploadDepartmentSpinner.adapter = adapter
+        binding.uploadDepartmentSpinner.setSelection(adapter.count)
+        binding.uploadDepartmentSpinner.dropDownVerticalOffset = dipToPixels(40f).toInt()
         binding.uploadDepartmentSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
@@ -187,23 +283,47 @@ class UploadActivity : AppCompatActivity() {
             tagDialog.dismiss()
         }
 
+
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
             tagTextView = binding.uploadTagTv;
-            tagTextView.setText(tagDialogEditText.text.toString());
+            // tagTextView.setText(tagDialogEditText.text.toString())
+            tagString = tagDialogEditText.text.toString()
+
+            if(tagString.length>1){
+                tagArray = tagString.split(" ")
+
+                tagTextView.setText("("+tagArray.size+"/4)");
+
+                val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+
+            }else{
+                tagTextView.setText("태그를 입력하세요 (0/4)")
+            }
+
             tagDialog.dismiss()
         }
 
+
         /*태그 입력 동적코드*/
-        //val spannableStringBuilder = SpannableStringBuilder(text)
-        tagDialogEditText.setOnClickListener() {
-            if(tagDialogEditText.text.toString()==""){
-                tagDialogEditText.append("#")
+        tagDialogEditText.setOnClickListener(View.OnClickListener {
+            if(tagDialogEditText.text.toString().length==0){
+                tagDialogEditText.setText("#");
+                tagDialogEditText.setSelection(tagDialogEditText.text.length)
             }
-        }
+        })
+
+        //val spannableStringBuilder = SpannableStringBuilder(text)
+        tagDialogEditText.setText(tagString)
+
+       var originText = ""
+        var hashtagCount = 0;
 
         tagDialogEditText.addTextChangedListener(object:TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                originText = s.toString();
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -211,22 +331,34 @@ class UploadActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 var text = s.toString()
-                var textLength = text.length;
-                if(textLength>1&&text[textLength-1] == ' '){
+                var textLength = text.length-1;
+                if(hashtagCount >= 4){
+                    tagDialogEditText.setText(originText)
+                }
+
+                if(text[textLength] == ' '){
                     val timer = Timer()
                     timer.schedule(object : TimerTask() {
                         override fun run() {
                             runOnUiThread {
-                                val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
-                                spannableStringBuilder.setSpan(
-                                    ForegroundColorSpan(Color.parseColor("#6C39FF")),
-                                    //BackgroundColorSpan(Color.parseColor("#CBB9FF")),
-                                    0,
-                                    s.toString().length-1,
-                                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                                )
-                                tagDialogEditText.setText(spannableStringBuilder.append("#"))
-                                tagDialogEditText.setSelection(tagDialogEditText.text.length)
+                                hashtagCount = 0;
+                                for(i in 0..textLength){
+                                    if(text[i] == ' '){
+                                        hashtagCount++;
+                                        val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
+                                        spannableStringBuilder.setSpan(
+                                            ForegroundColorSpan(Color.parseColor("#6C39FF")),
+            //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
+                                            0,
+                                            i,
+                                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                                        )
+                                        if(hashtagCount <= 4){
+                                            tagDialogEditText.setText(spannableStringBuilder.append('#'))
+                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }, 10)
@@ -260,18 +392,23 @@ class UploadActivity : AppCompatActivity() {
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
-            linkDialogEditText.setText("") //초기화
+            linkDialogEditText.setText(linkString) //초기화
             linkDialog.dismiss()
         }
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener {
+            linkString = linkDialogEditText.text.toString()
             linkDialog.dismiss()
         }
 
         linkEraseButton.setOnClickListener{
-            linkDialogEditText.setText("")
+            linkString = ""
+            linkDialogEditText.setText(linkString)
         }
+
+        linkDialogEditText.setText(linkString)
+
 
         /*link url 바뀔때 마다 적용*/
         editLinkUrl()
@@ -289,6 +426,7 @@ class UploadActivity : AppCompatActivity() {
             opengraphImage.load(it.image)
 
             binding.openGraph.isVisible = true
+            binding.uploadLinkTv.isVisible = false
             binding.openGraphText.setText(it.title)
             binding.openGraphUrl.setText(it.url)
             binding.openGraphImage.load(it.image)
@@ -302,6 +440,7 @@ class UploadActivity : AppCompatActivity() {
             //link 변경시 opengraph 초기화
             opengraphId.isVisible = false
             binding.openGraph.isVisible = false
+            binding.uploadLinkTv.isVisible = true
 
             manager.hideSoftInputFromWindow(
                 currentFocus?.windowToken,
