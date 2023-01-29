@@ -39,6 +39,7 @@ class ProfileChangeActivity : AppCompatActivity() {
         setContentView(view)
 
         /**mypage로 이동*/
+
         binding.backToProfile.setOnClickListener {
             finish()
         }
