@@ -308,7 +308,6 @@ class CommunityUploadTalkFragment : Fragment() {
     lateinit var imageUrl : String
 
     /*링크 첨부 다이얼로그*/
-    @RequiresApi(Build.VERSION_CODES.Q)
     private fun showLinkDialog() {
         val linkDialog = Dialog(communityUploadActivity);
         linkDialogBinding = ActivityUploadLinkDialogBinding.inflate(layoutInflater)
