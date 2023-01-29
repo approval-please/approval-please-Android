@@ -39,10 +39,10 @@ class FollowerFragment : Fragment() {
         binding.followerRecyclerview.layoutManager = LinearLayoutManager(this.context)
         val itemList = ArrayList<FollowerItem>()
         for(i in 0..5){
-            itemList.add(FollowerItem("김부장", 0))
+            itemList.add(FollowerItem(0, "김부장", 0))
         }
         for(i in 6..10){
-            itemList.add(FollowerItem("이차장", 1))
+            itemList.add(FollowerItem(1, "이차장", 1))
         }
         val followerAdapter = FollowerAdapter(itemList)
         binding.followerRecyclerview.adapter = followerAdapter
