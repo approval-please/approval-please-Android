@@ -127,6 +127,15 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun get_kakao_email() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+            }
+            else if (user != null) {
+                Log.d("test", user.kakaoAccount!!.email.toString())
+            }
+        }
+    }
 
     /**
      * 카카오 로그인 로직
@@ -175,6 +184,9 @@ class LoginFragment : Fragment() {
                 /**
                  * 로그인 성공시 서버로 엑세스토큰 발급 요청
                  * */
+
+                get_kakao_email()
+
                 viewModel.login(token.accessToken.toString(), "kakao")
             }
         }

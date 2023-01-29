@@ -43,6 +43,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
                 binding.contentContainer.layoutParams = layoutParams
             } else {
                 binding.itemImage.load(data.image)
+                binding.itemImage.clipToOutline = true
             }
 
             /**

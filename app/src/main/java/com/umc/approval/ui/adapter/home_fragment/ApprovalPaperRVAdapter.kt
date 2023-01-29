@@ -40,6 +40,7 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
 
             if (data.image != null) {
                 binding.ivThumbnail.load(data.image)
+                binding.ivThumbnail.clipToOutline = true
             } else {
                 binding.ivThumbnail.visibility = View.GONE
                 binding.tvImageCount.visibility = View.GONE
