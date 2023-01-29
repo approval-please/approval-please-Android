@@ -29,4 +29,13 @@
         <item name="chipBackgroundColor">@drawable/approval_fragment_choice_chip_background_color</item>
         <item name="android:textColor">@drawable/approval_fragment_choice_chip_text_color</item>
     </style>
+
+    <!--bottomsheetdialog custom-->
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_profile_share_dialog</item>
+    </style>
 </resources>
