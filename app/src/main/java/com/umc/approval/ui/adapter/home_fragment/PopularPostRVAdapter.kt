@@ -3,7 +3,9 @@ package com.umc.approval.ui.adapter.home_fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.ItemHomePopularPostBinding
@@ -28,6 +30,20 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content
+
+            binding.tvPostCommentCount.text = data.commentCount.toString()
+            binding.tvPostLikeCount.text = data.likeCount.toString()
+            binding.tvPostWriteTime.text = data.datetime
+            // binding.tvImageCount.text = "+$data.image.size"
+
+            if (data.images != null) {
+                binding.ivThumbnail.load(data.images.get(0))
+            } else {
+                binding.ivThumbnail.visibility = View.GONE
+                binding.tvImageCount.visibility = View.GONE
+
+                binding.tvPostContent.maxLines = 7
+            }
 
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {

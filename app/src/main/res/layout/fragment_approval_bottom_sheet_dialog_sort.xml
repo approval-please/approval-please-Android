@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="33dp"
+        android:layout_height="3dp"
+        android:background="#D9D9D9"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="정렬"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/bold"
+        android:textColor="@color/approval_black_color"
+        android:paddingHorizontal="16dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/approval_please_bold_gray_color"
+        android:layout_marginTop="17dp"/>
+
+    <RadioGroup
+        android:id="@+id/rg_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/dialog_item_latest"
+            android:button="@color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="최신순"
+            android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+            android:textSize="12sp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="15dp"
+            android:fontFamily="@font/medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/approval_please_bold_gray_color"/>
+
+        <RadioButton
+            android:id="@+id/dialog_item_popular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@color/transparent"
+            android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+            android:text="인기순"
+            android:textSize="12sp"
+            android:fontFamily="@font/medium"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="15dp"/>
+    </RadioGroup>
+
+</LinearLayout>

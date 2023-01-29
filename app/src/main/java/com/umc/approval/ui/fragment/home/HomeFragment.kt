@@ -16,16 +16,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.community.get.CommunityTok
+import androidx.viewpager2.widget.ViewPager2
+import com.umc.approval.R
 import com.umc.approval.databinding.FragmentHomeBinding
+import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.SearchActivity
+import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
+import com.umc.approval.ui.adapter.home_fragment.BannerVPAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
+import com.umc.approval.util.InterestingCategory
+import me.relex.circleindicator.CircleIndicator3
 
 /**
  * Home View
@@ -114,10 +121,8 @@ class HomeFragment : Fragment() {
             Log.d("로그", "결재 보고서 전체 보기 클릭")
         }
 
-        binding.cgMyInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "관심 부서 선택, $checkedIds")
-            // 카테고리 번호 선택, notify
-        }
+        setInterestingCategoryList()
+        setBannerImage()
 
         binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
             Log.d("로그", "결재서류 정렬 방식 선택, $checkedIds")
@@ -236,5 +241,54 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun setInterestingCategoryList() {
+        val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
+
+        interestingCategory.apply{
+            add(InterestingCategory("관심 부서 전체", true))
+            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("생활가전", false))
+            add(InterestingCategory("생활용품", false))
+            add(InterestingCategory("미용", false))
+        }
+
+        val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
+        val spaceDecoration = HorizontalSpaceItemDecoration(25)
+        binding.rvCategory.addItemDecoration(spaceDecoration)
+        binding.rvCategory.adapter = categoryRVAdapter
+        binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+        binding.addInterestCategoryButton.setOnClickListener {
+            Log.d("로그", "관심 부서 추가 버튼 클릭")
+            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 클릭 이벤트 처리
+        categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
+            override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
+                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
+
+                // API 호출하여 InterestingCategory 갱신
+            }
+        })
+    }
+
+    /**
+     * 배너 이미지 어댑터 설정
+     */
+    private fun setBannerImage() {
+        val photoUrlList = listOf(R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner)
+
+        // 뷰페이저에 어댑터 ㅇ녀결
+        val photoVPAdatper = BannerVPAdapter(photoUrlList)
+        binding.vpHomeBanner.adapter = photoVPAdatper
+        binding.vpHomeBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        // 인디케이터 생성 미 적용
+        val indicator: CircleIndicator3 = binding.indicator
+        indicator.setViewPager(binding.vpHomeBanner)
     }
 }

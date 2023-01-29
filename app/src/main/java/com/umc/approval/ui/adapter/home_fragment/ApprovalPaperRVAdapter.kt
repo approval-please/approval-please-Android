@@ -3,7 +3,10 @@ package com.umc.approval.ui.adapter.home_fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
@@ -31,7 +34,19 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
             binding.tvApprovalPaperRejectCount.text = data.rejectCount.toString()
             binding.tvApprovalPaperViewsCount.text = data.view.toString()
 
-            binding.tvApprovalPaperInfo.text = "디지털부서∙${data.datetime}"  // 수정 필요
+
+            binding.tvCategory.text = "디지털 기기"
+            binding.tvWriteTime.text = data.datetime
+
+            if (data.image != null) {
+                binding.ivThumbnail.load(data.image)
+            } else {
+                binding.ivThumbnail.visibility = View.GONE
+                binding.tvImageCount.visibility = View.GONE
+                val layoutParams = binding.contentsContainer.layoutParams as ConstraintLayout.LayoutParams
+                layoutParams.marginStart = 0
+                binding.contentsContainer.layoutParams = layoutParams
+            }
 
             // 결재 승인 상태에 따라 이미지, 텍스트 변경
             when (data.state) {

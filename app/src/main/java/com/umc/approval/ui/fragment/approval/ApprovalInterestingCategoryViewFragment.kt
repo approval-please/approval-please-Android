@@ -13,11 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalInterestingCategoryViewBinding
-import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
+import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
+import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
+import com.umc.approval.util.InterestingCategory
 
 class ApprovalInterestingCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalInterestingCategoryViewBinding? = null
@@ -43,16 +45,13 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         //서버로부터 데이터를 받아옴, 데모데이용 나중에 삭제
         viewModel.init_interest_category_approval()
 
-        /**부서 선택마다 서버에 연결*/
-        binding.cgInterestingCategory.setOnCheckedStateChangeListener { _, checkedIds ->
-            viewModel.get_all_documents(checkedIds.get(0).toString())
-        }
-
         binding.addInterestCategoryButton.setOnClickListener {
             Log.d("로그", "관심 부서 추가 버튼 클릭")
             val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
             startActivity(intent)
         }
+        
+        setInterestingCategoryList()
 
         //모든 관심 서류 목록 조회
         viewModel.get_interesting_documents("0")
@@ -86,7 +85,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
 
         viewModel.approval_interest_list.observe(viewLifecycleOwner) {
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
-            val spaceDecoration = VerticalSpaceItemDecoration(20)
+            val spaceDecoration = VerticalSpaceItemDecoration(40)
             binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
             binding.rvApprovalPaper.adapter = dataRVAdapter
             binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -100,6 +99,39 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         }
     }
 
+    private fun setInterestingCategoryList() {
+        val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
+
+        interestingCategory.apply{
+            add(InterestingCategory("관심 부서 전체", true))
+            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("생활가전", false))
+            add(InterestingCategory("생활용품", false))
+            add(InterestingCategory("미용", false))
+        }
+
+        val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
+        val spaceDecoration = HorizontalSpaceItemDecoration(25)
+        binding.rvCategory.addItemDecoration(spaceDecoration)
+        binding.rvCategory.adapter = categoryRVAdapter
+        binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+        binding.addInterestCategoryButton.setOnClickListener {
+            Log.d("로그", "관심 부서 추가 버튼 클릭")
+            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 클릭 이벤트 처리
+        categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
+            override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
+                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
+
+                // API 호출하여 ApprovalPaperList 갱신
+            }
+        })
+    }
+
     // 아이템 간 간격 조절 기능
     inner class VerticalSpaceItemDecoration(private val height: Int) :
         RecyclerView.ItemDecoration() {
@@ -109,6 +141,17 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             state: RecyclerView.State
         ) {
             outRect.bottom = height
+        }
+    }
+
+    inner class HorizontalSpaceItemDecoration(private val width: Int) :
+        RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.left = width
         }
     }
 }

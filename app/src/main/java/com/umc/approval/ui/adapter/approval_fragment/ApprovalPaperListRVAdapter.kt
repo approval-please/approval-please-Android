@@ -2,12 +2,14 @@ package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
@@ -31,6 +33,10 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
 
             if (data.image != null) {
                 binding.itemImage.isVisible = false
+
+                val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
+                layoutParams.marginStart = 0
+                binding.contentContainer.layoutParams = layoutParams
             } else {
 //                binding.itemImage.load(data.image.get(0))
             }
@@ -40,7 +46,9 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
             binding.tvApproveCount.text = data.approveCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
-            binding.tvApprovalPaperInfo.text = "${data.category}∙${data.datetime}"
+
+            binding.tvCategory.text = data.category.toString()
+            binding.tvWriteTime.text = data.datetime
 
             // 결재 승인 상태에 배경 설정
             when (data.state) {
@@ -58,7 +66,6 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
                 }
                 else -> {
                     // 승인 대기중
-                    binding.itemContainer.setBackgroundColor(Color.WHITE)
                     binding.tvApprovalState.text = "승인대기중"
                     binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_pending)
                 }
@@ -70,6 +77,13 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
                     listner?.onItemClick(itemView, data, pos)
                 }
             }
+
+            // 태그 리사이클러뷰 설정
+            val tagRVAdapter = TagRVAdapter(data.tag)
+            val spaceDecoration = HorizontalSpaceItemDecoration(25)
+            binding.rvTag.addItemDecoration(spaceDecoration)
+            binding.rvTag.adapter = tagRVAdapter
+            binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         }
     }
 
@@ -83,4 +97,15 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         this.listner = listner
     }
 
+    // 아이템 간 간격 조절 기능
+    inner class HorizontalSpaceItemDecoration(private val width: Int) :
+        RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.right = width
+        }
+    }
 }
