@@ -33,7 +33,6 @@ class MypageRecordFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
         binding.mypageRecordRecyclerview.layoutManager = LinearLayoutManager(this.context)
         val itemList = ArrayList<MyPageRecordItem>()
         itemList.add(MyPageRecordItem("어제", "서류 작성", "+100"))
