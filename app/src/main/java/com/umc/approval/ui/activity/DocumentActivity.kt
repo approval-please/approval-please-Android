@@ -4,8 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.umc.approval.databinding.ActivityDocumentBinding
@@ -15,6 +20,7 @@ import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
@@ -34,6 +40,24 @@ class DocumentActivity : AppCompatActivity() {
         binding = ActivityDocumentBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        // 리사이클러뷰 레이아웃 설정
+        binding.imageRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+
+        // 샘플 이미지 넣기
+        val itemList = ArrayList<Uri>()
+        val testUri : String = ""
+        itemList.add(testUri.toUri())
+        itemList.add(testUri.toUri())
+        itemList.add(testUri.toUri())
+        itemList.add(testUri.toUri())
+        itemList.add(testUri.toUri())
+
+        // 이미지 리사이클러뷰 연결
+        val documentImageAdapter = DocumentImageAdapter(itemList)
+        documentImageAdapter.notifyDataSetChanged()
+        binding.imageRecyclerview.adapter = documentImageAdapter
+        val temp = documentImageAdapter.itemCount
 
         //댓글
         setComment()
