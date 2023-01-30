@@ -78,6 +78,9 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagString : String
     private lateinit var tagArray : List<String>
 
+    /*링크 데이터*/
+    private lateinit var linkString : String
+
     /*링크 다이얼로그*/
     private lateinit var linkDialogBinding : ActivityUploadLinkDialogBinding
     private lateinit var linkButton : ImageButton
@@ -96,9 +99,6 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var linkDialogEditText :EditText
 
 
-
-    /*링크 데이터*/
-    private lateinit var linkString :String
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,7 +140,6 @@ class UploadActivity : AppCompatActivity() {
         upload_item()
 
         /**init dialog*/
-        showLinkDialog()
 
         /*태그 입력 다이얼로그 열기*/
         tagButton = binding.uploadTagBtn
@@ -150,8 +149,8 @@ class UploadActivity : AppCompatActivity() {
         }
 
         /*링크 첨부 다이얼로그*/
-        linkButton = binding.uploadLinkBtn
         linkString = ""
+        linkButton = binding.uploadLinkBtn
         linkButton.setOnClickListener{
             showLinkDialog()
         }
@@ -317,7 +316,6 @@ class UploadActivity : AppCompatActivity() {
             tagTextView = binding.uploadTagTv;
             // tagTextView.setText(tagDialogEditText.text.toString())
             tagString = tagDialogEditText.text.toString()
-
             if(tagString.length>1){
                 tagArray = tagString.split(" ")
 
@@ -346,23 +344,25 @@ class UploadActivity : AppCompatActivity() {
         //val spannableStringBuilder = SpannableStringBuilder(text)
         tagDialogEditText.setText(tagString)
 
-       var originText = ""
         var hashtagCount = 0;
 
         tagDialogEditText.addTextChangedListener(object:TextWatcher{
+            var originText = ""
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 originText = s.toString();
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                if(hashtagCount >= 4){
+//                    Toast.makeText(this@UploadActivity, "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+//                    tagDialogEditText.setText(originText)
+//                    tagDialogEditText.setSelection(tagDialogEditText.length())
+//                }
             }
 
             override fun afterTextChanged(s: Editable?) {
                 var text = s.toString()
                 var textLength = text.length-1;
-                if(hashtagCount >= 4){
-                    tagDialogEditText.setText(originText)
-                }
 
                 if(text[textLength] == ' '){
                     val timer = Timer()
@@ -381,8 +381,11 @@ class UploadActivity : AppCompatActivity() {
                                             i,
                                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                                         )
-                                        if(hashtagCount <= 4){
+                                        if(hashtagCount <= 3){
                                             tagDialogEditText.setText(spannableStringBuilder.append('#'))
+                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+                                        }else{
+                                            tagDialogEditText.setText(spannableStringBuilder)
                                             tagDialogEditText.setSelection(tagDialogEditText.text.length)
                                         }
                                     }
@@ -588,6 +591,8 @@ class UploadActivity : AppCompatActivity() {
                         Toast.makeText(this, "사진은 4장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
                             .show()
                         return
+                    }else{
+                        binding.tvImageCount.text = "("+count.toString()+"/4)"
                     }
                     for (i in 0 until count) {
                         val imageUri = it.clipData!!.getItemAt(i).uri

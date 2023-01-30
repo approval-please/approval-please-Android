@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentCommunityBinding
+import com.umc.approval.ui.activity.CommunityTokVoteParticipant
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityVPAdapter
+import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
+import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
 
 /**
  * Community View
@@ -73,7 +77,9 @@ class CommunityFragment : Fragment() {
 
             select_report!!.setOnClickListener {
                 bottomSheetDialog.cancel()
-                startActivity(Intent(requireContext(), CommunityUploadActivity::class.java))
+                val voteIntent = Intent(requireContext(), CommunityUploadActivity::class.java) // 인텐트를 생성
+                voteIntent.putExtra("report",true)
+                startActivity(voteIntent)
             }
         }
     }
@@ -85,12 +91,14 @@ class CommunityFragment : Fragment() {
         binding.viewPager.adapter = communityVPAdapter
 
         //탭 레이아웃 제목
-        val tabTitleArray = arrayOf("결제톡톡", "결제보고서")
+        val tabTitleArray = arrayOf("결재톡톡", "결재보고서")
 
         //탭 레이아웃과 뷰페이저 연결
         TabLayoutMediator(binding.communityTab, binding.viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
+
+
     }
 
     /**

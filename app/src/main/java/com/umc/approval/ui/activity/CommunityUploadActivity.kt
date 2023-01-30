@@ -21,9 +21,14 @@ class CommunityUploadActivity : AppCompatActivity() {
         binding = ActivityCommunityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val report = intent.getBooleanExtra("report",false)
+
         val communityUploadVPAdapter = CommunityUploadVPAdapter(this)
         binding.uploadTabVp.adapter = communityUploadVPAdapter
 
+        if(report){
+            binding.uploadTabVp.currentItem = 1
+        }
         val tabTitleArray = arrayOf(
             "결재톡톡",
             "결재보고서"
@@ -32,6 +37,8 @@ class CommunityUploadActivity : AppCompatActivity() {
         TabLayoutMediator(binding.uploadCommunityTab, binding.uploadTabVp){ tab,position->
             tab.text = tabTitleArray[position]
         }.attach()
+
+
 
         /**액티비티 종료 버튼*/
         binding.uploadCancelBtn.setOnClickListener {
