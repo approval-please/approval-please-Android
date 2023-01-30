@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/approval_fragment_tag_item_background" >
+    android:background="@drawable/approval_fragment_tag_item_background">
 
     <TextView
         android:id="@+id/tv_category"

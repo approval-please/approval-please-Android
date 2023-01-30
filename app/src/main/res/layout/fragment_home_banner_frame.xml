@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/home_fragment_banner"
-        android:scaleType="centerInside"/>
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"/>
 
 </LinearLayout>
