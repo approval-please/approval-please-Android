@@ -7,13 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.get.InterestingDto
 import com.umc.approval.data.dto.approval.get.LikeReturnDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.approval.post.TokLikeDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
+import com.umc.approval.data.repository.like.LikeRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -32,33 +35,26 @@ class DocumentViewModel() : ViewModel() {
     /**approval repository*/
     private val repository = ApprovalFragmentRepository()
 
+    //엑세스 토큰 체크 리포지토리
+    private val accessTokenRepository = AccessTokenRepository()
+
+    //라이크 리포지토리
+    private val likeRepository = LikeRepository()
+
+    //서버에서 받아올 서류 데이터
     private var _document = MutableLiveData<DocumentDto>()
     val document : LiveData<DocumentDto>
         get() = _document
 
-    /**
-     * init approval list
-     * 데모데이를 위한 테스트 로직
-     * */
-    fun init_document() = viewModelScope.launch {
+    //엑세스 토큰이 존재할시 True값 지정, True 시 로그인 상태
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
+        get() = _accessToken
 
-        var openGraphDto = OpenGraphDto(
-            "https://www.naver.com/",
-            "네이버",
-            "네이버",
-            "네이버",
-            "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
-        )
-
-        //서버로부터 받아온 데이터
-        val documentDto = DocumentDto(1,2,1, "23/01/11 15:30",
-            "aws", "팀", mutableListOf("aws", "aws"), "아이폰 14 pro", "아이폰 14 pro 살까요 말까요",
-            openGraphDto, mutableListOf("태그", "태그"), 13, 2, 10, 10,
-            20, 20, false)
-
-        //데이터 삽입
-        _document.postValue(documentDto)
-    }
+    //카테고리 목록을 가지고옴
+    private var _category = MutableLiveData<InterestingDto>()
+    val category : LiveData<InterestingDto>
+        get() = _category
 
     /**
      * 모든 documents 목록을 반환받는 메소드
@@ -71,8 +67,7 @@ class DocumentViewModel() : ViewModel() {
             override fun onResponse(call: Call<DocumentDto>, response: Response<DocumentDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+                    _document.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -117,10 +112,9 @@ class DocumentViewModel() : ViewModel() {
         val response = repository.agreeDocument(accessToken, documentId, agreePostDto)
         response.enqueue(object : Callback<AgreeDto> {
             override fun onResponse(call: Call<AgreeDto>, response: Response<AgreeDto>) {
+                get_document_detail(documentId)
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    _document.value!!.approveCount = response.body()!!.approveCount
-                    _document.value!!.rejectCount = response.body()!!.rejectCount
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -159,7 +153,7 @@ class DocumentViewModel() : ViewModel() {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.like(accessToken, LikeDto(documentId = 1))
+        val response = likeRepository.like(accessToken, LikeDto(documentId = 1))
         response.enqueue(object : Callback<LikeReturnDto> {
             override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
                 if (response.isSuccessful) {
@@ -169,6 +163,27 @@ class DocumentViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<LikeReturnDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+
+    /**엑세스 토큰 체크*/
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

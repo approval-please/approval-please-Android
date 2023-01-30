@@ -85,8 +85,11 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
         holder.binding(items.communityReport[position])
         if (itemClick != null){
             holder.binding.communityDocumentLayout.documentBtn.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_report_activity()
+                itemClick?.move_to_document_activity()
             })
+            holder.binding.reportCategoryItemText.setOnClickListener{
+                itemClick?.move_to_report_activity()
+            }
         }
     }
 
@@ -97,6 +100,7 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
     /**RV item click event*/
     interface ItemClick{ //인터페이스
         fun move_to_report_activity()
+        fun move_to_document_activity()
     }
 
     var itemClick: ItemClick? = null

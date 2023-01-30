@@ -1,11 +1,19 @@
 package com.umc.approval.data.retrofit.api
 
+import com.umc.approval.data.dto.approval.get.LikeReturnDto
+import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.follow.FollowStateDto
 import com.umc.approval.data.dto.common.CommonUserListDto
 import retrofit2.Call
 import retrofit2.http.*
 
 interface LikeAPI {
+
+    @POST("/likes")
+    @Headers("content-type: application/json")
+    fun like(
+        @Header("Authorization") accessToken: String, @Body likeDto: LikeDto
+    ): Call<LikeReturnDto>
 
     /**
      * @Post

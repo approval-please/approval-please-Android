@@ -36,7 +36,7 @@ class CommunityTalkFragment : Fragment() {
         _binding = FragmentCommunityTalkBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel.init_all_toks()
+//        viewModel.init_all_toks()
 
         viewModel.get_all_toks(-1)
 

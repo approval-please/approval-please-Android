@@ -28,6 +28,11 @@ class UploadDocumentViewModel() : ViewModel() {
     /**approval repository*/
     private val repository = ApprovalFragmentRepository()
 
+    //카테고리 데이터
+    private var _category = MutableLiveData<Int>()
+    val category : LiveData<Int>
+        get() = _category
+
     /**이미지 Livedata*/
     private var _pic = MutableLiveData<List<Uri>>()
     val pic : LiveData<List<Uri>>
@@ -68,6 +73,11 @@ class UploadDocumentViewModel() : ViewModel() {
         _tags.postValue(tags)
     }
 
+    /**tag 선택시 적용*/
+    fun setCategory(cate: Int) {
+        _category.postValue(cate)
+    }
+
 
     /**
      * 서류를 등록하는 메서드
@@ -79,17 +89,15 @@ class UploadDocumentViewModel() : ViewModel() {
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
         val response = repository.postDocument(accessToken, upload)
-        response.enqueue(object : Callback<ApprovalUploadDto> {
-            override fun onResponse(call: Call<ApprovalUploadDto>, response: Response<ApprovalUploadDto>) {
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<ApprovalUploadDto>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

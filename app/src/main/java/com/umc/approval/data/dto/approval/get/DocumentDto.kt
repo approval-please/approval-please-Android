@@ -45,4 +45,14 @@ data class DocumentDto(
     val commentCount: Int,
     @SerializedName("isModified")
     val isModified: Boolean,
+    @SerializedName("isWriter")
+    val isWriter: Boolean,
+    @SerializedName("reportMade")
+    val reportMade: Boolean,
+    @SerializedName("isLiked")
+    val isLiked: Boolean,
+    @SerializedName("isVoted")
+    val isVoted: Int,
+    @SerializedName("userId")
+    val userId: Int,
 )

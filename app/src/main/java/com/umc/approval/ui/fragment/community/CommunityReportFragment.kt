@@ -37,8 +37,6 @@ class CommunityReportFragment : Fragment() {
         _binding = FragmentCommunityReportBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel.init_all_reports()
-
         viewModel.get_all_reports(-1)
 
         connect_to_community_rv()
@@ -52,7 +50,7 @@ class CommunityReportFragment : Fragment() {
 
             communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
 
-            val community_item_rv: RecyclerView = binding.communityRvItem
+            val community_item_rv: RecyclerView = binding.communityRvReportItem
 
             community_item_rv.adapter = communityReportItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -60,6 +58,9 @@ class CommunityReportFragment : Fragment() {
             communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
                 override fun move_to_report_activity() {
                     startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                }
+                override fun move_to_document_activity() {
+                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
                 }
             }
         }

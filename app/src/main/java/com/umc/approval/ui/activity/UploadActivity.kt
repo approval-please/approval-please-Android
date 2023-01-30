@@ -16,6 +16,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 
 import android.util.TypedValue
 import android.view.View
@@ -47,6 +48,7 @@ import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
+import com.umc.approval.util.Utils.categoryMapReverse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -78,6 +80,9 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagString : String
     private lateinit var tagArray : List<String>
 
+    /*링크 데이터*/
+    private lateinit var linkString : String
+
     /*링크 다이얼로그*/
     private lateinit var linkDialogBinding : ActivityUploadLinkDialogBinding
     private lateinit var linkButton : ImageButton
@@ -96,9 +101,6 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var linkDialogEditText :EditText
 
 
-
-    /*링크 데이터*/
-    private lateinit var linkString :String
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,7 +142,6 @@ class UploadActivity : AppCompatActivity() {
         upload_item()
 
         /**init dialog*/
-        showLinkDialog()
 
         /*태그 입력 다이얼로그 열기*/
         tagButton = binding.uploadTagBtn
@@ -150,19 +151,23 @@ class UploadActivity : AppCompatActivity() {
         }
 
         /*링크 첨부 다이얼로그*/
-        linkButton = binding.uploadLinkBtn
         linkString = ""
+        linkButton = binding.uploadLinkBtn
         linkButton.setOnClickListener{
             showLinkDialog()
         }
     }
 
-    /**파일을 업로드하는 로직*/
+    //파일을 업로드하는 로직
     private fun upload_item() {
         binding.uploadSubmitBtn.setOnClickListener {
 
-            uploadFile = ApprovalUploadDto(0, binding.uploadTitleEt.text.toString()
-                , binding.uploadContentEt.text.toString())
+            uploadFile = ApprovalUploadDto(title = binding.uploadTitleEt.text.toString()
+                , content = binding.uploadContentEt.text.toString())
+
+            if (viewModel.category.value != 18) {
+                uploadFile.category = viewModel.category.value
+            }
 
             //링크가 있을 경우
             if (viewModel.opengraph.value != null) {
@@ -210,26 +215,7 @@ class UploadActivity : AppCompatActivity() {
     }
     /**category spinner*/
     private fun select_category() {
-        var departments = arrayOf(
-            "디지털 기기",
-            "생활 가전",
-            "생활 용품",
-            "가구 / 인테리어",
-            "주방 / 건강",
-            "출산 / 유아동",
-            "패션 의류 / 잡화",
-            "뷰티 / 미용",
-            "스포츠 / 레저 / 헬스",
-            "취미 / 게임 / 완구",
-            "문구 / 오피스",
-            "도서 / 음악",
-            "티켓 / 교환권",
-            "식품",
-            "동물 / 식물",
-            "영화 / 공연",
-            "자동차 / 공구",
-            "기타 물품",
-        )
+        var departments = categoryMapReverse.keys
 
         val adapter = object : ArrayAdapter<String>(this, R.layout.item_upload_spinner) {
 
@@ -281,6 +267,7 @@ class UploadActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
+                    viewModel.setCategory(position)
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
@@ -318,8 +305,13 @@ class UploadActivity : AppCompatActivity() {
             // tagTextView.setText(tagDialogEditText.text.toString())
             tagString = tagDialogEditText.text.toString()
 
+            var tag_list = listOf<String>()
+            
             if(tagString.length>1){
                 tagArray = tagString.split(" ")
+
+                tag_list = tagArray
+                viewModel.setTags(tag_list)
 
                 tagTextView.setText("("+tagArray.size+"/4)");
 
@@ -346,23 +338,25 @@ class UploadActivity : AppCompatActivity() {
         //val spannableStringBuilder = SpannableStringBuilder(text)
         tagDialogEditText.setText(tagString)
 
-       var originText = ""
         var hashtagCount = 0;
 
         tagDialogEditText.addTextChangedListener(object:TextWatcher{
+            var originText = ""
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 originText = s.toString();
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                if(hashtagCount >= 4){
+//                    Toast.makeText(this@UploadActivity, "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+//                    tagDialogEditText.setText(originText)
+//                    tagDialogEditText.setSelection(tagDialogEditText.length())
+//                }
             }
 
             override fun afterTextChanged(s: Editable?) {
                 var text = s.toString()
                 var textLength = text.length-1;
-                if(hashtagCount >= 4){
-                    tagDialogEditText.setText(originText)
-                }
 
                 if(text[textLength] == ' '){
                     val timer = Timer()
@@ -381,8 +375,11 @@ class UploadActivity : AppCompatActivity() {
                                             i,
                                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                                         )
-                                        if(hashtagCount <= 4){
+                                        if(hashtagCount <= 3){
                                             tagDialogEditText.setText(spannableStringBuilder.append('#'))
+                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+                                        }else{
+                                            tagDialogEditText.setText(spannableStringBuilder)
                                             tagDialogEditText.setSelection(tagDialogEditText.text.length)
                                         }
                                     }
@@ -417,6 +414,8 @@ class UploadActivity : AppCompatActivity() {
 
         //Dialog Opengraph 초기화
         opengraphId.isVisible = false
+
+        linkString = ""
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
@@ -476,7 +475,7 @@ class UploadActivity : AppCompatActivity() {
                 currentFocus?.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
-            var openGraphDto = OpenGraphDto("", "", "", "", "")
+            var openGraphDto = OpenGraphDto("", "", "")
 
             CoroutineScope(Dispatchers.IO).launch {
                 val elements = CrawlingTask.getElements(it)
@@ -488,19 +487,9 @@ class UploadActivity : AppCompatActivity() {
                                     openGraphDto.url = content
                                 }
                             }
-                            "og:site_name" -> {
-                                el.attr("content")?.let { content ->
-                                    openGraphDto.siteName = content
-                                }
-                            }
                             "og:title" -> {
                                 el.attr("content")?.let { content ->
                                     openGraphDto.title = content
-                                }
-                            }
-                            "og:description" -> {
-                                el.attr("content")?.let { content ->
-                                    openGraphDto.description = content
                                 }
                             }
                             "og:image" -> {
@@ -511,7 +500,7 @@ class UploadActivity : AppCompatActivity() {
                         }
                     }
                 }
-                if (openGraphDto.title.toString() != "" && openGraphDto.description.toString() != "") {
+                if (openGraphDto.title.toString() != "") {
                     viewModel.setOpengraph(openGraphDto)
                 }
             }
@@ -588,6 +577,8 @@ class UploadActivity : AppCompatActivity() {
                         Toast.makeText(this, "사진은 4장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
                             .show()
                         return
+                    }else{
+                        binding.tvImageCount.text = "("+count.toString()+"/4)"
                     }
                     for (i in 0 until count) {
                         val imageUri = it.clipData!!.getItemAt(i).uri

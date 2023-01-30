@@ -1,15 +1,11 @@
 package com.umc.approval.ui.fragment.document
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.umc.approval.R
 import com.umc.approval.databinding.ApproveDialogBinding
-import com.umc.approval.databinding.ProfileShareDialogBinding
 import com.umc.approval.ui.activity.DocumentActivity
 
 /**

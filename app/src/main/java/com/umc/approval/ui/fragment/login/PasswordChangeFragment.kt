@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentPasswordChangeBinding
 

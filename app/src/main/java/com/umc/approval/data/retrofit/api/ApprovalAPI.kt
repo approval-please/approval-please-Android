@@ -1,12 +1,8 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.approval.get.AgreeDto
-import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
-import com.umc.approval.data.dto.approval.get.DocumentDto
-import com.umc.approval.data.dto.approval.get.LikeReturnDto
+import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
-import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -15,36 +11,31 @@ import retrofit2.http.*
 interface ApprovalAPI {
 
     /**
-     * @Post
-     * @Get
-     * ApprovalPaperDto
-     * 결재서류 목록 조회 API
+     * 전체 결재서류 목록 조회 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      */
     @GET("/documents")
     @Headers("content-type: application/json")
-    fun getDocuments(@Query("category") category: String?= null): Call<ApprovalPaperDto>
+    fun getDocuments(@Query("category") category: String?= null,
+                     @Query("state") state: String?= null, @Query("sortBy") sortBy: String?= null): Call<ApprovalPaperDto>
+
     /**
-     * @Post
-     * accessToken: 사용자 검증 토큰, 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
-     * @Get
-     * ApprovalPaperDto
      * 관심부서 결재서류 목록 조회 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      */
     @GET("/documents/likes")
     @Headers("content-type: application/json")
     fun getInterestingCategoryDocuments(
-        @Header("Authorization") accessToken: String, @Query("category") category: String?= null
+        @Header("Authorization") accessToken: String, @Query("category") category: String?= null,
+        @Query("state") state: String?= null, @Query("sortBy") sortBy: String?= null
     ): Call<ApprovalPaperDto>
 
     /**
-     * @Post
-     * documentId: 개별 Id
-     * @Get
-     * ApprovalPaperDto
-     * 관심부서 결재서류 목록 조회 API
+     * 결재서류 상세 보기
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      */
     @GET("/documents/{documentId}")
     @Headers("content-type: application/json")
@@ -53,24 +44,20 @@ interface ApprovalAPI {
     ): Call<DocumentDto>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload: 업로드할 Document 데이터
      * 서류 업로드 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/documents")
     @Headers("content-type: application/json")
     fun uploadDocument(
         @Header("Authorization") accessToken: String, @Body upload: ApprovalUploadDto
-    ):Call<ApprovalUploadDto>
+    ):Call<ResponseBody>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload: 업로드할 Document 데이터
-     * 서류 업로드 API
+     * 서류 삭제 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @DELETE("/documents/{documentId}")
     @Headers("content-type: application/json")
@@ -79,11 +66,9 @@ interface ApprovalAPI {
     ):Call<ResponseBody>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload: 업로드할 Document 데이터
-     * 서류 업로드 API
+     * 타인 서류 승인 및 거절 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/documents/{documentId}")
     @Headers("content-type: application/json")
@@ -92,10 +77,9 @@ interface ApprovalAPI {
     ):Call<AgreeDto>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * 서류 업로드 API
+     * 내 서류 승인 및 거절 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/approvals")
     @Headers("content-type: application/json")
@@ -103,10 +87,14 @@ interface ApprovalAPI {
         @Header("Authorization") accessToken: String, @Body agreeMyPostDto: AgreeMyPostDto
     ):Call<ResponseBody>
 
-
-    @POST("/likes")
+    /**
+     * 관심부서 목록 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     * */
+    @GET("/documents/likedCategory/my")
     @Headers("content-type: application/json")
-    fun like(
-        @Header("Authorization") accessToken: String, @Body likeDto: LikeDto
-    ): Call<LikeReturnDto>
+    fun getMyCategory(
+        @Header("Authorization") accessToken: String
+    ):Call<InterestingDto>
 }

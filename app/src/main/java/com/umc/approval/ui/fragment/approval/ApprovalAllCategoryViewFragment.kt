@@ -42,14 +42,31 @@ class ApprovalAllCategoryViewFragment: Fragment() {
 
         //live data
         live_data()
-
-        viewModel.get_all_documents(null)
-
-        viewModel.init_all_category_approval()
-        
-        setAllCategoryList()  // 카테고리 리사이클러뷰 데이터 & 어댑터 설정
         
         return view
+    }
+
+    /**시작시 로그인 상태 확인*/
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_all_documents()
+
+        setAllCategoryList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_all_documents()
+
+        setAllCategoryList()
     }
 
     /**
@@ -60,9 +77,10 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         super.onDestroy()
     }
 
-    /**live data*/
+    //라이브 데이터
     private fun live_data() {
 
+        //모든 목록 받아오는 라이브 데이터
         viewModel.approval_all_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
@@ -82,20 +100,19 @@ class ApprovalAllCategoryViewFragment: Fragment() {
                     val intent = Intent(requireContext(), DocumentActivity::class.java)
                     intent.putExtra("documentId", data.documentId.toString())
 
-                    Log.d("documentId", data.documentId.toString())
-
                     startActivity(intent)
                 }
             })
         }
     }
 
+    //모든 카테고리 목록
     private fun setAllCategoryList() {
         val allCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 
         allCategory.apply{
             add(InterestingCategory("모든 부서", true))
-            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("디지털기기", false))
             add(InterestingCategory("생활가전", false))
             add(InterestingCategory("생활용품", false))
             add(InterestingCategory("가구/인테리어", false))

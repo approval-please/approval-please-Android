@@ -41,7 +41,6 @@ class CommunityTokActivity : AppCompatActivity() {
     private lateinit var activityCommunityReportUserDialogBinding: ActivityCommunityReportUserDialogBinding
     private lateinit var activityCommunityRemovePostDialogBinding: ActivityCommunityRemovePostDialogBinding
 
-
     /*다이얼로그 버튼*/
     private lateinit var dialogCancelButton : Button
     private lateinit var dialogConfirmButton : Button
@@ -65,6 +64,11 @@ class CommunityTokActivity : AppCompatActivity() {
 
         /*setting*/
         post_more()
+
+        /*close*/
+        binding.uploadCancelBtn.setOnClickListener{
+            finish()
+        }
     }
 
 

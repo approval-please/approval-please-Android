@@ -284,6 +284,7 @@
                     app:selectionRequired="true">
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/best"
                         style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="22dp"
@@ -298,6 +299,7 @@
                         android:fontFamily="@font/medium"/>
 
                     <com.google.android.material.chip.Chip
+                        android:id="@+id/latest"
                         style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="22dp"

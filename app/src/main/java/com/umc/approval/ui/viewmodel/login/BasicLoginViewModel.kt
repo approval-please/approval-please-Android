@@ -30,6 +30,10 @@ class BasicLoginViewModel() : ViewModel() {
     val accessToken : LiveData<String>
         get() = _accessToken
 
+    private var _success = MutableLiveData<Boolean>()
+    val success : LiveData<Boolean>
+        get() = _success
+
     /**
      * 로그인 성공시 엑세스 토큰 발급
      * */
@@ -38,11 +42,8 @@ class BasicLoginViewModel() : ViewModel() {
         response.enqueue(object : Callback<ReturnBasicLoginDto> {
             override fun onResponse(call: Call<ReturnBasicLoginDto>, response: Response<ReturnBasicLoginDto>) {
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    //엑세스 토큰 저장
-//                    _accessToken.value = response.headers().get("Authorization").toString()
-//                    Log.d("return_accessToken", accessToken.value.toString())
-//                    setAccessToken(accessToken.value.toString())
+                    _success.postValue(true)
+                    setAccessToken("Bearer " + response.body()!!.accessToken.toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

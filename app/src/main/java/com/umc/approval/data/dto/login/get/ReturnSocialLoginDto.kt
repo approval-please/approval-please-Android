@@ -13,8 +13,8 @@ data class ReturnSocialLoginDto (
         var refreshToken : String,
         @SerializedName("socialId")
         var socialId : Int,
+        @SerializedName("status")
+        var status : Int,
         @SerializedName("socialType")
         var socialType : String,
-        @SerializedName("isFirst")
-        var isFirst : Boolean,
 )

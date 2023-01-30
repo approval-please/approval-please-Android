@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="15dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/upload_round_button_custom"
@@ -140,7 +139,7 @@
             android:id="@+id/report_open_graph_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/login_activity_white_box"
+            android:background="@drawable/upload_link_square_custom"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
