@@ -115,7 +115,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/view_all"
-                            android:textAppearance="@style/midText_gray"/>
+                            android:textAppearance="@style/midText_gray"
+                            android:layout_marginEnd="2dp"/>
 
                         <ImageView
                             android:src="@drawable/home_fragment_view_all_arrow"
@@ -235,7 +236,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp">
+                    android:layout_marginTop="20dp">
 
                     <TextView
                         android:id="@+id/review_approval_paper"
@@ -263,7 +264,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/view_all"
-                            android:textAppearance="@style/midText_gray"/>
+                            android:textAppearance="@style/midText_gray"
+                            android:layout_marginEnd="2dp"/>
 
                         <ImageView
                             android:src="@drawable/home_fragment_view_all_arrow"
@@ -353,7 +355,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/view_all"
-                            android:textAppearance="@style/midText_gray"/>
+                            android:textAppearance="@style/midText_gray"
+                            android:layout_marginEnd="2dp"/>
 
                         <ImageView
                             android:src="@drawable/home_fragment_view_all_arrow"
@@ -401,7 +404,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/view_all"
-                            android:textAppearance="@style/midText_gray"/>
+                            android:textAppearance="@style/midText_gray"
+                            android:layout_marginEnd="2dp"/>
 
                         <ImageView
                             android:src="@drawable/home_fragment_view_all_arrow"

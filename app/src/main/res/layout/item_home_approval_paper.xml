@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/home_fragment_approval_paper_background"
     android:paddingStart="13dp"
-    android:paddingEnd="11dp">
+    android:paddingEnd="11dp"
+    android:layout_marginEnd="21dp"
+    android:layout_marginBottom="21dp">
 
     <ImageView
         android:id="@+id/iv_approval_state_circle"

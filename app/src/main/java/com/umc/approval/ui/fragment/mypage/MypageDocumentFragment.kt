@@ -70,8 +70,6 @@ class MypageDocumentFragment : Fragment() {
         viewModel.document.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
-            val spaceDecoration = VerticalSpaceItemDecoration(40)
-            binding.rvMypageDocument.addItemDecoration(spaceDecoration)
             binding.rvMypageDocument.adapter = dataRVAdapter
             binding.rvMypageDocument.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
@@ -92,17 +90,5 @@ class MypageDocumentFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
-        }
     }
 }

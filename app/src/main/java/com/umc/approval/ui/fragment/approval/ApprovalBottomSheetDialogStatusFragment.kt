@@ -48,8 +48,8 @@ class ApprovalBottomSheetDialogStatusFragment(private val preSelect: String): Bo
 
             binding.dialogItemPending.text -> {
                 binding.dialogItemAllStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.approval_please_black_color))
-                binding.dialogItemApproved.setTextColor(ContextCompat.getColor(requireContext(), R.color.approval_please_main_color))
-                binding.dialogItemRejected.setTextColor(ContextCompat.getColor(requireContext(), R.color.approval_please_main_color))
+                binding.dialogItemApproved.setTextColor(ContextCompat.getColor(requireContext(), R.color.approval_please_black_color))
+                binding.dialogItemRejected.setTextColor(ContextCompat.getColor(requireContext(), R.color.approval_please_black_color))
                 binding.dialogItemPending.setTextColor(ContextCompat.getColor(requireContext(), R.color.approval_please_main_color))
             }
         }
