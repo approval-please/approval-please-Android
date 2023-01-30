@@ -6,6 +6,7 @@ import android.widget.Toast
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.umc.approval.databinding.ActivityDocumentBinding
@@ -107,6 +108,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.documentCommentPostTime.text = it.datetime
             binding.approveButton.text = "승인" + it.approveCount
             binding.refuseButton.text = "승인" + it.rejectCount
+            binding.approveNum.text = "승인" + it.approveCount
+            binding.rejectNum.text = "반려" + it.rejectCount
 
             //링크 처리
             if (it.link != null) {
@@ -128,11 +131,36 @@ class DocumentActivity : AppCompatActivity() {
 
             //투표를 이미 했으면 색 세팅
             if (viewModel.document.value!!.isVoted == 1) {
-                binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
-                binding.approveButton.setTextColor(Color.parseColor("#141414"))
+
+                //작성자면
+                if (viewModel.document.value!!.isWriter == true) {
+
+                    //투표 다르게 보이게 설정
+                    binding.approveArea.isVisible = false
+                    binding.writerApprove.isVisible = true
+                    binding.approval.isVisible = true
+                    binding.approval.setImageResource(R.drawable.document_result_approval)
+
+                } else { //작성자가 아닐때
+                    binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
+                    binding.approveButton.setTextColor(Color.parseColor("#141414"))
+                }
+
             } else if (viewModel.document.value!!.isVoted == 2) {
-                binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
-                binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+
+                //작성자면
+                if (viewModel.document.value!!.isWriter == true) {
+
+                    //투표 다르게 보이게 설정
+                    binding.approveArea.isVisible = false
+                    binding.writerApprove.isVisible = true
+                    binding.approval.isVisible = true
+                    binding.approval.setImageResource(R.drawable.document_result_approval)
+
+                } else {
+                    binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
+                    binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+                }
             }
         }
 

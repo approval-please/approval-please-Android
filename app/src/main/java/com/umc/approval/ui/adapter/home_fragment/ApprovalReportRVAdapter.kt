@@ -30,12 +30,12 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             // binding.ivApprovalReportThumbnail.setImageResource()
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
-            binding.tvPostContent.text = data.reportContent
+            binding.tvPostContent.text = data.content
 
             // binding.tvImageCount.text = "+$data.image.size"
 
-            if (data.reportImageUrl != null) {
-                binding.ivApprovalReportThumbnail.load(data.reportImageUrl.get(0))
+            if (data.images != null) {
+                binding.ivApprovalReportThumbnail.load(data.images.get(0))
             } else {
                 binding.ivApprovalReportThumbnail.visibility = View.GONE
                 binding.tvImageCount.visibility = View.GONE

@@ -27,7 +27,6 @@ import retrofit2.Response
 
 /**
  * Document 상세 보기 페이지
- * 서버로부터 데이터를 받아와 뷰에 적용하는 로직 필요
  * ViewModel 체크 완료
  * */
 class DocumentViewModel() : ViewModel() {

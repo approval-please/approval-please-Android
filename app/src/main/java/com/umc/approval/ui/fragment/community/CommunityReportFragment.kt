@@ -37,14 +37,41 @@ class CommunityReportFragment : Fragment() {
         _binding = FragmentCommunityReportBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel.get_all_reports(-1)
+        viewModel.get_all_reports()
 
-        connect_to_community_rv()
+        live_data()
 
         return view
     }
 
-    private fun connect_to_community_rv() {
+    /**시작시 로그인 상태 확인*/
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_all_reports()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        if (binding.hotCategory.isChecked) {
+            viewModel.get_all_reports(0)
+        } else if (binding.followCategory.isChecked) {
+            viewModel.get_all_reports(1)
+        } else if (binding.myCategory.isChecked) {
+            viewModel.get_all_reports(2)
+        } else {
+            viewModel.get_all_reports(0)
+        }
+    }
+
+    private fun live_data() {
 
         viewModel.report_list.observe(viewLifecycleOwner) {
 

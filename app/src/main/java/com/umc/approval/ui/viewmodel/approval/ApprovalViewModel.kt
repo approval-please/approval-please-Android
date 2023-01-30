@@ -86,7 +86,7 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 모든 서류 목록을 반환받는 메소드
+     * 모든 서류 목록을 반환받는 API
      * 정상 동작 Check 완료
      * */
     fun get_all_documents(category: String?=null, state: String?= null, sortBy: String?= null) = viewModelScope.launch {
@@ -108,7 +108,7 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 관심부서 서류 목록을 반환받는 메소드
+     * 관심부서 서류 목록을 반환받는 API
      * 정상 동작 Check 완료
      * */
     fun get_interesting_documents(category: String?= null, state: String?= null, sortBy: String?= null) = viewModelScope.launch {

@@ -1,4 +1,4 @@
-package com.umc.approval.data.retrofit.api
+package com.umc.approval.data.retrofit.api.success
 
 import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto

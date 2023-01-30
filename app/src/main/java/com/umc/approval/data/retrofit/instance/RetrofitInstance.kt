@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder
 import com.umc.approval.API.LOCAL_BASE_URL
 import com.umc.approval.data.retrofit.api.*
 import com.umc.approval.data.retrofit.api.success.AccessTokenAPI
+import com.umc.approval.data.retrofit.api.success.ApprovalAPI
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

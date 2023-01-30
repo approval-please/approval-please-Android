@@ -10,26 +10,20 @@ data class CommunityTok(
         var toktokId : Int,
         @SerializedName("profileImage")
         var profileImage : String,
-        @SerializedName("nickname")
-        var nickname : String,
-        @SerializedName("level")
-        var level : Int,
         @SerializedName("category")
         var category : Int,
+        @SerializedName("userId")
+        var userId : Int,
+        @SerializedName("userLevel")
+        var userLevel : Int,
+        @SerializedName("nickname")
+        var nickname : String,
         @SerializedName("content")
         var content : String,
-        @SerializedName("voteTitle")
-        var voteTitle : String,
-        @SerializedName("voteIsEnd")
-        var voteIsEnd : Boolean,
-        @SerializedName("votePeople")
-        var votePeople : Int,
-        @SerializedName("voteIsSingle")
-        var voteIsSingle : Boolean,
         @SerializedName("images")
         var images : List<String>,
         @SerializedName("link")
-        var link : List<OpenGraphDto>,
+        var link : OpenGraphDto,
         @SerializedName("tag")
         var tag : List<String>,
         @SerializedName("likeCount")
@@ -40,4 +34,6 @@ data class CommunityTok(
         var view : Int,
         @SerializedName("datetime")
         val datetime: String,
+        @SerializedName("vote")
+        val voteDto: CommunityTokListVoteDto
 )
