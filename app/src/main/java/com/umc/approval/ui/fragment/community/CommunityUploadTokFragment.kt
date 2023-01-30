@@ -1,7 +1,6 @@
 package com.umc.approval.ui.fragment.community
 
 import android.Manifest
-import android.R
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -41,6 +40,7 @@ import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVote
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -48,14 +48,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CommunityUploadTokFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadTalkBinding
 
     private val viewModel by activityViewModels<CommunityUploadViewModel>()
+
+    private val commonViewModel by activityViewModels<CommunityViewModel>()
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -123,6 +123,8 @@ class CommunityUploadTokFragment : Fragment() {
         /*이미지 선택시 실행되는 메서드*/
         observe_pic()
 
+        editContent()
+
         /*이미지 선택 이벤트*/
         image_upload_event()
 
@@ -157,13 +159,14 @@ class CommunityUploadTokFragment : Fragment() {
         binding.uploadTagBtn.setOnClickListener{
             showTagDialog()
         }
+        commonViewModel.setLink(1)
 
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.setLink(0)
+        commonViewModel.setLink(0)
     }
 
 
@@ -189,8 +192,6 @@ class CommunityUploadTokFragment : Fragment() {
         binding.voteTitleEraseBtn.setOnClickListener{
             binding.voteTitleEt.setText("")
         }
-
-
     }
 
     // vote rv
@@ -242,24 +243,24 @@ class CommunityUploadTokFragment : Fragment() {
     /**category spinner*/
     private fun select_category() {
         var departments = arrayOf(
-            "디지털 기기",
-            "생활 가전",
-            "생활 용품",
-            "가구 / 인테리어",
-            "주방 / 건강",
-            "출산 / 유아동",
-            "패션 의류 / 잡화",
-            "뷰티 / 미용",
-            "스포츠 / 레저 / 헬스",
-            "취미 / 게임 / 완구",
-            "문구 / 오피스",
-            "도서 / 음악",
-            "티켓 / 교환권",
+            "디지털기기",
+            "생활가전",
+            "생활용품",
+            "가구/인테리어",
+            "주방/건강",
+            "출산/유아동",
+            "패션의류/잡화",
+            "뷰티/미용",
+            "스포츠/레저/헬스",
+            "취미/게임/완구",
+            "문구/오피스",
+            "도서/음악",
+            "티켓/교환권",
             "식품",
-            "동물 / 식물",
-            "영화 / 공연",
-            "자동차 / 공구",
-            "기타 물품",
+            "동물/식물",
+            "영화/공연",
+            "자동차/공구",
+            "기타물품",
         )
 
         val adapter = object : ArrayAdapter<String>(communityUploadActivity, com.umc.approval.R.layout.item_upload_spinner) {
@@ -299,8 +300,10 @@ class CommunityUploadTokFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
+                    viewModel.setCategory(position)
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
+                    viewModel.setCategory(18)
                 }
             }
     }
@@ -485,46 +488,6 @@ class CommunityUploadTokFragment : Fragment() {
     }
 
     /**
-     * S3
-     * */
-    /*S3 connect*/
-    private fun S3_connect() {
-        for (uri in viewModel.pic.value!!) {
-
-            /**uri 변환*/
-            val realPathFromURI = getRealPathFromURI(uri)
-            val file = File(realPathFromURI)
-
-            /**S3에 저장*/
-            S3Util().getInstance()
-                ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
-                ?.setRegion(Regions.AP_NORTHEAST_2)
-                ?.uploadWithTransferUtility(
-                    requireContext(),
-                    "approval-please/talk", file, "test"
-                )
-        }
-    }
-
-    /*File Uri for S3 connect*/
-    private fun getRealPathFromURI(uri: Uri): String {
-        val buildName = Build.MANUFACTURER
-        if(buildName.equals("Xiaomi")) {
-            return uri.path.toString()
-        }
-
-        var columnIndex = 0
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        var cursor = requireActivity().contentResolver.query(uri, proj, null, null, null)
-
-        if(cursor!!.moveToFirst()) {
-            columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        }
-
-        return cursor.getString(columnIndex)
-    }
-
-    /**
      * Open Graph
      * */
     /*url 형식 메서드*/
@@ -697,5 +660,16 @@ class CommunityUploadTokFragment : Fragment() {
 //            }
 //        })
         tagDialog.show()
+    }
+
+    //콘텐츠 변경 메소드
+    private fun editContent() {
+        //addTextChangedListener는 editText속성을 가지는데 값이 변할때마다 viewModel로 결과가 전달
+        binding.uploadContentEt.addTextChangedListener { text: Editable? ->
+            text?.let {
+                var content = it.toString()
+                viewModel.setContent(content.trim())
+            }
+        }
     }
 }

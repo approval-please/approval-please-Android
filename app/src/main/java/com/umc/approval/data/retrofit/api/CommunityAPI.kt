@@ -15,24 +15,45 @@ import retrofit2.http.*
 interface CommunityAPI {
 
     /**
-     * @Post
-     * state : 최신 인기 팔로우 내 글
-     * @Get
-     * CommunityTalkDto
-     * */
+     * 톡톡 목록 조회 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     */
     @GET("/community/toktoks")
     @Headers("content-type: application/json")
     fun get_community_tok_items(@Query("sortBy") sortBy: Int ?= null):Call<CommunityTokDto>
 
     /**
-     * @Post
-     * state : 최신 인기 팔로우 내 글
-     * @Get
-     * CommunityReportDto
-     * */
+     * 리포트 목록 조회 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     */
     @GET("/community/reports")
     @Headers("content-type: application/json")
     fun get_community_report_items(@Query("sortBy") sortBy: Int ?= null):Call<CommunityReportDto>
+
+    /**
+     * 톡 업로드 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     */
+    @POST("/community/toktoks")
+    @Headers("content-type: application/json")
+    fun upload_community_tok(
+        @Header("Authorization") accessToken: String, @Body toktok: TalkUploadDto
+    ):Call<ResponseBody>
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * upload : body, category, images, tags, voteItems, opengraph 정보
+     * */
+    @POST("/community/reports")
+    @Headers("content-type: application/json")
+    fun upload_community_report(
+        @Header("Authorization") accessToken: String, @Body report: ReportUploadDto
+    ):Call<ResponseBody>
+
 
     /**
      * @Get
@@ -63,27 +84,4 @@ interface CommunityAPI {
         @Header("Authorization") accessToken: String,
         @Path("reportId") reportId : Int,
     ): Call<CommunityItemDto>
-
-
-    /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload : body, category, images, tags, voteItems, opengraph 정보
-     * */
-    @POST("/community/toktoks")
-    @Headers("content-type: application/json")
-    fun upload_community_tok(
-        @Header("Authorization") accessToken: String, @Body toktok: TalkUploadDto
-    ):Call<ResponseBody>
-
-    /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload : body, category, images, tags, voteItems, opengraph 정보
-     * */
-    @POST("/community/reports")
-    @Headers("content-type: application/json")
-    fun upload_community_report(
-        @Header("Authorization") accessToken: String, @Body report: ReportUploadDto
-    ):Call<ResponseBody>
 }

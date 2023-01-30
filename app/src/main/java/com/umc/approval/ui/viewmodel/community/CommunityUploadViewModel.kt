@@ -6,10 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.data.repository.community.CommunityRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
@@ -22,46 +24,65 @@ import retrofit2.Response
 
 class CommunityUploadViewModel() : ViewModel() {
 
+    //커뮤니티 리포지토리
     private val repository = CommunityRepository()
 
-    /**link Livedata*/
-    private var _tabId = MutableLiveData<Int>()
-    val tabId : LiveData<Int>
-        get() = _tabId
+    /**
+     * 톡 업로드부분 라이브데이터
+     * */
+    //카테고리 라이브 데이터
+    private var _category = MutableLiveData<Int>()
+    val category : LiveData<Int>
+        get() = _category
 
-    /**이미지 Livedata*/
+    //내용 라이브 데이터
+    private var _content = MutableLiveData<String>()
+    val content : LiveData<String>
+        get() = _content
+
+    //이미지 url 라이브데이터
     private var _pic = MutableLiveData<List<Uri>>()
     val pic : LiveData<List<Uri>>
         get() = _pic
 
-    /**Open graph list Livedata*/
+    //이미지 라이브데이터
+    private var _images = MutableLiveData<List<String>>()
+    val images : LiveData<List<String>>
+        get() = _images
+
+    //태그 라이브데이터
+    private var _tags = MutableLiveData<List<String>>()
+    val tags : LiveData<List<String>>
+        get() = _tags
+
+    //링크 라이브데이터
     private var _opengraph_list = MutableLiveData<List<OpenGraphDto>>()
     val opengraph_list : LiveData<List<OpenGraphDto>>
         get() = _opengraph_list
 
-    /**link list Livedata*/
+    //링크 자체 라이브데이터
     private var _link_list = MutableLiveData<List<String>>()
     val link_list : LiveData<List<String>>
         get() = _link_list
 
-    /**Open graph Livedata*/
+    //각 링크당 만들어지는 오픈 그래프 라이브 데이터
     private var _opengraph = MutableLiveData<OpenGraphDto>()
     val opengraph : LiveData<OpenGraphDto>
         get() = _opengraph
 
-    /**link Livedata*/
+    //각 링크 입력시 라이브데이터
     private var _link = MutableLiveData<String>()
     val link : LiveData<String>
         get() = _link
 
-    /**Set tabId*/
-    fun setLink(tab: Int) {
-        _tabId.postValue(tab)
-    }
-
     /**Set images livedata*/
     fun setImage(images: List<Uri>) {
         _pic.postValue(images)
+    }
+
+    /**Set images livedata*/
+    fun setRealImage(images: List<String>) {
+        _images.postValue(images)
     }
 
     /**Set Opengraph livedata*/
@@ -72,6 +93,16 @@ class CommunityUploadViewModel() : ViewModel() {
     /**Set Opengraph list livedata*/
     fun setLink(li: String) {
         _link.postValue(li)
+    }
+
+    /**Set Opengraph list livedata*/
+    fun setContent(li: String) {
+        _content.postValue(li)
+    }
+
+    /**Set Opengraph list livedata*/
+    fun setCategory(li: Int) {
+        _category.postValue(li)
     }
 
     /**Set Opengraph list livedata*/
@@ -88,29 +119,27 @@ class CommunityUploadViewModel() : ViewModel() {
                     og_list.add(i)
                 }
             }
-            //마지막 데이터 삽입
-            og_list.add(og)
         }
+
+        //마지막 데이터 삽입
+        og_list.add(og)
 
         _opengraph_list.postValue(og_list)
     }
 
     /**
-     * 서류를 등록하는 메서드
+     * 톡 업로드 API
      * 정상 동작 Check 완료
      * */
-    fun post_tok(tok: TalkUploadDto) = viewModelScope.launch {
+    fun post_tok(tokPostDto: TalkUploadDto) = viewModelScope.launch {
 
-        //엑세스 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.tok_upload(accessToken, tok)
+        val response = repository.tok_upload(accessToken, tokPostDto)
         response.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

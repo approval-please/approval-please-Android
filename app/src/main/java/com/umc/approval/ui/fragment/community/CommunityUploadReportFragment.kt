@@ -8,7 +8,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -42,8 +41,9 @@ import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.activity.CommunityUploadDocumentListActivity
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
-import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -57,7 +57,9 @@ class CommunityUploadReportFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadReportBinding
 
-    private val viewModel by activityViewModels<CommunityUploadViewModel>()
+    private val viewModel by activityViewModels<CommunityReportUploadViewModel>()
+
+    private val commonViewModel by activityViewModels<CommunityViewModel>()
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -129,6 +131,8 @@ class CommunityUploadReportFragment : Fragment() {
         /*이미지 선택시 실행되는 메서드*/
         observe_pic()
 
+        editContent()
+
         /*이미지 선택 이벤트*/
         image_upload_event()
 
@@ -155,12 +159,16 @@ class CommunityUploadReportFragment : Fragment() {
             startActivityForResult(intent, 2000)
         }
 
+        commonViewModel.setLink(1)
+
+        viewModel.setDocumentId(0)
+
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.setLink(1)
+        commonViewModel.setLink(1)
     }
 
     lateinit var imageUrl : String
@@ -219,6 +227,10 @@ class CommunityUploadReportFragment : Fragment() {
             }
 
             linkDialog.dismiss()
+
+            if (viewModel.opengraph != null) {
+                viewModel.setOpengraph_list(viewModel.opengraph.value!!)
+            }
         }
 
 
@@ -346,46 +358,6 @@ class CommunityUploadReportFragment : Fragment() {
                     Toast.makeText(requireContext(), "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    /**
-     * S3
-     * */
-    /*S3 connect*/
-    private fun S3_connect() {
-        for (uri in viewModel.pic.value!!) {
-
-            /**uri 변환*/
-            val realPathFromURI = getRealPathFromURI(uri)
-            val file = File(realPathFromURI)
-
-            /**S3에 저장*/
-            S3Util().getInstance()
-                ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
-                ?.setRegion(Regions.AP_NORTHEAST_2)
-                ?.uploadWithTransferUtility(
-                    requireContext(),
-                    "approval-please/talk", file, "test"
-                )
-        }
-    }
-
-    /*File Uri for S3 connect*/
-    private fun getRealPathFromURI(uri: Uri): String {
-        val buildName = Build.MANUFACTURER
-        if(buildName.equals("Xiaomi")) {
-            return uri.path.toString()
-        }
-
-        var columnIndex = 0
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        var cursor = requireActivity().contentResolver.query(uri, proj, null, null, null)
-
-        if(cursor!!.moveToFirst()) {
-            columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        }
-
-        return cursor.getString(columnIndex)
     }
 
     /**
@@ -564,4 +536,14 @@ class CommunityUploadReportFragment : Fragment() {
         tagDialog.show()
     }
 
+    //콘텐츠 변경 메소드
+    private fun editContent() {
+        //addTextChangedListener는 editText속성을 가지는데 값이 변할때마다 viewModel로 결과가 전달
+        binding.uploadContentEt.addTextChangedListener { text: Editable? ->
+            text?.let {
+                var content = it.toString()
+                viewModel.setContent(content.trim())
+            }
+        }
+    }
  }
