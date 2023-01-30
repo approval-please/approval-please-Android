@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.approval.get.AgreeDto
 import com.umc.approval.data.dto.approval.get.DocumentDto
+import com.umc.approval.data.dto.approval.get.InterestingDto
 import com.umc.approval.data.dto.approval.get.LikeReturnDto
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
@@ -45,6 +46,11 @@ class DocumentViewModel() : ViewModel() {
     private var _accessToken = MutableLiveData<Boolean>()
     val accessToken : LiveData<Boolean>
         get() = _accessToken
+
+    //카테고리 목록을 가지고옴
+    private var _category = MutableLiveData<InterestingDto>()
+    val category : LiveData<InterestingDto>
+        get() = _category
 
     /**
      * 모든 documents 목록을 반환받는 메소드

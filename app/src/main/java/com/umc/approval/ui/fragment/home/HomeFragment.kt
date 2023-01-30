@@ -32,6 +32,7 @@ import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.InterestingCategory
+import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.categoryMapReverse
 import me.relex.circleindicator.CircleIndicator3
 
@@ -55,7 +56,6 @@ class HomeFragment : Fragment() {
     /**Approval view model*/
     private val approvalViewModel by viewModels<ApprovalViewModel>()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -68,18 +68,6 @@ class HomeFragment : Fragment() {
 
         //다른 뷰로 이동하는 로직
         move_to_other_view()
-
-        //전체 서류 가지고오는 로직
-        approvalViewModel.get_all_documents()
-
-        //관신 서류 가지고오는 로직
-        approvalViewModel.get_interesting_documents()
-
-        //tok 서류 가지고오는 로직
-        tokViewModel.get_all_toks(0)
-
-        //report 서류 가지고오는 로직
-        reportViewModel.get_all_reports(0)
 
         //live data
         live_data_from_server()
@@ -117,7 +105,6 @@ class HomeFragment : Fragment() {
             Log.d("로그", "결재 보고서 전체 보기 클릭")
         }
 
-        setInterestingCategoryList()
         setBannerImage()
 
 
@@ -129,6 +116,21 @@ class HomeFragment : Fragment() {
 
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
+
+        //전체 서류 가지고오는 로직
+        approvalViewModel.get_all_documents()
+
+        //관신 서류 가지고오는 로직
+        approvalViewModel.get_interesting_documents()
+
+        //tok 서류 가지고오는 로직
+        tokViewModel.get_all_toks()
+
+        //report 서류 가지고오는 로직
+        reportViewModel.get_all_reports()
+
+        //카테고리
+        approvalViewModel.get_interest()
     }
 
     override fun onResume() {
@@ -136,6 +138,21 @@ class HomeFragment : Fragment() {
 
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
+
+        //전체 서류 가지고오는 로직
+        approvalViewModel.get_all_documents()
+
+        //관신 서류 가지고오는 로직
+        approvalViewModel.get_interesting_documents()
+
+        //tok 서류 가지고오는 로직
+        tokViewModel.get_all_toks()
+
+        //report 서류 가지고오는 로직
+        reportViewModel.get_all_reports()
+
+        //카테고리
+        approvalViewModel.get_interest()
     }
 
     /**
@@ -259,41 +276,47 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-    }
 
-    private fun setInterestingCategoryList() {
-        val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 
-        interestingCategory.apply{
-            add(InterestingCategory("관심 부서 전체", true))
-            add(InterestingCategory("디지털기기", false))
-            add(InterestingCategory("생활가전", false))
-            add(InterestingCategory("생활용품", false))
-        }
+        //카테고리 목록 받아오는 라이브 데이터
+        approvalViewModel.interesting.observe(viewLifecycleOwner) {
 
-        val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
-        val spaceDecoration = HorizontalSpaceItemDecoration(25)
-        binding.rvCategory.addItemDecoration(spaceDecoration)
-        binding.rvCategory.adapter = categoryRVAdapter
-        binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+            val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 
-        binding.addInterestCategoryButton.setOnClickListener {
-            Log.d("로그", "관심 부서 추가 버튼 클릭")
-            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
-            startActivity(intent)
-        }
+            interestingCategory.apply{
+                add(InterestingCategory("관심 부서 전체", true))
+            }
 
-        // 클릭 이벤트 처리
-        categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
-            override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
-                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
-                if (data.category in categoryMapReverse) {
-                    approvalViewModel.get_interesting_documents(categoryMapReverse.get(data.category).toString())
-                } else {
-                    approvalViewModel.get_interesting_documents(null)
+            for (i in it) {
+                interestingCategory.apply{
+                    add(InterestingCategory(categoryMap[i].toString(), false))
                 }
             }
-        })
+
+            val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
+            val spaceDecoration = HorizontalSpaceItemDecoration(25)
+            binding.rvCategory.addItemDecoration(spaceDecoration)
+            binding.rvCategory.adapter = categoryRVAdapter
+            binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+            binding.addInterestCategoryButton.setOnClickListener {
+                Log.d("로그", "관심 부서 추가 버튼 클릭")
+                val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+                startActivity(intent)
+            }
+
+            // 클릭 이벤트 처리
+            categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
+                override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
+                    Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
+                    if (data.category in categoryMapReverse) {
+                        approvalViewModel.get_interesting_documents(categoryMapReverse.get(data.category).toString())
+                    } else {
+                        approvalViewModel.get_interesting_documents(null)
+                    }
+                }
+            })
+        }
     }
 
     /**

@@ -53,4 +53,6 @@ data class DocumentDto(
     val isLiked: Boolean,
     @SerializedName("isVoted")
     val isVoted: Int,
+    @SerializedName("userId")
+    val userId: Int,
 )

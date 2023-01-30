@@ -1,9 +1,6 @@
 package com.umc.approval.data.repository.approval
 
-import com.umc.approval.data.dto.approval.get.AgreeDto
-import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
-import com.umc.approval.data.dto.approval.get.DocumentDto
-import com.umc.approval.data.dto.approval.get.LikeReturnDto
+import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.approval.post.LikeDto
@@ -66,6 +63,14 @@ class ApprovalFragmentRepository {
     fun agreeMyDocument(accessToken: String, agreeMyPostDto: AgreeMyPostDto): Call<ResponseBody> {
         return ApprovalApi.agreeMyDocument(accessToken, agreeMyPostDto)
     }
+
+    /**
+     * 관심부서 API
+     */
+    fun getCategory(accessToken: String): Call<InterestingDto> {
+        return ApprovalApi.getMyCategory(accessToken)
+    }
+
 
     /**
      * 내 결재서류 승인 API

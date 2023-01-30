@@ -1,9 +1,6 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.approval.get.AgreeDto
-import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
-import com.umc.approval.data.dto.approval.get.DocumentDto
-import com.umc.approval.data.dto.approval.get.LikeReturnDto
+import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.approval.post.LikeDto
@@ -70,11 +67,9 @@ interface ApprovalAPI {
     ):Call<ResponseBody>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload: 업로드할 Document 데이터
-     * 서류 업로드 API
+     * 타인 서류 승인 및 거절 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/documents/{documentId}")
     @Headers("content-type: application/json")
@@ -83,16 +78,26 @@ interface ApprovalAPI {
     ):Call<AgreeDto>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * 서류 업로드 API
+     * 내 서류 승인 및 거절 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/approvals")
     @Headers("content-type: application/json")
     fun agreeMyDocument(
         @Header("Authorization") accessToken: String, @Body agreeMyPostDto: AgreeMyPostDto
     ):Call<ResponseBody>
+
+    /**
+     * 관심부서 목록 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     * */
+    @GET("/documents/likedCategory/my")
+    @Headers("content-type: application/json")
+    fun getMyCategory(
+        @Header("Authorization") accessToken: String
+    ):Call<InterestingDto>
 
 
     @POST("/likes")
