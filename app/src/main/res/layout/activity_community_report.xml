@@ -72,13 +72,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/community_post_user_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/upload_activity_no_img"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/community_post_user_info"></ImageView>
+                    app:layout_constraintTop_toTopOf="@id/community_post_user_info"></de.hdodenhof.circleimageview.CircleImageView>
 
                 <TextView
                     android:id="@+id/community_post_user_name"

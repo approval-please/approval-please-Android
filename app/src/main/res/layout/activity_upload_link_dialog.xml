@@ -59,6 +59,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="10dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/image_background"
                     android:src="@drawable/community_fragment_test_image"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

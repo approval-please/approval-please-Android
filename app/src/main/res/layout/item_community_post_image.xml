@@ -11,8 +11,7 @@
         android:layout_width="360dp"
         android:layout_height="240dp"
         android:scaleType="centerCrop"
-        android:background="@drawable/upload_round_button_custom"
-        android:backgroundTint="@color/approval_please_light_gray_color"
+        android:background="@drawable/image_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
 
