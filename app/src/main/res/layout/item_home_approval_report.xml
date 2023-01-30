@@ -16,10 +16,10 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="15dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
             android:src="@drawable/home_fragment_profile_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -91,6 +91,7 @@
 
         <ImageView
             android:id="@+id/iv_approval_report_thumbnail"
+            android:background="@drawable/image_background"
             android:layout_width="173dp"
             android:layout_height="85dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,7 +104,7 @@
             android:id="@+id/tv_image_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+0"
+            android:text="+2"
             android:fontFamily="@font/bold"
             android:textSize="11sp"
             android:textColor="@color/approval_please_black_color"

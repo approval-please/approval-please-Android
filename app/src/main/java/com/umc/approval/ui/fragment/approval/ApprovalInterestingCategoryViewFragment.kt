@@ -1,9 +1,11 @@
 package com.umc.approval.ui.fragment.approval
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -98,7 +100,8 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         //관심 결재 서류 가져오는 라이브 데이터
         viewModel.approval_interest_list.observe(viewLifecycleOwner) {
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
-            val spaceDecoration = VerticalSpaceItemDecoration(40)
+            val heightPx = dpToPx(requireContext(), 9)
+            val spaceDecoration = VerticalSpaceItemDecoration(heightPx)
             binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
             binding.rvApprovalPaper.adapter = dataRVAdapter
             binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -124,6 +127,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
                 add(InterestingCategory("관심 부서 전체", true))
             }
 
+
             for (i in it) {
                 interestingCategory.apply{
                     add(InterestingCategory(Utils.categoryMap[i].toString(), false))
@@ -131,7 +135,8 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             }
 
             val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
-            val spaceDecoration = HorizontalSpaceItemDecoration(25)
+            val widthPx = dpToPx(requireContext(), 11)
+            val spaceDecoration = HorizontalSpaceItemDecoration(widthPx)
             binding.rvCategory.addItemDecoration(spaceDecoration)
             binding.rvCategory.adapter = categoryRVAdapter
             binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
@@ -171,5 +176,14 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         ) {
             outRect.left = width
         }
+    }
+
+    // dp -> pixel 단위로 변경
+    private fun dpToPx(context: Context, dp: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
     }
 }

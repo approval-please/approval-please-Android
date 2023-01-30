@@ -5,9 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="203dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="2dp"
-    android:background="#FFFFFF"
-    android:clipToPadding="false">
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/approval_paper_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitEnd"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_info_container"
@@ -107,6 +114,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <TextView
+            android:id="@+id/tv_image_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+1"
+            android:fontFamily="@font/bold"
+            android:textSize="11sp"
+            android:textColor="@color/approval_please_black_color"
+            app:layout_constraintStart_toStartOf="@id/item_image"
+            app:layout_constraintEnd_toEndOf="@id/item_image"
+            app:layout_constraintTop_toTopOf="@id/item_image"
+            app:layout_constraintBottom_toBottomOf="@id/item_image"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/content_container"
             android:layout_width="0dp"
@@ -160,7 +180,6 @@
                     android:id="@+id/rv_tag"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:overScrollMode="never">
@@ -195,9 +214,10 @@
 
     <View
         android:id="@+id/division_line"
-        android:layout_width="328dp"
+        android:layout_width="0dp"
         android:layout_height="0.5dp"
         android:background="#D9D9D9"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout"
         android:layout_marginTop="13dp"

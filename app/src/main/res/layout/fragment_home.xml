@@ -63,8 +63,8 @@
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_home_banner"
                     android:clipToPadding="false"
-                    android:layout_width="328dp"
-                    android:layout_height="160dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,23 +101,29 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+                    <LinearLayout
                         android:id="@+id/my_interesting_paper_view_all_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:text="@string/view_all"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="@color/approval_please_medium_gray_color"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/medium"
-                        android:drawablePadding="2dp"
-                        android:padding="0dp"/>
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/view_all"
+                            android:textAppearance="@style/midText_gray"/>
+
+                        <ImageView
+                            android:src="@drawable/home_fragment_view_all_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="1dp"/>
+                    </LinearLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -128,28 +134,45 @@
                     
                     <ImageView
                         android:id="@+id/not_login_status_background_image"
-                        android:src="@drawable/home_fragment_not_login"
+                        android:src="@drawable/interesting_paper_background"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true">
                     </ImageView>
+
+                    <TextView
+                        android:id="@+id/tv_guide_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="30sp"
+                        android:text="회원가입하면\n관심부서를 설정할 수 있어요"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/bigText_black"
+                        app:layout_constraintBottom_toTopOf="@id/btn_set_interesting_category"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="15dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_set_interesting_category"
                         android:layout_width="199dp"
                         android:layout_height="33dp"
                         android:backgroundTint="@color/approval_please_main_color"
+                        android:elevation="2dp"
+                        android:fontFamily="@font/bold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
                         android:text="지금 시작하기"
                         android:textColor="@color/approval_please_white_color"
                         android:textSize="11sp"
-                        android:fontFamily="@font/bold"
-                        android:insetBottom="0dp"
-                        android:insetTop="0dp"
-                        android:padding="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="49dp"
-                        android:elevation="2dp" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_guide_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -226,23 +249,28 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+                    <LinearLayout
                         android:id="@+id/review_approval_paper_view_all_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="0dp"
-                        android:drawablePadding="2dp"
-                        android:background="@color/transparent"
-                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:text="@string/view_all"
-                        android:textColor="@color/approval_please_medium_gray_color"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/medium"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/view_all"
+                            android:textAppearance="@style/midText_gray"/>
+
+                        <ImageView
+                            android:src="@drawable/home_fragment_view_all_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="1dp"/>
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.chip.ChipGroup
@@ -310,23 +338,29 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+
+                    <LinearLayout
                         android:id="@+id/popular_post_view_all_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:text="@string/view_all"
-                        android:padding="0dp"
-                        android:drawablePadding="2dp"
-                        android:textColor="@color/approval_please_medium_gray_color"
-                        android:fontFamily="@font/medium"
-                        android:textSize="13sp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/view_all"
+                            android:textAppearance="@style/midText_gray"/>
+
+                        <ImageView
+                            android:src="@drawable/home_fragment_view_all_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="1dp"/>
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -353,23 +387,28 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+                    <LinearLayout
                         android:id="@+id/approval_report_view_all_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:drawableEnd="@drawable/home_fragment_view_all_arrow"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:text="@string/view_all"
-                        android:padding="0dp"
-                        android:drawablePadding="2dp"
-                        android:textColor="@color/approval_please_medium_gray_color"
-                        android:fontFamily="@font/medium"
-                        android:textSize="13sp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/view_all"
+                            android:textAppearance="@style/midText_gray"/>
+
+                        <ImageView
+                            android:src="@drawable/home_fragment_view_all_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="1dp"/>
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"

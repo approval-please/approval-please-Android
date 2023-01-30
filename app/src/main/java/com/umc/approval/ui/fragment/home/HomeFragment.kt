@@ -42,6 +42,8 @@ class HomeFragment : Fragment() {
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private var bannerPosition = 0
+
     /**login view model*/
     private val viewModel by viewModels<LoginFragmentViewModel>()
 
@@ -69,6 +71,15 @@ class HomeFragment : Fragment() {
 
         //live data
         live_data_from_server()
+        
+        //전체 서류 가지고오는 로직
+        //approvalViewModel.init_all_category_approval()
+
+        //관심 서류 가지고오는 로직
+        //approvalViewModel.init_interest_category_approval()
+
+        //tok 서류 가지고오는 로직
+        //tokViewModel.init_all_toks()
 
         //관심부서 탭으로 이동
         setting_interesting()
@@ -343,15 +354,27 @@ class HomeFragment : Fragment() {
      * 배너 이미지 어댑터 설정
      */
     private fun setBannerImage() {
-        val photoUrlList = listOf(R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner, R.drawable.home_fragment_banner)
+        val photoUrlList = listOf(R.drawable.home_fragment_banner, R.drawable.home_fragment_banner_2, R.drawable.home_fragment_banner_3)
 
-        // 뷰페이저에 어댑터 ㅇ녀결
+        bannerPosition = Int.MAX_VALUE / 2 - kotlin.math.ceil(photoUrlList.size.toDouble() / 2).toInt()
+        binding.vpHomeBanner.setCurrentItem(bannerPosition, false)
+        Log.d("로그", bannerPosition.toString())
+
+        // 뷰페이저에 어댑터 연결
         val photoVPAdatper = BannerVPAdapter(photoUrlList)
         binding.vpHomeBanner.adapter = photoVPAdatper
         binding.vpHomeBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        // 인디케이터 생성 미 적용
+        // 인디케이터 생성 및 적용
         val indicator: CircleIndicator3 = binding.indicator
-        indicator.setViewPager(binding.vpHomeBanner)
+        indicator.createIndicators(photoUrlList.size, 0)
+
+        binding.vpHomeBanner.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            //사용자가 스크롤 했을때 position 수정
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                indicator.animatePageSelected(position % photoUrlList.size)
+            }
+        })
     }
 }
