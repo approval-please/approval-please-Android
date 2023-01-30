@@ -2,6 +2,7 @@ package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
 import android.graphics.Rect
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.databinding.ApprovalFragmentItemApprovalPaperBinding
 import com.umc.approval.util.Utils.categoryMap
+
 
 class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): RecyclerView.Adapter<ApprovalPaperListRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -63,13 +65,13 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
             when (data.state) {
                 0 -> {
                     // 승인됨
-                    binding.itemContainer.setBackgroundResource(R.drawable.approval_fragment_approved_paper_background)
+                    binding.approvalPaperBackground.setImageResource(R.drawable.approval_fragment_approved_paper_background)
                     binding.tvApprovalState.text = "승인됨"
                     binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_approved)
                 }
                 1 -> {
                     // 반려됨
-                    binding.itemContainer.setBackgroundResource(R.drawable.approval_fragment_rejected_paper_background)
+                    binding.approvalPaperBackground.setImageResource(R.drawable.approval_fragment_rejected_paper_background)
                     binding.tvApprovalState.text = "반려됨"
                     binding.ivApprovalStateCircle.setImageResource(R.drawable.home_fragment_approval_status_rejected)
                 }
@@ -91,8 +93,9 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * tag RecyclerView
              * */
             if (data.tag != null) {
+                val widthPx = dpToPx(context, 6)
                 val tagRVAdapter = TagRVAdapter(data.tag)
-                val spaceDecoration = HorizontalSpaceItemDecoration(25)
+                val spaceDecoration = HorizontalSpaceItemDecoration(widthPx)
                 binding.rvTag.addItemDecoration(spaceDecoration)
                 binding.rvTag.adapter = tagRVAdapter
                 binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -120,5 +123,14 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         ) {
             outRect.right = width
         }
+    }
+
+    // dp -> pixel 단위로 변경
+    private fun dpToPx(context: Context, dp: Int): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp.toFloat(),
+            context.resources.displayMetrics
+        ).toInt()
     }
 }
