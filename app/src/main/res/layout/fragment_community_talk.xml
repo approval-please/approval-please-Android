@@ -9,10 +9,15 @@
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/community_category"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="14dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
+        android:foregroundGravity="center"
         app:selectionRequired="true"
         app:singleLine="true"
         app:singleSelection="true">
@@ -23,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:checked="true"
-            android:gravity="center"
+
             android:text="최신"
             android:textSize="11dp"
             app:chipCornerRadius="15dp"
@@ -50,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:gravity="center"
-            android:text="디지털기기"
+            android:text="팔로우"
             android:textSize="11dp"
             app:chipCornerRadius="15dp"
             app:chipEndPadding="2dp"
@@ -63,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="22dp"
             android:gravity="center"
-            android:text="디지털기기"
+            android:text="내 글"
             android:textSize="11sp"
             app:chipCornerRadius="15dp"
             app:chipEndPadding="2dp"
@@ -74,7 +79,9 @@
     <ScrollView
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:overScrollMode="never"
         app:layout_constraintTop_toBottomOf="@+id/community_category">
 
         <androidx.recyclerview.widget.RecyclerView

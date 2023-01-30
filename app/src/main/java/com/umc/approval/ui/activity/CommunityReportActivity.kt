@@ -57,7 +57,10 @@ class CommunityReportActivity : AppCompatActivity() {
         /*setting*/
         post_more()
 
-
+        /*close*/
+        binding.uploadCancelBtn.setOnClickListener{
+            finish()
+        }
     }
 
     /**post more*/
@@ -253,7 +256,8 @@ class CommunityReportActivity : AppCompatActivity() {
     }
 
     private fun setInfo(){
-        // 좋아요, 스크랩, 조회수 설정
+        // 부서, 좋아요, 스크랩, 조회수 설정
+        binding.communityPostCategory.text = "디지털 가전"
         binding.communityPostLikeNum.text = "좋아요 "+"5"
         binding.communityPostScrapNum.text = "스크랩 "+"3"
         binding.communityPostVisitorsNum.text = "조회수 "+"123"
@@ -291,7 +295,6 @@ class CommunityReportActivity : AppCompatActivity() {
             add(openGraphDto)
             add(openGraphDto)
             add(openGraphDto)
-
         }
         val dataRVAdapter = CommunityUploadLinkItemRVAdapter(linkList)
         binding.uploadLinkItem.adapter = dataRVAdapter
