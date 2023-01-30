@@ -23,6 +23,7 @@
             android:layout_marginStart="16dp"
             android:scaleType="fitCenter"/>
         <TextView
+            android:id="@+id/cate"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:text="영화·공연 서류"
@@ -609,6 +610,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp"/>
         <EditText
+            android:id="@+id/commentEdit"
             android:gravity="center_vertical"
             android:layout_width="326dp"
             android:layout_height="20dp"

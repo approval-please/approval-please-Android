@@ -2,28 +2,25 @@ package com.umc.approval.ui.activity
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Bundle
 import android.widget.Toast
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.umc.approval.databinding.ActivityDocumentBinding
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
+import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
 
@@ -41,27 +38,6 @@ class DocumentActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        // 리사이클러뷰 레이아웃 설정
-        binding.imageRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
-
-        // 샘플 이미지 넣기
-        val itemList = ArrayList<Uri>()
-        val testUri : String = ""
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-
-        // 이미지 리사이클러뷰 연결
-        val documentImageAdapter = DocumentImageAdapter(itemList)
-        documentImageAdapter.notifyDataSetChanged()
-        binding.imageRecyclerview.adapter = documentImageAdapter
-        val temp = documentImageAdapter.itemCount
-
-        //댓글
-        setComment()
-
         //다른 곳으로 이동하는 서비스
         move_to_other()
 
@@ -69,6 +45,15 @@ class DocumentActivity : AppCompatActivity() {
 
         //서류가 들어왔을때 View 구성
         live_data()
+
+        setComment()
+
+        //작성 누를 시 댓글 작성
+        binding.writeButton.setOnClickListener {
+            val postComment = CommentPostDto(1, content = binding.commentEdit.text.toString())
+            commentViewModel.post_comments(postComment)
+            binding.commentEdit.text.clear()
+        }
     }
 
     //결재 또는 반려 버튼 클릭 로직
@@ -104,9 +89,13 @@ class DocumentActivity : AppCompatActivity() {
         }
     }
 
-    //결재서류 라이브 데이터
+    //라이브 데이터
     private fun live_data() {
+
+        //결재 서류 라이브 데이터
         viewModel.document.observe(this) {
+
+            binding.cate.text = categoryMap[it.category]
 
             binding.profile.load(it.profileImage)
             binding.name.text = it.nickname
@@ -120,14 +109,22 @@ class DocumentActivity : AppCompatActivity() {
             binding.refuseButton.text = "승인" + it.rejectCount
 
             //링크 처리
-            binding.openGraphImage.load(it.link.image)
-            binding.openGraphText.text = it.link.title
-            binding.openGraphUrl.text = it.link.url
+            if (it.link != null) {
+                binding.openGraphImage.load(it.link.image)
+                binding.openGraphText.text = it.link.title
+                binding.openGraphUrl.text = it.link.url
+            }
 
-            //이미지 처리
-            binding.image1.load(it.imageUrl.get(0))
-            binding.image2.load(it.imageUrl.get(1))
-            binding.image3.load(it.imageUrl.get(2))
+            if (it.imageUrl != null) {
+                // 리사이클러뷰 레이아웃 설정
+                binding.imageRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+
+                // 이미지 리사이클러뷰 연결
+                val documentImageAdapter = DocumentImageAdapter(it.imageUrl)
+                documentImageAdapter.notifyDataSetChanged()
+                binding.imageRecyclerview.adapter = documentImageAdapter
+            }
+
 
             //투표를 이미 했으면 색 세팅
             if (viewModel.document.value!!.isVoted == 1) {
@@ -137,6 +134,17 @@ class DocumentActivity : AppCompatActivity() {
                 binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
                 binding.refuseButton.setTextColor(Color.parseColor("#141414"))
             }
+        }
+
+
+        //댓글 라이브 데이터
+        commentViewModel.comments.observe(this) {
+
+//            binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
+//            val documentCommentAdapter = DocumentCommentAdapter(it.content)
+//            documentCommentAdapter.notifyDataSetChanged()
+//            binding.documentCommentRecyclerview.adapter = documentCommentAdapter
+
         }
     }
 
@@ -162,6 +170,8 @@ class DocumentActivity : AppCompatActivity() {
         val documentId = intent.getStringExtra("documentId")
 
         viewModel.get_document_detail(documentId.toString())
+
+        commentViewModel.get_document_comments()
     }
 
     //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
@@ -174,6 +184,8 @@ class DocumentActivity : AppCompatActivity() {
         val documentId = intent.getStringExtra("documentId")
 
         viewModel.get_document_detail(documentId.toString())
+
+        commentViewModel.get_document_comments()
     }
 
     private fun setComment() {
