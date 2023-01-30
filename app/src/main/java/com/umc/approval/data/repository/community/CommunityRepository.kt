@@ -14,12 +14,12 @@ import retrofit2.Call
 class CommunityRepository() {
 
     /**get toktoks*/
-    fun get_toks(sortBy: Int):Call<CommunityTokDto> {
+    fun get_toks(sortBy: Int ?= null):Call<CommunityTokDto> {
         return communityApi.get_community_tok_items(sortBy)
     }
 
     /**get reports*/
-    fun get_reports(sortBy: Int):Call<CommunityReportDto> {
+    fun get_reports(sortBy: Int ?= null):Call<CommunityReportDto> {
         return communityApi.get_community_report_items(sortBy)
     }
 

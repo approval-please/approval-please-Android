@@ -1,9 +1,6 @@
 package com.umc.approval.data.repository.approval
 
-import com.umc.approval.data.dto.approval.get.AgreeDto
-import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
-import com.umc.approval.data.dto.approval.get.DocumentDto
-import com.umc.approval.data.dto.approval.get.LikeReturnDto
+import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.approval.post.LikeDto
@@ -11,6 +8,7 @@ import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Query
 
 /**
  * Approval Fragment Repository
@@ -20,15 +18,15 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 목록 조회 API
      */
-    fun getDocuments(category: String?=null): Call<ApprovalPaperDto> {
-        return ApprovalApi.getDocuments(category)
+    fun getDocuments(category: String?=null, state: String?= null, sortBy: String?= null): Call<ApprovalPaperDto> {
+        return ApprovalApi.getDocuments(category, state, sortBy)
     }
 
     /**
      * 관심부서 결재서류 목록 조회 API
      */
-    fun getInterestingCategoryDocuments(accessToken: String, category: String?= null): Call<ApprovalPaperDto> {
-        return ApprovalApi.getInterestingCategoryDocuments(accessToken, category)
+    fun getInterestingCategoryDocuments(accessToken: String, category: String?= null, state: String?= null, sortBy: String?= null): Call<ApprovalPaperDto> {
+        return ApprovalApi.getInterestingCategoryDocuments(accessToken, category, state, sortBy)
     }
 
     /**
@@ -41,7 +39,7 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 업로드 API
      */
-    fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ApprovalUploadDto> {
+    fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ResponseBody> {
         return ApprovalApi.uploadDocument(accessToken, upload)
     }
 
@@ -67,9 +65,9 @@ class ApprovalFragmentRepository {
     }
 
     /**
-     * 내 결재서류 승인 API
+     * 관심부서 API
      */
-    fun like(accessToken: String, likeDto: LikeDto): Call<LikeReturnDto> {
-        return ApprovalApi.like(accessToken, likeDto)
+    fun getCategory(accessToken: String): Call<InterestingDto> {
+        return ApprovalApi.getMyCategory(accessToken)
     }
 }

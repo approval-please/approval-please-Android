@@ -31,6 +31,8 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
             binding.tvLikeCount.text = data.likeCount.toString()
             binding.tvCommentCount.text = data.commentCount.toString()
 
+            binding.communityPostUserProfile.load(data.profileImage)
+
             if(data.images == null){
                 binding.uploadImageLayout.isVisible = false
             }else{

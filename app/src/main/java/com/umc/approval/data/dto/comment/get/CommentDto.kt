@@ -29,6 +29,8 @@ data class CommentDto(
     val isLike: Boolean,
     @SerializedName("isDeleted")
     val isDeleted: Boolean,
+    @SerializedName("isModified")
+    val isModified: Boolean,
     @SerializedName("likeCount")
     val likeCount: Int,
     @SerializedName("datetime")

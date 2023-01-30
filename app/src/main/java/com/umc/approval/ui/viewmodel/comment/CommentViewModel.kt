@@ -32,6 +32,11 @@ class CommentViewModel() : ViewModel() {
     /**approval repository*/
     private val repository = CommentRepository()
 
+    //서버에서 받아올 서류 데이터
+    private var _comments = MutableLiveData<CommentListDto>()
+    val comments : LiveData<CommentListDto>
+        get() = _comments
+
     /**
      * 모든 comments 목록을 반환받는 메소드
      * 정상 동작 Check 완료
@@ -43,8 +48,7 @@ class CommentViewModel() : ViewModel() {
             override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+                    _comments.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -66,8 +70,7 @@ class CommentViewModel() : ViewModel() {
             override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+                    _comments.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -89,8 +92,7 @@ class CommentViewModel() : ViewModel() {
             override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+                    _comments.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

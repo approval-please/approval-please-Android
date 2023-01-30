@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
+import com.umc.approval.data.dto.login.get.ReturnSocialLoginDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import com.umc.approval.data.repository.login.LoginFragmentRepository
 import kotlinx.coroutines.flow.first
@@ -18,29 +20,40 @@ import retrofit2.Response
 class LoginFragmentViewModel() : ViewModel() {
 
     private val repository = LoginFragmentRepository()
+    private val accessTokenRepository = AccessTokenRepository()
 
-    private var _accessToken = MutableLiveData<String>()
-    val accessToken : LiveData<String>
+    /**엑세스 토큰이 존재할시 True값 지정, True 시 로그인 상태*/
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
         get() = _accessToken
 
+    /**이메일 체크 라이브 데이터*/
     private var _email_check = MutableLiveData<ReturnEmailCheckDto>()
     val email_check : LiveData<ReturnEmailCheckDto>
         get() = _email_check
 
-    /**
-     * 로그인 성공시 엑세스 토큰 발급
-     * */
-    fun login(idToken: String, case: String) = viewModelScope.launch {
-        val response = repository.login(idToken, case)
+    /**소셜로그인 체크 라이브 데이터*/
+    private var _social_check = MutableLiveData<ReturnSocialLoginDto>()
+    val social_status : LiveData<ReturnSocialLoginDto>
+        get() = _social_check
+
+    /**소셜로그인 체크 라이브 데이터*/
+    private var _kakao_email = MutableLiveData<String>()
+    val kakao_email : LiveData<String>
+        get() = _kakao_email
+
+    /**엑세스 토큰 체크*/
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
         response.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _accessToken.value = response.headers().get("Authorization").toString()
-                    Log.d("return_accessToken", accessToken.value.toString())
-                    setAccessToken(accessToken.value.toString())
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
                 } else {
                     Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -49,23 +62,21 @@ class LoginFragmentViewModel() : ViewModel() {
         })
     }
 
-    /**
-     * 엑세스 토큰 가져와 검증까지 해결
-     * */
-    fun checkAccessToken() = viewModelScope.launch {
-        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+    /**Kakao 소셜 로그인*/
+    fun social_login(accessToken: String, email: String) = viewModelScope.launch {
 
-        val response =  repository.connectServer(tokenValue)
-        response.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+        val response = repository.social_login("Bearer " + accessToken)
+        _kakao_email.postValue(email)
+
+        response.enqueue(object : Callback<ReturnSocialLoginDto> {
+            override fun onResponse(call: Call<ReturnSocialLoginDto>, response: Response<ReturnSocialLoginDto>) {
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE", "SUCCESS")
-                    _accessToken.value = response.headers().get("Authorization").toString()
+                    _social_check.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            override fun onFailure(call: Call<ReturnSocialLoginDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
@@ -84,7 +95,7 @@ class LoginFragmentViewModel() : ViewModel() {
      * */
     fun deleteAccessToken() = viewModelScope.launch {
         AccessTokenDataStore().deleteAccessToken()
-        _accessToken.value = ""
+        _accessToken.value = false
     }
 
     /**

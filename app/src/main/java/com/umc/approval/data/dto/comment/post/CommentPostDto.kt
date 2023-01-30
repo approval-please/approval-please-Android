@@ -17,7 +17,7 @@ data class CommentPostDto(
     @SerializedName("parentCommentId")
     val parentCommentId: Int?=null,
     @SerializedName("content")
-    val content: String,
+    val content: String ?= null,
     @SerializedName("image")
-    val image: String,
+    val image: String ?= null,
 )

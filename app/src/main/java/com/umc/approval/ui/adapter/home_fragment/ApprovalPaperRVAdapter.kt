@@ -37,8 +37,8 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
             binding.tvCategory.text = "디지털 기기"
             binding.tvWriteTime.text = data.datetime
 
-            if (data.image != null) {
-                binding.ivThumbnail.load(data.image)
+            if (data.thumbnailImage != null) {
+                binding.ivThumbnail.load(data.thumbnailImage)
                 binding.ivThumbnail.clipToOutline = true
             } else {
                 binding.ivThumbnail.visibility = View.GONE

@@ -9,23 +9,36 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.community.CommunityRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CommunityTokViewModel() : ViewModel() {
 
+    //커뮤니티 리포지토리
     private val repository = CommunityRepository()
 
+    //엑세스 토큰 리포지토리
+    private val accessTokenRepository = AccessTokenRepository()
+
+    /**tok 목록 라이브 데이터*/
     private var _tok_list = MutableLiveData<CommunityTokDto>()
     val tok_list : LiveData<CommunityTokDto>
         get() = _tok_list
 
-    /**
-     * init tok list
-     * */
+    /**엑세스 토큰 여부 판단 라이브데이터*/
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
+        get() = _accessToken
+
+
+    //테스트 데이터
     fun init_all_toks() = viewModelScope.launch {
 
         val init_data = mutableListOf<CommunityTok>()
@@ -33,9 +46,7 @@ class CommunityTokViewModel() : ViewModel() {
         var openGraphDto = OpenGraphDto(
             "https://www.naver.com/",
             "네이버",
-            "네이버",
-            "네이버",
-            "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
+            "네이버"
         )
 
         init_data.add(
@@ -78,20 +89,41 @@ class CommunityTokViewModel() : ViewModel() {
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
-    fun get_all_toks(sortBy: Int) = viewModelScope.launch {
+    fun get_all_toks(sortBy: Int ?= null) = viewModelScope.launch {
 
         val response = repository.get_toks(sortBy)
         response.enqueue(object : Callback<CommunityTokDto> {
             override fun onResponse(call: Call<CommunityTokDto>, response: Response<CommunityTokDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+                    _tok_list.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
             override fun onFailure(call: Call<CommunityTokDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**엑세스 체크 API
+     * 정상 동작 Check 완료
+     * */
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

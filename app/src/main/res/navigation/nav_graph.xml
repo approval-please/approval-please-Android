@@ -40,6 +40,10 @@
         <action
             android:id="@+id/action_fragment_approval_to_fragment_community"
             app:destination="@id/fragment_community" />
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/fragment_community"

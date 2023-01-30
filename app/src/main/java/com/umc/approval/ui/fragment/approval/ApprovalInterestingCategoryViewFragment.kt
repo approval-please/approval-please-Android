@@ -9,18 +9,21 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentApprovalInterestingCategoryViewBinding
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.activity.InterestingDepartmentActivity
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.util.InterestingCategory
+import com.umc.approval.util.Utils
 
 class ApprovalInterestingCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalInterestingCategoryViewBinding? = null
@@ -43,34 +46,35 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         //live data
         live_data()
 
-        //서버로부터 데이터를 받아옴, 데모데이용 나중에 삭제
-        viewModel.init_interest_category_approval()
-
         binding.addInterestCategoryButton.setOnClickListener {
             Log.d("로그", "관심 부서 추가 버튼 클릭")
             val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
             startActivity(intent)
         }
-        
-        setInterestingCategoryList()
-
-        //모든 관심 서류 목록 조회
-        viewModel.get_interesting_documents(null)
-
-        //엑세스 토큰이 없으면 로그인으로 이동
-        not_has_access_token()
 
         return view
     }
 
-    /**엑세스 토큰이 없으면 로그인 엑티비티로 이동*/
-    private fun not_has_access_token() {
-        viewModel.has_accessToken.observe(viewLifecycleOwner) {
-            if (!it) {
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
-                requireActivity().finish()
-            }
-        }
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_interesting_documents()
+
+        viewModel.get_interest()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_interesting_documents()
+
+        viewModel.get_interest()
     }
 
     /**
@@ -81,9 +85,19 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         super.onDestroy()
     }
 
-    //live data
+    //라이브 데이터
     private fun live_data() {
 
+        //엑세스 토큰이 없으면 로그인 화면으로 이동
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (!it) {
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                requireActivity().finish()
+                Toast.makeText(requireContext(), "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        //관심 결재 서류 가져오는 라이브 데이터
         viewModel.approval_interest_list.observe(viewLifecycleOwner) {
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
             val heightPx = dpToPx(requireContext(), 9)
@@ -95,44 +109,50 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             // 클릭 이벤트 처리
             dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                    Log.d("로그", "결재 서류 클릭, pos: $pos")
+                    /**결재서류 아이디를 넘김*/
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+
+                    startActivity(intent)
                 }
             })
         }
-    }
 
-    private fun setInterestingCategoryList() {
-        val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
+        //카테고리 목록 받아오는 라이브 데이터
+        viewModel.interesting.observe(viewLifecycleOwner) {
 
-        interestingCategory.apply{
-            add(InterestingCategory("관심 부서 전체", true))
-            add(InterestingCategory("디지털 기기", false))
-            add(InterestingCategory("생활가전", false))
-            add(InterestingCategory("생활용품", false))
-            add(InterestingCategory("미용", false))
-        }
+            val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 
-        val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
-        val widthPx = dpToPx(requireContext(), 11)
-        val spaceDecoration = HorizontalSpaceItemDecoration(widthPx)
-        binding.rvCategory.addItemDecoration(spaceDecoration)
-        binding.rvCategory.adapter = categoryRVAdapter
-        binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-
-        binding.addInterestCategoryButton.setOnClickListener {
-            Log.d("로그", "관심 부서 추가 버튼 클릭")
-            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
-            startActivity(intent)
-        }
-
-        // 클릭 이벤트 처리
-        categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
-            override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
-                Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
-
-                // API 호출하여 ApprovalPaperList 갱신
+            interestingCategory.apply{
+                add(InterestingCategory("관심 부서 전체", true))
             }
-        })
+
+
+            for (i in it) {
+                interestingCategory.apply{
+                    add(InterestingCategory(Utils.categoryMap[i].toString(), false))
+                }
+            }
+
+            val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
+            val widthPx = dpToPx(requireContext(), 11)
+            val spaceDecoration = HorizontalSpaceItemDecoration(widthPx)
+            binding.rvCategory.addItemDecoration(spaceDecoration)
+            binding.rvCategory.adapter = categoryRVAdapter
+            binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+
+            // 클릭 이벤트 처리
+            categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
+                override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
+                    Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
+                    if (data.category in Utils.categoryMapReverse) {
+                        viewModel.get_interesting_documents(Utils.categoryMapReverse.get(data.category).toString())
+                    } else {
+                        viewModel.get_interesting_documents()
+                    }
+                }
+            })
+        }
     }
 
     // 아이템 간 간격 조절 기능

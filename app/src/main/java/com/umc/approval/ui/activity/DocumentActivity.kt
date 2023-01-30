@@ -2,26 +2,25 @@ package com.umc.approval.ui.activity
 
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
-import android.os.Build
+import android.widget.Toast
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.umc.approval.databinding.ActivityDocumentBinding
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
-import coil.load
 import com.umc.approval.R
+import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
+import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
 
@@ -31,11 +30,6 @@ class DocumentActivity : AppCompatActivity() {
     private val viewModel by viewModels<DocumentViewModel>()
     private val commentViewModel by viewModels<CommentViewModel>()
 
-    // 승인, 반려 결정 여부
-    var isClicked = false
-    // 승인, 반려 수 test data
-    var approve_num = 10
-    var refuse_num = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,66 +38,154 @@ class DocumentActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        // 리사이클러뷰 레이아웃 설정
-        binding.imageRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+        //다른 곳으로 이동하는 서비스
+        move_to_other()
 
-        // 샘플 이미지 넣기
-        val itemList = ArrayList<Uri>()
-        val testUri : String = ""
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
-        itemList.add(testUri.toUri())
+        approve_or_reject()
 
-        // 이미지 리사이클러뷰 연결
-        val documentImageAdapter = DocumentImageAdapter(itemList)
-        documentImageAdapter.notifyDataSetChanged()
-        binding.imageRecyclerview.adapter = documentImageAdapter
-        val temp = documentImageAdapter.itemCount
+        //서류가 들어왔을때 View 구성
+        live_data()
 
-        //back to main activity
-        binding.cancel.setOnClickListener {
-            finish()
-        }
-
-        //서류
-        setDocumentData()
-
-        //댓글
         setComment()
 
-        //이전 프래그먼트에서 데이터 가지고 오기
-        val documentId = intent.getStringExtra("documentId")
-        viewModel.get_document_detail(documentId.toString())
-
-        // like activity로 이동
-        binding.documentCommentPostLikes.setOnClickListener {
-            startActivity(Intent(this, LikeActivity::class.java))
+        //작성 누를 시 댓글 작성
+        binding.writeButton.setOnClickListener {
+            val postComment = CommentPostDto(1, content = binding.commentEdit.text.toString())
+            commentViewModel.post_comments(postComment)
+            binding.commentEdit.text.clear()
         }
+    }
 
-        //초기화
-        viewModel.init_document()
-
-        // 승인, 반려 버튼 클릭 처리
-        setVote()
+    //결재 또는 반려 버튼 클릭 로직
+    private fun approve_or_reject() {
+        //반려버튼 클릭시 엑세스 토큰으로 로그인 상태 확인 후, 로그인 아니면 로그인 과정 거치기
+        //투표를 하지 않았을때만 로직 진행
         binding.approveButton.setOnClickListener {
-            if(isClicked == false){
-                val dialog = ApproveDialog()
-                dialog.show(supportFragmentManager,dialog.tag)
+            if (viewModel.accessToken.value == true) {
+                if (viewModel.document.value!!.isVoted == 0) {
+                    val dialog = ApproveDialog()
+                    dialog.show(supportFragmentManager, dialog.tag)
+                }
+            } else {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }
         }
+
+        //반려버튼 클릭시 엑세스 토큰으로 로그인 상태 확인 후, 로그인 아니면 로그인 과정 거치기
+        //투표를 하지 않았을때만 로직 진행
         binding.refuseButton.setOnClickListener {
-            if(isClicked == false){
-                val dialog = RefuseDialog()
-                dialog.show(supportFragmentManager, dialog.tag)
+            if (viewModel.accessToken.value == true) {
+                if (viewModel.document.value!!.isVoted == 0) {
+                    val dialog = RefuseDialog()
+                    dialog.show(supportFragmentManager, dialog.tag)
+                }
+            } else {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }
         }
     }
 
-    private fun setVote(){
-        binding.approveButton.text = "승인 " + approve_num.toString()
-        binding.refuseButton.text = "반려 " + refuse_num.toString()
+    //라이브 데이터
+    private fun live_data() {
+
+        //결재 서류 라이브 데이터
+        viewModel.document.observe(this) {
+
+            binding.cate.text = categoryMap[it.category]
+
+            binding.profile.load(it.profileImage)
+            binding.name.text = it.nickname
+            binding.title.text = it.title
+            binding.content.text = it.content
+            binding.documentCommentPostLikes.text = "좋아요 " + it.likedCount.toString()
+            binding.documentCommentPostViews.text = "조회수 " + it.view.toString()
+            binding.documentCommentPostComments.text = "댓글 " + it.commentCount.toString()
+            binding.documentCommentPostTime.text = it.datetime
+            binding.approveButton.text = "승인" + it.approveCount
+            binding.refuseButton.text = "승인" + it.rejectCount
+
+            //링크 처리
+            if (it.link != null) {
+                binding.openGraphImage.load(it.link.image)
+                binding.openGraphText.text = it.link.title
+                binding.openGraphUrl.text = it.link.url
+            }
+
+            if (it.imageUrl != null) {
+                // 리사이클러뷰 레이아웃 설정
+                binding.imageRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
+
+                // 이미지 리사이클러뷰 연결
+                val documentImageAdapter = DocumentImageAdapter(it.imageUrl)
+                documentImageAdapter.notifyDataSetChanged()
+                binding.imageRecyclerview.adapter = documentImageAdapter
+            }
+
+
+            //투표를 이미 했으면 색 세팅
+            if (viewModel.document.value!!.isVoted == 1) {
+                binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
+                binding.approveButton.setTextColor(Color.parseColor("#141414"))
+            } else if (viewModel.document.value!!.isVoted == 2) {
+                binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
+                binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+            }
+        }
+
+
+        //댓글 라이브 데이터
+        commentViewModel.comments.observe(this) {
+
+//            binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
+//            val documentCommentAdapter = DocumentCommentAdapter(it.content)
+//            documentCommentAdapter.notifyDataSetChanged()
+//            binding.documentCommentRecyclerview.adapter = documentCommentAdapter
+
+        }
+    }
+
+    //뷰 이동 로직
+    private fun move_to_other() {
+        //좋아요 액티비티로 이동
+        binding.documentCommentPostLikes.setOnClickListener {
+            startActivity(Intent(this, LikeActivity::class.java))
+        }
+
+        binding.cancel.setOnClickListener {
+            finish()
+        }
+    }
+
+    //시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        val documentId = intent.getStringExtra("documentId")
+
+        viewModel.get_document_detail(documentId.toString())
+
+        commentViewModel.get_document_comments()
+    }
+
+    //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        val documentId = intent.getStringExtra("documentId")
+
+        viewModel.get_document_detail(documentId.toString())
+
+        commentViewModel.get_document_comments()
     }
 
     private fun setComment() {
@@ -129,19 +211,6 @@ class DocumentActivity : AppCompatActivity() {
         binding.documentCommentRecyclerview.adapter = documentCommentAdapter
     }
 
-    /**live data*/
-    private fun setDocumentData(){
-
-        viewModel.document.observe(this) {
-
-            binding.content.text = viewModel.document.value!!.content
-
-            binding.openGraphImage.load(viewModel.document.value!!.link.image)
-            binding.openGraphUrl.setText(viewModel.document.value!!.link.url)
-            binding.openGraphText.setText(viewModel.document.value!!.link.title)
-        }
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         /*
@@ -159,22 +228,19 @@ class DocumentActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    public fun changeApproveButton() {
-        if (isClicked == false) {
-            binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
-            binding.approveButton.setTextColor(Color.parseColor("#141414"))
-            approve_num++
-            setVote()
-            isClicked = true
-        }
+    //승인 시 승인 Api
+    fun changeApproveButton() {
+        binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
+        binding.approveButton.setTextColor(Color.parseColor("#141414"))
+
+        viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(true))
     }
-    public fun changeRefuseButton(){
-        if(isClicked == false){
-            binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
-            binding.refuseButton.setTextColor(Color.parseColor("#141414"))
-            refuse_num++
-            setVote()
-            isClicked = true
-        }
+
+    //반려 시 반려 Api
+    fun changeRefuseButton(){
+        binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
+        binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+
+        viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(false))
     }
 }
