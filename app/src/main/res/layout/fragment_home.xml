@@ -84,6 +84,20 @@
                     app:ci_margin="2dp"
                     app:ci_animator="@animator/scale_none"/>
 
+<!--                <me.relex.circleindicator.CircleIndicator3-->
+<!--                    android:id="@+id/indicator"-->
+<!--                    android:layout_marginTop="2dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    app:ci_drawable="@drawable/banner_indicator_selected"-->
+<!--                    app:ci_drawable_unselected="@drawable/banner_indicator_unselected"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/vp_home_banner"-->
+<!--                    app:ci_margin="2dp"-->
+<!--                    app:ci_animator="@animator/scale_none"/>-->
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -21,8 +21,8 @@ class BannerVPAdapter(private val photoList: List<Int>): RecyclerView.Adapter<Ba
     }
 
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        holder.bind(photoList[holder.adapterPosition])
+        holder.bind(photoList[holder.adapterPosition % photoList.size])
     }
 
-    override fun getItemCount(): Int = photoList.size
+    override fun getItemCount(): Int = Int.MAX_VALUE
 }
