@@ -128,28 +128,45 @@
                     
                     <ImageView
                         android:id="@+id/not_login_status_background_image"
-                        android:src="@drawable/home_fragment_not_login"
+                        android:src="@drawable/interesting_paper_background"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true">
                     </ImageView>
+
+                    <TextView
+                        android:id="@+id/tv_guide_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="30sp"
+                        android:text="회원가입하면\n관심부서를 설정할 수 있어요"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/bigText_black"
+                        app:layout_constraintBottom_toTopOf="@id/btn_set_interesting_category"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="15dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_set_interesting_category"
                         android:layout_width="199dp"
                         android:layout_height="33dp"
                         android:backgroundTint="@color/approval_please_main_color"
+                        android:elevation="2dp"
+                        android:fontFamily="@font/bold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
                         android:text="지금 시작하기"
                         android:textColor="@color/approval_please_white_color"
                         android:textSize="11sp"
-                        android:fontFamily="@font/bold"
-                        android:insetBottom="0dp"
-                        android:insetTop="0dp"
-                        android:padding="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="49dp"
-                        android:elevation="2dp" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_guide_text" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
