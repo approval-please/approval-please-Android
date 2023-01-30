@@ -33,9 +33,7 @@ class CommunityTokViewModel() : ViewModel() {
         var openGraphDto = OpenGraphDto(
             "https://www.naver.com/",
             "네이버",
-            "네이버",
-            "네이버",
-            "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png"
+            "네이버"
         )
 
         init_data.add(
@@ -78,7 +76,7 @@ class CommunityTokViewModel() : ViewModel() {
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
-    fun get_all_toks(sortBy: Int) = viewModelScope.launch {
+    fun get_all_toks(sortBy: Int ?= null) = viewModelScope.launch {
 
         val response = repository.get_toks(sortBy)
         response.enqueue(object : Callback<CommunityTokDto> {

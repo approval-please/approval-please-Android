@@ -1,6 +1,7 @@
 package com.umc.approval.data.dto.approval.get
 
 import com.google.gson.annotations.SerializedName
+import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /**
  * 목록에서 결재 서류 DTO
@@ -17,8 +18,10 @@ data class ApprovalPaper(
     val content: String,
     @SerializedName("tag")
     val tag: List<String>,
-    @SerializedName("image")
-    val image: String,
+    @SerializedName("link")
+    val link: OpenGraphDto? = null,
+    @SerializedName("thumbnailImage")
+    val thumbnailImage: String,
     @SerializedName("imageCount")
     val imageCount: Int,
     @SerializedName("state")

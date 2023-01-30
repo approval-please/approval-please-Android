@@ -9,7 +9,7 @@ import retrofit2.http.*
  * */
 interface AccessTokenAPI {
 
-    @GET("/auth/token/check")
+    @POST("/auth/token/check")
     @Headers("content-type: application/json")
     fun checkAccessToken(
         @Header("Authorization") accessToken: String

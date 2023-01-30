@@ -3,7 +3,6 @@ package com.umc.approval.ui.fragment.approval
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,12 +40,28 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         //live data
         live_data()
 
-        viewModel.get_all_documents(null)
-
-
         setAllCategoryList()  // 카테고리 리사이클러뷰 데이터 & 어댑터 설정
         
         return view
+    }
+
+    /**시작시 로그인 상태 확인*/
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_all_documents(null, null, null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
+
+        viewModel.get_all_documents(null, null, null)
     }
 
     /**
@@ -89,7 +104,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
 
         allCategory.apply{
             add(InterestingCategory("모든 부서", true))
-            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("디지털기기", false))
             add(InterestingCategory("생활가전", false))
             add(InterestingCategory("생활용품", false))
             add(InterestingCategory("가구/인테리어", false))

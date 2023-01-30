@@ -15,36 +15,31 @@ import retrofit2.http.*
 interface ApprovalAPI {
 
     /**
-     * @Post
-     * @Get
-     * ApprovalPaperDto
-     * 결재서류 목록 조회 API
+     * 전체 결재서류 목록 조회 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      */
     @GET("/documents")
     @Headers("content-type: application/json")
-    fun getDocuments(@Query("category") category: String?= null): Call<ApprovalPaperDto>
+    fun getDocuments(@Query("category") category: String?= null,
+                     @Query("state") state: String?= null, @Query("sortBy") sortBy: String?= null): Call<ApprovalPaperDto>
+
     /**
-     * @Post
-     * accessToken: 사용자 검증 토큰, 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
-     * @Get
-     * ApprovalPaperDto
      * 관심부서 결재서류 목록 조회 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      */
     @GET("/documents/likes")
     @Headers("content-type: application/json")
     fun getInterestingCategoryDocuments(
-        @Header("Authorization") accessToken: String, @Query("category") category: String?= null
+        @Header("Authorization") accessToken: String, @Query("category") category: String?= null,
+        @Query("state") state: String?= null, @Query("sortBy") sortBy: String?= null
     ): Call<ApprovalPaperDto>
 
     /**
-     * @Post
-     * documentId: 개별 Id
-     * @Get
-     * ApprovalPaperDto
-     * 관심부서 결재서류 목록 조회 API
+     * 결재서류 상세 보기
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      */
     @GET("/documents/{documentId}")
     @Headers("content-type: application/json")
@@ -53,24 +48,20 @@ interface ApprovalAPI {
     ): Call<DocumentDto>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload: 업로드할 Document 데이터
      * 서류 업로드 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/documents")
     @Headers("content-type: application/json")
     fun uploadDocument(
         @Header("Authorization") accessToken: String, @Body upload: ApprovalUploadDto
-    ):Call<ApprovalUploadDto>
+    ):Call<ResponseBody>
 
     /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * upload: 업로드할 Document 데이터
-     * 서류 업로드 API
+     * 서류 삭제 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @DELETE("/documents/{documentId}")
     @Headers("content-type: application/json")

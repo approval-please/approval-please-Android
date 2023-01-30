@@ -30,31 +30,31 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
         documentList.apply {
             add(
                 ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    link = null, "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
                     1000)
             )
 
             add(
                 ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    link = null,"https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
                     1000)
             )
 
             add(
                 ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    link = null,"https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
                     1000)
             )
 
             add(
                 ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    link = null,"https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
                     1000)
             )
 
             add(
                 ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-                    "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
+                    link = null,"https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
                     1000)
             )
         }
@@ -75,5 +75,4 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
             }
         })
     }
-
 }

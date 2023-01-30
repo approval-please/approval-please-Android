@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.login.get.ReturnEmailCheckDto
 import com.umc.approval.data.dto.login.get.ReturnSocialLoginDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import com.umc.approval.data.repository.login.LoginFragmentRepository
 import kotlinx.coroutines.flow.first
@@ -19,9 +20,11 @@ import retrofit2.Response
 class LoginFragmentViewModel() : ViewModel() {
 
     private val repository = LoginFragmentRepository()
+    private val accessTokenRepository = AccessTokenRepository()
 
-    private var _accessToken = MutableLiveData<String>()
-    val accessToken : LiveData<String>
+    /**엑세스 토큰이 존재할시 True값 지정, True 시 로그인 상태*/
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
         get() = _accessToken
 
     /**이메일 체크 라이브 데이터*/
@@ -39,20 +42,18 @@ class LoginFragmentViewModel() : ViewModel() {
     val kakao_email : LiveData<String>
         get() = _kakao_email
 
-    /**
-     * 로그인 성공시 엑세스 토큰 발급
-     * */
-    fun login(idToken: String, case: String) = viewModelScope.launch {
-        val response = repository.login(idToken, case)
+    /**엑세스 토큰 체크*/
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
         response.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _accessToken.value = response.headers().get("Authorization").toString()
-                    Log.d("return_accessToken", accessToken.value.toString())
-                    setAccessToken(accessToken.value.toString())
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
                 } else {
                     Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -61,9 +62,7 @@ class LoginFragmentViewModel() : ViewModel() {
         })
     }
 
-    /**
-     * Kakao 소셜 로그인
-     * */
+    /**Kakao 소셜 로그인*/
     fun social_login(accessToken: String, email: String) = viewModelScope.launch {
 
         val response = repository.social_login("Bearer " + accessToken)
@@ -84,28 +83,6 @@ class LoginFragmentViewModel() : ViewModel() {
     }
 
     /**
-     * 엑세스 토큰 가져와 검증까지 해결
-     * */
-    fun checkAccessToken() = viewModelScope.launch {
-        val tokenValue = AccessTokenDataStore().getAccessToken().first()
-
-        val response =  repository.connectServer(tokenValue)
-        response.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", "SUCCESS")
-                    _accessToken.value = response.headers().get("Authorization").toString()
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-    }
-
-    /**
      * 로그인 시 엑세스 토큰 저장
      * */
     fun setAccessToken(token : String) = viewModelScope.launch {
@@ -118,7 +95,7 @@ class LoginFragmentViewModel() : ViewModel() {
      * */
     fun deleteAccessToken() = viewModelScope.launch {
         AccessTokenDataStore().deleteAccessToken()
-        _accessToken.value = ""
+        _accessToken.value = false
     }
 
     /**

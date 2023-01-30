@@ -94,6 +94,31 @@ class LoginFragment : Fragment() {
         return view
     }
 
+    /**시작시 로그인 상태 확인 메소드*/
+    override fun onStart() {
+        super.onStart()
+        viewModel.checkAccessToken()
+    }
+
+    /**엑세스 토큰이 존재하는 경우 삭제*/
+    private fun access_token_check() {
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it == true) {
+                requireActivity().finish()
+            }
+        }
+    }
+
+    /**
+     * main activity로 이동
+     * */
+    private fun back_to_main_activity() {
+        binding.backToMainActivity.setOnClickListener {
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
+        }
+    }
+
     /**
      * 구글 로그인 로직
      * */
@@ -225,33 +250,6 @@ class LoginFragment : Fragment() {
     }
 
     /**
-     * 시작시 로그인 상태 확인 메소드
-     * */
-    override fun onStart() {
-        super.onStart()
-        viewModel.checkAccessToken()
-    }
-
-    /**엑세스 토큰이 존재하는 경우 삭제*/
-    private fun access_token_check() {
-        viewModel.accessToken.observe(viewLifecycleOwner) {
-            if (it != "") {
-                requireActivity().finish()
-            }
-        }
-    }
-
-    /**
-     * main activity로 이동
-     * */
-    private fun back_to_main_activity() {
-        binding.backToMainActivity.setOnClickListener {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            requireActivity().finish()
-        }
-    }
-
-    /**
      * email 유효성 검사 후 유효한 이메일일 경우 password fragment로 이동
      * */
     private fun validate_email() {
@@ -305,10 +303,6 @@ class LoginFragment : Fragment() {
             val account = completedTask.getResult(ApiException::class.java)
             val googleIdToken = account?.idToken.toString()
 
-            /**
-             * 로그인 성공시 서버로부터 엑세스 토큰 발급
-             * */
-            viewModel.login(googleIdToken, "google")
         } catch (e: ApiException){
             Log.d("INFO","signInResult:failed Code = " + e.statusCode)
         }

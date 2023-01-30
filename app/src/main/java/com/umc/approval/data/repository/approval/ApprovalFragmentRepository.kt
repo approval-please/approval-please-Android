@@ -11,6 +11,7 @@ import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Query
 
 /**
  * Approval Fragment Repository
@@ -20,15 +21,15 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 목록 조회 API
      */
-    fun getDocuments(category: String?=null): Call<ApprovalPaperDto> {
-        return ApprovalApi.getDocuments(category)
+    fun getDocuments(category: String?=null, state: String?= null, sortBy: String?= null): Call<ApprovalPaperDto> {
+        return ApprovalApi.getDocuments(category, state, sortBy)
     }
 
     /**
      * 관심부서 결재서류 목록 조회 API
      */
-    fun getInterestingCategoryDocuments(accessToken: String, category: String?= null): Call<ApprovalPaperDto> {
-        return ApprovalApi.getInterestingCategoryDocuments(accessToken, category)
+    fun getInterestingCategoryDocuments(accessToken: String, category: String?= null, state: String?= null, sortBy: String?= null): Call<ApprovalPaperDto> {
+        return ApprovalApi.getInterestingCategoryDocuments(accessToken, category, state, sortBy)
     }
 
     /**
@@ -41,7 +42,7 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 업로드 API
      */
-    fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ApprovalUploadDto> {
+    fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ResponseBody> {
         return ApprovalApi.uploadDocument(accessToken, upload)
     }
 

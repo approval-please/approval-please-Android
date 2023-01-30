@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,23 +20,23 @@ import com.umc.approval.data.dto.community.get.CommunityTok
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentHomeBinding
-import com.umc.approval.ui.activity.InterestingDepartmentActivity
-import com.umc.approval.ui.activity.LoginActivity
-import com.umc.approval.ui.activity.SearchActivity
+import com.umc.approval.ui.activity.*
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.BannerVPAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
+import com.umc.approval.ui.fragment.login.LoginFragmentDirections
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.InterestingCategory
+import com.umc.approval.util.Utils.categoryMapReverse
 import me.relex.circleindicator.CircleIndicator3
 
 /**
- * Home View
+ * Home Fragment
  */
 class HomeFragment : Fragment() {
 
@@ -65,9 +66,6 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        //엑세스 토큰 체크
-        access_token_check()
-
         //다른 뷰로 이동하는 로직
         move_to_other_view()
 
@@ -75,7 +73,7 @@ class HomeFragment : Fragment() {
         approvalViewModel.get_all_documents()
 
         //관신 서류 가지고오는 로직
-        approvalViewModel.get_all_documents()
+        approvalViewModel.get_interesting_documents()
 
         //tok 서류 가지고오는 로직
         tokViewModel.get_all_toks(0)
@@ -84,7 +82,7 @@ class HomeFragment : Fragment() {
         reportViewModel.get_all_reports(0)
 
         //live data
-        live_data()
+        live_data_from_server()
 
         return binding.root
     }
@@ -106,13 +104,11 @@ class HomeFragment : Fragment() {
         }
 
         binding.myInterestingPaperViewAllButton.setOnClickListener {
-            Log.d("로그", "내 관심부서 서류 전체 보기 클릭")
         }
 
         binding.reviewApprovalPaperViewAllButton.setOnClickListener {
             Log.d("로그", "결재서류 검토하기 전체 보기 클릭")
         }
-
 
         binding.popularPostViewAllButton.setOnClickListener {
             Log.d("로그", "인기 게시글 전체 보기 클릭")
@@ -124,31 +120,22 @@ class HomeFragment : Fragment() {
         setInterestingCategoryList()
         setBannerImage()
 
-        binding.cgApprovalPaperSort.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "결재서류 정렬 방식 선택, $checkedIds")
-        }
+
     }
 
     /**시작시 로그인 상태 확인*/
     override fun onStart() {
         super.onStart()
 
-        //view 초기화
-        binding.notLoginStatus.isVisible = true
-        binding.loginStatus.isVisible = false
-
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
     }
 
-    /**access token 변화를 fragment에서 체크하는 함수*/
-    private fun access_token_check() {
-        viewModel.accessToken.observe(viewLifecycleOwner) {
-            if (it != "") {
-                binding.notLoginStatus.isVisible = false
-                binding.loginStatus.isVisible = true
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
     }
 
     /**
@@ -172,9 +159,20 @@ class HomeFragment : Fragment() {
     }
 
     /**live data*/
-    private fun live_data() {
+    private fun live_data_from_server() {
 
-        //관심부서
+        //엑세스 토큰 확인하는 라이브 데이터
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.notLoginStatus.isVisible = false
+                binding.loginStatus.isVisible = true
+            } else {
+                binding.notLoginStatus.isVisible = true
+                binding.loginStatus.isVisible = false
+            }
+        }
+
+        //관심부터 데이터 받아오는 라이브 데이터
         approvalViewModel.approval_interest_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperRVAdapter(it)
@@ -186,12 +184,17 @@ class HomeFragment : Fragment() {
             // 클릭 이벤트 처리
             dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                    Log.d("로그", "결재 서류 클릭, pos: $pos")
+
+                    //결재 서류 아이디를 통해 상세보기로 이동
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+
+                    startActivity(intent)
                 }
             })
         }
 
-        //전체부서
+        //전체부서 데이터 받아오는 라이브 데이터
         approvalViewModel.approval_all_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperRVAdapter(it)
@@ -203,12 +206,17 @@ class HomeFragment : Fragment() {
             // 클릭 이벤트 처리
             dataRVAdapter.setOnItemClickListener(object: ApprovalPaperRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                    Log.d("로그", "결재 서류 클릭, pos: $pos")
+
+                    //결재 서류 아이디를 통해 상세보기로 이동
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+
+                    startActivity(intent)
                 }
             })
         }
 
-        //tok
+        //톡 목록 데이터 받아오는 라이브 데이터
         tokViewModel.tok_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = PopularPostRVAdapter(it)
@@ -220,12 +228,17 @@ class HomeFragment : Fragment() {
             // 클릭 이벤트 처리
             dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: CommunityTok, pos: Int) {
-                    Log.d("로그", "인기 게시글 클릭, pos: $pos")
+
+                    //톡 아이디를 통해 상세보기로 이동
+                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                    intent.putExtra("toktokId", data.toktokId.toString())
+
+                    startActivity(intent)
                 }
             })
         }
 
-        //report
+        //리포트 목록 데이터 받아오는 라이브 데이터
         reportViewModel.report_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalReportRVAdapter(it)
@@ -237,7 +250,12 @@ class HomeFragment : Fragment() {
             // 클릭 이벤트 처리
             dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: CommunityReport, pos: Int) {
-                    Log.d("로그", "결재 보고서 클릭, pos: $pos")
+
+                    //리포트 아이디를 통해 상세보기로 이동
+                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                    intent.putExtra("reportId", data.reportId.toString())
+
+                    startActivity(intent)
                 }
             })
         }
@@ -248,10 +266,9 @@ class HomeFragment : Fragment() {
 
         interestingCategory.apply{
             add(InterestingCategory("관심 부서 전체", true))
-            add(InterestingCategory("디지털 기기", false))
+            add(InterestingCategory("디지털기기", false))
             add(InterestingCategory("생활가전", false))
             add(InterestingCategory("생활용품", false))
-            add(InterestingCategory("미용", false))
         }
 
         val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
@@ -270,8 +287,11 @@ class HomeFragment : Fragment() {
         categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
             override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
                 Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
-
-                // API 호출하여 InterestingCategory 갱신
+                if (data.category in categoryMapReverse) {
+                    approvalViewModel.get_interesting_documents(categoryMapReverse.get(data.category).toString())
+                } else {
+                    approvalViewModel.get_interesting_documents(null)
+                }
             }
         })
     }

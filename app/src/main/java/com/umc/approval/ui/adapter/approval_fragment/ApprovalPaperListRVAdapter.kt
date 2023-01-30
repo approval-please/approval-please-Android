@@ -36,13 +36,13 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * 이미지가 없으면 이미지 제외하고 처리
              * 이미지가 있으면 로드
              * */
-            if (data.image == null) {
+            if (data.thumbnailImage == null) {
                 binding.itemImage.isVisible = false
                 val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.marginStart = 0
                 binding.contentContainer.layoutParams = layoutParams
             } else {
-                binding.itemImage.load(data.image)
+                binding.itemImage.load(data.thumbnailImage)
                 binding.itemImage.clipToOutline = true
             }
 

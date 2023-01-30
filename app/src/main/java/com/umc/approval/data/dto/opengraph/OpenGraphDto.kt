@@ -7,12 +7,8 @@ data class OpenGraphDto(
 
     @SerializedName("url")
     var url: String ? = "",
-    @SerializedName("siteName")
-    var siteName: String ? = "",
     @SerializedName("title")
     var title: String ? = "",
-    @SerializedName("description")
-    var description: String ? = "",
     @SerializedName("image")
     var image: String ? = ""
 )

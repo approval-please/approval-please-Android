@@ -13,6 +13,7 @@ import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -78,8 +79,8 @@ class UploadTokViewModel() : ViewModel() {
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
         val response = repository.postDocument(accessToken, upload)
-        response.enqueue(object : Callback<ApprovalUploadDto> {
-            override fun onResponse(call: Call<ApprovalUploadDto>, response: Response<ApprovalUploadDto>) {
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
                     //나중에 서버와 연결시 활성화
@@ -88,7 +89,7 @@ class UploadTokViewModel() : ViewModel() {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<ApprovalUploadDto>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

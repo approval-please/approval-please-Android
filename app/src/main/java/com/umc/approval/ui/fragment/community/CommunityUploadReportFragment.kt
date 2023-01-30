@@ -419,7 +419,7 @@ class CommunityUploadReportFragment : Fragment() {
                 requireActivity().currentFocus?.windowToken,
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
-            var openGraphDto = OpenGraphDto("", "", "", "", "")
+            var openGraphDto = OpenGraphDto("", "", "")
 
             CoroutineScope(Dispatchers.IO).launch {
                 val elements = CrawlingTask.getElements(it)
@@ -431,19 +431,9 @@ class CommunityUploadReportFragment : Fragment() {
                                     openGraphDto.url = content
                                 }
                             }
-                            "og:site_name" -> {
-                                el.attr("content")?.let { content ->
-                                    openGraphDto.siteName = content
-                                }
-                            }
                             "og:title" -> {
                                 el.attr("content")?.let { content ->
                                     openGraphDto.title = content
-                                }
-                            }
-                            "og:description" -> {
-                                el.attr("content")?.let { content ->
-                                    openGraphDto.description = content
                                 }
                             }
                             "og:image" -> {
@@ -454,7 +444,7 @@ class CommunityUploadReportFragment : Fragment() {
                         }
                     }
                 }
-                if (openGraphDto.title.toString() != "" && openGraphDto.description.toString() != "") {
+                if (openGraphDto.title.toString() != "") {
                     viewModel.setOpengraph(openGraphDto)
                 }
             }
