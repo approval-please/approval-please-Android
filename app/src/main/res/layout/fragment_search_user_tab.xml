@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_like"
+        android:layout_marginTop="45dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="사원 탭"/>
+        android:layout_marginHorizontal="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

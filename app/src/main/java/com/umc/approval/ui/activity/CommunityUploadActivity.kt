@@ -79,7 +79,7 @@ class CommunityUploadActivity : AppCompatActivity() {
                         val talkUploadDto = TalkUploadDto(
                             tokViewModel.category.value, tokViewModel.content.value, "votetitle", false,
                             false, null, tokViewModel.opengraph_list.value,
-                            tokViewModel.images.value, tokViewModel.images.value)
+                            tokViewModel.tags.value, tokViewModel.images.value)
 
                         tokViewModel.post_tok(talkUploadDto)
                     }

@@ -37,8 +37,6 @@ class CommunityReportFragment : Fragment() {
         _binding = FragmentCommunityReportBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        viewModel.get_all_reports()
-
         live_data()
 
         return view
@@ -56,6 +54,8 @@ class CommunityReportFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        viewModel.get_all_reports()
 
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
