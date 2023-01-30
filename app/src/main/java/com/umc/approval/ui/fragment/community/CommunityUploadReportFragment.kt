@@ -8,14 +8,20 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.getIntent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.util.TypedValue
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,19 +34,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
-import com.umc.approval.databinding.ActivityUploadLinkDialogBinding
-import com.umc.approval.databinding.ActivityUploadTagDialogBinding
-import com.umc.approval.databinding.FragmentCommunityUploadReportBinding
+import com.umc.approval.databinding.*
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.activity.CommunityUploadDocumentListActivity
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
+import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVoteItemRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
@@ -51,6 +55,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CommunityUploadReportFragment : Fragment() {
@@ -58,6 +64,7 @@ class CommunityUploadReportFragment : Fragment() {
     private lateinit var binding: FragmentCommunityUploadReportBinding
 
     private val viewModel by activityViewModels<CommunityUploadViewModel>()
+
 
     /**Image Adapter*/
     private lateinit var imageRVAdapter : ImageUploadAdapter
@@ -95,6 +102,7 @@ class CommunityUploadReportFragment : Fragment() {
     val linkList : ArrayList<OpenGraphDto> = ArrayList()
 
     lateinit var communityUploadActivity: CommunityUploadActivity
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -233,7 +241,6 @@ class CommunityUploadReportFragment : Fragment() {
         linkDialog.show()
     }
 
-
     /**image upload event*/
     @RequiresApi(Build.VERSION_CODES.M)
     private fun image_upload_event() {
@@ -306,6 +313,8 @@ class CommunityUploadReportFragment : Fragment() {
                         Toast.makeText(requireContext(), "사진은 4장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
                             .show()
                         return
+                    }else{
+                        binding.uploadImageTv.text = "("+count.toString()+"/4)"
                     }
                     for (i in 0 until count) {
                         val imageUri = it.clipData!!.getItemAt(i).uri
@@ -473,9 +482,10 @@ class CommunityUploadReportFragment : Fragment() {
         }
     }
 
+
     /*태그 다이얼로그*/
     private fun showTagDialog(){
-        val tagDialog = Dialog(communityUploadActivity);
+        val tagDialog = Dialog(requireContext());
         tagDialogBinding = ActivityUploadTagDialogBinding.inflate(layoutInflater)
 
         tagDialog.setContentView(tagDialogBinding.root)
@@ -497,15 +507,15 @@ class CommunityUploadReportFragment : Fragment() {
             tagString = tagDialogEditText.text.toString()
             binding.uploadHashtagItem.isVisible = true
             if(tagString.length>1){
-                tagArray = tagString.split(" ")
+                tagArray = tagString.split(" ") as java.util.ArrayList<String>
 
-//                tagTextView.setText("("+tagArray.size+"/4)");
-                var tagCount = "(" + tagArray.size + "/4)"
-                binding.imageTagTv.text = tagCount
+                (tagArray as java.util.ArrayList<String>).removeAll { tag: String -> tag == ""}
+
+                binding.imageTagTv.text = "("+tagArray.size+"/4)";
 
                 val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
                 binding.uploadHashtagItem.adapter = dataRVAdapter
-                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
             }
 
@@ -514,64 +524,80 @@ class CommunityUploadReportFragment : Fragment() {
 
 
         /*태그 입력 동적코드*/
-//        tagDialogEditText.setOnClickListener(View.OnClickListener {
-//            if(tagDialogEditText.text.toString().length==0){
-//                tagDialogEditText.setText("#");
-//                tagDialogEditText.setSelection(tagDialogEditText.text.length)
-//            }
-//        })
+        tagDialogEditText.setOnClickListener(View.OnClickListener {
+            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+        })
 
         //val spannableStringBuilder = SpannableStringBuilder(text)
+        tagDialogEditText.isClickable = false;
+
+
         tagDialogEditText.setText(tagString)
+        tagDialogEditText.addTextChangedListener(object: TextWatcher {
+            var originText = ""
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                tagDialogEditText.setSelection(s.toString().length)
+                if(s.toString().isNotEmpty() && s.toString()[s.toString().length -1]==' ')  return
+                originText = s.toString();
+            }
 
-        var originText = ""
-        var hashtagCount = 0;
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString() == originText) return
 
-//        tagDialogEditText.addTextChangedListener(object:TextWatcher{
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                originText = s.toString();
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                var text = s.toString()
-//                var textLength = text.length-1;
-//                if(hashtagCount >= 4){
-//                    tagDialogEditText.setText(originText)
-//                }
-//
-//                if(text[textLength] == ' '){
-//                    val timer = Timer()
-////                    timer.schedule(object : TimerTask() {
-////                        override fun run() {
-////                            runOnUiThread {
-//                                hashtagCount = 0;
-//                                for(i in 0..textLength){
-//                                    if(text[i] == ' '){
-//                                        hashtagCount++;
-//                                        val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
-//                                        spannableStringBuilder.setSpan(
-//                                            ForegroundColorSpan(Color.parseColor("#6C39FF")),
-//                                            //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
-//                                            0,
-//                                            i,
-//                                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//                                        )
-//                                        if(hashtagCount <= 4){
-//                                            tagDialogEditText.setText(spannableStringBuilder.append('#'))
-//                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
-//                                        }
-//                                    }
-//                                }
-////                            }
-////                        }
-////                    }, 10)
-//                }
-//            }
-//        })
+                var text = s.toString()
+                var textLength = text.length-1;
+
+                if(tagDialogEditText.isFocusable){
+                    var hashtagCount = 0
+
+                    val timer = Timer()
+                    timer.schedule(object : TimerTask() {
+                        override fun run() {
+                            activity?.runOnUiThread {
+                                for(i in 1..textLength){
+                                    if(text[i] == ' ' && text[i-1] !=' '){
+                                        hashtagCount++;
+                                    }
+                                    if(i==textLength){
+
+                                        if(hashtagCount < 4){
+                                            val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
+                                            spannableStringBuilder.setSpan(
+                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
+                                                //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
+                                                0,
+                                                i,
+                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                                            )
+                                            tagDialogEditText.text = spannableStringBuilder
+                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+
+                                        }else if(hashtagCount >= 4 && s.toString()[i]==' '){
+                                            tagDialogEditText.setText(originText)
+                                            Toast.makeText(requireContext(), "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+                                            val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
+                                            spannableStringBuilder.setSpan(
+                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
+                                                0,
+                                                originText.length-1,
+                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                                            )
+                                            tagDialogEditText.text = spannableStringBuilder
+                                            tagDialogEditText.setSelection(s.toString().length-1)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }, 1)
+
+                }
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
+        })
         tagDialog.show()
     }
 
  }
+

@@ -320,7 +320,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upload_hashtag_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"></androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
     </ScrollView>
@@ -392,10 +396,10 @@
                     android:src="@drawable/upload_activity_image_button"
                     android:textSize="16sp"></ImageButton>
                 <TextView
-                    android:id="@+id/image_vote_tv"
+                    android:id="@+id/upload_image_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(4/4)"
+                    android:text="(0/4)"
                     android:textAlignment="center"
                     android:layout_gravity="center"
                     android:gravity="center"
