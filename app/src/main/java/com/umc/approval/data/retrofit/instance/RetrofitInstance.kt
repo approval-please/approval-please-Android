@@ -41,10 +41,6 @@ object RetrofitInstance {
         retrofit.create(CommunityAPI::class.java)
     }
 
-    val HomeApi: HomeAPI by lazy {
-        retrofit.create(HomeAPI::class.java)
-    }
-
     val ApprovalApi: ApprovalAPI by lazy {
         retrofit.create(ApprovalAPI::class.java)
     }

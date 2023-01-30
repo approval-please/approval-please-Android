@@ -16,6 +16,7 @@ import com.umc.approval.data.dto.approval.post.TokLikeDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
+import com.umc.approval.data.repository.like.LikeRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -36,6 +37,9 @@ class DocumentViewModel() : ViewModel() {
 
     //엑세스 토큰 체크 리포지토리
     private val accessTokenRepository = AccessTokenRepository()
+
+    //라이크 리포지토리
+    private val likeRepository = LikeRepository()
 
     //서버에서 받아올 서류 데이터
     private var _document = MutableLiveData<DocumentDto>()
@@ -149,7 +153,7 @@ class DocumentViewModel() : ViewModel() {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.like(accessToken, LikeDto(documentId = 1))
+        val response = likeRepository.like(accessToken, LikeDto(documentId = 1))
         response.enqueue(object : Callback<LikeReturnDto> {
             override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
                 if (response.isSuccessful) {

@@ -70,12 +70,4 @@ class ApprovalFragmentRepository {
     fun getCategory(accessToken: String): Call<InterestingDto> {
         return ApprovalApi.getMyCategory(accessToken)
     }
-
-
-    /**
-     * 내 결재서류 승인 API
-     */
-    fun like(accessToken: String, likeDto: LikeDto): Call<LikeReturnDto> {
-        return ApprovalApi.like(accessToken, likeDto)
-    }
 }

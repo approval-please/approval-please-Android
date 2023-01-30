@@ -39,8 +39,6 @@ class ApprovalAllCategoryViewFragment: Fragment() {
 
         //live data
         live_data()
-
-        setAllCategoryList()  // 카테고리 리사이클러뷰 데이터 & 어댑터 설정
         
         return view
     }
@@ -52,7 +50,9 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        viewModel.get_all_documents(null, null, null)
+        viewModel.get_all_documents()
+
+        setAllCategoryList()
     }
 
     override fun onResume() {
@@ -61,7 +61,9 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        viewModel.get_all_documents(null, null, null)
+        viewModel.get_all_documents()
+
+        setAllCategoryList()
     }
 
     /**
@@ -72,9 +74,10 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         super.onDestroy()
     }
 
-    /**live data*/
+    //라이브 데이터
     private fun live_data() {
 
+        //모든 목록 받아오는 라이브 데이터
         viewModel.approval_all_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
@@ -99,6 +102,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         }
     }
 
+    //모든 카테고리 목록
     private fun setAllCategoryList() {
         val allCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 

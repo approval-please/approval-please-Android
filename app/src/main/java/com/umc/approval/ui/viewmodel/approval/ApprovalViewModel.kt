@@ -86,7 +86,7 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 모든 documents 목록을 반환받는 메소드
+     * 모든 서류 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
     fun get_all_documents(category: String?=null, state: String?= null, sortBy: String?= null) = viewModelScope.launch {
@@ -108,7 +108,7 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 모든 documents 목록을 반환받는 메소드
+     * 관심부서 서류 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
     fun get_interesting_documents(category: String?= null, state: String?= null, sortBy: String?= null) = viewModelScope.launch {
@@ -133,7 +133,7 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 관심부서 목록 API
+     * 관심부서 태그 목록 API
      * 정상 동작 Check 완료
      * */
     fun get_interest() = viewModelScope.launch {
@@ -158,7 +158,8 @@ class ApprovalViewModel() : ViewModel() {
         })
     }
 
-    /**엑세스 체크 API
+    /**
+     * 로그인 상태 체크 API
      * 정상 동작 Check 완료
      * */
     fun checkAccessToken() = viewModelScope.launch {

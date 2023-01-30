@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,6 @@ import com.umc.approval.ui.adapter.home_fragment.ApprovalPaperRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.ApprovalReportRVAdapter
 import com.umc.approval.ui.adapter.home_fragment.BannerVPAdapter
 import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
-import com.umc.approval.ui.fragment.login.LoginFragmentDirections
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
@@ -71,6 +69,12 @@ class HomeFragment : Fragment() {
 
         //live data
         live_data_from_server()
+
+        //관심부서 탭으로 이동
+        setting_interesting()
+
+        //인기 최신 선택
+        best_new_click()
 
         return binding.root
     }
@@ -142,7 +146,7 @@ class HomeFragment : Fragment() {
         //전체 서류 가지고오는 로직
         approvalViewModel.get_all_documents()
 
-        //관신 서류 가지고오는 로직
+        //관심 서류 가지고오는 로직
         approvalViewModel.get_interesting_documents()
 
         //tok 서류 가지고오는 로직
@@ -153,6 +157,28 @@ class HomeFragment : Fragment() {
 
         //카테고리
         approvalViewModel.get_interest()
+    }
+
+    //인기 최신 순으로 서류 목록 가져오기
+    private fun best_new_click() {
+        //인기순
+        binding.best.setOnClickListener {
+            approvalViewModel.get_all_documents("0")
+        }
+
+        //최신 순
+        binding.latest.setOnClickListener {
+            approvalViewModel.get_all_documents()
+        }
+    }
+
+    //관심부서 셋팅
+    private fun setting_interesting() {
+        binding.addInterestCategoryButton.setOnClickListener {
+            Log.d("로그", "관심 부서 추가 버튼 클릭")
+            val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     /**
@@ -298,12 +324,6 @@ class HomeFragment : Fragment() {
             binding.rvCategory.addItemDecoration(spaceDecoration)
             binding.rvCategory.adapter = categoryRVAdapter
             binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
-
-            binding.addInterestCategoryButton.setOnClickListener {
-                Log.d("로그", "관심 부서 추가 버튼 클릭")
-                val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
-                startActivity(intent)
-            }
 
             // 클릭 이벤트 처리
             categoryRVAdapter.setOnItemClickListener(object: CategoryRVAdapter.OnItemClickListener {
