@@ -12,6 +12,7 @@ import retrofit2.http.*
 interface LoginAPI {
 
     /**
+     * 이메일 체크 API
      * API 명세서 Check 완료
      * 반환값 설정 완료
      * */
@@ -20,9 +21,7 @@ interface LoginAPI {
     fun email_check(@Body email : String):Call<ReturnEmailCheckDto>
 
     /**
-     * @Post
-     * phoneNumber
-     * @Get
+     * 휴대폰 번호 전송 API
      * API 명세서 Check 완료
      * 반환값 설정 완료
      * */
@@ -31,9 +30,7 @@ interface LoginAPI {
     fun phone_auth_request(@Body phoneNumber : String):Call<ReturnPhoneAuthRequestDto>
 
     /**
-     * @Post
-     * phoneNumber
-     * @Get
+     * 인증번호 체크 API
      * API 명세서 Check 완료
      * 반환값 설정 완료
      * */
@@ -42,9 +39,7 @@ interface LoginAPI {
     fun phone_auth(@Body auth : PhoneAuthDto):Call<ReturnPhoneAuthDto>
 
     /**
-     * @Post
-     * BasicJoinDto
-     * @Get
+     * 일반 회원가입 API
      * API 명세서 Check 완료
      * 반환값 설정 필요
      * */
@@ -53,50 +48,45 @@ interface LoginAPI {
     fun basic_join(@Body basicJoinDto: BasicJoinDto):Call<ReturnBasicLoginDto>
 
     /**
-     * @Post
-     * BasicLoginDto
-     * @Get
-     * Access Token
+     * 일반 로그인 API
      * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/login")
     @Headers("content-type: application/json")
     fun basic_login(@Query("email") email : String, @Query("password") password : String):Call<ReturnBasicLoginDto>
 
     /**
-     * @Post
-     * Header Authorization: Bearer accessToken
-     * SocialJoinDto : nickname, phoneNumber, socialType
-     * @Get
-     * Header Authorization: Bearer Access Token
+     * SNS 회원가입 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/signup/sns")
     @Headers("content-type: application/json")
     fun social_join(@Body user : SocialJoinDto):Call<ReturnBasicLoginDto>
 
     /**
-     * @Post
-     * Header Authorization: Bearer accessToken
-     * @Get
-     * Header Authorization : Bearer + 토크 값
+     * 카카오 로그인 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/kakao")
     @Headers("content-type: application/json")
     fun social_login(@Header("Authorization") accessToken : String):Call<ReturnSocialLoginDto>
 
     /**
-     * @Post
-     * email, password
-     * @Get
+     * 비밀번호 변경 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/reset")
     @Headers("content-type: application/json")
     fun password_change(@Body passwordChangeDto: PasswordChangeDto):Call<ResponseBody>
 
     /**
-     * @Post
-     * Header Authorization: Bearer accessToken
-     * @Get
+     * 로그아웃 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
      * */
     @POST("/auth/logout")
     @Headers("content-type: application/json")
