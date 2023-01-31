@@ -93,10 +93,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * tag RecyclerView
              * */
             if (data.tag != null) {
-                val widthPx = dpToPx(context, 6)
                 val tagRVAdapter = TagRVAdapter(data.tag)
-                val spaceDecoration = HorizontalSpaceItemDecoration(widthPx)
-                binding.rvTag.addItemDecoration(spaceDecoration)
                 binding.rvTag.adapter = tagRVAdapter
                 binding.rvTag.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
@@ -111,26 +108,5 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
 
     fun setOnItemClickListener(listner: OnItemClickListner) {
         this.listner = listner
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class HorizontalSpaceItemDecoration(private val width: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.right = width
-        }
-    }
-
-    // dp -> pixel 단위로 변경
-    private fun dpToPx(context: Context, dp: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp.toFloat(),
-            context.resources.displayMetrics
-        ).toInt()
     }
 }
