@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,13 +22,24 @@ import com.umc.approval.ui.adapter.community_post_activity.CommunityCommentRVAda
 import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteCompleteRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.ui.viewmodel.comment.CommentViewModel
+import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
+import com.umc.approval.ui.viewmodel.communityDetail.ReportViewModel
 import com.umc.approval.util.CommentItem
+import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.VoteItem
 
 class CommunityReportActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityCommunityReportBinding
+
+    val reportViewModel by viewModels<ReportViewModel>()
+
+    val commentViewModel by viewModels<CommentViewModel>()
 
     /*다이얼로그*/
     private lateinit var activityCommunityReportPostDialogBinding: ActivityCommunityReportPostDialogBinding
@@ -46,21 +58,116 @@ class CommunityReportActivity : AppCompatActivity() {
 
         /*set RecyclerView*/
         setComment()
-        setHashTag()
-        setLink()
-        setImage()
-
-        /*set Content*/
-        setInfo()
-        setDocument()
 
         /*setting*/
         post_more()
+
+        live_data()
+
+        binding.communityDocumentLayout.documentBtn.setOnClickListener{
+            val intent = Intent(this, DocumentActivity::class.java)
+            intent.putExtra("documentId", reportViewModel.report.value!!.documentId.toString())
+            startActivity(intent)
+        }
+
+        binding.communityPostLikeNum.setOnClickListener{
+            startActivity(Intent(this,LikeActivity::class.java))
+        }
 
         /*close*/
         binding.uploadCancelBtn.setOnClickListener{
             finish()
         }
+    }
+
+    private fun live_data() {
+
+        //리포트 데이터 받아왔을때 처리
+        reportViewModel.report.observe(this) {
+
+            binding.communityDocumentLayout.documentTitle.text = it.documentTitle
+            binding.communityDocumentLayout.documentContent.text = it.documentContent
+
+            if (it.documentTag == null || it.documentTag.isEmpty()) {
+                binding.communityDocumentLayout.documentHashtagItem.isVisible = false
+            } else {
+                val dataRVAdapter = UploadHashtagRVAdapter(it.documentTag)
+                binding.communityDocumentLayout.documentHashtagItem.adapter = dataRVAdapter
+                binding.communityDocumentLayout.documentHashtagItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            }
+
+            binding.communityPostUserProfile.load(it.profileImage)
+
+            //report 이미지 처리
+            if(it.documentImageCount == 0) {
+                binding.communityDocumentLayout.documentImageCountTv.isVisible = false
+                binding.communityDocumentLayout.ivApprovalReportThumbnail.isVisible = false
+            } else {
+                binding.communityDocumentLayout.documentImageCountTv.text = it.documentImageCount.toString()
+                binding.communityDocumentLayout.ivApprovalReportThumbnail.load(it.documentImageUrl)
+            }
+
+            binding.communityPostCategory.text = categoryMap[it.documentCategory]
+            binding.communityPostLikeNum.text = "좋아요 "+ it.likedCount
+            binding.communityPostScrapNum.text = "스크랩 "+ it.scrapCount
+            binding.communityPostVisitorsNum.text = "조회수 "+ it.view
+
+            //report 이미지 처리
+            if(it.reportImageUrl == null || it.reportImageUrl.isEmpty()) {
+                binding.imageRv.isVisible = false
+            } else {
+                var imageRVAdapter = CommunityImageRVAdapter(it.reportImageUrl)
+                binding.imageRv.adapter = imageRVAdapter
+                binding.imageRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            }
+
+            //report 이미지 처리
+            if(it.reportLink == null || it.reportLink.isEmpty()) {
+                binding.uploadLinkItem.isVisible = false
+            } else {
+                val dataRVAdapter = CommunityUploadLinkItemRVAdapter(it.reportLink)
+                binding.uploadLinkItem.adapter = dataRVAdapter
+                binding.uploadLinkItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+            }
+
+            //report 이미지 처리
+            if(it.reportLink == null || it.reportLink.isEmpty()) {
+                binding.uploadHashtagItem.isVisible = false
+            } else {
+                val reportTagRVAdapter = UploadHashtagRVAdapter(it.reportTag)
+                binding.uploadHashtagItem.adapter = reportTagRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        reportViewModel.checkAccessToken()
+
+        val reportId = intent.getStringExtra("reportId")
+
+        reportViewModel.get_report_detail(reportId.toString())
+
+        commentViewModel.get_report_comments()
+
+        reportViewModel.init()
+    }
+
+    //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
+    override fun onResume() {
+        super.onResume()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        reportViewModel.checkAccessToken()
+
+        val reportId = intent.getStringExtra("reportId")
+
+        reportViewModel.get_report_detail(reportId.toString())
+
+        commentViewModel.get_report_comments()
     }
 
     /**post more*/
@@ -226,97 +333,6 @@ class CommunityReportActivity : AppCompatActivity() {
         linkDialog.show()
     }
 
-    private fun setDocument(){
-        // 좋아요, 스크랩, 조회수 설정
-        binding.communityDocumentLayout.documentTitle.text = "스타벅스 텀블러" // 제목
-        binding.communityDocumentLayout.documentContent.text = "내용내용내용내용내용내용" // 내용
-
-        val tagArray : ArrayList<String> = arrayListOf()
-
-        tagArray.apply{
-            add("야호")
-            add("화이팅")
-        }
-
-        if(tagArray.size == 0) binding.communityDocumentLayout.documentHashtagItem.isVisible = false
-        val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
-        binding.communityDocumentLayout.documentHashtagItem.adapter = dataRVAdapter
-        binding.communityDocumentLayout.documentHashtagItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-
-        binding.communityDocumentLayout.documentImageCountTv.text = "+1"
-        binding.communityDocumentLayout.ivApprovalReportThumbnail.load("http://www.ccdn.co.kr/news/photo/201904/571329_224596_3722.jpg")
-
-//        binding.communityDocumentLayout.ivApprovalReportThumbnail.isVisible = false
-//        binding.communityDocumentLayout.documentImageCountTv.isVisible = false
-
-        binding.communityDocumentLayout.documentBtn.setOnClickListener{
-            startActivity(Intent(this@CommunityReportActivity,DocumentActivity::class.java))
-        }
-
-    }
-
-    private fun setInfo(){
-        // 부서, 좋아요, 스크랩, 조회수 설정
-        binding.communityPostCategory.text = "디지털 가전"
-        binding.communityPostLikeNum.text = "좋아요 "+"5"
-        binding.communityPostScrapNum.text = "스크랩 "+"3"
-        binding.communityPostVisitorsNum.text = "조회수 "+"123"
-
-        binding.communityPostLikeNum.setOnClickListener{
-            startActivity(Intent(this@CommunityReportActivity,LikeActivity::class.java))
-        }
-    }
-
-    private fun setImage(){
-        val imageList :ArrayList<String> = ArrayList()
-        imageList.apply{
-            add("https://w.namu.la/s/d1c8d62624a29e62662cf946385dd0d342a09bcde317f844b1aed84f15981896e4cf8233787ecaf4a6b3f99493a55755222422cf7d0a9bcbd05b824132de155e3a50f424274f2d0a3cb4b9660b05ca063d4a18258a148ed2083cf7dec61f008cfe0cb7b097dea539483847787be7b5f8")
-            add("https://www.sports-g.com/wp-content/uploads/2019/03/%ED%95%98%EC%9D%B4%EB%9D%BC%EC%9D%B4%ED%8A%B8.jpg")
-            add("https://img.mbn.co.kr/filewww/news/other/2022/03/14/001800002020.jpg")
-        }
-
-        if(imageList.size == 0) binding.imageRv.isVisible = false;
-        var imageRVAdapter = CommunityImageRVAdapter(imageList)
-        binding.imageRv.adapter = imageRVAdapter
-        binding.imageRv.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    }
-
-    private fun setLink(){
-        val linkList : ArrayList<OpenGraphDto> = ArrayList()
-
-        var openGraphDto : OpenGraphDto = OpenGraphDto()
-
-        openGraphDto.url = "naver.com"
-        openGraphDto.title = "naver"
-        openGraphDto.image = ""
-
-        linkList.apply{
-            add(openGraphDto)
-            add(openGraphDto)
-            add(openGraphDto)
-        }
-        val dataRVAdapter = CommunityUploadLinkItemRVAdapter(linkList)
-        binding.uploadLinkItem.adapter = dataRVAdapter
-        binding.uploadLinkItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
-    }
-
-    private fun setHashTag(){
-        val tagArray : ArrayList<String> = arrayListOf()
-
-        tagArray.apply{
-            add("기계")
-            add("핸드폰")
-        }
-
-        if(tagArray.size == 0) binding.uploadHashtagItem.isVisible = false
-
-        val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
-        binding.uploadHashtagItem.adapter = dataRVAdapter
-        binding.uploadHashtagItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
-
-    }
-
 //    data class CommentItem(
 //        val id:Int,
 //        val user_nickname: String,
@@ -327,23 +343,27 @@ class CommunityReportActivity : AppCompatActivity() {
 //        val replyComment : Int,
 //    )
 
-    private fun setComment(){
-        val commentList : ArrayList<CommentItem> = arrayListOf()
-
-        commentList.apply{
-            add(CommentItem(1,"김차장","","ㅇㄹㅇㄴㄹㄴㄹㄴㅇㄹㅇㅇㄴㄹㅇㄴㄹ","2012.01.02",5,0))
-            add(CommentItem(2,"김과장","","ㅈㄷㅈㄷㄱㅈㄷㄱㄴㄹㄴㅇㄹㅇㅇㄴㄹㅇㄴㄹ","2012.01.02",5,0))
-            add(CommentItem(2,"김과장","","ㅈㄷㅈㄷㄱㅈㄷㄱㄴㄹㄴㅇㄹㅇㅇㄴㄹㅇㄴㄹ","2012.01.02",5,0))
-            add(CommentItem(2,"김과장","","ㅈㄷㅈㄷㄱㅈㄷㄱㄴㄹㄴㅇㄹㅇㅇㄴㄹㅇㄴㄹ","2012.01.02",5,0))
-            add(CommentItem(2,"김과장","","ㅈㄷㅈㄷㄱㅈㄷㄱㄴㄹㄴㅇㄹㅇㅇㄴㄹㅇㄴㄹ","2012.01.02",5,0))
-            add(CommentItem(2,"김과장","","ㅈㄷㅈㄷㄱㅈㄷㄱㄴㄹㄴㅇㄹㅇㅇㄴㄹㅇㄴㄹ","2012.01.02",5,0))
-
+    private fun setComment() {
+        binding.commentItem.layoutManager = LinearLayoutManager(this)
+        val itemList = ArrayList<DocumentCommentItem2>()
+        for (i in 1..20) {
+            val itemList2 = ArrayList<DocumentCommentItem>()
+            val itemList3 = ArrayList<DocumentCommentItem>()
+            itemList2.add(DocumentCommentItem("김부장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
+            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
+            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
+            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
+            itemList.add(
+                DocumentCommentItem2(DocumentCommentItem2.TYPE_1, itemList2)
+            )
+            itemList.add(
+                DocumentCommentItem2(DocumentCommentItem2.TYPE_2, itemList3)
+            )
         }
+        val documentCommentAdapter = DocumentCommentAdapter(itemList)
+        documentCommentAdapter.notifyDataSetChanged()
 
-        val dataRVAdapter = CommunityCommentRVAdapter(commentList)
-        binding.commentItem.adapter = dataRVAdapter
-        binding.commentItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        binding.commentItem.adapter = documentCommentAdapter
     }
-
 
 }
