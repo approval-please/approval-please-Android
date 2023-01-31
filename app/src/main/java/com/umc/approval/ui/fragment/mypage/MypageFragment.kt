@@ -70,15 +70,18 @@ class MypageFragment : Fragment() {
 
         /* 프로필 링크 공유 Dialog 하단에 발생 */
         binding.mypageShare.setOnClickListener {
+
+            var sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.setType("text/html")
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "profilelink")
+            startActivity(Intent.createChooser(sharingIntent, "sharing text"))
+            /*
             val shareDialog = ProfileShareDialog()
             shareDialog.show(requireActivity().supportFragmentManager, shareDialog.tag)
+            */
         }
 
         /* 포인트 데이터 프로그레스 바에 반영 */
-        binding.pointNum1.text = userpoint.toInt().toString()
-        binding.pointNum2.text = " / " + rankpoint.toInt().toString()
-        binding.mypageProgressbar.progress = progress.toInt()
-
         return view
     }
 
@@ -101,8 +104,14 @@ class MypageFragment : Fragment() {
             //introduce
             binding.profileMsgTextview.setText(viewModel.myInfo.value!!.introduction)
             //point
+            userpoint = viewModel.myInfo.value!!.promotionPoint.toFloat()
+            progress = userpoint / rankpoint * 100.0f
+            binding.pointNum1.text = userpoint.toInt().toString()
+            binding.pointNum2.text = " / " + rankpoint.toInt().toString()
+            binding.mypageProgressbar.progress = progress.toInt()
             //rank
-
+            var rank : String? = setRank(viewModel.myInfo.value!!.level)
+            binding.rank.text = rank
             //profile image
             if (!viewModel.myInfo.value!!.profileImage.equals(null)) {
                 binding.profileImage.load(viewModel.myInfo.value!!.profileImage)
@@ -227,5 +236,19 @@ class MypageFragment : Fragment() {
             activity?.supportFragmentManager?.beginTransaction()!!
                 .replace(binding.mypageTabArea.id, it).commit()
         }
+    }
+
+    /* 문자열로 직급 반환하는 함수 */
+    private fun setRank(rankInt : Int) : String?{
+        var rank : String? = null
+        when(rankInt){
+            0->{ rank = "사원" }
+            1->{ rank = "주임" }
+            2->{ rank = "대리" }
+            3->{ rank = "과장" }
+            4->{ rank = "차장" }
+            5->{ rank = "부장" }
+        }
+        return rank
     }
 }
