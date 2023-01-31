@@ -80,6 +80,7 @@
                 </FrameLayout>
 
                 <TextView
+                    android:id="@+id/rank_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"
                     android:layout_marginLeft="137.5dp"
@@ -92,18 +93,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/rank_imageview"
-                    android:layout_width="33dp"
-                    android:layout_height="18dp"
-                    android:layout_marginLeft="191.5dp"
-                    android:layout_marginTop="228dp"
-                    android:layout_marginRight="136.5dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/mypage_rank_chajang"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/home_fragment_post_rank_background"
+                    android:text="부장"
+                    style="@style/midText_black_light"
+                    app:layout_constraintTop_toTopOf="@id/rank_textview"
+                    app:layout_constraintBottom_toBottomOf="@id/rank_textview"
+                    app:layout_constraintStart_toEndOf="@id/rank_textview"
+                    android:layout_marginStart="5dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"/>
 
                 <TextView
                     android:id="@+id/nickname_textview"
@@ -115,7 +117,7 @@
                     style="@style/biggestText_black_bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rank_imageview" />
+                    app:layout_constraintTop_toBottomOf="@id/rank" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/follow_area"
