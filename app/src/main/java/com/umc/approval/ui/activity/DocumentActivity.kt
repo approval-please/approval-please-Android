@@ -133,7 +133,7 @@ class DocumentActivity : AppCompatActivity() {
             binding.profile.load(it.profileImage)
             binding.name.text = it.nickname
             binding.title.text = it.title
-            binding.rank.text = setRank(it.level)
+            binding.rank.text = setRank(it.level!!)
             binding.content.text = it.content
             binding.documentCommentPostLikes.text = "좋아요 " + it.likedCount.toString()
             binding.documentCommentPostViews.text = "조회수 " + it.view.toString()
@@ -338,7 +338,7 @@ class DocumentActivity : AppCompatActivity() {
     }
 
     /* 문자열로 직급 반환하는 함수 */
-    private fun setRank(rankInt : Int) : String?{
+    private fun setRank(rankInt : Int?) : String?{
         var rank : String? = null
         when(rankInt){
             0->{ rank = "사원" }
