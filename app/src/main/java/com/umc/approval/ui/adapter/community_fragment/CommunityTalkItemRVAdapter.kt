@@ -51,9 +51,9 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
             }
 
             if (data.link == null) {
-                binding.reportOpenGraphImage.load(data.link[0].image)
-                binding.reportOpenGraphText.setText(data.link[0].title)
-                binding.reportOpenGraphUrl.setText(data.link[0].url)
+                binding.reportOpenGraphImage.load(data.link.image)
+                binding.reportOpenGraphText.setText(data.link.title)
+                binding.reportOpenGraphUrl.setText(data.link.url)
             }else{
                 binding.reportLinkLayout.isVisible = false
             }

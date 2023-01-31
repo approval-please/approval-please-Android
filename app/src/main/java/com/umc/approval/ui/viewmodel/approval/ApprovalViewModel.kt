@@ -50,6 +50,15 @@ class ApprovalViewModel() : ViewModel() {
     val interesting : LiveData<List<Int>>
         get() = _interesting
 
+    /**카테고리 선택 라이브 데이터*/
+    private var _category = MutableLiveData<String>()
+    val category : LiveData<String>
+        get() = _category
+
+    fun setCategory(int: Int) {
+        _category.postValue(int.toString())
+    }
+
     /**
      * 테스트 데이터는 아래와 같이 작성하면 됨
      * 전체부서 가지고 오는 로직
@@ -86,12 +95,28 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 모든 서류 목록을 반환받는 메소드
+     * 모든 서류 목록을 반환받는 API
      * 정상 동작 Check 완료
      * */
     fun get_all_documents(category: String?=null, state: String?= null, sortBy: String?= null) = viewModelScope.launch {
 
-        val response = repository.getDocuments(category, state, sortBy)
+        var cate = category
+        var sta = state
+        var sort = sortBy
+
+        if (cate == "18") {
+            cate = null
+        }
+
+        if (sta == "3") {
+            sta = null
+        }
+
+        if (sort == "2") {
+            sort = null
+        }
+
+        val response = repository.getDocuments(cate, sta, sort)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {
@@ -108,15 +133,30 @@ class ApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 관심부서 서류 목록을 반환받는 메소드
+     * 관심부서 서류 목록을 반환받는 API
      * 정상 동작 Check 완료
      * */
     fun get_interesting_documents(category: String?= null, state: String?= null, sortBy: String?= null) = viewModelScope.launch {
 
+        var cate = category
+        var sta = state
+        var sort = sortBy
+
+        if (cate == "18") {
+            cate = null
+        }
+
+        if (sta == "3") {
+            sta = null
+        }
+
+        if (sort == "2") {
+            sort = null
+        }
+
         //엑세스 토큰이 없거나 유효하지 않으면 로그인 페이지로 이동
         val accessToken = AccessTokenDataStore().getAccessToken().first()
-
-        val response = repository.getInterestingCategoryDocuments(accessToken, category, state, sortBy)
+        val response = repository.getInterestingCategoryDocuments(accessToken, cate, sta, sort)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {

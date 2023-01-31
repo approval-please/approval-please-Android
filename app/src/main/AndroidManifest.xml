@@ -87,6 +87,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ui.activity.CommunityUploadDocumentListActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.activity.CommunityReportActivity"
             android:exported="true">
             <meta-data

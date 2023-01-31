@@ -156,6 +156,27 @@ class UploadActivity : AppCompatActivity() {
         linkButton.setOnClickListener{
             showLinkDialog()
         }
+
+        live_data()
+    }
+
+    //라이브 데이터
+    private fun live_data() {
+        //엑세스 토큰 검증
+        viewModel.accessToken.observe(this) {
+            if (!it) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+                Toast.makeText(this, "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+        viewModel.checkAccessToken()
     }
 
     //파일을 업로드하는 로직
@@ -167,25 +188,27 @@ class UploadActivity : AppCompatActivity() {
 
             if (viewModel.category.value != 18) {
                 uploadFile.category = viewModel.category.value
-            }
 
-            //링크가 있을 경우
-            if (viewModel.opengraph.value != null) {
-                uploadFile.opengraph = viewModel.opengraph.value
-            }
+                //링크가 있을 경우
+                if (viewModel.opengraph.value != null) {
+                    uploadFile.opengraph = viewModel.opengraph.value
+                }
 
-            //사진이 있을 경우
-            if (viewModel.pic.value != null) {
-                S3_connect()
-            }
+                //사진이 있을 경우
+                if (viewModel.pic.value != null) {
+                    S3_connect()
+                }
 
-            //태그가 있을 경우
-            if (viewModel.tags.value != null) {
-                uploadFile.tag = viewModel.tags.value
-            }
+                //태그가 있을 경우
+                if (viewModel.tags.value != null) {
+                    uploadFile.tag = viewModel.tags.value
+                }
 
-            viewModel.post_document(uploadFile)
-            finish()
+                viewModel.post_document(uploadFile)
+                finish()
+            } else {
+                Toast.makeText(this, "부서를 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

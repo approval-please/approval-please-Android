@@ -19,6 +19,7 @@ import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
+import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
 import com.umc.approval.util.InterestingCategory
 
 class ApprovalAllCategoryViewFragment: Fragment() {
@@ -26,8 +27,11 @@ class ApprovalAllCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalAllCategoryViewBinding? = null
     private val binding get() = _binding!!
 
-    /**mypage view model*/
+    /**서버와 연결을 위한 뷰모델*/
     private val viewModel by viewModels<ApprovalViewModel>()
+
+    /**쿼리를 위한 뷰모델*/
+    private val commonViewModel: ApprovalCommonViewModel by viewModels({requireParentFragment()})
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +57,8 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        viewModel.get_all_documents()
+        viewModel.get_all_documents(viewModel.category.value,
+            commonViewModel.state.value, commonViewModel.sortBy.value)
 
         setAllCategoryList()
     }
@@ -64,7 +69,10 @@ class ApprovalAllCategoryViewFragment: Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        viewModel.get_all_documents()
+        viewModel.setCategory(18)
+
+        viewModel.get_all_documents(null,
+            commonViewModel.state.value, commonViewModel.sortBy.value)
 
         setAllCategoryList()
     }
@@ -79,6 +87,17 @@ class ApprovalAllCategoryViewFragment: Fragment() {
 
     //라이브 데이터
     private fun live_data() {
+
+        //상태 변화에 따른 목록 받아오는 라이브 데이터
+        commonViewModel.state.observe(viewLifecycleOwner) {
+            viewModel.get_all_documents(viewModel.category.value
+                , commonViewModel.state.value, commonViewModel.sortBy.value)
+        }
+
+        commonViewModel.sortBy.observe(viewLifecycleOwner) {
+            viewModel.get_all_documents(viewModel.category.value
+                , commonViewModel.state.value, commonViewModel.sortBy.value)
+        }
 
         //모든 목록 받아오는 라이브 데이터
         viewModel.approval_all_list.observe(viewLifecycleOwner) {
@@ -144,9 +163,10 @@ class ApprovalAllCategoryViewFragment: Fragment() {
             override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
                 var num = pos-1
                 if (num == -1) {
-                    viewModel.get_all_documents(null)
+                    viewModel.get_all_documents(null, commonViewModel.state.value, commonViewModel.sortBy.value)
                 } else {
-                    viewModel.get_all_documents((pos-1).toString())
+                    viewModel.setCategory(pos-1)
+                    viewModel.get_all_documents((pos-1).toString(), commonViewModel.state.value, commonViewModel.sortBy.value)
                 }
             }
         })

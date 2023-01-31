@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.approval.get.DocumentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
@@ -25,8 +26,16 @@ import retrofit2.Response
  * */
 class UploadDocumentViewModel() : ViewModel() {
 
-    /**approval repository*/
+    //결재 서류 리포지토리
     private val repository = ApprovalFragmentRepository()
+
+    //엑세스 토큰 리포지토리
+    private val accessTokenRepository = AccessTokenRepository()
+
+    //엑세스 토큰 여부 판단 라이브데이터
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
+        get() = _accessToken
 
     //카테고리 데이터
     private var _category = MutableLiveData<Int>()
@@ -95,6 +104,26 @@ class UploadDocumentViewModel() : ViewModel() {
                     Log.d("RESPONSE", response.body().toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**엑세스 토큰 체크*/
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

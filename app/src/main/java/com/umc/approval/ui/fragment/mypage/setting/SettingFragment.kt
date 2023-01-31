@@ -39,7 +39,7 @@ class SettingFragment : Fragment() {
         val view = binding.root
 
         binding.logout.setOnClickListener {
-            viewModel.deleteAccessToken()
+            viewModel.logout()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
             requireActivity().finish()

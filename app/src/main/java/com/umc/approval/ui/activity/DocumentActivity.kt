@@ -6,6 +6,7 @@ import android.widget.Toast
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.umc.approval.databinding.ActivityDocumentBinding
@@ -56,6 +57,25 @@ class DocumentActivity : AppCompatActivity() {
             commentViewModel.post_comments(postComment)
             binding.commentEdit.text.clear()
         }
+        
+        //보고서 작성 버튼
+        binding.reportWriteButton.setOnClickListener {
+            val intent = Intent(this, CommunityUploadActivity::class.java)
+
+            intent.putExtra("documentId", viewModel.document.value!!.documentId.toString())
+            intent.putExtra("report", true)
+
+            startActivity(intent)
+        }
+
+        //보고서 확인 버튼
+        binding.reportCheckButton.setOnClickListener {
+            /**결재서류 아이디를 넘김*/
+            val intent = Intent(this, CommunityReportActivity::class.java)
+            intent.putExtra("reportId", viewModel.document.value!!.reportId.toString())
+            startActivity(intent)
+        }
+        
         binding.shareButton.setOnClickListener {
             share()
         }
@@ -121,6 +141,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.documentCommentPostTime.text = it.datetime
             binding.approveButton.text = "승인" + it.approveCount
             binding.refuseButton.text = "승인" + it.rejectCount
+            binding.approveNum.text = "승인" + it.approveCount
+            binding.rejectNum.text = "반려" + it.rejectCount
 
             //링크 처리
             if (it.link != null) {
@@ -139,14 +161,49 @@ class DocumentActivity : AppCompatActivity() {
                 binding.imageRecyclerview.adapter = documentImageAdapter
             }
 
+            //작성자일 경우
+            if (viewModel.document.value!!.isWriter == true) {
+
+                //만약 결재 서류가 없으면
+                if (viewModel.document.value!!.reportId == null) {
+                    binding.reportWriteButton.isVisible = true
+                } else {
+                    binding.reportCheckButton.isVisible = true
+                }
+            }
 
             //투표를 이미 했으면 색 세팅
             if (viewModel.document.value!!.isVoted == 1) {
-                binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
-                binding.approveButton.setTextColor(Color.parseColor("#141414"))
+
+                //작성자면
+                if (viewModel.document.value!!.isWriter == true) {
+
+                    //투표 다르게 보이게 설정
+                    binding.approveArea.isVisible = false
+                    binding.writerApprove.isVisible = true
+                    binding.approval.isVisible = true
+                    binding.approval.setImageResource(R.drawable.document_result_approval)
+
+                } else { //작성자가 아닐때
+                    binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
+                    binding.approveButton.setTextColor(Color.parseColor("#141414"))
+                }
+
             } else if (viewModel.document.value!!.isVoted == 2) {
-                binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
-                binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+
+                //작성자면
+                if (viewModel.document.value!!.isWriter == true) {
+
+                    //투표 다르게 보이게 설정
+                    binding.approveArea.isVisible = false
+                    binding.writerApprove.isVisible = true
+                    binding.approval.isVisible = true
+                    binding.approval.setImageResource(R.drawable.document_result_refusal)
+
+                } else {
+                    binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
+                    binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+                }
             }
         }
 

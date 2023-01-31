@@ -10,49 +10,53 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 data class DocumentDto(
 
     @SerializedName("documentId")
-    val documentId: Int,
+    val documentId: Int ?= null,
+    @SerializedName("reportId")
+    val reportId: Int ?= null,
     @SerializedName("state")
-    val state: Int,
+    val state: Int ?= null,
     @SerializedName("category")
-    val category: Int,
+    val category: Int ?= null,
     @SerializedName("datetime")
-    val datetime: String,
+    val datetime: String ?= null,
     @SerializedName("profileImage")
-    val profileImage: String,
+    val profileImage: String ?= null,
     @SerializedName("nickname")
-    val nickname: String,
+    val nickname: String ?= null,
     @SerializedName("imageUrl")
-    val imageUrl: List<String>,
+    val imageUrl: List<String> ?= null,
     @SerializedName("title")
-    val title: String,
+    val title: String ?= null,
     @SerializedName("content")
-    val content: String,
+    val content: String ?= null,
     @SerializedName("link")
-    val link: OpenGraphDto,
+    val link: OpenGraphDto ?= null,
     @SerializedName("tag")
-    val tag: List<String>,
+    val tag: List<String> ?= null,
     @SerializedName("view")
-    val view: Int,
+    val view: Int ?= null,
     @SerializedName("level")
-    val level: Int,
+    val level: Int ?= null,
     @SerializedName("approveCount")
-    var approveCount: Int,
+    var approveCount: Int ?= null,
     @SerializedName("rejectCount")
-    var rejectCount: Int,
+    var rejectCount: Int ?= null,
     @SerializedName("likedCount")
-    val likedCount: Int,
+    val likedCount: Int ?= null,
     @SerializedName("commentCount")
-    val commentCount: Int,
+    val commentCount: Int ?= null,
     @SerializedName("isModified")
-    val isModified: Boolean,
+    val isModified: Boolean ?= null,
     @SerializedName("isWriter")
-    val isWriter: Boolean,
+    val isWriter: Boolean ?= null,
     @SerializedName("reportMade")
-    val reportMade: Boolean,
+    val reportMade: Boolean ?= null,
     @SerializedName("isLiked")
-    val isLiked: Boolean,
+    val isLiked: Boolean ?= null,
+    @SerializedName("isScrap")
+    val isScrap: Boolean ?= null,
     @SerializedName("isVoted")
-    val isVoted: Int,
+    val isVoted: Int ?= null,
     @SerializedName("userId")
-    val userId: Int,
+    val userId: Int ?= null,
 )

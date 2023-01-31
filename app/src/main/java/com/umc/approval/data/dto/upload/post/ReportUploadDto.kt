@@ -12,9 +12,9 @@ data class ReportUploadDto (
         @SerializedName("content")
         var content : String? = null,
         @SerializedName("link")
-        var link : MutableList<OpenGraphDto>? = null,
+        var link : List<OpenGraphDto>? = null,
         @SerializedName("tag")
-        var tag : MutableList<String>? = null,
+        var tag : List<String>? = null,
         @SerializedName("images")
-        var images : MutableList<String>? = null,
+        var images : List<String>? = null,
 )
