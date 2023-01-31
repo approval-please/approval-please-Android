@@ -13,6 +13,7 @@ import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
@@ -138,8 +139,25 @@ class DocumentActivity : AppCompatActivity() {
 
 
         //댓글 라이브 데이터
+        // 테스트 이전 코드
         commentViewModel.comments.observe(this) {
-
+            val itemList = ArrayList<DocumentCommentItem2>()
+            for(i in 0.. it.commentCount){
+                val content = it.content[i]
+                if(!content.isDeleted){
+                    val itemList2 = ArrayList<DocumentCommentItem>()
+                    itemList2.add(DocumentCommentItem(content.profileImage, content.nickname, content.level, content.content,content.datetime, content.likeCount, content.isWriter, content.isLike))
+                    itemList.add(DocumentCommentItem2(DocumentCommentItem2.TYPE_1, itemList2))
+                    if(content.childComment.count() != 0){
+                        val childItemList = ArrayList<DocumentCommentItem>()
+                        val childComment = content.childComment
+                        for(j in 0..childComment.count() - 1){
+                            childItemList.add(DocumentCommentItem(childComment[j].profileImage, childComment[j].nickname, childComment[j].level, childComment[j].content, childComment[j].datetime, childComment[j].likeCount, childComment[j].isWriter, childComment[j].isLike))
+                        }
+                        itemList.add(DocumentCommentItem2(DocumentCommentItem2.TYPE_2, childItemList))
+                    }
+                }
+            }
 //            binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
 //            val documentCommentAdapter = DocumentCommentAdapter(it.content)
 //            documentCommentAdapter.notifyDataSetChanged()
@@ -189,15 +207,20 @@ class DocumentActivity : AppCompatActivity() {
     }
 
     private fun setComment() {
+        // 서버 데이터 형식에 맞게 local 데이터 추가,
+        // 적용되는 것 확인
         binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
         val itemList = ArrayList<DocumentCommentItem2>()
         for (i in 1..20) {
             val itemList2 = ArrayList<DocumentCommentItem>()
             val itemList3 = ArrayList<DocumentCommentItem>()
-            itemList2.add(DocumentCommentItem("김부장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
+            itemList2.add(DocumentCommentItem("", "김사원", 0, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, false, false))
+            itemList3.add(DocumentCommentItem("", "이주임", 1, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, false, true))
+            itemList3.add(DocumentCommentItem("", "이대리", 2, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, false, false))
+            itemList3.add(DocumentCommentItem("", "이과장", 3, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, false, true))
+            itemList3.add(DocumentCommentItem("", "이차장", 4, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, false, false))
+            itemList3.add(DocumentCommentItem("", "이부장", 5, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, false, true))
+            itemList3.add(DocumentCommentItem("", "글쓴이", 5, "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50, true, false))
             itemList.add(
                 DocumentCommentItem2(DocumentCommentItem2.TYPE_1, itemList2)
             )

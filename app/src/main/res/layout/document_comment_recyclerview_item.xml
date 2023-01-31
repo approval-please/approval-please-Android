@@ -4,7 +4,7 @@
     android:layout_height="88dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="15dp">
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/document_comment_item_profilepic"
         android:layout_width="28dp"
         android:layout_height="28dp"
@@ -21,14 +21,19 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="34dp"
         android:layout_marginTop="5dp"/>
-    <ImageView
-        android:layout_width="26dp"
-        android:layout_height="14dp"
-        android:src="@drawable/mypage_rank_chajang"
-        app:layout_constraintTop_toTopOf="parent"
+    <TextView
+        android:id="@+id/document_comment_item_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_fragment_post_rank_background"
+        android:text="부장"
+        style="@style/smallText_black_light"
+        app:layout_constraintTop_toTopOf="@id/document_comment_item_profilepic"
+        app:layout_constraintBottom_toBottomOf="@id/document_comment_item_profilepic"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="6.5dp"
-        android:layout_marginStart="74dp"/>
+        android:layout_marginStart="74dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"/>
     <ImageView
         android:layout_width="13dp"
         android:layout_height="13dp"
