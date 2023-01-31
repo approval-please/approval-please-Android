@@ -56,9 +56,6 @@ class CommunityReportActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        /*set RecyclerView*/
-        setComment()
-
         /*setting*/
         post_more()
 
@@ -339,28 +336,5 @@ class CommunityReportActivity : AppCompatActivity() {
 //        val like : Int,
 //        val replyComment : Int,
 //    )
-
-    private fun setComment() {
-        binding.commentItem.layoutManager = LinearLayoutManager(this)
-        val itemList = ArrayList<DocumentCommentItem2>()
-        for (i in 1..20) {
-            val itemList2 = ArrayList<DocumentCommentItem>()
-            val itemList3 = ArrayList<DocumentCommentItem>()
-            itemList2.add(DocumentCommentItem("김부장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList3.add(DocumentCommentItem("이차장", "댓글 내용 텍스트입니다 /nabcdefghijklmnopqrstuvwxyz0123456789", "12/22 1 시간 전", 50))
-            itemList.add(
-                DocumentCommentItem2(DocumentCommentItem2.TYPE_1, itemList2)
-            )
-            itemList.add(
-                DocumentCommentItem2(DocumentCommentItem2.TYPE_2, itemList3)
-            )
-        }
-        val documentCommentAdapter = DocumentCommentAdapter(itemList)
-        documentCommentAdapter.notifyDataSetChanged()
-
-        binding.commentItem.adapter = documentCommentAdapter
-    }
 
 }

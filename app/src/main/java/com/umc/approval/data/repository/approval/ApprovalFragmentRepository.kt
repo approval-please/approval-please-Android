@@ -38,6 +38,13 @@ class ApprovalFragmentRepository {
     }
 
     /**
+     * 리포트와 연결 가능한 결재서류 조회 API
+     */
+    fun getDocumentsWithReports(accessToken: String): Call<DocumentWithReportContentDto> {
+        return ApprovalApi.getDocumentsWithReports(accessToken)
+    }
+
+    /**
      * 결재서류 업로드 API
      */
     fun postDocument(accessToken: String, upload: ApprovalUploadDto): Call<ResponseBody> {

@@ -45,6 +45,17 @@ interface ApprovalAPI {
     ): Call<DocumentDto>
 
     /**
+     * 보고서와 연결 가능한 결재서류 보기
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     */
+    @GET("/community/reports/documents")
+    @Headers("content-type: application/json")
+    fun getDocumentsWithReports(
+        @Header("Authorization") accessToken: String
+    ): Call<DocumentWithReportContentDto>
+
+    /**
      * 서류 업로드 API
      * API 명세서 Check 완료
      * 반환값 설정 완료
