@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -63,7 +64,7 @@ class CommunityUploadReportFragment : Fragment() {
 
     private lateinit var binding: FragmentCommunityUploadReportBinding
 
-    private val viewModel by activityViewModels<CommunityUploadViewModel>()
+    private val viewModel by viewModels<CommunityUploadViewModel>()
 
 
     /**Image Adapter*/
@@ -507,7 +508,7 @@ class CommunityUploadReportFragment : Fragment() {
             tagString = tagDialogEditText.text.toString()
             binding.uploadHashtagItem.isVisible = true
             if(tagString.length>1){
-                tagArray = tagString.split(" ") as java.util.ArrayList<String>
+                tagArray= tagString.split(" ") as java.util.ArrayList<String>
 
                 (tagArray as java.util.ArrayList<String>).removeAll { tag: String -> tag == ""}
 
