@@ -3,6 +3,7 @@ package com.umc.approval.data.retrofit.api.success
 import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.approval.post.InterestingPostDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -97,6 +98,17 @@ interface ApprovalAPI {
     fun getMyCategory(
         @Header("Authorization") accessToken: String
     ):Call<InterestingDto>
+
+    /**
+     * 관심부서 목록 설정 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     * */
+    @POST("/documents/likedCategory")
+    @Headers("content-type: application/json")
+    fun setMyCategory(
+        @Header("Authorization") accessToken: String, @Body likedCategory : InterestingPostDto
+    ):Call<ResponseBody>
 
     /**
      * 마이페이지 결재 서류 API

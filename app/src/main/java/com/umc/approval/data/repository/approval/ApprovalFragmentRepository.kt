@@ -3,6 +3,7 @@ package com.umc.approval.data.repository.approval
 import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.approval.post.InterestingPostDto
 import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
@@ -70,6 +71,14 @@ class ApprovalFragmentRepository {
     fun getCategory(accessToken: String): Call<InterestingDto> {
         return ApprovalApi.getMyCategory(accessToken)
     }
+
+    /**
+     * 관심부서 API
+     */
+    fun setCategory(accessToken: String, list: InterestingPostDto): Call<ResponseBody> {
+        return ApprovalApi.setMyCategory(accessToken, list)
+    }
+
 
     /**
      * 마이페이지 결재서류 API
