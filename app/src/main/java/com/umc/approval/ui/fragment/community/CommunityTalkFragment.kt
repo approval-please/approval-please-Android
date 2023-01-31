@@ -38,7 +38,22 @@ class CommunityTalkFragment : Fragment() {
 
         live_data()
 
+        //아이템 선택 이벤트
+        binding.hotCategory.setOnClickListener {
+            viewModel.get_all_toks(0)
+        }
 
+        binding.followCategory.setOnClickListener {
+            viewModel.get_all_toks(1)
+        }
+
+        binding.newCategory.setOnClickListener {
+            viewModel.get_all_toks(3)
+        }
+
+        binding.myCategory.setOnClickListener {
+            viewModel.get_all_toks(2)
+        }
 
         return view
     }
@@ -66,7 +81,7 @@ class CommunityTalkFragment : Fragment() {
         } else if (binding.myCategory.isChecked) {
             viewModel.get_all_toks(2)
         } else {
-            viewModel.get_all_toks(0)
+            viewModel.get_all_toks(3)
         }
     }
 

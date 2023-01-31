@@ -96,7 +96,12 @@ class CommunityTokViewModel() : ViewModel() {
      * */
     fun get_all_toks(sortBy: Int ?= null) = viewModelScope.launch {
 
-        val response = repository.get_toks(sortBy)
+        var sort = sortBy
+        if (sort == 3) {
+            sort = null
+        }
+
+        val response = repository.get_toks(sort)
         response.enqueue(object : Callback<CommunityTokDto> {
             override fun onResponse(call: Call<CommunityTokDto>, response: Response<CommunityTokDto>) {
                 if (response.isSuccessful) {

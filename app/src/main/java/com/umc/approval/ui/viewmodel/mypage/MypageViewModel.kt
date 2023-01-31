@@ -57,27 +57,6 @@ class MypageViewModel() : ViewModel() {
     }
 
     /**
-     * 마이페이지 내 결재 서류 목록 조회
-     * */
-    fun get_my_documents(state: Int?=null, isApproved : Int?=null) = viewModelScope.launch {
-
-        val response = repository.get_my_documents("abc", state, isApproved)
-        response.enqueue(object : Callback<ApprovalPaperDto> {
-            override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
-                if (response.isSuccessful) {
-                    _document.postValue(response.body())
-                    Log.d("RESPONSE", response.body().toString())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<ApprovalPaperDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-    }
-
-    /**
      * 다른 사람 결재 서류 목록 조회
      * */
     fun get_other_documents(userId: Int, state: Int?=null, isApproved : Int?=null) = viewModelScope.launch {

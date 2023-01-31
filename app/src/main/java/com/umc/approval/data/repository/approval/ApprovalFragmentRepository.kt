@@ -70,4 +70,12 @@ class ApprovalFragmentRepository {
     fun getCategory(accessToken: String): Call<InterestingDto> {
         return ApprovalApi.getMyCategory(accessToken)
     }
+
+    /**
+     * 마이페이지 결재서류 API
+     */
+    fun getDocuments_MyPage(accessToken: String, state: String?= null,
+                            isApproved: String?= null): Call<ApprovalPaperDto> {
+        return ApprovalApi.getDocuments_MyPage(accessToken, state, isApproved)
+    }
 }

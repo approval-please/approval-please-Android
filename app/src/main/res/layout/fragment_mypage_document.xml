@@ -29,6 +29,7 @@
             android:layout_marginStart="16dp">
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/write"
                 style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
@@ -36,12 +37,14 @@
                 android:text="작성한 서류"/>
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/approve"
                 style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:text="승인한 서류"/>
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/reject"
                 style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"

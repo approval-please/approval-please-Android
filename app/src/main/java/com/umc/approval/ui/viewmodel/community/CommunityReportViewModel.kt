@@ -89,7 +89,12 @@ class CommunityReportViewModel() : ViewModel() {
      * */
     fun get_all_reports(sortBy: Int ?= null) = viewModelScope.launch {
 
-        val response = repository.get_reports(sortBy)
+        var sort = sortBy
+        if (sort == 3) {
+            sort = null
+        }
+
+        val response = repository.get_reports(sort)
         response.enqueue(object : Callback<CommunityReportDto> {
             override fun onResponse(call: Call<CommunityReportDto>, response: Response<CommunityReportDto>) {
                 if (response.isSuccessful) {
