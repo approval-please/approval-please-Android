@@ -15,4 +15,10 @@ object Utils {
     val categoryMapReverse = mapOf<String, Int>("디지털기기" to 0,"생활가전" to 1,"생활용품" to 2,"가구/인테리어" to 3,"주방/건강" to 4,
         "출산/유아동" to 5, "패션의류/잡화" to 6, "뷰티/미용" to 7, "스포츠/헬스/레저" to 8, "취미/게임/완구" to 9, "문구/오피스" to 10,
         "도서/음악" to 11,"티켓/교환권" to 12, "식품" to 13, "동물/식물" to 14, "영화/공연" to 15, "자동차/공구" to 16, "기타 물품" to 17)
+
+    /*status*/
+    val statusMap = mapOf<String, Int>("승인됨" to 0,"반려됨" to 1,"결재 대기중" to 2,"상태 전체" to 3)
+
+    /*sort*/
+    val sortByMap = mapOf<String, Int>("인기순" to 0,"최신순" to 2)
 }

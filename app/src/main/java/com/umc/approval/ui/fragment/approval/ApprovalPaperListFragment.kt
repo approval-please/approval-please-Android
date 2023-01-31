@@ -1,19 +1,26 @@
 package com.umc.approval.ui.fragment.approval
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentApprovalPaperListBinding
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalVPAdapter
+import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
+import com.umc.approval.util.Utils.sortByMap
+import com.umc.approval.util.Utils.statusMap
 
 class ApprovalPaperListFragment: Fragment() {
     private var _binding : FragmentApprovalPaperListBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<ApprovalCommonViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +77,7 @@ class ApprovalPaperListFragment: Fragment() {
                 val result = bundle.getString("result")
                 binding.stateText.text = result
 
-                // 리사이클러뷰 아이템 갱신
+                viewModel.setState(statusMap[result.toString()]!!)
             }
 
         childFragmentManager
@@ -78,7 +85,7 @@ class ApprovalPaperListFragment: Fragment() {
                 val result = bundle.getString("result")
                 binding.sortText.text = result
 
-                // 리사이클러뷰 아이템 갱신
+                viewModel.setSort(sortByMap[result.toString()]!!)
             }
     }
 
