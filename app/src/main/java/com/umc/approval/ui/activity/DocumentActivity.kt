@@ -55,6 +55,24 @@ class DocumentActivity : AppCompatActivity() {
             commentViewModel.post_comments(postComment)
             binding.commentEdit.text.clear()
         }
+
+        //보고서 작성 버튼
+        binding.reportWriteButton.setOnClickListener {
+            val intent = Intent(this, CommunityUploadActivity::class.java)
+
+            intent.putExtra("documentId", viewModel.document.value!!.documentId.toString())
+            intent.putExtra("report", true)
+
+            startActivity(intent)
+        }
+
+        //보고서 확인 버튼
+        binding.reportCheckButton.setOnClickListener {
+            /**결재서류 아이디를 넘김*/
+            val intent = Intent(this, CommunityReportActivity::class.java)
+            intent.putExtra("reportId", viewModel.document.value!!.reportId.toString())
+            startActivity(intent)
+        }
     }
 
     //결재 또는 반려 버튼 클릭 로직
@@ -128,6 +146,16 @@ class DocumentActivity : AppCompatActivity() {
                 binding.imageRecyclerview.adapter = documentImageAdapter
             }
 
+            //작성자일 경우
+            if (viewModel.document.value!!.isWriter == true) {
+
+                //만약 결재 서류가 없으면
+                if (viewModel.document.value!!.reportId == null) {
+                    binding.reportWriteButton.isVisible = true
+                } else {
+                    binding.reportCheckButton.isVisible = true
+                }
+            }
 
             //투표를 이미 했으면 색 세팅
             if (viewModel.document.value!!.isVoted == 1) {
@@ -155,7 +183,7 @@ class DocumentActivity : AppCompatActivity() {
                     binding.approveArea.isVisible = false
                     binding.writerApprove.isVisible = true
                     binding.approval.isVisible = true
-                    binding.approval.setImageResource(R.drawable.document_result_approval)
+                    binding.approval.setImageResource(R.drawable.document_result_refusal)
 
                 } else {
                     binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)

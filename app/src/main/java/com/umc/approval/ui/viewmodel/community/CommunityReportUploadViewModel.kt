@@ -25,9 +25,9 @@ class CommunityReportUploadViewModel() : ViewModel() {
     private val repository = CommunityRepository()
 
     /**
-     * 톡 업로드부분 라이브데이터
+     * 리포트 업로드부분 라이브데이터
      * */
-    //이미지 라이브데이터
+    //결재서류 아이디 라이브데이터
     private var _documentId = MutableLiveData<Int>()
     val documentId : LiveData<Int>
         get() = _documentId

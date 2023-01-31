@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.amazonaws.regions.Regions
@@ -39,6 +40,11 @@ class CommunityUploadActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val report = intent.getBooleanExtra("report",false)
+        val documentId = intent.getStringExtra("documentId")
+
+        if (documentId != null) {
+            reportViewModel.setDocumentId(documentId.toInt())
+        }
 
         val communityUploadVPAdapter = CommunityUploadVPAdapter(this)
         binding.uploadTabVp.adapter = communityUploadVPAdapter
