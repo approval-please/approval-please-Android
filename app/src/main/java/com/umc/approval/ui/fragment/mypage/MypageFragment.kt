@@ -105,6 +105,7 @@ class MypageFragment : Fragment() {
             binding.profileMsgTextview.setText(viewModel.myInfo.value!!.introduction)
             //point
             userpoint = viewModel.myInfo.value!!.promotionPoint.toFloat()
+            rankpoint = setRankPoint(viewModel.myInfo.value!!.level).toFloat()
             progress = userpoint / rankpoint * 100.0f
             binding.pointNum1.text = userpoint.toInt().toString()
             binding.pointNum2.text = " / " + rankpoint.toInt().toString()
@@ -250,5 +251,19 @@ class MypageFragment : Fragment() {
             5->{ rank = "부장" }
         }
         return rank
+    }
+
+    /* 직급 별로 기준 승진 포인트 반환하는 함수 */
+    private fun setRankPoint(rankInt : Int?) : Int{
+        var point : Int = 0
+        when(rankInt){
+            0->{ point = 7000 }
+            1->{ point = 21000 }
+            2->{ point = 33000 }
+            3->{ point = 50000 }
+            4->{ point = 71000 }
+            5->{ point = 71000 }
+        }
+        return point
     }
 }
