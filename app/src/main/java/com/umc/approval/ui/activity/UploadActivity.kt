@@ -78,7 +78,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagTextView : TextView
     /*태그 데이터*/
     private lateinit var tagString : String
-    private lateinit var tagArray : List<String>
+    private lateinit var tagArray : ArrayList<String>
 
     /*링크 데이터*/
     private lateinit var linkString : String
@@ -331,7 +331,9 @@ class UploadActivity : AppCompatActivity() {
             var tag_list = listOf<String>()
             
             if(tagString.length>1){
-                tagArray = tagString.split(" ")
+                tagArray = tagString.split(" ") as ArrayList<String>
+
+                tagArray.removeAll {tag: String -> tag == ""}
 
                 tag_list = tagArray
                 viewModel.setTags(tag_list)
@@ -352,65 +354,75 @@ class UploadActivity : AppCompatActivity() {
 
         /*태그 입력 동적코드*/
         tagDialogEditText.setOnClickListener(View.OnClickListener {
-            if(tagDialogEditText.text.toString().length==0){
-                tagDialogEditText.setText("#");
-                tagDialogEditText.setSelection(tagDialogEditText.text.length)
-            }
+            tagDialogEditText.setSelection(tagDialogEditText.text.length)
         })
 
         //val spannableStringBuilder = SpannableStringBuilder(text)
+        tagDialogEditText.isClickable = false;
+
+
         tagDialogEditText.setText(tagString)
-
-        var hashtagCount = 0;
-
         tagDialogEditText.addTextChangedListener(object:TextWatcher{
             var originText = ""
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                tagDialogEditText.setSelection(s.toString().length)
+                if(s.toString().isNotEmpty() && s.toString()[s.toString().length -1]==' ')  return
                 originText = s.toString();
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                if(hashtagCount >= 4){
-//                    Toast.makeText(this@UploadActivity, "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
-//                    tagDialogEditText.setText(originText)
-//                    tagDialogEditText.setSelection(tagDialogEditText.length())
-//                }
-            }
+                if(s.toString() == originText) return
 
-            override fun afterTextChanged(s: Editable?) {
                 var text = s.toString()
                 var textLength = text.length-1;
 
-                if(text[textLength] == ' '){
+                if(tagDialogEditText.isFocusable){
+                    var hashtagCount = 0
+
                     val timer = Timer()
                     timer.schedule(object : TimerTask() {
                         override fun run() {
                             runOnUiThread {
-                                hashtagCount = 0;
-                                for(i in 0..textLength){
-                                    if(text[i] == ' '){
+                                for(i in 1..textLength){
+                                    if(text[i] == ' ' && text[i-1] !=' '){
                                         hashtagCount++;
-                                        val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
-                                        spannableStringBuilder.setSpan(
-                                            ForegroundColorSpan(Color.parseColor("#6C39FF")),
-            //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
-                                            0,
-                                            i,
-                                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                                        )
-                                        if(hashtagCount <= 3){
-                                            tagDialogEditText.setText(spannableStringBuilder.append('#'))
+                                    }
+                                    if(i==textLength){
+
+                                        if(hashtagCount < 4){
+                                            val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
+                                            spannableStringBuilder.setSpan(
+                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
+                                                //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
+                                                0,
+                                                i,
+                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                                            )
+                                            tagDialogEditText.text = spannableStringBuilder
                                             tagDialogEditText.setSelection(tagDialogEditText.text.length)
-                                        }else{
-                                            tagDialogEditText.setText(spannableStringBuilder)
-                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+
+                                        }else if(hashtagCount >= 4 && s.toString()[i]==' '){
+                                            tagDialogEditText.setText(originText)
+                                            Toast.makeText(this@UploadActivity, "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+                                            val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
+                                            spannableStringBuilder.setSpan(
+                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
+                                                0,
+                                                originText.length-1,
+                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                                            )
+                                            tagDialogEditText.text = spannableStringBuilder
+                                            tagDialogEditText.setSelection(s.toString().length-1)
                                         }
                                     }
                                 }
                             }
                         }
-                    }, 10)
+                    }, 1)
+
                 }
+            }
+            override fun afterTextChanged(s: Editable?) {
             }
         })
         tagDialog.show()
@@ -702,4 +714,5 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 }
+
 
