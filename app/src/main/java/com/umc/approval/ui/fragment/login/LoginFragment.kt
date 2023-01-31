@@ -274,6 +274,27 @@ class LoginFragment : Fragment() {
                     } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
                         Navigation.findNavController(binding.root).navigate(to_join)
                     } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
+
+                        val dialog = LayoutInflater.from(requireContext()).inflate(R.layout.join_fragment_dialog, null)
+                        val builder = AlertDialog.Builder(requireContext()).setView(dialog)
+
+                        val alertDialog = builder.show()
+
+                        //dialog의 view Component 접근
+                        val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+                        val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
+                        val email_name = alertDialog.findViewById<TextView>(R.id.email_name)
+
+                        email_name.setText(viewModel.email_check.value!!.email)
+
+                        dialog_cancel.setOnClickListener {
+                            alertDialog.cancel()
+                        }
+
+                        keep_going.setOnClickListener {
+                            alertDialog.cancel()
+                        }
+
                         Toast.makeText(requireContext(), "SNS 계정이 존재합니다", Toast.LENGTH_SHORT).show()
                     }
                 }

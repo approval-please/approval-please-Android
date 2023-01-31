@@ -3,6 +3,7 @@ package com.umc.approval.data.retrofit.api.success
 import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
+import com.umc.approval.data.dto.approval.post.InterestingPostDto
 import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -42,6 +43,17 @@ interface ApprovalAPI {
     fun getDocumentDetail(
         @Path("documentId") documentId: String
     ): Call<DocumentDto>
+
+    /**
+     * 보고서와 연결 가능한 결재서류 보기
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     */
+    @GET("/community/reports/documents")
+    @Headers("content-type: application/json")
+    fun getDocumentsWithReports(
+        @Header("Authorization") accessToken: String
+    ): Call<DocumentWithReportContentDto>
 
     /**
      * 서류 업로드 API
@@ -97,6 +109,17 @@ interface ApprovalAPI {
     fun getMyCategory(
         @Header("Authorization") accessToken: String
     ):Call<InterestingDto>
+
+    /**
+     * 관심부서 목록 설정 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     * */
+    @POST("/documents/likedCategory")
+    @Headers("content-type: application/json")
+    fun setMyCategory(
+        @Header("Authorization") accessToken: String, @Body likedCategory : InterestingPostDto
+    ):Call<ResponseBody>
 
     /**
      * 마이페이지 결재 서류 API

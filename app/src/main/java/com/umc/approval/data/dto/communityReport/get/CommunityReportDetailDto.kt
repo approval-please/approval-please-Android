@@ -1,6 +1,7 @@
 package com.umc.approval.data.dto.communityReport.get
 
 import com.google.gson.annotations.SerializedName
+import com.umc.approval.data.dto.opengraph.OpenGraphDto
 
 /* 게시글 상세 조회 */
 data class CommunityReportDetailDto(
@@ -13,7 +14,7 @@ data class CommunityReportDetailDto(
     @SerializedName("level")
     var level : Int,
     @SerializedName("documentId")
-    var documentId : Int,
+    var documentId : Int?= null,
     @SerializedName("documentImageUrl")
     var documentImageUrl : String,
     @SerializedName("documentImageCount")
@@ -31,9 +32,9 @@ data class CommunityReportDetailDto(
     @SerializedName("reportContent")
     var reportContent : String,
     @SerializedName("reportImageUrl")
-    var reportImageUrl : String,
+    var reportImageUrl : List<String>,
     @SerializedName("reportLink")
-    var reportLink : List<CommunityReportLink>,
+    var reportLink : List<OpenGraphDto>,
     @SerializedName("reportTag")
     var reportTag : List<String>,
     @SerializedName("likedCount")

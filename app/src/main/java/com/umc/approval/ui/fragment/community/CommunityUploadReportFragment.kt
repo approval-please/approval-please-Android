@@ -471,18 +471,31 @@ class CommunityUploadReportFragment : Fragment() {
             tagString = tagDialogEditText.text.toString()
             binding.uploadHashtagItem.isVisible = true
             if(tagString.length>1){
-                tagArray= tagString.split(" ") as java.util.ArrayList<String>
+                tagArray = tagString.split(" ")
 
-                (tagArray as java.util.ArrayList<String>).removeAll { tag: String -> tag == ""}
+                val new = mutableListOf<String>()
 
-                binding.imageTagTv.text = "("+tagArray.size+"/4)";
+                for (i in tagArray) {
+                    if (i != "") {
+                        new.add(i)
+                    }
+                }
 
-                val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
+                binding.imageTagTv.text = "("+new.size+"/4)";
+
+                val dataRVAdapter = UploadHashtagRVAdapter(new)
                 binding.uploadHashtagItem.adapter = dataRVAdapter
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
-            }
+                viewModel.setTags(new)
+            } else {
+                binding.imageTagTv.text = "("+0+"/4)";
+                val dataRVAdapter = UploadHashtagRVAdapter(listOf())
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
+                viewModel.setTags(listOf())
+            }
             tagDialog.dismiss()
         }
 

@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
 
 class CommunityUploadActivity : AppCompatActivity() {
 
@@ -89,6 +90,8 @@ class CommunityUploadActivity : AppCompatActivity() {
                             tokViewModel.tags.value, tokViewModel.images.value)
 
                         tokViewModel.post_tok(talkUploadDto)
+
+                        finish()
                     }
                 }
             } else {
@@ -110,6 +113,8 @@ class CommunityUploadActivity : AppCompatActivity() {
                             )
 
                             reportViewModel.post_report(reportUploadDto)
+
+                            finish()
                         }
                     }
                 }
@@ -143,6 +148,8 @@ class CommunityUploadActivity : AppCompatActivity() {
 
         for (uri in tokViewModel.pic.value!!) {
 
+            val random = UUID.randomUUID().toString()
+
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
@@ -152,10 +159,10 @@ class CommunityUploadActivity : AppCompatActivity() {
                 ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
-                    this, "approval-please", file, "test"
+                    this, "approval-please", file, random
                 )
 
-            list.add("aws")
+            list.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
 
         tokViewModel.setRealImage(list)
@@ -170,6 +177,8 @@ class CommunityUploadActivity : AppCompatActivity() {
 
         for (uri in reportViewModel.pic.value!!) {
 
+            val random = UUID.randomUUID().toString()
+
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
@@ -179,10 +188,10 @@ class CommunityUploadActivity : AppCompatActivity() {
                 ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
-                    this, "approval-please", file, "test"
+                    this, "approval-please", file, random
                 )
 
-            list.add("aws")
+            list.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
 
         reportViewModel.setRealImage(list)
