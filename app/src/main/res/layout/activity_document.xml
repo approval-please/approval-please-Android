@@ -79,7 +79,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:paddingBottom="12dp"
                 android:id="@+id/document_comment_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -391,100 +390,134 @@
                     android:layout_height="wrap_content"
                     android:text="결재"
                     style="@style/smallText_black"
-                    app:layout_constraintBottom_toBottomOf="@+id/approve_area"
+                    app:layout_constraintBottom_toBottomOf="@+id/approve"
                     app:layout_constraintEnd_toEndOf="@+id/row_background_img"
                     app:layout_constraintStart_toStartOf="@+id/row_background_img"
-                    app:layout_constraintTop_toTopOf="@+id/approve_area" />
-                <!-- 승인, 반려 버튼-->
-                <LinearLayout
-                    android:id="@+id/approve_area"
-                    android:layout_width="261dp"
+                    app:layout_constraintTop_toTopOf="@+id/approve" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/approve"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toTopOf="@id/line5"
-                    app:layout_constraintStart_toStartOf="@id/open_graph"
-                    app:layout_constraintEnd_toEndOf="@id/open_graph">
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/approve_button"
-                        android:layout_width="118dp"
-                        android:layout_height="33dp"
-                        android:paddingStart="40dp"
-                        android:paddingEnd="22dp"
-                        android:background="@drawable/shape_document_approve_button"
-                        android:text="승인 00"
-                        android:textAppearance="@style/smallText_darkgray_bold"
-                        android:layout_marginEnd="12dp"
-                        android:includeFontPadding="false" />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/refuse_button"
-                        android:layout_width="118dp"
-                        android:layout_height="33dp"
-                        android:paddingStart="40dp"
-                        android:paddingEnd="22dp"
-                        android:background="@drawable/shape_document_approve_button"
-                        android:text="반려 00"
-                        android:textAppearance="@style/smallText_darkgray_bold"
-                        android:layout_marginStart="12dp"
-                        android:includeFontPadding="false"/>
-                </LinearLayout>
-
-                <!--승인버튼 아이콘-->
-                <ImageView
-                    android:id="@+id/approve_button_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/document_approval_icon"
-                    app:layout_constraintTop_toTopOf="@id/approve_area"
-                    app:layout_constraintBottom_toBottomOf="@id/approve_area"
-                    app:layout_constraintStart_toStartOf="@id/approve_area"
-                    android:layout_marginStart="28dp"/>
-
-                <!--반려버튼 아이콘-->
-                <ImageView
-                    android:id="@+id/refuse_button_icon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/document_refusal_icon"
-                    app:layout_constraintTop_toTopOf="@id/approve_area"
-                    app:layout_constraintBottom_toBottomOf="@id/approve_area"
-                    app:layout_constraintStart_toStartOf="@id/approve_area"
-                    android:layout_marginStart="170dp"/>
-
-                <!--반려됨 / 승인됨 이미지 -->
-                <ImageView
-                    android:visibility="invisible"
-                    android:id="@+id/approval"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/document_result_refusal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/row_background_img"
-                    app:layout_constraintTop_toBottomOf="@+id/line5"></ImageView>
-                <!--반려 수, 승인 수-->
-                <LinearLayout
-                    android:visibility="invisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
                     app:layout_constraintTop_toBottomOf="@id/line5"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="16dp">
-                    <TextView
-                        android:layout_width="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="44dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+                    <!-- 승인, 반려 버튼-->
+                    <LinearLayout
+                        android:visibility="visible"
+                        android:id="@+id/approve_area"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="승인 00 명"
-                        style="@style/smallText_gray_light"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="반려 00 명"
-                        style="@style/smallText_gray_light"/>
-                </LinearLayout>
+                        android:layout_marginTop="12dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="14dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:gravity="center_horizontal">
+                        <!--승인 버튼 영역-->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="12dp">
+                            <!--승인 버튼-->
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/approve_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="33dp"
+                                android:paddingStart="40dp"
+                                android:paddingEnd="22dp"
+                                android:background="@drawable/shape_document_approve_button_transparent"
+                                android:text="승인 00"
+                                android:textAppearance="@style/smallText_darkgray_bold"
+                                android:includeFontPadding="false"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+                            <!--승인 버튼 아이콘-->
+                            <ImageView
+                                android:id="@+id/approve_button_icon"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/document_approval_icon"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginStart="28dp"
+                                android:layout_marginEnd="74dp"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <!--반려 버튼 영역-->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp">
+                            <!--반려버튼-->
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/refuse_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="33dp"
+                                android:paddingStart="40dp"
+                                android:paddingEnd="22dp"
+                                android:background="@drawable/shape_document_approve_button_transparent"
+                                android:text="반려 00"
+                                android:textAppearance="@style/smallText_darkgray_bold"
+                                android:includeFontPadding="false"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"/>
+                            <!--반려버튼 아이콘-->
+                            <ImageView
+                                android:id="@+id/refuse_button_icon"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/document_refusal_icon"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginStart="28dp"
+                                android:layout_marginEnd="74dp"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </LinearLayout>
 
+                    <!--반려됨 / 승인됨 이미지 -->
+                    <ImageView
+                        android:visibility="invisible"
+                        android:id="@+id/approval"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/document_result_refusal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></ImageView>
+                    <!--반려 수, 승인 수-->
+                    <LinearLayout
+                        android:visibility="invisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:orientation="vertical"
+                        android:layout_marginEnd="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="승인 00 명"
+                            style="@style/smallText_gray_light"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="반려 00 명"
+                            style="@style/smallText_gray_light"/>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
