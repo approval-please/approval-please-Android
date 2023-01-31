@@ -51,9 +51,16 @@ class DocumentActivity : AppCompatActivity() {
 
         //작성 누를 시 댓글 작성
         binding.writeButton.setOnClickListener {
-            val postComment = CommentPostDto(1, content = binding.commentEdit.text.toString())
-            commentViewModel.post_comments(postComment)
-            binding.commentEdit.text.clear()
+            if (viewModel.accessToken.value != false) {
+                val postComment = CommentPostDto(documentId = viewModel.document.value!!.documentId,
+                    content = binding.commentEdit.text.toString())
+                commentViewModel.post_comments(postComment)
+                binding.commentEdit.text.clear()
+            } else {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         //보고서 작성 버튼
@@ -227,7 +234,7 @@ class DocumentActivity : AppCompatActivity() {
 
         viewModel.get_document_detail(documentId.toString())
 
-        commentViewModel.get_document_comments()
+        commentViewModel.get_comments(documentId = viewModel.document.value!!.documentId.toString())
     }
 
     //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
@@ -241,7 +248,7 @@ class DocumentActivity : AppCompatActivity() {
 
         viewModel.get_document_detail(documentId.toString())
 
-        commentViewModel.get_document_comments()
+        commentViewModel.get_comments(documentId = viewModel.document.value!!.documentId.toString())
     }
 
     private fun setComment() {

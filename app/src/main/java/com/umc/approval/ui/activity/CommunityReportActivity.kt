@@ -151,8 +151,6 @@ class CommunityReportActivity : AppCompatActivity() {
 
         reportViewModel.get_report_detail(reportId.toString())
 
-        commentViewModel.get_report_comments()
-
         reportViewModel.init()
     }
 
@@ -167,7 +165,6 @@ class CommunityReportActivity : AppCompatActivity() {
 
         reportViewModel.get_report_detail(reportId.toString())
 
-        commentViewModel.get_report_comments()
     }
 
     /**post more*/
