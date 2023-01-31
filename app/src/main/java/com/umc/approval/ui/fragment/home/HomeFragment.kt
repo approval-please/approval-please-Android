@@ -154,8 +154,13 @@ class HomeFragment : Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        //전체 서류 가지고오는 로직
-        approvalViewModel.get_all_documents()
+        if (binding.best.isChecked) {
+            //전체 서류 가지고오는 로직
+            approvalViewModel.get_all_documents("0")
+        } else {
+            //전체 서류 가지고오는 로직
+            approvalViewModel.get_all_documents()
+        }
 
         //관심 서류 가지고오는 로직
         approvalViewModel.get_interesting_documents()
