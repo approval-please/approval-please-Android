@@ -42,6 +42,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="81dp"/>
         <ImageView
+            android:id="@+id/share_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/document_comment_icon_share"
@@ -129,16 +130,19 @@
                     app:layout_constraintBottom_toBottomOf="@+id/profile"
                     app:layout_constraintStart_toEndOf="@+id/profile"
                     app:layout_constraintTop_toTopOf="@+id/profile" />
-
-                <ImageView
+                <TextView
                     android:id="@+id/rank"
-                    android:layout_width="26dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/mypage_rank_chajang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/home_fragment_post_rank_background"
+                    android:text="부장"
+                    style="@style/smallText_black_light"
                     app:layout_constraintTop_toTopOf="@id/name"
                     app:layout_constraintBottom_toBottomOf="@id/name"
                     app:layout_constraintStart_toEndOf="@id/name"
-                    android:layout_marginStart="5dp"/>
+                    android:layout_marginStart="5dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"/>
 
                 <!--보고서 확인하기 버튼-->
                 <androidx.appcompat.widget.AppCompatButton

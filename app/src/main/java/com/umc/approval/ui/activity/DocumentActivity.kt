@@ -21,6 +21,7 @@ import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
+import com.umc.approval.ui.fragment.mypage.MypageFragment
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -55,6 +56,17 @@ class DocumentActivity : AppCompatActivity() {
             commentViewModel.post_comments(postComment)
             binding.commentEdit.text.clear()
         }
+        binding.shareButton.setOnClickListener {
+            share()
+        }
+    }
+
+    /* 공유 버튼 누르는 경우 공유 창 발생시키는 함수 */
+    private fun share(){
+        var sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.setType("text/html")
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, "postlink")
+        startActivity(Intent.createChooser(sharingIntent, "sharing text"))
     }
 
     //결재 또는 반려 버튼 클릭 로직
@@ -101,6 +113,7 @@ class DocumentActivity : AppCompatActivity() {
             binding.profile.load(it.profileImage)
             binding.name.text = it.nickname
             binding.title.text = it.title
+            binding.rank.text = setRank(it.level)
             binding.content.text = it.content
             binding.documentCommentPostLikes.text = "좋아요 " + it.likedCount.toString()
             binding.documentCommentPostViews.text = "조회수 " + it.view.toString()
@@ -265,5 +278,19 @@ class DocumentActivity : AppCompatActivity() {
         binding.refuseButton.setTextColor(Color.parseColor("#141414"))
 
         viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(false))
+    }
+
+    /* 문자열로 직급 반환하는 함수 */
+    private fun setRank(rankInt : Int) : String?{
+        var rank : String? = null
+        when(rankInt){
+            0->{ rank = "사원" }
+            1->{ rank = "주임" }
+            2->{ rank = "대리" }
+            3->{ rank = "과장" }
+            4->{ rank = "차장" }
+            5->{ rank = "부장" }
+        }
+        return rank
     }
 }
