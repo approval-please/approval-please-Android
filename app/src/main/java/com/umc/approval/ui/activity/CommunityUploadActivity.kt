@@ -26,9 +26,7 @@ class CommunityUploadActivity : AppCompatActivity() {
         val communityUploadVPAdapter = CommunityUploadVPAdapter(this)
         binding.uploadTabVp.adapter = communityUploadVPAdapter
 
-        if(report){
-            binding.uploadTabVp.currentItem = 1
-        }
+
         val tabTitleArray = arrayOf(
             "결재톡톡",
             "결재보고서"
@@ -38,6 +36,9 @@ class CommunityUploadActivity : AppCompatActivity() {
             tab.text = tabTitleArray[position]
         }.attach()
 
+        if(report){
+            binding.uploadTabVp.currentItem = 1
+        }
 
 
         /**액티비티 종료 버튼*/
