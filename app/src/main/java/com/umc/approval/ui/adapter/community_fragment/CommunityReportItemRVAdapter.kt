@@ -23,52 +23,52 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
 
             fun binding(data : CommunityReport) {
 
-                if (data.reportLink != null) {
-                    binding.reportOpenGraphImage.load(data.reportLink.get(0).image)
-                    binding.reportOpenGraphText.setText(data.reportLink.get(0).title)
-                    binding.reportOpenGraphUrl.setText(data.reportLink.get(0).url)
+                if (data.link != null) {
+                    binding.reportOpenGraphImage.load(data.link.image)
+                    binding.reportOpenGraphText.setText(data.link.title)
+                    binding.reportOpenGraphUrl.setText(data.link.url)
 
                 /*결재서류 부분*/
-                if(data.documentImageUrl == null){
+                if(data.document.thumbnailImage == null){
                     binding.communityDocumentLayout.ivApprovalReportThumbnail.isVisible = false
                 }else{
-                    binding.communityDocumentLayout.ivApprovalReportThumbnail.load(data.documentImageUrl.get(0))
-                    if(data.documentImageUrl.size > 1){
-                        binding.communityDocumentLayout.documentImageCountTv.text = "+" + (data.documentImageUrl.size - 1).toString()
+                    binding.communityDocumentLayout.ivApprovalReportThumbnail.load(data.document.thumbnailImage)
+                    if(data.document.imageCount >= 1){
+                        binding.communityDocumentLayout.documentImageCountTv.text = "+" + (data.document.imageCount).toString()
                     }
                 }
 
-                binding.communityDocumentLayout.documentTitle.text = data.documentTitle
-                binding.communityDocumentLayout.documentContent.text = data.documentContent
+                binding.communityDocumentLayout.documentTitle.text = data.document.title
+                binding.communityDocumentLayout.documentContent.text = data.document.content
 
                 /*결재 보고서 부분*/
-                binding.reportCategoryItemText.text = data.reportContent// 내용
+                binding.reportCategoryItemText.text = data.content// 내용
                 binding.reportUserName.text = data.nickname
                 binding.reportViewText.text = data.view.toString()
                 binding.tvLikeCount.text = data.likedCount.toString()
                 binding.tvCommentCount.text = data.commentCount.toString()
 
-                if(data.reportImageUrl == null){
+                if(data.images == null){
                     binding.uploadImageLayout.isVisible = false
                 }else{
-                    var imageRVAdapter = CommunityImageRVAdapter(data.reportImageUrl as ArrayList<String>)
+                    var imageRVAdapter = CommunityImageRVAdapter(data.images as ArrayList<String>)
                     binding.imageRv.adapter = imageRVAdapter
                     binding.imageRv.layoutManager =
                         LinearLayoutManager(context(), LinearLayoutManager.HORIZONTAL, false)
                 }
 
-                if(data.reportTag != null){
+                if(data.tag == null){
                     binding.uploadHashtagItem.isVisible = false
                 }else{
-                    val dataRVAdapter = UploadHashtagRVAdapter(data.reportTag)
+                    val dataRVAdapter = UploadHashtagRVAdapter(data.tag)
                     binding.uploadHashtagItem.adapter = dataRVAdapter
                     binding.uploadHashtagItem.layoutManager = LinearLayoutManager(context(), RecyclerView.HORIZONTAL, false)
                 }
 
-                if (data.reportLink != null) {
-                    binding.reportOpenGraphImage.load(data.reportLink[0].image)
-                    binding.reportOpenGraphText.setText(data.reportLink[0].title)
-                    binding.reportOpenGraphUrl.setText(data.reportLink[0].url)
+                if (data.link != null) {
+                    binding.reportOpenGraphImage.load(data.link.image)
+                    binding.reportOpenGraphText.setText(data.link.title)
+                    binding.reportOpenGraphUrl.setText(data.link.url)
                 }else{
                     binding.reportLinkLayout.isVisible = false
                 }

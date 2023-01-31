@@ -119,4 +119,28 @@ class LoginFragmentViewModel() : ViewModel() {
             }
         })
     }
+
+    /**
+     * 로그아웃
+     * 정상 동작 Check 완료
+     * */
+    fun logout() = viewModelScope.launch {
+
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.logout(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    deleteAccessToken()
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
 }

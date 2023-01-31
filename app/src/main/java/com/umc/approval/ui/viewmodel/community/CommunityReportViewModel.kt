@@ -48,39 +48,39 @@ class CommunityReportViewModel() : ViewModel() {
             "네이버"
         )
 
-        init_data.add(
-            CommunityReport(
-                0, 0, "강사원", 0, "","", mutableListOf(""),
-                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-                mutableListOf(""),0,false,false,0,0,"",0)
-        )
-
-        init_data.add(
-            CommunityReport(
-                0, 0, "강사원", 0, "","", mutableListOf(""),
-                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-                mutableListOf(""),0,false,false,0,0,"",0)
-        )
-
-        init_data.add(
-            CommunityReport(
-                0, 0, "강사원", 0, "","", mutableListOf(""),
-                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-                mutableListOf(""),0,false,false,0,0,"",0)
-        )
-
-        init_data.add(
-            CommunityReport(
-                0, 0, "강사원", 0, "","", mutableListOf(""),
-                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-                mutableListOf(""),0,false,false,0,0,"",0)
-        )
+//        init_data.add(
+//            CommunityReport(
+//                0, 0, "강사원", 0, "","", mutableListOf(""),
+//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
+//                mutableListOf(""),0,false,false,0,0,"",0)
+//        )
+//
+//        init_data.add(
+//            CommunityReport(
+//                0, 0, "강사원", 0, "","", mutableListOf(""),
+//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
+//                mutableListOf(""),0,false,false,0,0,"",0)
+//        )
+//
+//        init_data.add(
+//            CommunityReport(
+//                0, 0, "강사원", 0, "","", mutableListOf(""),
+//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
+//                mutableListOf(""),0,false,false,0,0,"",0)
+//        )
+//
+//        init_data.add(
+//            CommunityReport(
+//                0, 0, "강사원", 0, "","", mutableListOf(""),
+//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
+//                mutableListOf(""),0,false,false,0,0,"",0)
+//        )
 
         //서버로부터 받아온 데이터
-        val communityReportDto = CommunityReportDto(init_data)
-
-        //데이터 삽입
-        _report_list.postValue(communityReportDto)
+//        val communityReportDto = CommunityReportDto(init_data)
+//
+//        //데이터 삽입
+//        _report_list.postValue(communityReportDto)
     }
 
     /**
@@ -89,7 +89,12 @@ class CommunityReportViewModel() : ViewModel() {
      * */
     fun get_all_reports(sortBy: Int ?= null) = viewModelScope.launch {
 
-        val response = repository.get_reports(sortBy)
+        var sort = sortBy
+        if (sort == 3) {
+            sort = null
+        }
+
+        val response = repository.get_reports(sort)
         response.enqueue(object : Callback<CommunityReportDto> {
             override fun onResponse(call: Call<CommunityReportDto>, response: Response<CommunityReportDto>) {
                 if (response.isSuccessful) {

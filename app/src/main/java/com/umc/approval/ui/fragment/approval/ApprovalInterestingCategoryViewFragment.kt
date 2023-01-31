@@ -22,6 +22,7 @@ import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
+import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils
 
@@ -31,6 +32,9 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
 
     /**approval view model 초기화*/
     private val viewModel by viewModels<ApprovalViewModel>()
+
+    /**쿼리를 위한 뷰모델*/
+    private val commonViewModel: ApprovalCommonViewModel by viewModels({requireParentFragment()})
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +65,8 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        viewModel.get_interesting_documents()
+        viewModel.get_interesting_documents(
+            viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
 
         viewModel.get_interest()
     }
@@ -72,7 +77,10 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
-        viewModel.get_interesting_documents()
+        viewModel.setCategory(18)
+
+        viewModel.get_interesting_documents(
+            null, commonViewModel.state.value, commonViewModel.sortBy.value)
 
         viewModel.get_interest()
     }
@@ -87,6 +95,17 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
 
     //라이브 데이터
     private fun live_data() {
+
+        //상태 변화에 따른 목록 받아오는 라이브 데이터
+        commonViewModel.state.observe(viewLifecycleOwner) {
+            viewModel.get_interesting_documents(
+                viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
+        }
+
+        commonViewModel.sortBy.observe(viewLifecycleOwner) {
+            viewModel.get_interesting_documents(
+                viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
+        }
 
         //엑세스 토큰이 없으면 로그인 화면으로 이동
         viewModel.accessToken.observe(viewLifecycleOwner) {
@@ -146,9 +165,13 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
                 override fun onItemClick(v: View, data: InterestingCategory, pos: Int) {
                     Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
                     if (data.category in Utils.categoryMapReverse) {
-                        viewModel.get_interesting_documents(Utils.categoryMapReverse.get(data.category).toString())
+                        viewModel.setCategory(Utils.categoryMapReverse.get(data.category)!!.toInt())
+                        viewModel.get_interesting_documents(
+                            viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
                     } else {
-                        viewModel.get_interesting_documents()
+                        viewModel.setCategory(18)
+                        viewModel.get_interesting_documents(
+                            viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
                     }
                 }
             })

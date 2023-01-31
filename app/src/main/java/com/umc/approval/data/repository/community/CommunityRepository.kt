@@ -3,6 +3,7 @@ package com.umc.approval.data.repository.community
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
+import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.communityApi
 import okhttp3.ResponseBody
@@ -23,9 +24,14 @@ class CommunityRepository() {
         return communityApi.get_community_report_items(sortBy)
     }
 
-    /**get reports*/
+    /**get toks*/
     fun tok_upload(accessToken: String, talkUploadDto: TalkUploadDto):Call<ResponseBody> {
         return communityApi.upload_community_tok(accessToken, talkUploadDto)
+    }
+
+    /**get reports*/
+    fun report_upload(accessToken: String, reportUploadDto: ReportUploadDto):Call<ResponseBody> {
+        return communityApi.upload_community_report(accessToken, reportUploadDto)
     }
 
 

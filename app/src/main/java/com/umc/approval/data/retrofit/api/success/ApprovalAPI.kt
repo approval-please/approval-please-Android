@@ -1,4 +1,4 @@
-package com.umc.approval.data.retrofit.api
+package com.umc.approval.data.retrofit.api.success
 
 import com.umc.approval.data.dto.approval.get.*
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
@@ -97,4 +97,16 @@ interface ApprovalAPI {
     fun getMyCategory(
         @Header("Authorization") accessToken: String
     ):Call<InterestingDto>
+
+    /**
+     * 마이페이지 결재 서류 API
+     * API 명세서 Check 완료
+     * 반환값 설정 완료
+     * */
+    @GET("/profile/my/documents")
+    @Headers("content-type: application/json")
+    fun getDocuments_MyPage(
+        @Header("Authorization") accessToken: String, @Query("state") state: String?= null,
+        @Query("isApproved") isApproved: String?= null,
+    ):Call<ApprovalPaperDto>
 }

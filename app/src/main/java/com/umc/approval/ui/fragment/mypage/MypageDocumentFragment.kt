@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,9 @@ import com.umc.approval.databinding.FragmentMypageDocumentBinding
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
+import com.umc.approval.ui.viewmodel.mypage.MyPageApprovalViewModel
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
+import com.umc.approval.util.Utils
 
 /**
  * MyPage 결재 서류 tab View
@@ -29,7 +32,7 @@ class MypageDocumentFragment : Fragment() {
     private var _binding : FragmentMypageDocumentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<MypageViewModel>()
+    private val viewModel by viewModels<MyPageApprovalViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +45,15 @@ class MypageDocumentFragment : Fragment() {
         _binding = FragmentMypageDocumentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.cgFilter.setOnCheckedStateChangeListener { _, checkedIds ->
-            Log.d("로그", "서류 종류 선택, $checkedIds")
-            // checkedIds에 따라 API 호출, 리사이클러뷰 갱신
+        //버튼 선택시 뷰모델에 데이터 저장하는 이벤트
+        binding.write.setOnClickListener {
+            viewModel.setApproved(2)
+        }
+        binding.approve.setOnClickListener {
+            viewModel.setApproved(0)
+        }
+        binding.reject.setOnClickListener {
+            viewModel.setApproved(1)
         }
 
         binding.stateSelect.setOnClickListener {
@@ -56,34 +65,64 @@ class MypageDocumentFragment : Fragment() {
             bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
         }
 
+        //상태 선택 시 뷰 모델에 데이터 저장
         childFragmentManager
             .setFragmentResultListener("status", this) { requestKey, bundle ->
                 val result = bundle.getString("result")
-                binding.stateText.text = result
-
-                // 리사이클러뷰 아이템 갱신
+                viewModel.setState(Utils.statusMap[result.toString()]!!)
             }
 
-        viewModel.get_my_documents()
+        live_data()
 
-        /**라이브 데이터*/
-        viewModel.document.observe(viewLifecycleOwner) {
+        return view
+    }
+
+    /**시작시 로그인 상태 확인*/
+    override fun onStart() {
+        super.onStart()
+
+        //시작시 로직
+        viewModel.get_mypage_documents(viewModel.state.value, viewModel.isApproved.value)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        //다른 뷰 갔다 왔을때 재 시작 로직
+        viewModel.get_mypage_documents(viewModel.state.value, viewModel.isApproved.value)
+    }
+
+    //라이브 데이터
+    private fun live_data() {
+
+        //state 상태 변화시 실행되는 라이브 데이터
+        viewModel.state.observe(viewLifecycleOwner) {
+            viewModel.get_mypage_documents(viewModel.state.value, viewModel.isApproved.value)
+        }
+
+        //isApproved 상태 변화시 실행되는 라이브 데이터
+        viewModel.isApproved.observe(viewLifecycleOwner) {
+            viewModel.get_mypage_documents(viewModel.state.value, viewModel.isApproved.value)
+        }
+
+        //서버에서 데이터 받아오면 뷰에 적용하는 라이브 데이터
+        viewModel.approval_all_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
             val spaceDecoration = VerticalSpaceItemDecoration(40)
             binding.rvMypageDocument.addItemDecoration(spaceDecoration)
             binding.rvMypageDocument.adapter = dataRVAdapter
-            binding.rvMypageDocument.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            binding.rvMypageDocument.layoutManager =
+                LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
             // 클릭 이벤트 처리
-            dataRVAdapter.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
+            dataRVAdapter.setOnItemClickListener(object :
+                ApprovalPaperListRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
                     startActivity(Intent(requireContext(), DocumentActivity::class.java))
                 }
             })
         }
-
-        return view
     }
 
     /**
