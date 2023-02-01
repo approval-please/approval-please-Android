@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
 import com.umc.approval.data.dto.profile.ProfileDto
@@ -34,6 +35,11 @@ class MypageViewModel() : ViewModel() {
     private var _document = MutableLiveData<ApprovalPaperDto>()
     val document : LiveData<ApprovalPaperDto>
         get() = _document
+
+    /**커뮤니티 탭 라이브 데이터*/
+    private var _community = MutableLiveData<CommunityDto>()
+    val community : LiveData<CommunityDto>
+        get() = _community
 
     /**
      * mypage 프로필 조회

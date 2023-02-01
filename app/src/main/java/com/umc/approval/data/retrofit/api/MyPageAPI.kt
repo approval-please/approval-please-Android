@@ -3,6 +3,7 @@ package com.umc.approval.data.retrofit.api
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
@@ -94,4 +95,5 @@ interface MyPageAPI {
     @Headers("content-type: application/json")
     fun get_my_performances(
         @Header("Authorization") accessToken : String) : Call<RecordDto>
+
 }

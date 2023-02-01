@@ -4,6 +4,7 @@ import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
+import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import okhttp3.ResponseBody
@@ -81,4 +82,17 @@ interface CommunityAPI {
         @Header("Authorization") accessToken: String,
         @Path("reportId") reportId : String,
     ): Call<CommunityReportDetailDto>
+
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * postType: 게시글 유형
+     * 커뮤니티 탭
+     */
+    @GET("/profile/my/community")
+    @Headers("content-type: application/json")
+    fun get_community(
+        @Header("Authorization") accessToken : String,
+        @Query("postType") postType: Int?=null) : Call<CommunityDto>
 }
