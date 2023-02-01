@@ -2,6 +2,7 @@ package com.umc.approval.data.retrofit.api
 
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
@@ -71,10 +72,6 @@ interface CommunityAPI {
     ): Call<CommunityItemDto>
 
     /**
-     * @Get
-     * accessToken: 사용자 검증 토큰
-     * reportId: 커뮤니티 포스트 ID
-     * @Get
      * CommunityItemDto: 커뮤니티 포스트 정보(profileImage, nickname, level, isFollow) 리스트
      * 결재서류 좋아요 목록 조회 API
      */
@@ -82,6 +79,6 @@ interface CommunityAPI {
     @Headers("content-type: application/json")
     fun get_community_report_detail(
         @Header("Authorization") accessToken: String,
-        @Path("reportId") reportId : Int,
-    ): Call<CommunityItemDto>
+        @Path("reportId") reportId : String,
+    ): Call<CommunityReportDetailDto>
 }

@@ -57,7 +57,7 @@ class MypageDocumentFragment : Fragment() {
         }
 
         binding.stateSelect.setOnClickListener {
-            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment()
+            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -67,7 +67,7 @@ class MypageDocumentFragment : Fragment() {
 
         //상태 선택 시 뷰 모델에 데이터 저장
         childFragmentManager
-            .setFragmentResultListener("status", this) { requestKey, bundle ->
+            .setFragmentResultListener("status", this) { _, bundle ->
                 val result = bundle.getString("result")
                 viewModel.setState(Utils.statusMap[result.toString()]!!)
             }
@@ -109,8 +109,6 @@ class MypageDocumentFragment : Fragment() {
         viewModel.approval_all_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
-            val spaceDecoration = VerticalSpaceItemDecoration(40)
-            binding.rvMypageDocument.addItemDecoration(spaceDecoration)
             binding.rvMypageDocument.adapter = dataRVAdapter
             binding.rvMypageDocument.layoutManager =
                 LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -131,17 +129,5 @@ class MypageDocumentFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
-        }
     }
 }

@@ -119,9 +119,6 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         //관심 결재 서류 가져오는 라이브 데이터
         viewModel.approval_interest_list.observe(viewLifecycleOwner) {
             val dataRVAdapter = ApprovalPaperListRVAdapter(it)
-            val heightPx = dpToPx(requireContext(), 9)
-            val spaceDecoration = VerticalSpaceItemDecoration(heightPx)
-            binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
             binding.rvApprovalPaper.adapter = dataRVAdapter
             binding.rvApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
@@ -154,9 +151,6 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             }
 
             val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
-            val widthPx = dpToPx(requireContext(), 11)
-            val spaceDecoration = HorizontalSpaceItemDecoration(widthPx)
-            binding.rvCategory.addItemDecoration(spaceDecoration)
             binding.rvCategory.adapter = categoryRVAdapter
             binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
@@ -176,37 +170,5 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
                 }
             })
         }
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
-        }
-    }
-
-    inner class HorizontalSpaceItemDecoration(private val width: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.left = width
-        }
-    }
-
-    // dp -> pixel 단위로 변경
-    private fun dpToPx(context: Context, dp: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp.toFloat(),
-            context.resources.displayMetrics
-        ).toInt()
     }
 }

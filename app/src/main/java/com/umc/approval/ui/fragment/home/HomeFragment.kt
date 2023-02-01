@@ -1,7 +1,6 @@
 package com.umc.approval.ui.fragment.home
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -205,18 +204,6 @@ class HomeFragment : Fragment() {
         super.onDestroy()
     }
 
-    // 아이템 간 간격 조절 기능
-    inner class HorizontalSpaceItemDecoration(private val width: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.right = width
-        }
-    }
-
     /**live data*/
     private fun live_data_from_server() {
 
@@ -235,8 +222,6 @@ class HomeFragment : Fragment() {
         approvalViewModel.approval_interest_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperRVAdapter(it)
-            val spaceDecoration = HorizontalSpaceItemDecoration(40)
-            binding.rvMyInterestingPaper.addItemDecoration(spaceDecoration)
             binding.rvMyInterestingPaper.adapter = dataRVAdapter
             binding.rvMyInterestingPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
@@ -257,8 +242,6 @@ class HomeFragment : Fragment() {
         approvalViewModel.approval_all_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalPaperRVAdapter(it)
-            val spaceDecoration = HorizontalSpaceItemDecoration(40)
-            binding.rvApprovalPaper.addItemDecoration(spaceDecoration)
             binding.rvApprovalPaper.adapter = dataRVAdapter
             binding.rvApprovalPaper.layoutManager = GridLayoutManager(activity, 2, RecyclerView.HORIZONTAL, false)
 
@@ -279,8 +262,6 @@ class HomeFragment : Fragment() {
         tokViewModel.tok_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = PopularPostRVAdapter(it)
-            val spaceDecoration = HorizontalSpaceItemDecoration(40)
-            binding.rvPopularPost.addItemDecoration(spaceDecoration)
             binding.rvPopularPost.adapter = dataRVAdapter
             binding.rvPopularPost.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
@@ -301,8 +282,6 @@ class HomeFragment : Fragment() {
         reportViewModel.report_list.observe(viewLifecycleOwner) {
 
             val dataRVAdapter = ApprovalReportRVAdapter(it)
-            val spaceDecoration = HorizontalSpaceItemDecoration(40)
-            binding.rvApprovalReport.addItemDecoration(spaceDecoration)
             binding.rvApprovalReport.adapter = dataRVAdapter
             binding.rvApprovalReport.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
@@ -336,8 +315,6 @@ class HomeFragment : Fragment() {
             }
 
             val categoryRVAdapter = CategoryRVAdapter(interestingCategory)
-            val spaceDecoration = HorizontalSpaceItemDecoration(25)
-            binding.rvCategory.addItemDecoration(spaceDecoration)
             binding.rvCategory.adapter = categoryRVAdapter
             binding.rvCategory.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 

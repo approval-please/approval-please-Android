@@ -3,7 +3,8 @@
     android:layout_width="200dp"
     android:layout_height="230dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/home_fragment_post_background">
+    android:background="@drawable/home_fragment_post_background"
+    android:layout_marginEnd="21dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_info_container"

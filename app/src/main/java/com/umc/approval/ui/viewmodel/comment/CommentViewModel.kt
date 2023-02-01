@@ -38,12 +38,14 @@ class CommentViewModel() : ViewModel() {
         get() = _comments
 
     /**
-     * 모든 comments 목록을 반환받는 메소드
+     * 모든 comments 목록을 API
      * 정상 동작 Check 완료
      * */
-    fun get_document_comments() = viewModelScope.launch {
+    fun get_comments(documentId: String?=null, toktokId : String?=null, reportId : String?=null) = viewModelScope.launch {
 
-        val response = repository.getDocumentComments(documentId = 1)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.getComments(accessToken, documentId, toktokId, reportId)
         response.enqueue(object : Callback<CommentListDto> {
             override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
                 if (response.isSuccessful) {
@@ -60,51 +62,7 @@ class CommentViewModel() : ViewModel() {
     }
 
     /**
-     * 모든 comments 목록을 반환받는 메소드
-     * 정상 동작 Check 완료
-     * */
-    fun get_tok_comments() = viewModelScope.launch {
-
-        val response = repository.getTokComments(toktokId = 1)
-        response.enqueue(object : Callback<CommentListDto> {
-            override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _comments.postValue(response.body())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<CommentListDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-    }
-
-    /**
-     * 모든 comments 목록을 반환받는 메소드
-     * 정상 동작 Check 완료
-     * */
-    fun get_report_comments() = viewModelScope.launch {
-
-        val response = repository.getReportComments(reportId = 1)
-        response.enqueue(object : Callback<CommentListDto> {
-            override fun onResponse(call: Call<CommentListDto>, response: Response<CommentListDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _comments.postValue(response.body())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<CommentListDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-    }
-
-    /**
-     * 모든 comments 목록을 반환받는 메소드
+     * 댓글 작성 API
      * 정상 동작 Check 완료
      * */
     fun post_comments(commentPostDto: CommentPostDto) = viewModelScope.launch {
@@ -116,8 +74,7 @@ class CommentViewModel() : ViewModel() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    //나중에 서버와 연결시 활성화
-                    //_approval_all_list.postValue(response.body())
+
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -129,7 +86,7 @@ class CommentViewModel() : ViewModel() {
     }
 
     /**
-     * 모든 comments 목록을 반환받는 메소드
+     * Comment 삭제 API
      * 정상 동작 Check 완료
      * */
     fun delete_comments(type: Int, commentId : String) = viewModelScope.launch {
@@ -141,13 +98,7 @@ class CommentViewModel() : ViewModel() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    if (type == 0) {
-                        get_document_comments()
-                    } else if (type == 1) {
-                        get_tok_comments()
-                    } else if (type == 2) {
-                        get_report_comments()
-                    }
+                    get_comments()
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
