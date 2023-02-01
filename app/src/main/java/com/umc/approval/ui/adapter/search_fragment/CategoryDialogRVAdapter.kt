@@ -1,7 +1,6 @@
 package com.umc.approval.ui.adapter.search_fragment
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.FragmentSearchBottomSheetDialogCategoryItemBinding
@@ -27,11 +26,9 @@ class CategoryDialogRVAdapter(private val dataList: ArrayList<CategorySelectDial
     inner class DataViewHolder(private val binding: FragmentSearchBottomSheetDialogCategoryItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CategorySelectDialogItem) {
             binding.tvCategory.text = data.category
-            binding.cbCategory.isChecked = data.isChecked
-
             binding.cbCategory.isChecked = dataList[adapterPosition].isChecked
 
-            binding.cbCategory.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.cbCategory.setOnCheckedChangeListener { _, isChecked ->
                 dataList[adapterPosition].isChecked = isChecked
             }
         }

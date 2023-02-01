@@ -51,14 +51,14 @@ class CommunityTabFragment: Fragment() {
             bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
         }
 
-//        binding.sortSelect.setOnClickListener {
-//            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment()
-//            bottomSheetDialog.setStyle(
-//                DialogFragment.STYLE_NORMAL,
-//                R.style.RoundCornerBottomSheetDialogTheme
-//            )
-//            bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
-//        }
+        binding.sortSelect.setOnClickListener {
+            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment(binding.sortText.text.toString())
+            bottomSheetDialog.setStyle(
+                DialogFragment.STYLE_NORMAL,
+                R.style.RoundCornerBottomSheetDialogTheme
+            )
+            bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
+        }
 
         childFragmentManager
             .setFragmentResultListener("category", this) { requestKey, bundle ->
