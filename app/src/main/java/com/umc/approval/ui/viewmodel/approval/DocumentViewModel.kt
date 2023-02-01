@@ -61,7 +61,9 @@ class DocumentViewModel() : ViewModel() {
      * */
     fun get_document_detail(documentId : String) = viewModelScope.launch {
 
-        val response = repository.getDocumentDetail(documentId)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.getDocumentDetail(accessToken, documentId)
         response.enqueue(object : Callback<DocumentDto> {
             override fun onResponse(call: Call<DocumentDto>, response: Response<DocumentDto>) {
                 if (response.isSuccessful) {

@@ -42,6 +42,11 @@ class LoginFragmentViewModel() : ViewModel() {
     val kakao_email : LiveData<String>
         get() = _kakao_email
 
+    /**소셜아이디 체크 라이브 데이터*/
+    private var _social_id = MutableLiveData<String>()
+    val social_id : LiveData<String>
+        get() = _social_id
+
     /**엑세스 토큰 체크*/
     fun checkAccessToken() = viewModelScope.launch {
         val tokenValue = AccessTokenDataStore().getAccessToken().first()
@@ -63,21 +68,23 @@ class LoginFragmentViewModel() : ViewModel() {
     }
 
     /**Kakao 소셜 로그인*/
-    fun social_login(accessToken: String, email: String) = viewModelScope.launch {
+    fun social_login(accessToken: String, email: String, code: String) = viewModelScope.launch {
 
-        val response = repository.social_login("Bearer " + accessToken)
+        val response = repository.social_login("Bearer " + accessToken, email)
         _kakao_email.postValue(email)
+        _social_id.postValue(code)
 
         response.enqueue(object : Callback<ReturnSocialLoginDto> {
             override fun onResponse(call: Call<ReturnSocialLoginDto>, response: Response<ReturnSocialLoginDto>) {
                 if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
                     _social_check.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
             override fun onFailure(call: Call<ReturnSocialLoginDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
+                Log.d("ContinueFail", t.message.toString())
             }
         })
     }

@@ -71,18 +71,18 @@ class CommunityTalkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
-        if (binding.hotCategory.isChecked) {
-            viewModel.get_all_toks(0)
-        } else if (binding.followCategory.isChecked) {
-            viewModel.get_all_toks(1)
-        } else if (binding.myCategory.isChecked) {
-            viewModel.get_all_toks(2)
-        } else {
-            viewModel.get_all_toks(3)
-        }
+//        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
+//        viewModel.checkAccessToken()
+//
+//        if (binding.hotCategory.isChecked) {
+//            viewModel.get_all_toks(0)
+//        } else if (binding.followCategory.isChecked) {
+//            viewModel.get_all_toks(1)
+//        } else if (binding.myCategory.isChecked) {
+//            viewModel.get_all_toks(2)
+//        } else {
+//            viewModel.get_all_toks(3)
+//        }
     }
 
     private fun live_data() {
@@ -95,11 +95,11 @@ class CommunityTalkFragment : Fragment() {
             community_item_rv.adapter = communityTalkItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
-                override fun move_to_tok_activity() {
-                    startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
-                }
-            }
+//            communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
+//                override fun move_to_tok_activity() {
+//                    startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
+//                }
+//            }
         }
     }
 

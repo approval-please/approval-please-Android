@@ -136,7 +136,8 @@ class JoinFragment : Fragment() {
         /**회원가입 체크 체크*/
         binding.join.setOnClickListener {
 
-            val basicJoinDto = BasicJoinDto("팀", get_email.email, "aa2618", "01012345678")
+            val basicJoinDto = BasicJoinDto(binding.nickname.text.toString(), get_email.email,
+                binding.password.text.toString(), binding.phone.text.toString())
 
             //join
             viewModel.join(basicJoinDto)

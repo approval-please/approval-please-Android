@@ -1,5 +1,6 @@
 package com.umc.approval.ui.adapter.community_fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,9 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     inner class ViewHolder(val binding: CommunityTalkItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-
         fun binding(data: CommunityTok) {
+
+            Log.d("test", data.toString())
 
             /*결재 보고서 부분*/
             binding.reportCategoryItemText.text = data.content // 내용
@@ -50,7 +52,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(App.context(), RecyclerView.HORIZONTAL, false)
             }
 
-            if (data.link == null) {
+            if (data.link != null) {
                 binding.reportOpenGraphImage.load(data.link.image)
                 binding.reportOpenGraphText.setText(data.link.title)
                 binding.reportOpenGraphUrl.setText(data.link.url)
