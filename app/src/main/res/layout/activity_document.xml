@@ -33,6 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp"/>
         <ImageView
+            android:id="@+id/like_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/document_comment_icon_heart"

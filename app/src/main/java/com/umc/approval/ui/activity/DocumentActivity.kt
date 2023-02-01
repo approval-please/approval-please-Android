@@ -75,9 +75,44 @@ class DocumentActivity : AppCompatActivity() {
             intent.putExtra("reportId", viewModel.document.value!!.reportId.toString())
             startActivity(intent)
         }
-        
+
+        //공유 버튼
         binding.shareButton.setOnClickListener {
             share()
+        }
+
+        //좋아요 버튼
+        binding.likeButton.setOnClickListener {
+            likeDocument()
+        }
+    }
+    /* 하트 아이콘 누르는 경우 좋아요 처리하는 함수 */
+    private fun likeDocument(){
+        if(viewModel.accessToken.value == true){
+            if(viewModel.document.value!!.isLiked == false){
+                binding.likeButton.setImageResource(R.drawable.document_comment_icon_heart_selected)
+                Toast.makeText(this,"결재서류에 좋아요를 눌렀습니다.", Toast.LENGTH_SHORT).show()
+                val likedCount = viewModel.document.value!!.likedCount
+                if(likedCount != null){
+                    // 좋아요 수 변경(+1) 서버에 반영하는 로직 이후 추가
+                    binding.documentCommentPostLikes.text = "좋아요 " + likedCount
+                }
+            }
+            else{
+                binding.likeButton.setImageResource(R.drawable.document_comment_icon_heart)
+                Toast.makeText(this,"결재서류의 좋아요를 취소했습니다.", Toast.LENGTH_SHORT).show()
+                binding.documentCommentPostLikes.text = "좋아요 " + viewModel.document.value!!.likedCount
+                val likedCount = viewModel.document.value!!.likedCount
+                if(likedCount != null){
+                    // 좋아요 수 변경(-1) 서버에 반영하는 로직 이후 추가
+                    binding.documentCommentPostLikes.text = "좋아요 " + likedCount
+                }
+            }
+        }
+        else {
+            Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -228,10 +263,10 @@ class DocumentActivity : AppCompatActivity() {
                     }
                 }
             }
-//            binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
-//            val documentCommentAdapter = DocumentCommentAdapter(it.content)
-//            documentCommentAdapter.notifyDataSetChanged()
-//            binding.documentCommentRecyclerview.adapter = documentCommentAdapter
+            binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
+            val documentCommentAdapter = DocumentCommentAdapter(itemList,this)
+            documentCommentAdapter.notifyDataSetChanged()
+            binding.documentCommentRecyclerview.adapter = documentCommentAdapter
 
         }
     }
@@ -298,7 +333,7 @@ class DocumentActivity : AppCompatActivity() {
                 DocumentCommentItem2(DocumentCommentItem2.TYPE_2, itemList3)
             )
         }
-        val documentCommentAdapter = DocumentCommentAdapter(itemList)
+        val documentCommentAdapter = DocumentCommentAdapter(itemList, this)
         documentCommentAdapter.notifyDataSetChanged()
 
         binding.documentCommentRecyclerview.adapter = documentCommentAdapter
@@ -349,5 +384,15 @@ class DocumentActivity : AppCompatActivity() {
             5->{ rank = "부장" }
         }
         return rank
+    }
+
+    public fun getDocumentViewModel() : DocumentViewModel{
+        return viewModel
+    }
+
+    public fun sendNeedLoginToast(){
+        Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
     }
 }

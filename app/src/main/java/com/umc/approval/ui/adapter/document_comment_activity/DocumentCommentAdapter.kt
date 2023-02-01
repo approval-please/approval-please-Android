@@ -12,9 +12,12 @@ import coil.load
 import com.umc.approval.R
 import com.umc.approval.databinding.DocumentCommentRecyclerviewItem3Binding
 import com.umc.approval.databinding.DocumentCommentRecyclerviewItemBinding
+import com.umc.approval.ui.activity.DocumentActivity
+import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 
-class DocumentCommentAdapter(val itemList : ArrayList<DocumentCommentItem2>)
+class DocumentCommentAdapter(val itemList : ArrayList<DocumentCommentItem2>, val activity : DocumentActivity)
     : RecyclerView.Adapter<ViewHolder>(){
+
     inner class Type1ViewHolder(val binding : DocumentCommentRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root){
         val profileImg = binding.documentCommentItemProfilepic
         val name_textview = binding.documentCommentItemName
@@ -87,11 +90,33 @@ class DocumentCommentAdapter(val itemList : ArrayList<DocumentCommentItem2>)
                         }
                     }
                 }
-
+                holder.like_icon.setOnClickListener {
+                    if(activity.getDocumentViewModel().accessToken.value == true){
+                        if(item.isLike == false){
+                            holder.like_icon.setImageResource(R.drawable.document_comment_recyclerview_icon_like_selected)
+                            val likes = item.likes
+                            if(likes != null){
+                                // 댓글 좋아요 수 변경(+1) 로직 이후 추가
+                                holder.likes_textview.text = item.likes.toString()
+                            }
+                        }
+                        else{
+                            holder.like_icon.setImageResource(R.drawable.document_comment_recyclerview_icon_like)
+                            val likes = item.likes
+                            if(likes != null){
+                                // 댓글 좋아요 수 변경(-1) 로직 이후 추가
+                                holder.likes_textview.text = item.likes.toString()
+                            }
+                        }
+                    }
+                    else{
+                        activity.sendNeedLoginToast()
+                    }
+                }
             }
             DocumentCommentItem2.TYPE_2 -> {
                 (holder as Type2ViewHolder).recyclerview.layoutManager = LinearLayoutManager(holder.recyclerview.context)
-                val adapter = DocumentCommentAdapter2(itemList[position].list)
+                val adapter = DocumentCommentAdapter2(itemList[position].list, activity)
                 adapter.notifyDataSetChanged()
                 holder.recyclerview.adapter = adapter
             }

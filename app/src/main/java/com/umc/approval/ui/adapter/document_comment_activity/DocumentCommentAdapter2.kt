@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.R
 import com.umc.approval.databinding.DocumentCommentRecyclerviewItem2Binding
+import com.umc.approval.ui.activity.DocumentActivity
 
-class DocumentCommentAdapter2(val itemList : ArrayList<DocumentCommentItem>)
+class DocumentCommentAdapter2(val itemList : ArrayList<DocumentCommentItem>, val activity: DocumentActivity)
     : RecyclerView.Adapter<DocumentCommentAdapter2.DocumentComment2ViewHolder>(){
     inner class DocumentComment2ViewHolder(val binding : DocumentCommentRecyclerviewItem2Binding) : RecyclerView.ViewHolder(binding.root){
         val profileImg = binding.documentCommentItemProfilepic
@@ -64,6 +65,30 @@ class DocumentCommentAdapter2(val itemList : ArrayList<DocumentCommentItem>)
                 else->{
                     Log.d("직급", "해당 사항 없음")
                 }
+            }
+        }
+
+        holder.like_icon.setOnClickListener {
+            if(activity.getDocumentViewModel().accessToken.value == true){
+                if(itemList[position].isLike == false){
+                    holder.like_icon.setImageResource(R.drawable.document_comment_recyclerview_icon_like_selected)
+                    val likes = itemList[position].likes
+                    if(likes != null){
+                        // 댓글 좋아요 수 변경(+1) 로직 이후 추가
+                        holder.likes_textview.text = itemList[position].likes.toString()
+                    }
+                }
+                else{
+                    holder.like_icon.setImageResource(R.drawable.document_comment_recyclerview_icon_like)
+                    val likes = itemList[position].likes
+                    if(likes != null){
+                        // 댓글 좋아요 수 변경(-1) 로직 이후 추가
+                        holder.likes_textview.text = itemList[position].likes.toString()
+                    }
+                }
+            }
+            else{
+                activity.sendNeedLoginToast()
             }
         }
     }
