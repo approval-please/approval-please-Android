@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.approval.get.DocumentWithReportContentDto
+import com.umc.approval.data.dto.approval.get.DocumentWithReportDto
 import com.umc.approval.databinding.ItemUploadDocumentBinding
 
-class CommunityUploadDocumentItemRVAdapter (private var dataList: ArrayList<ApprovalPaper> = arrayListOf()): RecyclerView.Adapter<CommunityUploadDocumentItemRVAdapter.DataViewHolder>() {
+class CommunityUploadDocumentItemRVAdapter (private var dataList: DocumentWithReportContentDto): RecyclerView.Adapter<CommunityUploadDocumentItemRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemUploadDocumentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,16 +17,16 @@ class CommunityUploadDocumentItemRVAdapter (private var dataList: ArrayList<Appr
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(dataList.content!![position])
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int = dataList.content!!.size
 
     inner class DataViewHolder(private val binding: ItemUploadDocumentBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: ApprovalPaper) {
+        fun bind(data: DocumentWithReportDto) {
 
-            if(adapterPosition == dataList.size-1) binding.approvalLine.isVisible = false
+            if(adapterPosition == dataList.content!!.size-1) binding.approvalLine.isVisible = false
 
             when(data.state){
                 1->{
@@ -55,7 +56,7 @@ class CommunityUploadDocumentItemRVAdapter (private var dataList: ArrayList<Appr
 
     // 아이템 클릭 리스너
     interface OnItemClickListner {
-        fun onItemClick(v: View, data: ApprovalPaper, pos: Int){}
+        fun onItemClick(v: View, data: DocumentWithReportDto, pos: Int){}
     }
 
     private var listner: OnItemClickListner? = null

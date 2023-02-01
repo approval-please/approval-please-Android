@@ -13,6 +13,7 @@ import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.R
+import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
@@ -53,9 +54,16 @@ class DocumentActivity : AppCompatActivity() {
 
         //작성 누를 시 댓글 작성
         binding.writeButton.setOnClickListener {
-            val postComment = CommentPostDto(1, content = binding.commentEdit.text.toString())
-            commentViewModel.post_comments(postComment)
-            binding.commentEdit.text.clear()
+            if (viewModel.accessToken.value != false) {
+                val postComment = CommentPostDto(documentId = viewModel.document.value!!.documentId,
+                    content = binding.commentEdit.text.toString())
+                commentViewModel.post_comments(postComment)
+                binding.commentEdit.text.clear()
+            } else {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
         }
         
         //보고서 작성 버튼
@@ -294,7 +302,7 @@ class DocumentActivity : AppCompatActivity() {
 
         viewModel.get_document_detail(documentId.toString())
 
-        commentViewModel.get_document_comments()
+        commentViewModel.get_comments(documentId = documentId.toString())
     }
 
     //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
@@ -308,7 +316,7 @@ class DocumentActivity : AppCompatActivity() {
 
         viewModel.get_document_detail(documentId.toString())
 
-        commentViewModel.get_document_comments()
+        commentViewModel.get_comments(documentId = documentId.toString())
     }
 
     private fun setComment() {
@@ -358,18 +366,43 @@ class DocumentActivity : AppCompatActivity() {
 
     //승인 시 승인 Api
     fun changeApproveButton() {
-        binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
-        binding.approveButton.setTextColor(Color.parseColor("#141414"))
 
-        viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(true))
+        if (viewModel.document.value!!.isWriter == true) {
+
+            //투표 다르게 보이게 설정
+            binding.approveArea.isVisible = false
+            binding.writerApprove.isVisible = true
+            binding.approval.isVisible = true
+            binding.approval.setImageResource(R.drawable.document_result_approval)
+
+            viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), true))
+
+        } else {
+            binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
+            binding.approveButton.setTextColor(Color.parseColor("#141414"))
+            viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(true))
+        }
     }
 
     //반려 시 반려 Api
     fun changeRefuseButton(){
-        binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
-        binding.refuseButton.setTextColor(Color.parseColor("#141414"))
 
-        viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(false))
+        if (viewModel.document.value!!.isWriter == true) {
+
+            //투표 다르게 보이게 설정
+            binding.approveArea.isVisible = false
+            binding.writerApprove.isVisible = true
+            binding.approval.isVisible = true
+            binding.approval.setImageResource(R.drawable.document_result_refusal)
+
+            viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), false))
+
+        } else {
+            binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
+            binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+
+            viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(false))
+        }
     }
 
     /* 문자열로 직급 반환하는 함수 */

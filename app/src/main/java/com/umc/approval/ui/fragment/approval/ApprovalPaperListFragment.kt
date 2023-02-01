@@ -55,7 +55,7 @@ class ApprovalPaperListFragment: Fragment() {
 
         binding.stateSelect.setOnClickListener {
             // bottomSheetDialog 객체 생성
-            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment()
+            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -64,7 +64,7 @@ class ApprovalPaperListFragment: Fragment() {
         }
 
         binding.sortSelect.setOnClickListener {
-            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment()
+            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment(binding.sortText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -73,7 +73,7 @@ class ApprovalPaperListFragment: Fragment() {
         }
 
         childFragmentManager
-            .setFragmentResultListener("status", this) { requestKey, bundle ->
+            .setFragmentResultListener("status", this) { _, bundle ->
                 val result = bundle.getString("result")
                 binding.stateText.text = result
 
@@ -81,7 +81,7 @@ class ApprovalPaperListFragment: Fragment() {
             }
 
         childFragmentManager
-            .setFragmentResultListener("sort", this) { requestKey, bundle ->
+            .setFragmentResultListener("sort", this) { _, bundle ->
                 val result = bundle.getString("result")
                 binding.sortText.text = result
 

@@ -75,6 +75,10 @@ class CommunityUploadViewModel() : ViewModel() {
     val link : LiveData<String>
         get() = _link
 
+    fun setTags(tags: List<String>) {
+        _tags.postValue(tags)
+    }
+
     /**Set images livedata*/
     fun setImage(images: List<Uri>) {
         _pic.postValue(images)

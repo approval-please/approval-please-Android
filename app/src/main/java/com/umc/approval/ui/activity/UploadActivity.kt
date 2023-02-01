@@ -78,7 +78,7 @@ class UploadActivity : AppCompatActivity() {
     private lateinit var tagTextView : TextView
     /*태그 데이터*/
     private lateinit var tagString : String
-    private lateinit var tagArray : ArrayList<String>
+    private lateinit var tagArray : List<String>
 
     /*링크 데이터*/
     private lateinit var linkString : String
@@ -189,23 +189,25 @@ class UploadActivity : AppCompatActivity() {
             if (viewModel.category.value != 18) {
                 uploadFile.category = viewModel.category.value
 
-                //링크가 있을 경우
-                if (viewModel.opengraph.value != null) {
-                    uploadFile.opengraph = viewModel.opengraph.value
-                }
+                CoroutineScope(Dispatchers.IO).launch {
+                    //링크가 있을 경우
+                    if (viewModel.opengraph.value != null) {
+                        uploadFile.opengraph = viewModel.opengraph.value
+                    }
 
-                //사진이 있을 경우
-                if (viewModel.pic.value != null) {
-                    S3_connect()
-                }
+                    //사진이 있을 경우
+                    if (viewModel.pic.value != null) {
+                        S3_connect()
+                    }
 
-                //태그가 있을 경우
-                if (viewModel.tags.value != null) {
-                    uploadFile.tag = viewModel.tags.value
-                }
+                    //태그가 있을 경우
+                    if (viewModel.tags.value != null) {
+                        uploadFile.tag = viewModel.tags.value
+                    }
 
-                viewModel.post_document(uploadFile)
-                finish()
+                    viewModel.post_document(uploadFile)
+                    finish()
+                }
             } else {
                 Toast.makeText(this, "부서를 선택해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -328,24 +330,33 @@ class UploadActivity : AppCompatActivity() {
             // tagTextView.setText(tagDialogEditText.text.toString())
             tagString = tagDialogEditText.text.toString()
 
-            var tag_list = listOf<String>()
-            
             if(tagString.length>1){
-                tagArray = tagString.split(" ") as ArrayList<String>
+                tagArray = tagString.split(" ")
 
-                tagArray.removeAll {tag: String -> tag == ""}
+                val new = mutableListOf<String>()
 
-                tag_list = tagArray
-                viewModel.setTags(tag_list)
+                for (i in tagArray) {
+                    if (i != "") {
+                        new.add(i)
+                    }
+                }
+
+                viewModel.setTags(new)
 
                 tagTextView.setText("("+tagArray.size+"/4)");
 
-                val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
+                val dataRVAdapter = UploadHashtagRVAdapter(new)
                 binding.uploadHashtagItem.adapter = dataRVAdapter
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
             }else{
                 tagTextView.setText("태그를 입력하세요 (0/4)")
+
+                val dataRVAdapter = UploadHashtagRVAdapter(listOf())
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+
+                viewModel.setTags(listOf())
             }
 
             tagDialog.dismiss()
@@ -657,6 +668,8 @@ class UploadActivity : AppCompatActivity() {
 
         for (uri in viewModel.pic.value!!) {
 
+            val random = UUID.randomUUID().toString()
+
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
@@ -667,10 +680,10 @@ class UploadActivity : AppCompatActivity() {
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
                     this,
-                    "approval-please/approval", file, "test"
+                    "approval-please", file, random
                 )
 
-            imageList.add("aws")
+            imageList.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
 
         uploadFile.images = imageList

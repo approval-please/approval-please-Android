@@ -12,9 +12,9 @@ interface CommentAPI {
     @Headers("content-type: application/json")
     fun getComments(
                     @Header("Authorization") accessToken: String?= null,
-                    @Query("documentId") documentId: Int?=null,
-                    @Query("toktokId") toktokId: Int?=null,
-                    @Query("reportId") reportId: Int?=null): Call<CommentListDto>
+                    @Query("documentId") documentId: String?=null,
+                    @Query("toktokId") toktokId: String?=null,
+                    @Query("reportId") reportId: String?=null): Call<CommentListDto>
 
     @POST("/comments")
     @Headers("content-type: application/json")

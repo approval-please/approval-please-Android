@@ -2,6 +2,7 @@ package com.umc.approval.data.repository.community
 
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
@@ -41,7 +42,7 @@ class CommunityRepository() {
     }
 
     /**get report detail*/
-    fun get_report_detail(accessToken: String, reportId: Int): Call<CommunityItemDto> {
+    fun get_report_detail(accessToken: String, reportId: String): Call<CommunityReportDetailDto> {
         return communityApi.get_community_report_detail(accessToken, reportId)
     }
 }

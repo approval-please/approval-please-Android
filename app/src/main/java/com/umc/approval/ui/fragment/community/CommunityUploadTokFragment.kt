@@ -35,8 +35,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.amazonaws.regions.Regions
-import com.umc.approval.API
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.*
 import com.umc.approval.ui.activity.CommunityUploadActivity
@@ -47,12 +45,10 @@ import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.util.CrawlingTask
-import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -166,7 +162,7 @@ class CommunityUploadTokFragment : Fragment() {
         binding.uploadTagBtn.setOnClickListener{
             showTagDialog()
         }
-        commonViewModel.setLink(1)
+        commonViewModel.setLink(0)
 
         return binding.root
     }
@@ -371,6 +367,10 @@ class CommunityUploadTokFragment : Fragment() {
             }
 
             linkDialog.dismiss()
+
+            if (viewModel.opengraph != null) {
+                viewModel.setOpengraph_list(viewModel.opengraph.value!!)
+            }
         }
 
 
@@ -589,18 +589,31 @@ class CommunityUploadTokFragment : Fragment() {
             tagString = tagDialogEditText.text.toString()
             binding.uploadHashtagItem.isVisible = true
             if(tagString.length>1){
-                tagArray = tagString.split(" ") as java.util.ArrayList<String>
+                tagArray = tagString.split(" ")
 
-                (tagArray as java.util.ArrayList<String>).removeAll { tag: String -> tag == ""}
+                val new = mutableListOf<String>()
 
-                binding.imageTagTv.text = "("+tagArray.size+"/4)";
+                for (i in tagArray) {
+                    if (i != "") {
+                        new.add(i)
+                    }
+                }
 
-                val dataRVAdapter = UploadHashtagRVAdapter(tagArray)
+                binding.imageTagTv.text = "("+new.size+"/4)";
+
+                val dataRVAdapter = UploadHashtagRVAdapter(new)
                 binding.uploadHashtagItem.adapter = dataRVAdapter
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
-            }
+                viewModel.setTags(new)
+            } else {
+                binding.imageTagTv.text = "("+0+"/4)";
+                val dataRVAdapter = UploadHashtagRVAdapter(listOf())
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
+                viewModel.setTags(listOf())
+            }
             tagDialog.dismiss()
         }
 

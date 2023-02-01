@@ -26,10 +26,11 @@
             android:id="@+id/social_logo"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/join_fragment_dialog_naver_logo"
+            android:src="@drawable/join_fragment_dialog_kakao_logo"
             android:elevation="1dp" />
 
         <TextView
+            android:id="@+id/email_name"
             android:layout_marginStart="8dp"
             android:text="f***0526@n***r.com"
             android:layout_width="wrap_content"

@@ -48,7 +48,7 @@ class ApprovalPaperTabFragment: Fragment() {
         }
 
         binding.stateSelect.setOnClickListener {
-            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment()
+            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -57,7 +57,7 @@ class ApprovalPaperTabFragment: Fragment() {
         }
 
         binding.sortSelect.setOnClickListener {
-            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment()
+            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment(binding.sortText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -66,13 +66,13 @@ class ApprovalPaperTabFragment: Fragment() {
         }
 
         childFragmentManager
-            .setFragmentResultListener("category", this) { requestKey, bundle ->
+            .setFragmentResultListener("category", this) { _, bundle ->
                 val result = bundle.getString("result")
                 binding.categoryText.text = result
             }
 
         childFragmentManager
-            .setFragmentResultListener("categoryList", this) { requestKey, bundle ->
+            .setFragmentResultListener("categoryList", this) { _, bundle ->
                 val category = bundle.getIntegerArrayList("category")
                 Log.d("로그", "카테고리 인덱스: $category")
 
@@ -80,7 +80,7 @@ class ApprovalPaperTabFragment: Fragment() {
             }
 
         childFragmentManager
-            .setFragmentResultListener("status", this) { requestKey, bundle ->
+            .setFragmentResultListener("status", this) { _, bundle ->
                 val result = bundle.getString("result")
                 binding.stateText.text = result
 
@@ -88,7 +88,7 @@ class ApprovalPaperTabFragment: Fragment() {
             }
 
         childFragmentManager
-            .setFragmentResultListener("sort", this) { requestKey, bundle ->
+            .setFragmentResultListener("sort", this) { _, bundle ->
                 val result = bundle.getString("result")
                 binding.sortText.text = result
 
