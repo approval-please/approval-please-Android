@@ -2,6 +2,7 @@ package com.umc.approval.ui.fragment.community
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -99,14 +100,14 @@ class CommunityReportFragment : Fragment() {
             community_item_rv.adapter = communityReportItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
-                override fun move_to_report_activity() {
-                    startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
-                }
-                override fun move_to_document_activity() {
-                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
-                }
-            }
+//            communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
+//                override fun move_to_report_activity() {
+//                    startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+//                }
+//                override fun move_to_document_activity() {
+//                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+//                }
+//            }
         }
     }
 

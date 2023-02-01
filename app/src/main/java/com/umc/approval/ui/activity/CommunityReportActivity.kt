@@ -146,7 +146,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
         val reportId = intent.getStringExtra("reportId")
 
-        reportViewModel.get_report_detail(reportId.toString())
+//        reportViewModel.get_report_detail(reportId.toString())
 
         reportViewModel.init()
     }
@@ -160,7 +160,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
         val reportId = intent.getStringExtra("reportId")
 
-        reportViewModel.get_report_detail(reportId.toString())
+//        reportViewModel.get_report_detail(reportId.toString())
 
     }
 

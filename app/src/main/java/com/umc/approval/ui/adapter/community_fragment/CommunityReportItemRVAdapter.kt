@@ -23,11 +23,6 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
 
             fun binding(data : CommunityReport) {
 
-                if (data.link != null) {
-                    binding.reportOpenGraphImage.load(data.link.image)
-                    binding.reportOpenGraphText.setText(data.link.title)
-                    binding.reportOpenGraphUrl.setText(data.link.url)
-
                 /*결재서류 부분*/
                 if(data.document.thumbnailImage == null){
                     binding.communityDocumentLayout.ivApprovalReportThumbnail.isVisible = false
@@ -53,8 +48,7 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
                 }else{
                     var imageRVAdapter = CommunityImageRVAdapter(data.images as ArrayList<String>)
                     binding.imageRv.adapter = imageRVAdapter
-                    binding.imageRv.layoutManager =
-                        LinearLayoutManager(context(), LinearLayoutManager.HORIZONTAL, false)
+                    binding.imageRv.layoutManager = LinearLayoutManager(context(), LinearLayoutManager.HORIZONTAL, false)
                 }
 
                 if(data.tag == null){
@@ -72,7 +66,6 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
                 }else{
                     binding.reportLinkLayout.isVisible = false
                 }
-            }
         }
     }
 

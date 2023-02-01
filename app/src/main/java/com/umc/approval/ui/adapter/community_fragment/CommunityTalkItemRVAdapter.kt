@@ -24,8 +24,6 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
         fun binding(data: CommunityTok) {
 
-            Log.d("test", data.toString())
-
             /*결재 보고서 부분*/
             binding.reportCategoryItemText.text = data.content // 내용
             binding.communityPostUserName.text = data.nickname

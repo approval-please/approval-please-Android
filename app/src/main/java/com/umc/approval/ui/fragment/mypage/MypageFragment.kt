@@ -96,9 +96,9 @@ class MypageFragment : Fragment() {
         viewModel.myInfo.observe(viewLifecycleOwner) {
 
             //follower
-            binding.followerTextview.setText(viewModel.myInfo.value!!.follows.toString())
+            binding.followerTextview.setText("팔로워 " + viewModel.myInfo.value!!.follows.toString())
             //following
-            binding.followingTextview.setText(viewModel.myInfo.value!!.followings.toString())
+            binding.followingTextview.setText("팔로잉 " + viewModel.myInfo.value!!.followings.toString())
             //nickname
             binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname)
             //introduce
