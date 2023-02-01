@@ -85,8 +85,8 @@ class CommunityUploadActivity : AppCompatActivity() {
                         }
 
                         val talkUploadDto = TalkUploadDto(
-                            tokViewModel.category.value, tokViewModel.content.value, "votetitle", false,
-                            false, null, tokViewModel.opengraph_list.value,
+                            tokViewModel.category.value, tokViewModel.content.value, null, null,
+                            null, null, tokViewModel.opengraph_list.value,
                             tokViewModel.tags.value, tokViewModel.images.value)
 
                         tokViewModel.post_tok(talkUploadDto)
@@ -145,7 +145,6 @@ class CommunityUploadActivity : AppCompatActivity() {
     private fun tok_S3_connect() : List<String>{
 
         var list = mutableListOf<String>()
-
         for (uri in tokViewModel.pic.value!!) {
 
             val random = UUID.randomUUID().toString()

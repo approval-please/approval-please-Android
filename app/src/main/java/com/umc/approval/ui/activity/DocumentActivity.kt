@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -219,23 +220,23 @@ class DocumentActivity : AppCompatActivity() {
         //댓글 라이브 데이터
         // 테스트 이전 코드
         commentViewModel.comments.observe(this) {
-            val itemList = ArrayList<DocumentCommentItem2>()
-            for(i in 0.. it.commentCount){
-                val content = it.content[i]
-                if(!content.isDeleted){
-                    val itemList2 = ArrayList<DocumentCommentItem>()
-                    itemList2.add(DocumentCommentItem(content.profileImage, content.nickname, content.level, content.content,content.datetime, content.likeCount, content.isWriter, content.isLike))
-                    itemList.add(DocumentCommentItem2(DocumentCommentItem2.TYPE_1, itemList2))
-                    if(content.childComment.count() != 0){
-                        val childItemList = ArrayList<DocumentCommentItem>()
-                        val childComment = content.childComment
-                        for(j in 0..childComment.count() - 1){
-                            childItemList.add(DocumentCommentItem(childComment[j].profileImage, childComment[j].nickname, childComment[j].level, childComment[j].content, childComment[j].datetime, childComment[j].likeCount, childComment[j].isWriter, childComment[j].isLike))
-                        }
-                        itemList.add(DocumentCommentItem2(DocumentCommentItem2.TYPE_2, childItemList))
-                    }
-                }
-            }
+//            val itemList = ArrayList<DocumentCommentItem2>()
+//            for(i in 0.. it.commentCount){
+//                val content = it.content[i]
+//                if(!content.isDeleted){
+//                    val itemList2 = ArrayList<DocumentCommentItem>()
+//                    itemList2.add(DocumentCommentItem(content.profileImage, content.nickname, content.level, content.content,content.datetime, content.likeCount, content.isWriter, content.isLike))
+//                    itemList.add(DocumentCommentItem2(DocumentCommentItem2.TYPE_1, itemList2))
+//                    if(content.childComment.count() != 0){
+//                        val childItemList = ArrayList<DocumentCommentItem>()
+//                        val childComment = content.childComment
+//                        for(j in 0..childComment.count() - 1){
+//                            childItemList.add(DocumentCommentItem(childComment[j].profileImage, childComment[j].nickname, childComment[j].level, childComment[j].content, childComment[j].datetime, childComment[j].likeCount, childComment[j].isWriter, childComment[j].isLike))
+//                        }
+//                        itemList.add(DocumentCommentItem2(DocumentCommentItem2.TYPE_2, childItemList))
+//                    }
+//                }
+//            }
 //            binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
 //            val documentCommentAdapter = DocumentCommentAdapter(it.content)
 //            documentCommentAdapter.notifyDataSetChanged()

@@ -78,5 +78,8 @@
             app:destination="@id/loginFragment" />
         <argument android:name="email"
             app:argType="string" />
+        <argument
+            android:name="socialId"
+            app:argType="string" />
     </fragment>
 </navigation>

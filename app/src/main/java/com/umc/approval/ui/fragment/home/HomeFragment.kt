@@ -178,7 +178,7 @@ class HomeFragment : Fragment() {
     private fun best_new_click() {
         //인기순
         binding.best.setOnClickListener {
-            approvalViewModel.get_all_documents("0")
+            approvalViewModel.get_all_documents(sortBy = "0")
         }
 
         //최신 순
