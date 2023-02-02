@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
+import com.umc.approval.data.dto.comment.get.CommentDto
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
@@ -23,7 +26,9 @@ import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapt
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteCompleteRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
 import com.umc.approval.util.CommentItem
 import com.umc.approval.util.Utils.categoryMap
@@ -35,6 +40,8 @@ class CommunityTokActivity : AppCompatActivity() {
 
     //viewModel
     private val viewModel by viewModels<TokViewModel>()
+
+    val commentViewModel by viewModels<CommentViewModel>()
 
     /*다이얼로그*/
     private lateinit var activityCommunityReportPostDialogBinding: ActivityCommunityReportPostDialogBinding
@@ -51,6 +58,26 @@ class CommunityTokActivity : AppCompatActivity() {
         binding = ActivityCommunityTokBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        //작성 누를 시 댓글 작성
+        binding.writeButton.setOnClickListener {
+            if (viewModel.accessToken.value != false) {
+                val postComment = CommentPostDto(toktokId = viewModel.tok.value!!.toktokId,
+                    content = binding.communityCommentEt.text.toString(), parentCommentId = null)
+
+                if (commentViewModel.commentId.value != -1) {
+                    postComment.parentCommentId = commentViewModel.commentId.value
+                }
+
+                commentViewModel.post_comments(postComment)
+                binding.communityCommentEt.text.clear()
+                commentViewModel.setParentCommentId(-1)
+            } else {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         //좋아요 눌렀을때 로직
         //구현 필요
@@ -73,6 +100,8 @@ class CommunityTokActivity : AppCompatActivity() {
         super.onStart()
 
         val toktokId = intent.getStringExtra("toktokId")
+
+        commentViewModel.get_comments(toktokId = toktokId.toString())
 
 //        viewModel.get_tok_detail(toktokId.toString())
 
@@ -282,8 +311,6 @@ class CommunityTokActivity : AppCompatActivity() {
             //댓글 수
             binding.commentNum.text = it.commentCount.toString()
 
-
-
             //이미지가 비어있는 경우
             if (it.images!!.isNotEmpty()) {
                 var imageRVAdapter = CommunityImageRVAdapter(it.images!!)
@@ -311,6 +338,25 @@ class CommunityTokActivity : AppCompatActivity() {
                 binding.uploadHashtagItem.isVisible = false;
             }
 
+            //댓글 라이브 데이터
+            commentViewModel.comments.observe(this) {
+
+                binding.commentItem.layoutManager = LinearLayoutManager(this)
+                val documentCommentAdapter = ParentCommentAdapter(it)
+                documentCommentAdapter.notifyDataSetChanged()
+                binding.commentItem.adapter = documentCommentAdapter
+
+                documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
+
+                    override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
+                        if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
+                            commentViewModel.setParentCommentId(-1)
+                        } else {
+                            commentViewModel.setParentCommentId(data.commentId)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -427,13 +473,5 @@ class CommunityTokActivity : AppCompatActivity() {
                 }
             })
         }
-    }
-
-    private fun setComment(){
-        val commentList : ArrayList<CommentItem> = arrayListOf()
-
-        val dataRVAdapter = CommunityCommentRVAdapter(commentList)
-        binding.commentItem.adapter = dataRVAdapter
-        binding.commentItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 }

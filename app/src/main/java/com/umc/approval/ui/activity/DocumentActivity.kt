@@ -242,14 +242,8 @@ class DocumentActivity : AppCompatActivity() {
 
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
-
-                        Log.d("테스트입니다", "같음")
-
                         commentViewModel.setParentCommentId(-1)
                     } else {
-
-                        Log.d("테스트입니다", "다름")
-
                         commentViewModel.setParentCommentId(data.commentId)
                     }
                 }

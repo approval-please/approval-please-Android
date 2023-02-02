@@ -44,6 +44,14 @@ class TokViewModel() : ViewModel() {
     val tok : LiveData<CommunityTokDetailDto>
         get() = _tok
 
+    //엑세스 토큰 체크 리포지토리
+    private val accessTokenRepository = AccessTokenRepository()
+
+    //엑세스 토큰이 존재할시 True값 지정, True 시 로그인 상태
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
+        get() = _accessToken
+
     /**
      * 테스트용 데이터
      * 정상 동작 Check 완료
@@ -128,6 +136,26 @@ class TokViewModel() : ViewModel() {
                     Log.d("RESPONSE", response.body().toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**엑세스 토큰 체크*/
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
                 }
             }
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
