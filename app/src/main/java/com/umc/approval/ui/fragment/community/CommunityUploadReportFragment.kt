@@ -287,6 +287,13 @@ class CommunityUploadReportFragment : Fragment() {
             binding.imageRv.adapter = imageRVAdapter
             binding.imageRv.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            val images = mutableListOf<String>()
+            for (i in it) {
+                val random = UUID.randomUUID().toString()
+                images.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
+            }
+            viewModel.setRealImage(images)
         }
     }
 

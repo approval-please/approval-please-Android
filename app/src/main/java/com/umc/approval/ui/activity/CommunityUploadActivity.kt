@@ -142,60 +142,51 @@ class CommunityUploadActivity : AppCompatActivity() {
     }
 
     /*S3 connect*/
-    private fun tok_S3_connect() : List<String>{
+    private fun tok_S3_connect(){
 
-        var list = mutableListOf<String>()
-        for (uri in tokViewModel.pic.value!!) {
+        for ((index,uri) in tokViewModel.pic.value!!.withIndex()) {
 
-            val random = UUID.randomUUID().toString()
+            val new_list = tokViewModel.images.value!![index].split("/")
 
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
+
+            Log.d("new_list", new_list.toString())
 
             /**S3에 저장*/
             S3Util().getInstance()
                 ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
-                    this, "approval-please", file, random
+                    this,
+                    "approval-please", file, new_list.get(new_list.size-1)
                 )
-
-            list.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
-
-        tokViewModel.setRealImage(list)
-
-        return list
     }
 
     /*S3 connect*/
-    private fun report_S3_connect() : List<String>{
+    private fun report_S3_connect(){
 
-        var list = mutableListOf<String>()
+        for ((index,uri) in reportViewModel.pic.value!!.withIndex()) {
 
-        for (uri in reportViewModel.pic.value!!) {
-
-            val random = UUID.randomUUID().toString()
+            val new_list = reportViewModel.images.value!![index].split("/")
 
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
+
+            Log.d("new_list", new_list.toString())
 
             /**S3에 저장*/
             S3Util().getInstance()
                 ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
-                    this, "approval-please", file, random
+                    this,
+                    "approval-please", file, new_list.get(new_list.size-1)
                 )
-
-            list.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
-
-        reportViewModel.setRealImage(list)
-
-        return list
     }
 
     /*File Uri for S3 connect*/
