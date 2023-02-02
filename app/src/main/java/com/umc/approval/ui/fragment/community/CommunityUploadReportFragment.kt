@@ -48,15 +48,14 @@ import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLink
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVoteItemRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.util.CrawlingTask
-import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -68,6 +67,8 @@ class CommunityUploadReportFragment : Fragment() {
     private val viewModel by activityViewModels<CommunityReportUploadViewModel>()
 
     private val commonViewModel by activityViewModels<CommunityViewModel>()
+
+    private val documentViewModel by viewModels<DocumentViewModel>()
 
 
     /**Image Adapter*/
@@ -137,6 +138,14 @@ class CommunityUploadReportFragment : Fragment() {
         binding.imageRv.isVisible = false
         binding.openGraphLayout.isVisible = false
         binding.uploadHashtagItem.isVisible = false
+
+        viewModel.documentId.observe(viewLifecycleOwner) {
+            documentViewModel.get_document_detail(it.toString())
+        }
+
+        documentViewModel.document.observe(viewLifecycleOwner) {
+            binding.documentBtn.text = it.title.toString()
+        }
 
         /*이미지 선택시 실행되는 메서드*/
         observe_pic()

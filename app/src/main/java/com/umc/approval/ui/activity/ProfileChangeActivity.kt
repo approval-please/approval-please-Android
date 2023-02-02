@@ -29,6 +29,7 @@ import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY_PERMISSION
 import java.io.File
+import java.util.UUID
 
 class ProfileChangeActivity : AppCompatActivity() {
 
@@ -44,11 +45,6 @@ class ProfileChangeActivity : AppCompatActivity() {
         setContentView(view)
 
         viewModel = ViewModelProvider(this).get(ProfileChangeViewModel::class.java)
-
-        binding.saveButton.isVisible = false
-
-        //초기화 데이터
-//        viewModel.init_data()
 
         viewModel.my_profile()
 
@@ -72,33 +68,15 @@ class ProfileChangeActivity : AppCompatActivity() {
 
         //profile change event 발생
         save()
-
-        edit()
     }
 
     /**image introduction nickname live data*/
     private fun iamge_live_data() {
         viewModel.image.observe(this) {
-            binding.saveButton.isVisible = true
             binding.profileImage.load(it)
         }
     }
 
-    /***/
-    /*link 변경 메서드*/
-    private fun edit() {
-        binding.nickname.addTextChangedListener { text: Editable? ->
-            text?.let {
-                binding.saveButton.isVisible = true
-            }
-        }
-
-        binding.my.addTextChangedListener { text: Editable? ->
-            text?.let {
-                binding.saveButton.isVisible = true
-            }
-        }
-    }
 
     /**load_profile_live_data*/
     private fun load_profile_live_data() {
@@ -110,7 +88,7 @@ class ProfileChangeActivity : AppCompatActivity() {
             binding.my.setText(viewModel.load_profile.value!!.introduction)
 
             //profile image
-            if (!viewModel.load_profile.value!!.profileImage.equals(null)) {
+            if (viewModel.load_profile.value!!.profileImage != null) {
                 binding.profileImage.load(viewModel.load_profile.value!!.profileImage)
             }
         }
@@ -122,7 +100,11 @@ class ProfileChangeActivity : AppCompatActivity() {
 
             var profile = ProfileChange()
 
+            val route = UUID.randomUUID().toString()
+
             if (viewModel.image.value != null) {
+
+                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/" + route
 
                 /**uri 변환*/
                 val realPathFromURI = getRealPathFromURI(viewModel.image.value!!)
@@ -134,10 +116,8 @@ class ProfileChangeActivity : AppCompatActivity() {
                     ?.setRegion(Regions.AP_NORTHEAST_2)
                     ?.uploadWithTransferUtility(
                         this,
-                        "approval-please/profile", file, "my"
+                        "approval-please/profile", file, route
                     )
-
-                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/my"
             }
 
             profile.nickname = binding.nickname.text.toString()

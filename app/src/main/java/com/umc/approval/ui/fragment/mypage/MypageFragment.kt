@@ -113,7 +113,7 @@ class MypageFragment : Fragment() {
             var rank : String? = setRank(viewModel.myInfo.value!!.level)
             binding.rank.text = rank
             //profile image
-            if (!viewModel.myInfo.value!!.profileImage.equals(null)) {
+            if (viewModel.myInfo.value!!.profileImage != null) {
                 binding.profileImage.load(viewModel.myInfo.value!!.profileImage)
             }
         }

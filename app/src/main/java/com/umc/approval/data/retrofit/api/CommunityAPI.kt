@@ -5,6 +5,8 @@ import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
+import com.umc.approval.data.dto.communitydetail.post.CommunityVotePost
+import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import okhttp3.ResponseBody
@@ -102,4 +104,12 @@ interface CommunityAPI {
         @Header("Authorization") accessToken: String,
         @Path("reportId") reportId : String,
     ): Call<ResponseBody>
+
+
+    @POST("/community/toktoks/votes/{voteId}")
+    @Headers("content-type: application/json")
+    fun post_vote(
+        @Header("Authorization") accessToken: String, @Path("voteId") voteId: String,
+        @Body voteOptionIds : CommunityVotePost
+    ):Call<CommunityVoteResult>
 }

@@ -92,9 +92,15 @@ class CommunityUploadViewModel() : ViewModel() {
         get() = _voteIsAnonymous
 
     //투표 관련 기능
+    fun initVoteOption(options: List<String>) {
+        _voteOption.postValue(options)
+    }
+
+    //투표 관련 기능
     fun setVoteOption(options: List<String>) {
         _voteOption.postValue(options)
     }
+
     fun setVoteTitle(li: String) {
         _link.postValue(li)
     }

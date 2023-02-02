@@ -16,12 +16,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
-import com.umc.approval.data.dto.opengraph.OpenGraphDto
+import com.umc.approval.data.dto.community.get.VoteItem
+import com.umc.approval.data.dto.communitydetail.get.VoteOption
+import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportUserDialogBinding
 import com.umc.approval.databinding.ActivityCommunityTokBinding
-import com.umc.approval.ui.adapter.community_post_activity.CommunityCommentRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteCompleteRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
@@ -30,9 +31,7 @@ import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapte
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
-import com.umc.approval.util.CommentItem
 import com.umc.approval.util.Utils.categoryMap
-import com.umc.approval.util.VoteItem
 
 
 class CommunityTokActivity : AppCompatActivity() {
@@ -58,6 +57,9 @@ class CommunityTokActivity : AppCompatActivity() {
         binding = ActivityCommunityTokBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        binding.communityVoteLayout.communityVoteLayout.isVisible = false
+        binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = false
 
         //작성 누를 시 댓글 작성
         binding.writeButton.setOnClickListener {
@@ -338,140 +340,254 @@ class CommunityTokActivity : AppCompatActivity() {
                 binding.uploadHashtagItem.isVisible = false;
             }
 
-            //댓글 라이브 데이터
-            commentViewModel.comments.observe(this) {
+            //투표가 있는 경우
+            if (it.voteId != null) {
 
-                binding.commentItem.layoutManager = LinearLayoutManager(this)
-                val documentCommentAdapter = ParentCommentAdapter(it)
-                documentCommentAdapter.notifyDataSetChanged()
-                binding.commentItem.adapter = documentCommentAdapter
+                viewModel.setVotePeopleEachOption(CommunityVoteResult(it.votePeopleEachOption!!))
+            }
+        }
 
-                documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
+        viewModel.votePeopleEachOption.observe(this) {
+            viewModel.tok.value!!.votePeopleEachOption = it.votePeopleEachOption
+            viewModel.setReVote(0)
+        }
 
-                    override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
-                        if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
-                            commentViewModel.setParentCommentId(-1)
-                        } else {
-                            commentViewModel.setParentCommentId(data.commentId)
-                        }
+        //댓글 라이브 데이터
+        commentViewModel.comments.observe(this) {
+
+            binding.commentItem.layoutManager = LinearLayoutManager(this)
+            val documentCommentAdapter = ParentCommentAdapter(it)
+            documentCommentAdapter.notifyDataSetChanged()
+            binding.commentItem.adapter = documentCommentAdapter
+
+            documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
+
+                override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
+                    if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
+                        commentViewModel.setParentCommentId(-1)
+                    } else {
+                        commentViewModel.setParentCommentId(data.commentId)
                     }
                 }
             }
         }
     }
 
-    private fun setVoteList(voteList: List<VoteItem>, writer: Boolean, vote: Boolean,
-                            close: Boolean, revote: Boolean, totalParticipant: Int){
+    fun setVoteList(vvoteList: List<VoteOption>, vwriter: Boolean, vvote: List<VoteOption>,
+                            vclose: Boolean, totalParticipant: Int) {
 
-        val voteList : ArrayList<VoteItem> = arrayListOf()
-        var writer = 0 // 글쓴이 여부 0: 작성자 아님 /  1 : 작성자
-        var vote = 1 // 투표 했으면 1 아니면 0
-        var close = 0 // 투표 닫으면 1 아니면 0
-        var reVote = 0
-        var totalParticipant = 9
+        //vote 리스트
+        val voteList = mutableListOf<VoteItem>()
 
-        voteList.apply{
-            add(VoteItem("스벅ㄴㅇㄹㄴㅇㄹeeeeeeeeeeeeee", true,arrayListOf("dfs","fswedf","dfsfsd")))
-            add(VoteItem("sdfsdfsd",false, arrayListOf("dfs","fsdf")))
-            add(VoteItem("스벅ㄴㅇㄹㄴㅇㄹ", false,arrayListOf("dfs","fswedf")))
-            add(VoteItem("스벅ㄴㅇㄹㄴㅇㄹ", false,arrayListOf("dfs","fswedf")))
+        val sendVote = mutableListOf<Int>()
+
+        for ((index, data) in vvoteList.withIndex()) {
+
+            if (data in vvote) {
+                voteList.add(
+                    VoteItem(
+                        data.voteOptionId, true, data.opt,
+                        viewModel.tok.value!!.votePeopleEachOption!![index]
+                    )
+                )
+                sendVote.add(data.voteOptionId)
+            } else {
+                voteList.add(
+                    VoteItem(
+                        data.voteOptionId, false, data.opt,
+                        viewModel.tok.value!!.votePeopleEachOption!![index]
+                    )
+                )
+            }
         }
-        val dataCompleteRVAdapter : CommunityVoteCompleteRVAdapter
-        val dataRVAdapter : CommunityVoteCompleteRVAdapter
 
-        if(close == 1 ){ // 투표 종료 후
-            binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표 종료"
-            binding.communityVoteLayout.communityVoteLayout.isVisible = false
-            binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
-            binding.communityVoteLayoutComplete.closeVoteButton.isVisible = false
-            binding.communityVoteLayoutComplete.revoteButton.isVisible = false
-            binding.communityVoteLayoutComplete.voteButton.isVisible = false
-            dataCompleteRVAdapter = CommunityVoteCompleteRVAdapter(voteList,totalParticipant.toFloat(),false)
-            binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
-            binding.communityVoteLayoutComplete.voteItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        // 글쓴이 여부 0: 작성자 아님 /  1 : 작성자
+        var writer: Int
+        if (vwriter == false) {
+            writer = 0
+        } else {
+            writer = 1
+        }
 
-            dataCompleteRVAdapter?.setOnItemClickListener(object: CommunityVoteCompleteRVAdapter.OnItemClickListner {
-                override fun onItemClick(v: View, data: VoteItem, pos: Int) {
-                    val voteIntent = Intent(this@CommunityTokActivity,CommunityTokVoteParticipant::class.java) // 인텐트를 생성
-                    voteIntent.putExtra("title",data.content)
-                    startActivity(voteIntent)
+        //vote select
+        var vote: Int
+        if (vvote.isEmpty()) {
+            vote = 0
+        } else {
+            vote = 1
+        }
+
+        //is End
+        var close: Int
+        if (vclose == false) {
+            close = 0
+        } else {
+            close = 1
+        }
+
+        var totalParticipant = totalParticipant
+
+        var dataCompleteRVAdapter: CommunityVoteCompleteRVAdapter
+        val dataRVAdapter: CommunityVoteCompleteRVAdapter
+
+        viewModel.reVote.observe(this) {
+            if (it == 1) { // 재 투표 다시 투표하기 누르면 실행, 실행 후 revote 0
+                binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
+                binding.communityVoteLayout.communityVoteLayout.isVisible = false
+                binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
+                binding.communityVoteLayoutComplete.revoteButton.isVisible = false
+                binding.communityVoteLayoutComplete.closeVoteButton.isVisible = false
+                binding.communityVoteLayoutComplete.voteButton.isVisible = true
+                binding.communityVoteLayoutComplete.voteButton.setOnClickListener {
+                    viewModel.setReVote(0)
+                    viewModel.post_vote(sendVote, viewModel.tok.value!!.voteId.toString())
                 }
-            })
+                val dataCompleteRVAdapter =
+                    CommunityVoteCompleteRVAdapter(voteList, totalParticipant.toFloat(), true)
+                binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
+                binding.communityVoteLayoutComplete.voteItem.layoutManager =
+                    LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        }else if(writer == 1){ // 작성자 투표
-            binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
-            binding.communityVoteLayout.communityVoteLayout.isVisible = false
-            binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
-            binding.communityVoteLayoutComplete.closeVoteButton.isVisible = true
-            binding.communityVoteLayoutComplete.closeVoteButton.setOnClickListener{
-                close = 1
-            }
-            binding.communityVoteLayoutComplete.revoteButton.isVisible = false
-            binding.communityVoteLayoutComplete.voteButton.isVisible = false
-            val dataCompleteRVAdapter = CommunityVoteCompleteRVAdapter(voteList,totalParticipant.toFloat(),false)
-            binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
-            binding.communityVoteLayoutComplete.voteItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+                dataCompleteRVAdapter?.setOnItemClickListener(object :
+                    CommunityVoteCompleteRVAdapter.OnItemClickListner {
+                    override fun onItemClick(v: View, data: VoteItem, pos: Int) {
+                        val voteIntent = Intent(
+                            this@CommunityTokActivity,
+                            CommunityTokVoteParticipant::class.java
+                        ) // 인텐트를 생성
+                        voteIntent.putExtra("title", data.content)
+                        startActivity(voteIntent)
+                    }
 
-            dataCompleteRVAdapter?.setOnItemClickListener(object: CommunityVoteCompleteRVAdapter.OnItemClickListner {
-                override fun onItemClick(v: View, data: VoteItem, pos: Int) {
-                    val voteIntent = Intent(this@CommunityTokActivity,CommunityTokVoteParticipant::class.java) // 인텐트를 생성
-                    voteIntent.putExtra("title",data.content)
-                    startActivity(voteIntent)
+                    override fun voteClick(v: View, data: Int, pos: Int) {
+                        if (data in sendVote) {
+                            sendVote.remove(data)
+                        } else {
+                            sendVote.add(data)
+                        }
+                    }
+                })
+            } else {
+
+                if (close == 1) { // 투표 종료 후
+                    binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표 종료"
+                    binding.communityVoteLayout.communityVoteLayout.isVisible = false
+                    binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
+                    binding.communityVoteLayoutComplete.closeVoteButton.isVisible = false
+                    binding.communityVoteLayoutComplete.revoteButton.isVisible = false
+                    binding.communityVoteLayoutComplete.voteButton.isVisible = false
+                    dataCompleteRVAdapter =
+                        CommunityVoteCompleteRVAdapter(voteList, totalParticipant.toFloat(), false)
+                    binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
+                    binding.communityVoteLayoutComplete.voteItem.layoutManager =
+                        LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+                    dataCompleteRVAdapter?.setOnItemClickListener(object :
+                        CommunityVoteCompleteRVAdapter.OnItemClickListner {
+                        override fun onItemClick(v: View, data: VoteItem, pos: Int) {
+                            val voteIntent = Intent(
+                                this@CommunityTokActivity,
+                                CommunityTokVoteParticipant::class.java
+                            ) // 인텐트를 생성
+                            voteIntent.putExtra("title", data.content)
+                            startActivity(voteIntent)
+                        }
+
+                        override fun voteClick(v: View, data: Int, pos: Int) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+
+                } else if (writer == 1) { // 작성자 투표
+                    binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
+                    binding.communityVoteLayout.communityVoteLayout.isVisible = false
+                    binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
+                    binding.communityVoteLayoutComplete.closeVoteButton.isVisible = true
+                    binding.communityVoteLayoutComplete.closeVoteButton.setOnClickListener {
+                        close = 1
+                    }
+                    binding.communityVoteLayoutComplete.revoteButton.isVisible = false
+                    binding.communityVoteLayoutComplete.voteButton.isVisible = false
+                    val dataCompleteRVAdapter =
+                        CommunityVoteCompleteRVAdapter(voteList, totalParticipant.toFloat(), false)
+                    binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
+                    binding.communityVoteLayoutComplete.voteItem.layoutManager =
+                        LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+                    dataCompleteRVAdapter?.setOnItemClickListener(object :
+                        CommunityVoteCompleteRVAdapter.OnItemClickListner {
+                        override fun onItemClick(v: View, data: VoteItem, pos: Int) {
+                            val voteIntent = Intent(
+                                this@CommunityTokActivity,
+                                CommunityTokVoteParticipant::class.java
+                            ) // 인텐트를 생성
+                            voteIntent.putExtra("title", data.content)
+                            startActivity(voteIntent)
+                        }
+
+                        override fun voteClick(v: View, data: Int, pos: Int) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+                } else if (vote == 0) { // 투표 안했을 때
+                    binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
+                    binding.communityVoteLayout.communityVoteLayout.isVisible = true
+                    binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = false
+                    val dataRVAdapter = CommunityVoteRVAdapter(voteList)
+                    binding.communityVoteLayout.voteItem.adapter = dataRVAdapter
+                    binding.communityVoteLayout.voteItem.layoutManager =
+                        LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+                    binding.communityVoteLayout.voteButton.setOnClickListener {
+                        vote = 1
+                        viewModel.post_vote(sendVote, viewModel.tok.value!!.voteId.toString())
+                    }
+                    dataRVAdapter?.setOnItemClickListener(object :
+                        CommunityVoteRVAdapter.OnItemClickListner {
+                        override fun onItemClick(v: View, data: VoteItem, pos: Int) {
+                        }
+
+                        override fun voteClick(v: View, data: Int, pos: Int) {
+                            if (data in sendVote) {
+                                sendVote.remove(data)
+                            } else {
+                                sendVote.add(data)
+                            }
+                        }
+                    })
+
+                } else { // 투표 이미 한 상태
+                    binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
+                    binding.communityVoteLayout.communityVoteLayout.isVisible = false
+                    binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
+                    binding.communityVoteLayoutComplete.revoteButton.isVisible = true
+                    binding.communityVoteLayoutComplete.closeVoteButton.isVisible = false
+                    binding.communityVoteLayoutComplete.voteButton.isVisible = false
+                    binding.communityVoteLayoutComplete.revoteButton.setOnClickListener {
+                        viewModel.setReVote(1)
+                    }
+                    dataCompleteRVAdapter =
+                        CommunityVoteCompleteRVAdapter(voteList, totalParticipant.toFloat(), false)
+                    binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
+                    binding.communityVoteLayoutComplete.voteItem.layoutManager =
+                        LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+                    dataCompleteRVAdapter?.setOnItemClickListener(object :
+                        CommunityVoteCompleteRVAdapter.OnItemClickListner {
+                        override fun onItemClick(v: View, data: VoteItem, pos: Int) {
+                            val voteIntent = Intent(
+                                this@CommunityTokActivity,
+                                CommunityTokVoteParticipant::class.java
+                            ) // 인텐트를 생성
+                            voteIntent.putExtra("title", data.content)
+                            startActivity(voteIntent)
+                        }
+
+                        override fun voteClick(v: View, data: Int, pos: Int) {
+                            TODO("Not yet implemented")
+                        }
+                    })
                 }
-            })
-        }else if(vote == 0){ // 투표 안했을 때
-            binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
-            binding.communityVoteLayout.communityVoteLayout.isVisible = true
-            binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = false
-            val dataRVAdapter = CommunityVoteRVAdapter(voteList)
-            binding.communityVoteLayout.voteItem.adapter = dataRVAdapter
-            binding.communityVoteLayout.voteItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            binding.communityVoteLayout.voteButton.setOnClickListener{
-                vote = 1
             }
-        }else if(reVote == 1){ // 재 투표 다시 투표하기 누르면 실행, 실행 후 revote 0
-            binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
-            binding.communityVoteLayout.communityVoteLayout.isVisible = false
-            binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
-            binding.communityVoteLayoutComplete.revoteButton.isVisible = false
-            binding.communityVoteLayoutComplete.closeVoteButton.isVisible = false
-            binding.communityVoteLayoutComplete.voteButton.isVisible = true
-            binding.communityVoteLayoutComplete.voteButton.setOnClickListener{
-                reVote = 0
-            }
-            binding.communityVoteLayoutComplete.revoteButton.isVisible = false
-            val dataCompleteRVAdapter = CommunityVoteCompleteRVAdapter(voteList,totalParticipant.toFloat(),true)
-            binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
-            binding.communityVoteLayoutComplete.voteItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-
-            dataCompleteRVAdapter?.setOnItemClickListener(object: CommunityVoteCompleteRVAdapter.OnItemClickListner {
-                override fun onItemClick(v: View, data: VoteItem, pos: Int) {
-                    val voteIntent = Intent(this@CommunityTokActivity,CommunityTokVoteParticipant::class.java) // 인텐트를 생성
-                    voteIntent.putExtra("title",data.content)
-                    startActivity(voteIntent)
-                }
-            })
-        }else{ // 투표 이미 한 상태
-            binding.communityVoteLayoutComplete.communityPostVoteState.text = "투표진행중"
-            binding.communityVoteLayout.communityVoteLayout.isVisible = false
-            binding.communityVoteLayoutComplete.communityVoteCompleteLayout.isVisible = true
-            binding.communityVoteLayoutComplete.revoteButton.isVisible = true
-            binding.communityVoteLayoutComplete.closeVoteButton.isVisible = false
-            binding.communityVoteLayoutComplete.voteButton.isVisible = false
-            binding.communityVoteLayoutComplete.revoteButton.setOnClickListener{
-                reVote = 1
-            }
-            dataCompleteRVAdapter = CommunityVoteCompleteRVAdapter(voteList,totalParticipant.toFloat(),false)
-            binding.communityVoteLayoutComplete.voteItem.adapter = dataCompleteRVAdapter
-            binding.communityVoteLayoutComplete.voteItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-
-            dataCompleteRVAdapter?.setOnItemClickListener(object: CommunityVoteCompleteRVAdapter.OnItemClickListner {
-                override fun onItemClick(v: View, data: VoteItem, pos: Int) {
-                    val voteIntent = Intent(this@CommunityTokActivity,CommunityTokVoteParticipant::class.java) // 인텐트를 생성
-                    voteIntent.putExtra("title",data.content)
-                    startActivity(voteIntent)
-                }
-            })
         }
     }
 }

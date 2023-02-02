@@ -57,6 +57,13 @@ class DocumentActivity : AppCompatActivity() {
         //서류가 들어왔을때 View 구성
         live_data()
 
+        binding.heart.setOnClickListener {
+            if (viewModel.like.value == false) {
+                viewModel.document_like()
+            } else {
+                viewModel.document_like()
+            }
+        }
 
         //작성 누를 시 댓글 작성
         binding.writeButton.setOnClickListener {
@@ -147,8 +154,19 @@ class DocumentActivity : AppCompatActivity() {
     //라이브 데이터
     private fun live_data() {
 
+        //로직
+        viewModel.like.observe(this) {
+            if (it == true) {
+                binding.heart.setImageResource(R.drawable.fill_heart)
+            } else {
+                binding.heart.setImageResource(R.drawable.document_comment_icon_heart)
+            }
+        }
+
         //결재 서류 라이브 데이터
         viewModel.document.observe(this) {
+
+            viewModel.setLike(it.isLiked!!)
 
             binding.cate.text = categoryMap[it.category]
 

@@ -8,8 +8,3 @@ data class CommunityVotePost (
     var voteOptionIds : List<Int>
 )
 
-data class CommunityVoteResult (
-    @SerializedName("votePeopleEachOption")
-    var votePeopleEachOption : List<Int>
-)
-

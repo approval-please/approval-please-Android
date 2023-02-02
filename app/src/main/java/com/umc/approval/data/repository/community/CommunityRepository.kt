@@ -5,6 +5,8 @@ import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
+import com.umc.approval.data.dto.communitydetail.post.CommunityVotePost
+import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.communityApi
@@ -40,6 +42,11 @@ class CommunityRepository() {
     /**get toktok detail*/
     fun get_tok_detail(accessToken: String, tokId: String): Call<CommunityTokDetailDto> {
         return communityApi.get_community_tok_detail(accessToken, tokId)
+    }
+
+    /**get toktok detail*/
+    fun post_vote(accessToken: String, voteId: String, list: CommunityVotePost): Call<CommunityVoteResult> {
+        return communityApi.post_vote(accessToken, voteId, list)
     }
 
     /**delete toktok detail*/

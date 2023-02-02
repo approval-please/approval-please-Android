@@ -55,6 +55,14 @@ class DocumentViewModel() : ViewModel() {
     val category : LiveData<InterestingDto>
         get() = _category
 
+    private var _like = MutableLiveData<Boolean>()
+    val like : LiveData<Boolean>
+        get() = _like
+
+    fun setLike(li: Boolean) {
+        _like.postValue(li)
+    }
+
     /**
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
@@ -154,11 +162,11 @@ class DocumentViewModel() : ViewModel() {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = likeRepository.like(accessToken, LikeDto(documentId = 1))
+        val response = likeRepository.like(accessToken, LikeDto(documentId = document.value!!.documentId))
         response.enqueue(object : Callback<LikeReturnDto> {
             override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
+                    _like.postValue(response.body()!!.isLike)
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

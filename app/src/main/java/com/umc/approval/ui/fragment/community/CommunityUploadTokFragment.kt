@@ -211,10 +211,6 @@ class CommunityUploadTokFragment : Fragment() {
                 binding.voteItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             }
         }
-        val dataRVAdapter = CommunityUploadVoteItemRVAdapter(voteList)
-        binding.voteItem.adapter = dataRVAdapter
-        binding.voteItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
     }
 
     // 스피너 높이 조정 함수

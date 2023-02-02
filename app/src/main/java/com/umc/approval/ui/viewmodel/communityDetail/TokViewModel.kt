@@ -16,6 +16,8 @@ import com.umc.approval.data.dto.approval.post.TokLikeDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
+import com.umc.approval.data.dto.communitydetail.post.CommunityVotePost
+import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.repository.AccessTokenRepository
@@ -51,6 +53,22 @@ class TokViewModel() : ViewModel() {
     private var _accessToken = MutableLiveData<Boolean>()
     val accessToken : LiveData<Boolean>
         get() = _accessToken
+
+    private var _votePeopleEachOption = MutableLiveData<CommunityVoteResult>()
+    val votePeopleEachOption : LiveData<CommunityVoteResult>
+        get() = _votePeopleEachOption
+
+    private var _reVote = MutableLiveData<Int>()
+    val reVote : LiveData<Int>
+        get() = _reVote
+
+    fun setReVote(li:Int) {
+        _reVote.postValue(li)
+    }
+
+    fun setVotePeopleEachOption(li:CommunityVoteResult) {
+        _votePeopleEachOption.postValue(li)
+    }
 
     /**
      * 테스트용 데이터
@@ -88,10 +106,9 @@ class TokViewModel() : ViewModel() {
             listOf("맥북", "노트북"), listOf<String>("https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-1.png",
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-2.png",
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-3.png"),
-            3, "어느 것이 좋을까요", false, 5, false, false,
-            listOf(VoteOption(1, "A가 좋을까요"), VoteOption(2, "B가 좋을까요")),
-            listOf(VoteOption(2, "B가 좋을까요")),
-            listOf(32, 64), false, 32, false, false, false, 24, false,
+            3, "어느 것이 좋을까요", false, 96, null, false,
+            listOf(VoteOption(1, "A가 좋을까요"), VoteOption(2, "B가 좋을까요")), null,
+            listOf(32, 64), null, 32, false, false, false, 24, false,
             "50분전", 32, 26, true)
 
         _tok.postValue(data)
@@ -116,6 +133,27 @@ class TokViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<CommunityTokDetailDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    fun post_vote(list: List<Int>, voteId: String) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.post_vote(accessToken, voteId, CommunityVotePost(list))
+
+        response.enqueue(object : Callback<CommunityVoteResult> {
+            override fun onResponse(call: Call<CommunityVoteResult>, response: Response<CommunityVoteResult>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _votePeopleEachOption.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<CommunityVoteResult>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

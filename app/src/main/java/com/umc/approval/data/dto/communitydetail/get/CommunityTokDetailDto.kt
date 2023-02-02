@@ -38,7 +38,7 @@ data class CommunityTokDetailDto(
     @SerializedName("voteIsAnonymous")
     var voteIsAnonymous : Boolean?=false,
     @SerializedName("voteOption")
-    var voteOption : List<VoteOption>?= listOf(),
+    var voteOptions : List<VoteOption>?= null,
     @SerializedName("voteSelect")
     var voteSelect : List<VoteOption>?=null,
     @SerializedName("votePeopleEachOption")
