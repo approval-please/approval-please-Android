@@ -40,7 +40,7 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
                     dataRVAdapter.setOnItemClickListener(object: CommunityUploadDocumentItemRVAdapter.OnItemClickListner {
                         override fun onItemClick(v: View, data: DocumentWithReportDto, pos: Int) {
                             val documentIntent = Intent() // 인텐트를 생성
-                            documentIntent.putExtra("title", data.title)
+                            documentIntent.putExtra("documentId", data.documentId)
                             setResult(RESULT_OK, documentIntent)
                             finish()
                         }
