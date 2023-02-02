@@ -58,8 +58,11 @@ class DocumentActivity : AppCompatActivity() {
         live_data()
 
         binding.heart.setOnClickListener {
-            if (viewModel.like.value == false) {
-                viewModel.document_like()
+
+            if (viewModel.accessToken.value == false) {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             } else {
                 viewModel.document_like()
             }
@@ -154,6 +157,11 @@ class DocumentActivity : AppCompatActivity() {
     //라이브 데이터
     private fun live_data() {
 
+        viewModel.after.observe(this) {
+            binding.approveButton.text = "승인" + it.approveCount
+            binding.refuseButton.text = "반려" + it.rejectCount
+        }
+
         //로직
         viewModel.like.observe(this) {
             if (it == true) {
@@ -180,7 +188,7 @@ class DocumentActivity : AppCompatActivity() {
             binding.documentCommentPostComments.text = "댓글 " + it.commentCount.toString()
             binding.documentCommentPostTime.text = it.datetime
             binding.approveButton.text = "승인" + it.approveCount
-            binding.refuseButton.text = "승인" + it.rejectCount
+            binding.refuseButton.text = "반려" + it.rejectCount
             binding.approveNum.text = "승인" + it.approveCount
             binding.rejectNum.text = "반려" + it.rejectCount
 
@@ -208,6 +216,11 @@ class DocumentActivity : AppCompatActivity() {
                 if (viewModel.document.value!!.reportId == null) {
                     binding.reportWriteButton.isVisible = true
                 } else {
+                    binding.reportCheckButton.isVisible = true
+                }
+            } else {
+                //만약 결재 서류가 없으면
+                if (viewModel.document.value!!.reportId != null) {
                     binding.reportCheckButton.isVisible = true
                 }
             }
@@ -339,6 +352,7 @@ class DocumentActivity : AppCompatActivity() {
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), true))
 
         } else {
+            viewModel.setIsVoted(1)
             binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
             binding.approveButton.setTextColor(Color.parseColor("#141414"))
             viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(true))
@@ -359,9 +373,9 @@ class DocumentActivity : AppCompatActivity() {
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), false))
 
         } else {
+            viewModel.setIsVoted(2)
             binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
             binding.refuseButton.setTextColor(Color.parseColor("#141414"))
-
             viewModel.agree_document(viewModel.document.value!!.documentId.toString(), AgreePostDto(false))
         }
     }

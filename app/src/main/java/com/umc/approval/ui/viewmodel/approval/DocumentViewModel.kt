@@ -59,8 +59,16 @@ class DocumentViewModel() : ViewModel() {
     val like : LiveData<Boolean>
         get() = _like
 
+    private var _after = MutableLiveData<AgreeDto>()
+    val after : LiveData<AgreeDto>
+        get() = _after
+
     fun setLike(li: Boolean) {
         _like.postValue(li)
+    }
+
+    fun setIsVoted(li: Int) {
+        document.value!!.isVoted = li
     }
 
     /**
@@ -121,8 +129,8 @@ class DocumentViewModel() : ViewModel() {
         val response = repository.agreeDocument(accessToken, documentId, agreePostDto)
         response.enqueue(object : Callback<AgreeDto> {
             override fun onResponse(call: Call<AgreeDto>, response: Response<AgreeDto>) {
-                get_document_detail(documentId)
                 if (response.isSuccessful) {
+                    _after.postValue(response.body())
                     Log.d("RESPONSE", response.body().toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
