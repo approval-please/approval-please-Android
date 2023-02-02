@@ -7,16 +7,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
-import android.text.Editable
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.amazonaws.regions.Regions
@@ -29,7 +27,7 @@ import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY_PERMISSION
 import java.io.File
-import java.util.UUID
+import java.util.*
 
 class ProfileChangeActivity : AppCompatActivity() {
 
@@ -104,7 +102,7 @@ class ProfileChangeActivity : AppCompatActivity() {
 
             if (viewModel.image.value != null) {
 
-                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/" + route
+                profile.image = "https://approval-please.s3.ap-northeast-2.amazonaws.com/$route"
 
                 /**uri 변환*/
                 val realPathFromURI = getRealPathFromURI(viewModel.image.value!!)
@@ -116,7 +114,7 @@ class ProfileChangeActivity : AppCompatActivity() {
                     ?.setRegion(Regions.AP_NORTHEAST_2)
                     ?.uploadWithTransferUtility(
                         this,
-                        "approval-please/profile", file, route
+                        "approval-please", file, route
                     )
             }
 
@@ -124,6 +122,10 @@ class ProfileChangeActivity : AppCompatActivity() {
             profile.introduction = binding.my.text.toString()
 
             viewModel.change_profile(profile)
+
+            Handler(Looper.myLooper()!!).postDelayed({
+                finish()
+            }, 400)
         }
     }
 
