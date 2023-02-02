@@ -82,6 +82,7 @@ class CommunityUploadActivity : AppCompatActivity() {
                     if (tokViewModel.content.value == null || tokViewModel.content.value == "") {
                         Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
                     } else {
+
                         CoroutineScope(Dispatchers.IO).launch {
                             if (tokViewModel.pic.value != null) {
                                 tok_S3_connect()

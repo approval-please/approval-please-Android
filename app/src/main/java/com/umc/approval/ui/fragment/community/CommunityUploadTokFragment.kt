@@ -92,7 +92,6 @@ class CommunityUploadTokFragment : Fragment() {
     private lateinit var tagString : String
     private lateinit var tagArray : List<String>
 
-    val voteList : ArrayList<String> = arrayListOf()
     val linkList : ArrayList<OpenGraphDto> = ArrayList()
 
     lateinit var communityUploadActivity: CommunityUploadActivity
@@ -141,21 +140,53 @@ class CommunityUploadTokFragment : Fragment() {
         /*서버연동 : 부서명 카테고리 받아서 departments 수정*/
         select_category()
 
+        //링크, 태그 초기화
+        init_link_tag()
+
         /*링크 첨부 다이얼로그*/
         binding.uploadLinkBtn.setOnClickListener{
             showLinkDialog();
         }
 
-        //리스트에 값이 변경될 때마다 rv 실행
-        viewModel.opengraph_list.observe(viewLifecycleOwner) {
-            Log.d("test", it.toString())
-        }
-
         binding.uploadImageBtn
+
+        viewModel.setIsAnonymous(false)
+        viewModel.setVoteIsSingle(true)
+        viewModel.setMulti(false)
 
         //vote 초기화
         initVote()
         setVoteList()
+
+        editTitle()
+
+        binding.voteSettingMulti.setOnClickListener {
+
+            if (viewModel.voteMulti.value == false) {
+                viewModel.setVoteIsSingle(false)
+                viewModel.setMulti(true)
+            } else {
+                viewModel.setVoteIsSingle(true)
+                viewModel.setMulti(false)
+            }
+        }
+
+        binding.voteSettingAnonymous.setOnClickListener {
+
+            if (viewModel.voteIsAnonymous.value == false) {
+                viewModel.setIsAnonymous(true)
+            } else {
+                viewModel.setIsAnonymous(false)
+            }
+        }
+
+        //라이브 데이터
+        viewModel.voteOption.observe(viewLifecycleOwner) {
+            binding.voteItemCountTv.text = it.size.toString()
+            val dataRVAdapter = CommunityUploadVoteItemRVAdapter(it)
+            binding.voteItem.adapter = dataRVAdapter
+            binding.voteItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        }
 
         /*태그 입력 다이얼로그 열기*/
         tagString = ""
@@ -167,6 +198,33 @@ class CommunityUploadTokFragment : Fragment() {
         return binding.root
     }
 
+    private fun init_link_tag() {
+        val linkDialog = Dialog(communityUploadActivity);
+        linkDialogBinding = ActivityUploadLinkDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(linkDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = linkDialogBinding.uploadLinkDialogCancelButton
+        dialogConfirmButton = linkDialogBinding.uploadLinkDialogConfirmButton
+        linkDialogEditText = linkDialogBinding.uploadLinkDialogEt
+        linkEraseButton = linkDialogBinding.uploadLinkEraseBtn
+        opengraphText = linkDialogBinding.openGraphText
+        opengraphUrl = linkDialogBinding.openGraphUrl
+        opengraphImage = linkDialogBinding.openGraphImage
+        opengraphId = linkDialogBinding.openGraph
+
+        val tagDialog = Dialog(requireContext());
+        tagDialogBinding = ActivityUploadTagDialogBinding.inflate(layoutInflater)
+
+        tagDialog.setContentView(tagDialogBinding.root)
+        tagDialog.setCanceledOnTouchOutside(true)
+        tagDialog.setCancelable(true)
+        dialogCancelButton = tagDialogBinding.uploadTagDialogCancelButton
+        dialogConfirmButton = tagDialogBinding.uploadTagDialogConfirmButton
+        tagDialogEditText = tagDialogBinding.uploadTagDialogEt
+    }
+
     override fun onResume() {
         super.onResume()
         commonViewModel.setLink(0)
@@ -174,21 +232,18 @@ class CommunityUploadTokFragment : Fragment() {
 
 
     private fun initVote() {
-        voteList.apply{
-            add("")
-            add("")
-        }
 
         binding.voteLayout.isVisible = false
 
         binding.uploadVoteBtn.setOnClickListener{
             binding.uploadVoteTv.text = "(1/1)"
+            viewModel.initVoteOption(mutableListOf("",""))
             binding.voteLayout.isVisible = true
         }
 
         binding.voteCancelButton.setOnClickListener{
             binding.uploadVoteTv.text = "(0/1)"
-            voteList.clear()
+            viewModel.initVoteOption(mutableListOf())
             binding.voteLayout.isVisible = false
         }
 
@@ -201,15 +256,14 @@ class CommunityUploadTokFragment : Fragment() {
     private fun setVoteList(){
 
         binding.voteItemAddButton.setOnClickListener{
-            if(voteList.size <4){
-                voteList.apply {
-                    add("")
-                }
-                binding.voteItemCountTv.text = voteList.size.toString()
-                val dataRVAdapter = CommunityUploadVoteItemRVAdapter(voteList)
-                binding.voteItem.adapter = dataRVAdapter
-                binding.voteItem.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+            val list = viewModel.voteOption.value
+
+            if (list!!.size < 4) {
+                list.add("")
             }
+
+            viewModel.setVoteOption(list)
         }
     }
 
@@ -704,6 +758,17 @@ class CommunityUploadTokFragment : Fragment() {
             text?.let {
                 var content = it.toString()
                 viewModel.setContent(content.trim())
+            }
+        }
+    }
+
+    //콘텐츠 변경 메소드
+    private fun editTitle() {
+        //addTextChangedListener는 editText속성을 가지는데 값이 변할때마다 viewModel로 결과가 전달
+        binding.voteTitleEt.addTextChangedListener { text: Editable? ->
+            text?.let {
+                var content = it.toString()
+                viewModel.setVoteTitle(content.trim())
             }
         }
     }
