@@ -31,6 +31,7 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
         viewModel.documents.observe(this) {
 
             if (it.content != null) {
+                binding.tvDepartmentCount.text = it.content.size.toString()
                 if (it.content.isNotEmpty()) {
                     val dataRVAdapter = CommunityUploadDocumentItemRVAdapter(it)
                     binding.uploadDocumentItem.adapter = dataRVAdapter
