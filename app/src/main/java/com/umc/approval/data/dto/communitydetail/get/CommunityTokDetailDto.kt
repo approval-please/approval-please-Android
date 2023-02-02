@@ -6,11 +6,11 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 data class CommunityTokDetailDto(
 
     @SerializedName("userId")
-    var userId : Int?,
+    var userId : Int,
     @SerializedName("profileImage")
-    var profileImage : String?,
+    var profileImage : String?=null,
     @SerializedName("nickname")
-    var nickname : String,
+    var nickname : String?="",
     @SerializedName("level")
     var level : Int,
     @SerializedName("toktokId")
@@ -18,55 +18,51 @@ data class CommunityTokDetailDto(
     @SerializedName("category")
     var category : Int,
     @SerializedName("content")
-    var content : String,
+    var content : String?="",
     @SerializedName("link")
-    var link : List<OpenGraphDto>?,
+    var link : List<OpenGraphDto>?= listOf(),
     @SerializedName("tag")
-    var tag : List<String>?,
+    var tag : List<String>?= listOf(),
     @SerializedName("images")
-    var images : List<String>?,
+    var images : List<String>?= listOf(),
     @SerializedName("voteId")
-    var voteId : Int?,
+    var voteId : Int?=null,
     @SerializedName("voteTitle")
-    var voteTitle : String?,
+    var voteTitle : String?=null,
     @SerializedName("voteIsEnd")
-    var voteIsEnd : Boolean?,
+    var voteIsEnd : Boolean?=null,
     @SerializedName("votePeople")
-    var votePeople : Int?,
+    var votePeople : Int?=null,
     @SerializedName("voteIsSingle")
-    var voteIsSingle : Boolean?,
+    var voteIsSingle : Boolean?=null,
     @SerializedName("voteIsAnonymous")
-    var voteIsAnonymous : Boolean?,
+    var voteIsAnonymous : Boolean?=false,
     @SerializedName("voteOption")
-    var voteOption : List<VoteOption>?,
+    var voteOption : List<VoteOption>?= listOf(),
     @SerializedName("voteSelect")
-    var voteSelect : List<VoteOption>?,
+    var voteSelect : List<VoteOption>?=null,
     @SerializedName("votePeopleEachOption")
-    var votePeopleEachOption : List<Int>?,
+    var votePeopleEachOption : List<Int>?=null,
     @SerializedName("writerOrNot")
-    var writerOrNot : Boolean?,
+    var writerOrNot : Boolean?=false,
     @SerializedName("likedCount")
     var likedCount : Int,
     @SerializedName("likeOrNot")
-    var likeOrNot : Boolean?,
+    var likeOrNot : Boolean?= false,
     @SerializedName("followOrNot")
-    var followOrNot : Boolean?,
+    var followOrNot : Boolean?= false,
     @SerializedName("scrapOrNot")
-    var scrapOrNot : Boolean?,
+    var scrapOrNot : Boolean?= false,
     @SerializedName("commentCount")
     var commentCount : Int,
     @SerializedName("isModified")
-    var isModified : Boolean,
+    var isModified : Boolean?= false,
     @SerializedName("datetime")
-    var datetime : String,
+    var datetime : String?= "50분전",
     @SerializedName("view")
     var view : Int,
-
+    @SerializedName("scrapCount")
+    var scrapCount : Int,
+    @SerializedName("isNotification")
+    var isNotification : Boolean?= false,
     )
-
-data class VoteOption(
-    @SerializedName("voteOptionId")
-    val voteOptionId: String,
-    @SerializedName("opt")
-    val opt: String,
-)

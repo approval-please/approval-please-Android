@@ -13,6 +13,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
+import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentSearchCommunityTabBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
@@ -89,17 +91,11 @@ class CommunityTabFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
         viewModel.get_all_toks()
     }
 
     override fun onResume() {
         super.onResume()
-
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
 
         viewModel.get_all_toks()
     }
@@ -115,8 +111,12 @@ class CommunityTabFragment: Fragment() {
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
-                override fun move_to_tok_activity() {
-                    startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
+                override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
+
+                    //toktok Id 전달
+                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                    intent.putExtra("toktokId", data.toktokId.toString())
+                    startActivity(intent)
                 }
             }
         }

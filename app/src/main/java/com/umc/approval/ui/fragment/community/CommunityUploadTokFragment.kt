@@ -175,8 +175,8 @@ class CommunityUploadTokFragment : Fragment() {
 
     private fun initVote() {
         voteList.apply{
-        add("")
-        add("")
+            add("")
+            add("")
         }
 
         binding.voteLayout.isVisible = false

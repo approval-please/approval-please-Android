@@ -9,7 +9,7 @@ import coil.load
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ItemUploadLinkBinding
 
-class CommunityUploadLinkItemRVAdapter (private var dataList: List<OpenGraphDto> = arrayListOf()): RecyclerView.Adapter<CommunityUploadLinkItemRVAdapter.DataViewHolder>() {
+class CommunityUploadLinkItemRVAdapter (private var dataList: List<OpenGraphDto>): RecyclerView.Adapter<CommunityUploadLinkItemRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemUploadLinkBinding.inflate(LayoutInflater.from(parent.context), parent, false)

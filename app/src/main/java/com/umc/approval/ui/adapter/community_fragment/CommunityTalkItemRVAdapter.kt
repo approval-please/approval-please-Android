@@ -66,10 +66,14 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        Log.d("TokNum", position.toString())
+        Log.d("Size", items.communityTok.size.toString())
+
         holder.binding(items.communityTok[position])
         if (itemClick != null){
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_tok_activity()
+                itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
             })
         }
     }
@@ -80,7 +84,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     /**RV item click event*/
     interface ItemClick{ //인터페이스
-        fun move_to_tok_activity()
+        fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int)
     }
 
     var itemClick: ItemClick? = null

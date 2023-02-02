@@ -10,11 +10,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentCommunityTalkBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 
+/**
+ * 로직 체크 완료
+ * */
 class CommunityTalkFragment : Fragment() {
 
     private var _binding : FragmentCommunityTalkBinding? = null
@@ -62,27 +68,22 @@ class CommunityTalkFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
+        //모든 톡 목록 가지고오는 로직
         viewModel.get_all_toks()
     }
 
     override fun onResume() {
         super.onResume()
 
-//        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-//        viewModel.checkAccessToken()
-//
-//        if (binding.hotCategory.isChecked) {
-//            viewModel.get_all_toks(0)
-//        } else if (binding.followCategory.isChecked) {
-//            viewModel.get_all_toks(1)
-//        } else if (binding.myCategory.isChecked) {
-//            viewModel.get_all_toks(2)
-//        } else {
-//            viewModel.get_all_toks(3)
-//        }
+        if (binding.hotCategory.isChecked) {
+            viewModel.get_all_toks(0)
+        } else if (binding.followCategory.isChecked) {
+            viewModel.get_all_toks(1)
+        } else if (binding.myCategory.isChecked) {
+            viewModel.get_all_toks(2)
+        } else {
+            viewModel.get_all_toks(3)
+        }
     }
 
     private fun live_data() {
@@ -95,11 +96,15 @@ class CommunityTalkFragment : Fragment() {
             community_item_rv.adapter = communityTalkItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-//            communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
-//                override fun move_to_tok_activity() {
-//                    startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
-//                }
-//            }
+            communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
+                override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
+
+                    //toktok Id 전달
+                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                    intent.putExtra("toktokId", data.toktokId.toString())
+                    startActivity(intent)
+                }
+            }
         }
     }
 

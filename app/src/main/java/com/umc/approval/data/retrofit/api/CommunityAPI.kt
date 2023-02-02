@@ -4,6 +4,7 @@ import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
+import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import okhttp3.ResponseBody
@@ -68,8 +69,8 @@ interface CommunityAPI {
     @Headers("content-type: application/json")
     fun get_community_tok_detail(
         @Header("Authorization") accessToken: String,
-        @Path("toktokId") toktokId : Int,
-    ): Call<CommunityItemDto>
+        @Path("toktokId") toktokId : String,
+    ): Call<CommunityTokDetailDto>
 
     /**
      * CommunityItemDto: 커뮤니티 포스트 정보(profileImage, nickname, level, isFollow) 리스트
@@ -81,4 +82,24 @@ interface CommunityAPI {
         @Header("Authorization") accessToken: String,
         @Path("reportId") reportId : String,
     ): Call<CommunityReportDetailDto>
+
+    /**
+     * tok 삭제 API
+     */
+    @DELETE("/community/toktoks/{toktokId}")
+    @Headers("content-type: application/json")
+    fun delete_tok(
+        @Header("Authorization") accessToken: String,
+        @Path("toktokId") toktokId : String,
+    ): Call<ResponseBody>
+
+    /**
+     * report 삭제 API
+     */
+    @DELETE("/community/reports/{reportId}")
+    @Headers("content-type: application/json")
+    fun delete_report(
+        @Header("Authorization") accessToken: String,
+        @Path("reportId") reportId : String,
+    ): Call<ResponseBody>
 }

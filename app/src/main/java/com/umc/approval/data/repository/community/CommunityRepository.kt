@@ -4,6 +4,7 @@ import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
+import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.communityApi
@@ -37,12 +38,22 @@ class CommunityRepository() {
 
 
     /**get toktok detail*/
-    fun get_tok_detail(accessToken: String, tokId: Int): Call<CommunityItemDto> {
+    fun get_tok_detail(accessToken: String, tokId: String): Call<CommunityTokDetailDto> {
         return communityApi.get_community_tok_detail(accessToken, tokId)
+    }
+
+    /**delete toktok detail*/
+    fun delete_tok(accessToken: String, tokId: String): Call<ResponseBody> {
+        return communityApi.delete_tok(accessToken, tokId)
     }
 
     /**get report detail*/
     fun get_report_detail(accessToken: String, reportId: String): Call<CommunityReportDetailDto> {
         return communityApi.get_community_report_detail(accessToken, reportId)
+    }
+
+    /**get report detail*/
+    fun delete_report(accessToken: String, reportId: String): Call<ResponseBody> {
+        return communityApi.delete_report(accessToken, reportId)
     }
 }

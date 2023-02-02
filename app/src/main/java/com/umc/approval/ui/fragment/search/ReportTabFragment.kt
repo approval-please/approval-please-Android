@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
+import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.databinding.FragmentSearchReportTabBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
 import com.umc.approval.ui.activity.CommunityTokActivity
@@ -92,17 +93,11 @@ class ReportTabFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
         viewModel.get_all_reports()
     }
 
     override fun onResume() {
         super.onResume()
-
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
 
         viewModel.get_all_reports()
     }
@@ -119,11 +114,17 @@ class ReportTabFragment: Fragment() {
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
-                override fun move_to_report_activity() {
-                    startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                override fun move_to_report_activity(v: View, data: CommunityReport, pos: Int) {
+                    //report Id 전달
+                    val intent = Intent(requireContext(), CommunityReportActivity::class.java)
+                    intent.putExtra("reportId", data.reportId.toString())
+                    startActivity(intent)
                 }
-                override fun move_to_document_activity() {
-                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                override fun move_to_document_activity(v: View, data: CommunityReport, pos: Int) {
+                    //report Id 전달
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.document.documentId.toString())
+                    startActivity(intent)
                 }
             }
         }

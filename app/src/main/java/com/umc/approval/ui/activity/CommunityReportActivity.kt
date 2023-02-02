@@ -84,6 +84,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
             binding.communityDocumentLayout.documentTitle.text = it.documentTitle
             binding.communityDocumentLayout.documentContent.text = it.documentContent
+            binding.communityPostUserName.text = it.nickname
 
             if (it.documentTag == null || it.documentTag.isEmpty()) {
                 binding.communityDocumentLayout.documentHashtagItem.isVisible = false
@@ -128,7 +129,7 @@ class CommunityReportActivity : AppCompatActivity() {
             }
 
             //report 이미지 처리
-            if(it.reportLink == null || it.reportLink.isEmpty()) {
+            if(it.reportTag == null || it.reportTag.isEmpty()) {
                 binding.uploadHashtagItem.isVisible = false
             } else {
                 val reportTagRVAdapter = UploadHashtagRVAdapter(it.reportTag)
@@ -164,13 +165,14 @@ class CommunityReportActivity : AppCompatActivity() {
 
     }
 
-    /**post more*/
+    //다이얼로그 로직
     private fun post_more() {
-        val writer = 0
-        val notice = 0
-        val storage = 0
 
         binding.uploadSettingBtn.setOnClickListener {
+
+            val writer = reportViewModel.report.value!!.writerOrNot
+            val notice = reportViewModel.report.value!!.isNotification
+            val storage = reportViewModel.report.value!!.scrapOrNot
 
             val bottomSheetView =
                 layoutInflater.inflate(R.layout.community_post_selector_dialog, null)
@@ -189,7 +191,7 @@ class CommunityReportActivity : AppCompatActivity() {
             val setting_edit_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_edit_post)
 
             // visible 처리
-            if(writer == 1){
+            if(writer == true){
                 setting_report_post.isVisible = false
                 setting_report_user.isVisible = false
                 setting_remove_post.isVisible = true
@@ -201,7 +203,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 setting_edit_post.isVisible = false
             }
 
-            if(notice == 0){
+            if(notice == false){
                 setting_notice_on.isVisible = true
                 setting_notice_off.isVisible = false
             }else{
@@ -209,7 +211,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 setting_notice_off.isVisible = true
             }
 
-            if(storage == 0){
+            if(storage == false){
                 setting_storage_on.isVisible = true
                 setting_storage_off.isVisible = false
             }else{
@@ -252,7 +254,6 @@ class CommunityReportActivity : AppCompatActivity() {
             setting_edit_post!!.setOnClickListener {
                 bottomSheetDialog.cancel()
             }
-
         }
     }
 
@@ -326,15 +327,4 @@ class CommunityReportActivity : AppCompatActivity() {
         /*link 팝업*/
         linkDialog.show()
     }
-
-//    data class CommentItem(
-//        val id:Int,
-//        val user_nickname: String,
-//        val user_rank :String,
-//        val content:String,
-//        val date : String,
-//        val like : Int,
-//        val replyComment : Int,
-//    )
-
 }
