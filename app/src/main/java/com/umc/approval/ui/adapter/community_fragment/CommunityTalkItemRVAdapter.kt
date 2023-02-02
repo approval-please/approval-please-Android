@@ -67,9 +67,6 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        Log.d("TokNum", position.toString())
-        Log.d("Size", items.communityTok.size.toString())
-
         holder.binding(items.communityTok[position])
         if (itemClick != null){
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {

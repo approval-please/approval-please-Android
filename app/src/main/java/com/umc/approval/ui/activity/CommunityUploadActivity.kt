@@ -79,19 +79,25 @@ class CommunityUploadActivity : AppCompatActivity() {
                     Toast.makeText(this, "카테고리를 선택하셔야 합니다", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        if (tokViewModel.pic.value != null) {
-                            tok_S3_connect()
+                    if (tokViewModel.content.value == null || tokViewModel.content.value == "") {
+                        Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
+                    } else {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            if (tokViewModel.pic.value != null) {
+                                tok_S3_connect()
+                            }
+
+                            val talkUploadDto = TalkUploadDto(
+                                tokViewModel.category.value, tokViewModel.content.value,
+                                tokViewModel.voteTitle.value, tokViewModel.voteIsSingle.value,
+                                tokViewModel.voteIsAnonymous.value,
+                                tokViewModel.voteOption.value, tokViewModel.opengraph_list.value,
+                                tokViewModel.tags.value, tokViewModel.images.value)
+
+                            tokViewModel.post_tok(talkUploadDto)
+
+                            finish()
                         }
-
-                        val talkUploadDto = TalkUploadDto(
-                            tokViewModel.category.value, tokViewModel.content.value, null, null,
-                            null, null, tokViewModel.opengraph_list.value,
-                            tokViewModel.tags.value, tokViewModel.images.value)
-
-                        tokViewModel.post_tok(talkUploadDto)
-
-                        finish()
                     }
                 }
             } else {
@@ -101,20 +107,26 @@ class CommunityUploadActivity : AppCompatActivity() {
                     if (reportViewModel.documentId.value == null) {
                         Toast.makeText(this, "결재서류를 선택하셔야 합니다", Toast.LENGTH_SHORT).show()
                     } else {
+                        if (reportViewModel.content.value == null || reportViewModel.content.value == "") {
+                            Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
+                        } else {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                if (reportViewModel.pic.value != null) {
+                                    report_S3_connect()
+                                }
 
-                        CoroutineScope(Dispatchers.IO).launch {
-                            if (reportViewModel.pic.value != null) {
-                                report_S3_connect()
+                                val reportUploadDto = ReportUploadDto(
+                                    reportViewModel.documentId.value,
+                                    reportViewModel.content.value,
+                                    reportViewModel.opengraph_list.value,
+                                    reportViewModel.tags.value,
+                                    reportViewModel.images.value
+                                )
+
+                                reportViewModel.post_report(reportUploadDto)
+
+                                finish()
                             }
-
-                            val reportUploadDto = ReportUploadDto(
-                                reportViewModel.documentId.value, reportViewModel.content.value,
-                                reportViewModel.opengraph_list.value, reportViewModel.tags.value, reportViewModel.images.value
-                            )
-
-                            reportViewModel.post_report(reportUploadDto)
-
-                            finish()
                         }
                     }
                 }

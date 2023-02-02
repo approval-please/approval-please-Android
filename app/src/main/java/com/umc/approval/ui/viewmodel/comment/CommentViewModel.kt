@@ -15,6 +15,9 @@ import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.data.repository.comment.CommentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
+import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
@@ -36,6 +39,16 @@ class CommentViewModel() : ViewModel() {
     private var _comments = MutableLiveData<CommentListDto>()
     val comments : LiveData<CommentListDto>
         get() = _comments
+
+    //서버에서 받아올 서류 데이터
+    private var _commentId = MutableLiveData<Int>()
+    val commentId : LiveData<Int>
+        get() = _commentId
+
+    //코멘트 아이디 셋
+    fun setParentCommentId(int: Int) {
+        _commentId.postValue(int)
+    }
 
     /**
      * 모든 comments 목록을 API
