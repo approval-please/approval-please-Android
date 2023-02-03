@@ -144,9 +144,21 @@
 
 
                 <ImageButton
+                    android:id="@+id/follow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/community_post_unfollow_state"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    ></ImageButton>
+
+                <ImageButton
+                    android:id="@+id/unfollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/community_post_follow_state"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -333,6 +345,7 @@
                         android:textSize="13sp">
                     </TextView>
                     <TextView
+                        android:id="@+id/comment_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -390,8 +403,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
         </LinearLayout>
 
     </ScrollView>
@@ -428,13 +439,24 @@
             android:textSize="15sp"
             android:textColor="#8C8C8C"
             android:fontFamily="@font/pretendard"
-            android:drawableRight="@drawable/community_comment_submit_btn"
             android:background="@drawable/upload_activity_round_dialog_custom"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/community_comment_image_btn"
             app:layout_constraintEnd_toEndOf="parent"
             />
+
+        <ImageButton
+            android:layout_marginRight="32dp"
+            android:id="@+id/write_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@color/transparent"
+            android:padding="1dp"
+            android:src="@drawable/document_comment_send_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/community_comment_et"
+            app:layout_constraintEnd_toEndOf="@+id/community_comment_et"
+            app:layout_constraintTop_toTopOf="@+id/community_comment_et" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

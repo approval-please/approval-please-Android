@@ -55,6 +55,22 @@ class DocumentViewModel() : ViewModel() {
     val category : LiveData<InterestingDto>
         get() = _category
 
+    private var _like = MutableLiveData<Boolean>()
+    val like : LiveData<Boolean>
+        get() = _like
+
+    private var _after = MutableLiveData<AgreeDto>()
+    val after : LiveData<AgreeDto>
+        get() = _after
+
+    fun setLike(li: Boolean) {
+        _like.postValue(li)
+    }
+
+    fun setIsVoted(li: Int) {
+        document.value!!.isVoted = li
+    }
+
     /**
      * 모든 documents 목록을 반환받는 메소드
      * 정상 동작 Check 완료
@@ -113,8 +129,8 @@ class DocumentViewModel() : ViewModel() {
         val response = repository.agreeDocument(accessToken, documentId, agreePostDto)
         response.enqueue(object : Callback<AgreeDto> {
             override fun onResponse(call: Call<AgreeDto>, response: Response<AgreeDto>) {
-                get_document_detail(documentId)
                 if (response.isSuccessful) {
+                    _after.postValue(response.body())
                     Log.d("RESPONSE", response.body().toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
@@ -154,11 +170,11 @@ class DocumentViewModel() : ViewModel() {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = likeRepository.like(accessToken, LikeDto(documentId = 1))
+        val response = likeRepository.like(accessToken, LikeDto(documentId = document.value!!.documentId))
         response.enqueue(object : Callback<LikeReturnDto> {
             override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
                 if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
+                    _like.postValue(response.body()!!.isLike)
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

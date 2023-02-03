@@ -79,19 +79,26 @@ class CommunityUploadActivity : AppCompatActivity() {
                     Toast.makeText(this, "카테고리를 선택하셔야 합니다", Toast.LENGTH_SHORT).show()
                 } else {
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        if (tokViewModel.pic.value != null) {
-                            tok_S3_connect()
+                    if (tokViewModel.content.value == null || tokViewModel.content.value == "") {
+                        Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
+                    } else {
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            if (tokViewModel.pic.value != null) {
+                                tok_S3_connect()
+                            }
+
+                            val talkUploadDto = TalkUploadDto(
+                                tokViewModel.category.value, tokViewModel.content.value,
+                                tokViewModel.voteTitle.value, tokViewModel.voteIsSingle.value,
+                                tokViewModel.voteIsAnonymous.value,
+                                tokViewModel.voteOption.value, tokViewModel.opengraph_list.value,
+                                tokViewModel.tags.value, tokViewModel.images.value)
+
+                            tokViewModel.post_tok(talkUploadDto)
+
+                            finish()
                         }
-
-                        val talkUploadDto = TalkUploadDto(
-                            tokViewModel.category.value, tokViewModel.content.value, null, null,
-                            null, null, tokViewModel.opengraph_list.value,
-                            tokViewModel.tags.value, tokViewModel.images.value)
-
-                        tokViewModel.post_tok(talkUploadDto)
-
-                        finish()
                     }
                 }
             } else {
@@ -101,20 +108,26 @@ class CommunityUploadActivity : AppCompatActivity() {
                     if (reportViewModel.documentId.value == null) {
                         Toast.makeText(this, "결재서류를 선택하셔야 합니다", Toast.LENGTH_SHORT).show()
                     } else {
+                        if (reportViewModel.content.value == null || reportViewModel.content.value == "") {
+                            Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
+                        } else {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                if (reportViewModel.pic.value != null) {
+                                    report_S3_connect()
+                                }
 
-                        CoroutineScope(Dispatchers.IO).launch {
-                            if (reportViewModel.pic.value != null) {
-                                report_S3_connect()
+                                val reportUploadDto = ReportUploadDto(
+                                    reportViewModel.documentId.value,
+                                    reportViewModel.content.value,
+                                    reportViewModel.opengraph_list.value,
+                                    reportViewModel.tags.value,
+                                    reportViewModel.images.value
+                                )
+
+                                reportViewModel.post_report(reportUploadDto)
+
+                                finish()
                             }
-
-                            val reportUploadDto = ReportUploadDto(
-                                reportViewModel.documentId.value, reportViewModel.content.value,
-                                reportViewModel.opengraph_list.value, reportViewModel.tags.value, reportViewModel.images.value
-                            )
-
-                            reportViewModel.post_report(reportUploadDto)
-
-                            finish()
                         }
                     }
                 }
@@ -142,60 +155,51 @@ class CommunityUploadActivity : AppCompatActivity() {
     }
 
     /*S3 connect*/
-    private fun tok_S3_connect() : List<String>{
+    private fun tok_S3_connect(){
 
-        var list = mutableListOf<String>()
-        for (uri in tokViewModel.pic.value!!) {
+        for ((index,uri) in tokViewModel.pic.value!!.withIndex()) {
 
-            val random = UUID.randomUUID().toString()
+            val new_list = tokViewModel.images.value!![index].split("/")
 
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
+
+            Log.d("new_list", new_list.toString())
 
             /**S3에 저장*/
             S3Util().getInstance()
                 ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
-                    this, "approval-please", file, random
+                    this,
+                    "approval-please", file, new_list.get(new_list.size-1)
                 )
-
-            list.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
-
-        tokViewModel.setRealImage(list)
-
-        return list
     }
 
     /*S3 connect*/
-    private fun report_S3_connect() : List<String>{
+    private fun report_S3_connect(){
 
-        var list = mutableListOf<String>()
+        for ((index,uri) in reportViewModel.pic.value!!.withIndex()) {
 
-        for (uri in reportViewModel.pic.value!!) {
-
-            val random = UUID.randomUUID().toString()
+            val new_list = reportViewModel.images.value!![index].split("/")
 
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
+
+            Log.d("new_list", new_list.toString())
 
             /**S3에 저장*/
             S3Util().getInstance()
                 ?.setKeys(API.S3_ACCESS_KEY, API.S3_ACCESS_SECRET_KEY)
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
-                    this, "approval-please", file, random
+                    this,
+                    "approval-please", file, new_list.get(new_list.size-1)
                 )
-
-            list.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
-
-        reportViewModel.setRealImage(list)
-
-        return list
     }
 
     /*File Uri for S3 connect*/

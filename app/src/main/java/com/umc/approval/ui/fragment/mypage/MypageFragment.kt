@@ -96,9 +96,9 @@ class MypageFragment : Fragment() {
         viewModel.myInfo.observe(viewLifecycleOwner) {
 
             //follower
-            binding.followerTextview.setText(viewModel.myInfo.value!!.follows.toString())
+            binding.followerTextview.setText("팔로워 " + viewModel.myInfo.value!!.follows.toString())
             //following
-            binding.followingTextview.setText(viewModel.myInfo.value!!.followings.toString())
+            binding.followingTextview.setText("팔로잉 " + viewModel.myInfo.value!!.followings.toString())
             //nickname
             binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname)
             //introduce
@@ -113,7 +113,7 @@ class MypageFragment : Fragment() {
             var rank : String? = setRank(viewModel.myInfo.value!!.level)
             binding.rank.text = rank
             //profile image
-            if (!viewModel.myInfo.value!!.profileImage.equals(null)) {
+            if (viewModel.myInfo.value!!.profileImage != null) {
                 binding.profileImage.load(viewModel.myInfo.value!!.profileImage)
             }
         }

@@ -161,8 +161,10 @@ class ApprovalViewModel() : ViewModel() {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
+                    _accessToken.postValue(true)
                     _approval_interest_list.postValue(response.body())
                 } else {
+                    _accessToken.postValue(false)
                     Log.d("RESPONSE", "FAIL")
                 }
             }

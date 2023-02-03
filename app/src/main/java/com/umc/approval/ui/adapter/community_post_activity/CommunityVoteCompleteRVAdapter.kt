@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.databinding.ItemCommunityPostVoteCompleteBinding
-import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadDocumentItemRVAdapter
-import com.umc.approval.util.Participant
-import com.umc.approval.util.VoteItem
 
-class CommunityVoteCompleteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayListOf(), private val totalParticipant: Float, private val reVote:Boolean): RecyclerView.Adapter<CommunityVoteCompleteRVAdapter.DataViewHolder>() {
+class CommunityVoteCompleteRVAdapter(private val dataList: MutableList<VoteItem>, private val totalParticipant: Float, private val reVote:Boolean): RecyclerView.Adapter<CommunityVoteCompleteRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemCommunityPostVoteCompleteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,8 +27,8 @@ class CommunityVoteCompleteRVAdapter(private val dataList: ArrayList<VoteItem> =
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: VoteItem) {
             binding.voteItemContent.text = data.content
-            binding.voteItemParticipantCount.text = data.participation.size.toString() + "명"
-            (binding.votePercent.layoutParams as LinearLayout.LayoutParams).weight = (data.participation.size/totalParticipant)
+            binding.voteItemParticipantCount.text = data.participation.toString() + "명"
+            (binding.votePercent.layoutParams as LinearLayout.LayoutParams).weight = (data.participation/totalParticipant)
 
             if(data.check){
                 binding.votePercent.background.setTint(Color.parseColor("#6C39FF"))
@@ -46,6 +44,9 @@ class CommunityVoteCompleteRVAdapter(private val dataList: ArrayList<VoteItem> =
                 itemView.setOnClickListener {
                     listner?.onItemClick(itemView, data, pos)
                 }
+                binding.voteItemCheck.setOnClickListener {
+                    listner?.voteClick(it, data.id , pos)
+                }
             }
         }
     }
@@ -53,6 +54,8 @@ class CommunityVoteCompleteRVAdapter(private val dataList: ArrayList<VoteItem> =
     // 아이템 클릭 리스너
     interface OnItemClickListner {
         fun onItemClick(v: View, data: VoteItem, pos: Int)
+
+        fun voteClick(v: View, data: Int, pos: Int)
     }
 
     private var listner: OnItemClickListner? = null

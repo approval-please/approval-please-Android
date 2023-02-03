@@ -56,7 +56,7 @@ data class DocumentDto(
     @SerializedName("isScrap")
     val isScrap: Boolean ?= null,
     @SerializedName("isVoted")
-    val isVoted: Int ?= null,
+    var isVoted: Int ?= null,
     @SerializedName("userId")
     val userId: Int ?= null,
 )

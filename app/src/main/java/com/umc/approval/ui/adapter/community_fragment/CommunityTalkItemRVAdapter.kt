@@ -1,6 +1,5 @@
 package com.umc.approval.ui.adapter.community_fragment
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +22,6 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
     inner class ViewHolder(val binding: CommunityTalkItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(data: CommunityTok) {
-
-            Log.d("test", data.toString())
 
             /*결재 보고서 부분*/
             binding.reportCategoryItemText.text = data.content // 내용
@@ -68,10 +65,11 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.binding(items.communityTok[position])
         if (itemClick != null){
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_tok_activity()
+                itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
             })
         }
     }
@@ -82,7 +80,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     /**RV item click event*/
     interface ItemClick{ //인터페이스
-        fun move_to_tok_activity()
+        fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int)
     }
 
     var itemClick: ItemClick? = null
