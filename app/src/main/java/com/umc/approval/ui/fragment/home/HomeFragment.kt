@@ -2,6 +2,8 @@ package com.umc.approval.ui.fragment.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -42,9 +44,6 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var bannerPosition = 0
-
-    /**login view model*/
-    private val viewModel by viewModels<LoginFragmentViewModel>()
 
     /**Community view model*/
     private val reportViewModel by viewModels<CommunityReportViewModel>()
@@ -120,7 +119,7 @@ class HomeFragment : Fragment() {
         super.onStart()
 
         //전체 서류 가지고오는 로직
-        approvalViewModel.get_all_documents()
+        approvalViewModel.get_all_documents(sortBy = "0")
 
         //관신 서류 가지고오는 로직
         approvalViewModel.get_interesting_documents()
@@ -140,7 +139,7 @@ class HomeFragment : Fragment() {
 
         if (binding.best.isChecked) {
             //전체 서류 가지고오는 로직
-            approvalViewModel.get_all_documents("0")
+            approvalViewModel.get_all_documents(sortBy = "0")
         } else {
             //전체 서류 가지고오는 로직
             approvalViewModel.get_all_documents()

@@ -43,7 +43,9 @@ class CommunityTokViewModel() : ViewModel() {
             sort = null
         }
 
-        val response = repository.get_toks(sort)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.get_toks(accessToken, sort)
         response.enqueue(object : Callback<CommunityTokDto> {
             override fun onResponse(call: Call<CommunityTokDto>, response: Response<CommunityTokDto>) {
                 if (response.isSuccessful) {

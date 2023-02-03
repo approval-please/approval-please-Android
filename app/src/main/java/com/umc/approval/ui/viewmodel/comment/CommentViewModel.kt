@@ -78,7 +78,8 @@ class CommentViewModel() : ViewModel() {
      * 댓글 작성 API
      * 정상 동작 Check 완료
      * */
-    fun post_comments(commentPostDto: CommentPostDto) = viewModelScope.launch {
+    fun post_comments(commentPostDto: CommentPostDto,
+                      documentId: String?=null, toktokId: String?=null, reportId: String?=null) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
@@ -86,6 +87,13 @@ class CommentViewModel() : ViewModel() {
         response.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
+                    if (documentId != null) {
+                        get_comments(documentId = documentId)
+                    } else if (toktokId != null) {
+                        get_comments(toktokId = toktokId)
+                    } else if (reportId != null) {
+                        get_comments(reportId = reportId)
+                    }
                     Log.d("RESPONSE", response.body().toString())
 
                 } else {

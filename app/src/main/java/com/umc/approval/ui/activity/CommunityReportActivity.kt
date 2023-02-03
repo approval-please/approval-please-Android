@@ -77,7 +77,7 @@ class CommunityReportActivity : AppCompatActivity() {
                     postComment.parentCommentId = commentViewModel.commentId.value
                 }
 
-                commentViewModel.post_comments(postComment)
+                commentViewModel.post_comments(postComment, reportId = reportViewModel.report.value!!.reportId.toString())
                 binding.communityCommentEt.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
@@ -167,9 +167,8 @@ class CommunityReportActivity : AppCompatActivity() {
         //댓글 라이브 데이터
         commentViewModel.comments.observe(this) {
 
-            binding.commentItem.layoutManager = LinearLayoutManager(this)
             val documentCommentAdapter = ParentCommentAdapter(it)
-            documentCommentAdapter.notifyDataSetChanged()
+            binding.commentItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             binding.commentItem.adapter = documentCommentAdapter
 
             documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
@@ -193,25 +192,11 @@ class CommunityReportActivity : AppCompatActivity() {
 
         val reportId = intent.getStringExtra("reportId")
 
-//        reportViewModel.get_report_detail(reportId.toString())
+        reportViewModel.get_report_detail(reportId.toString())
 
         commentViewModel.get_comments(reportId = reportId.toString())
 
-        reportViewModel.init()
-    }
-
-    //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
-    override fun onResume() {
-        super.onResume()
-
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        reportViewModel.checkAccessToken()
-
-        val reportId = intent.getStringExtra("reportId")
-
-//        reportViewModel.get_report_detail(reportId.toString())
-
-//        commentViewModel.get_comments(reportId = reportId.toString())
+//        reportViewModel.init()
     }
 
     //다이얼로그 로직

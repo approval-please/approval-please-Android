@@ -1,6 +1,5 @@
 package com.umc.approval.ui.adapter.community_fragment
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

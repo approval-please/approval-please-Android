@@ -59,7 +59,6 @@ class InterestingDepartmentActivity : AppCompatActivity() {
 
                 val list = mutableListOf<Int>()
                 for (i in viewModel.all.value!!) {
-                    Log.d("test", i.toString())
                     if (i !in viewModel.interesting.value!!) {
                         list.add(i)
                     }

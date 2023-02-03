@@ -41,7 +41,9 @@ class CommunityReportViewModel() : ViewModel() {
             sort = null
         }
 
-        val response = repository.get_reports(sort)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.get_reports(accessToken, sort)
         response.enqueue(object : Callback<CommunityReportDto> {
             override fun onResponse(call: Call<CommunityReportDto>, response: Response<CommunityReportDto>) {
                 if (response.isSuccessful) {

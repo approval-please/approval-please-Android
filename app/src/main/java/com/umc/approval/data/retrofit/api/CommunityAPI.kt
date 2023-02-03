@@ -25,7 +25,8 @@ interface CommunityAPI {
      */
     @GET("/community/toktoks")
     @Headers("content-type: application/json")
-    fun get_community_tok_items(@Query("sortBy") sortBy: Int ?= null):Call<CommunityTokDto>
+    fun get_community_tok_items(@Header("Authorization") accessToken: String,
+                                @Query("sortBy") sortBy: Int ?= null):Call<CommunityTokDto>
 
     /**
      * 리포트 목록 조회 API
@@ -34,7 +35,8 @@ interface CommunityAPI {
      */
     @GET("/community/reports")
     @Headers("content-type: application/json")
-    fun get_community_report_items(@Query("sortBy") sortBy: Int ?= null):Call<CommunityReportDto>
+    fun get_community_report_items(@Header("Authorization") accessToken: String,
+                                   @Query("sortBy") sortBy: Int ?= null):Call<CommunityReportDto>
 
     /**
      * 톡 업로드 API

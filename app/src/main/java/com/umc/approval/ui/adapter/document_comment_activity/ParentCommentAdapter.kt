@@ -1,6 +1,7 @@
 package com.umc.approval.ui.adapter.document_comment_activity
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

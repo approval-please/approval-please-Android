@@ -140,7 +140,7 @@
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="이 보고서 보관함에 넣기"
+            android:text="이 보고서 보관함에서 빼기"
             android:textSize="12dp"
             android:textColor="@color/black"
             android:fontFamily="@font/medium"></TextView>

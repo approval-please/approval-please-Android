@@ -7,8 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.profile.ProfileChange
+import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -39,17 +42,19 @@ class ProfileChangeViewModel() : ViewModel() {
      * */
     fun my_profile() = viewModelScope.launch {
 
-        val response = repository.get_my_page("abc")
-        response.enqueue(object : Callback<ProfileDto> {
-            override fun onResponse(call: Call<ProfileDto>, response: Response<ProfileDto>) {
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.get_my_page(accessToken)
+
+        response.enqueue(object : Callback<ProfileContentDto> {
+            override fun onResponse(call: Call<ProfileContentDto>, response: Response<ProfileContentDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    _load_profile.postValue(response.body())
+                    _load_profile.postValue(response.body()!!.content)
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<ProfileDto>, t: Throwable) {
+            override fun onFailure(call: Call<ProfileContentDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
@@ -59,7 +64,8 @@ class ProfileChangeViewModel() : ViewModel() {
      * */
     fun change_profile(profile: ProfileChange) = viewModelScope.launch {
 
-        val response = repository.change_my_profile("abc", profile)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.change_my_profile(accessToken, profile)
         response.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {

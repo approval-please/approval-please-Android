@@ -106,7 +106,7 @@ class CommunityUploadViewModel() : ViewModel() {
     }
 
     fun setVoteTitle(li: String) {
-        _link.postValue(li)
+        _voteTitle.postValue(li)
     }
     fun setVoteIsSingle(li: Boolean) {
         _voteIsSingle.postValue(li)

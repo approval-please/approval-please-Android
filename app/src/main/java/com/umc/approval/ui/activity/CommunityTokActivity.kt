@@ -19,6 +19,8 @@ import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportUserDialogBinding
@@ -31,6 +33,7 @@ import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapte
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
+import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.Utils.categoryMap
 
 
@@ -41,6 +44,9 @@ class CommunityTokActivity : AppCompatActivity() {
     private val viewModel by viewModels<TokViewModel>()
 
     val commentViewModel by viewModels<CommentViewModel>()
+
+    //viewModel
+    private val followViewModel by viewModels<FollowViewModel>()
 
     /*다이얼로그*/
     private lateinit var activityCommunityReportPostDialogBinding: ActivityCommunityReportPostDialogBinding
@@ -71,7 +77,7 @@ class CommunityTokActivity : AppCompatActivity() {
                     postComment.parentCommentId = commentViewModel.commentId.value
                 }
 
-                commentViewModel.post_comments(postComment)
+                commentViewModel.post_comments(postComment, toktokId = viewModel.tok.value!!.toktokId.toString())
                 binding.communityCommentEt.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
@@ -92,6 +98,16 @@ class CommunityTokActivity : AppCompatActivity() {
         /*setting*/
         post_more()
 
+        //follow하면
+        binding.follow.setOnClickListener {
+            followViewModel.follow(viewModel.tok.value!!.userId)
+        }
+
+        //unfollow하면
+        binding.unfollow.setOnClickListener {
+            followViewModel.follow(viewModel.tok.value!!.userId)
+        }
+
         /*close*/
         binding.uploadCancelBtn.setOnClickListener{
             finish()
@@ -105,9 +121,9 @@ class CommunityTokActivity : AppCompatActivity() {
 
         commentViewModel.get_comments(toktokId = toktokId.toString())
 
-//        viewModel.get_tok_detail(toktokId.toString())
+        viewModel.get_tok_detail(toktokId.toString())
 
-        viewModel.init()
+//        viewModel.init()
     }
 
 
@@ -118,7 +134,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
             val writer = viewModel.tok.value!!.writerOrNot
             val notice = viewModel.tok.value!!.isNotification
-            val storage = viewModel.tok.value!!.scrapOrNot
+            val storage = followViewModel.isScrap.value!!.isScrap
 
             val bottomSheetView =
                 layoutInflater.inflate(R.layout.community_post_selector_dialog, null)
@@ -175,10 +191,12 @@ class CommunityTokActivity : AppCompatActivity() {
             }
 
             setting_storage_on!!.setOnClickListener {
+                followViewModel.scrap(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
             }
 
             setting_storage_off!!.setOnClickListener {
+                followViewModel.scrap(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
             }
 
@@ -281,6 +299,17 @@ class CommunityTokActivity : AppCompatActivity() {
 
     private fun live_data(){
 
+        //팔로잉 로직
+        followViewModel.isFollow.observe(this) {
+            if (it.isFollow == false) {
+                binding.unfollow.isVisible = true
+                binding.follow.isVisible = false
+            } else {
+                binding.unfollow.isVisible = false
+                binding.follow.isVisible = true
+            }
+        }
+
         viewModel.tok.observe(this) {
 
             //좋아요수
@@ -302,9 +331,16 @@ class CommunityTokActivity : AppCompatActivity() {
 
             //follow했다면
             if (it.followOrNot == true) {
-                binding.unfollow.isVisible = false
+                followViewModel.setFollow(FollowStateDto(false))
             } else {
-                binding.follow.isVisible = true
+                followViewModel.setFollow(FollowStateDto(true))
+            }
+
+            //scrap했다면
+            if (it.scrapOrNot == true) {
+                followViewModel.setScrap(ScrapStateDto(true))
+            } else {
+                followViewModel.setScrap(ScrapStateDto(false))
             }
 
             //content

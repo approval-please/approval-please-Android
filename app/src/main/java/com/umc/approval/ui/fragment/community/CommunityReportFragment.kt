@@ -92,7 +92,7 @@ class CommunityReportFragment : Fragment() {
 
             communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
 
-            val community_item_rv: RecyclerView = binding.communityRvReportItem
+            val community_item_rv: RecyclerView = binding.communityRvItem
 
             community_item_rv.adapter = communityReportItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

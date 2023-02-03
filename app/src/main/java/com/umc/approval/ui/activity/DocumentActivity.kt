@@ -80,7 +80,7 @@ class DocumentActivity : AppCompatActivity() {
                     postComment.parentCommentId = commentViewModel.commentId.value
                 }
 
-                commentViewModel.post_comments(postComment)
+                commentViewModel.post_comments(postComment, documentId = viewModel.document.value!!.documentId.toString())
                 binding.commentEdit.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
@@ -197,6 +197,8 @@ class DocumentActivity : AppCompatActivity() {
                 binding.openGraphImage.load(it.link.image)
                 binding.openGraphText.text = it.link.title
                 binding.openGraphUrl.text = it.link.url
+            } else {
+                binding.openGraph.isVisible = false
             }
 
             if (it.imageUrl != null) {
@@ -257,6 +259,22 @@ class DocumentActivity : AppCompatActivity() {
                     binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
                     binding.refuseButton.setTextColor(Color.parseColor("#141414"))
                 }
+            } else if (viewModel.document.value!!.isVoted == 0) {
+                if (viewModel.document.value!!.state == 1) {
+
+                    //투표 다르게 보이게 설정
+                    binding.approveArea.isVisible = false
+                    binding.writerApprove.isVisible = true
+                    binding.approval.isVisible = true
+                    binding.approval.setImageResource(R.drawable.document_result_approval)
+                } else if (viewModel.document.value!!.isVoted == 2) {
+
+                    //투표 다르게 보이게 설정
+                    binding.approveArea.isVisible = false
+                    binding.writerApprove.isVisible = true
+                    binding.approval.isVisible = true
+                    binding.approval.setImageResource(R.drawable.document_result_refusal)
+                }
             }
         }
 
@@ -308,17 +326,6 @@ class DocumentActivity : AppCompatActivity() {
         viewModel.get_document_detail(documentId.toString())
 
         commentViewModel.get_comments(documentId = documentId.toString())
-    }
-
-    //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
-    override fun onResume() {
-        super.onResume()
-
-        commentViewModel.setParentCommentId(-1)
-
-        val documentId = intent.getStringExtra("documentId")
-
-        viewModel.get_document_detail(documentId.toString())
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

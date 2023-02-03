@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -79,6 +80,9 @@ class ProfileChangeActivity : AppCompatActivity() {
     /**load_profile_live_data*/
     private fun load_profile_live_data() {
         viewModel.load_profile.observe(this) {
+
+            Log.d("test" , it.profileImage)
+
             //닉네임
             binding.nickname.setText(viewModel.load_profile.value!!.nickname)
 
@@ -125,7 +129,7 @@ class ProfileChangeActivity : AppCompatActivity() {
 
             Handler(Looper.myLooper()!!).postDelayed({
                 finish()
-            }, 400)
+            }, 800)
         }
     }
 

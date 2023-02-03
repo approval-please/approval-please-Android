@@ -23,6 +23,7 @@ import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.data.repository.community.CommunityRepository
+import com.umc.approval.data.repository.follow.FollowFragmentRepository
 import com.umc.approval.data.repository.like.LikeRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
@@ -138,6 +139,7 @@ class TokViewModel() : ViewModel() {
         })
     }
 
+    //투표 보내기
     fun post_vote(list: List<Int>, voteId: String) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()

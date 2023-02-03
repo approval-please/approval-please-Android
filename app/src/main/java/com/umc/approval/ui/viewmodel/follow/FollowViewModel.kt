@@ -5,9 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.common.CommonUserDto
+import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.data.dto.mypage.FollowListDto
+import com.umc.approval.data.repository.follow.FollowFragmentRepository
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +22,7 @@ import retrofit2.Response
 
 class FollowViewModel() : ViewModel() {
 
-    private val repository = MyPageFragmentRepository()
+    private val followRepository = FollowFragmentRepository()
 
     private var _followers = MutableLiveData<FollowListDto>()
     val followers : LiveData<FollowListDto>
@@ -25,62 +32,20 @@ class FollowViewModel() : ViewModel() {
     val followings : LiveData<FollowListDto>
         get() = _followings
 
-    /**init followings*/
-    fun init_followers() {
+    private var _isFollow = MutableLiveData<FollowStateDto>()
+    val isFollow : LiveData<FollowStateDto>
+        get() = _isFollow
 
-//        /**
-//         * 서버와 연결 로직
-//         * 서버에서 follower 데이터 받아오기
-//         *
-//         *
-//         *
-//         *
-//         *
-//         * */
-//
-//        var list = mutableListOf<CommonUserDto>()
-//        list.add(CommonUserDto("", "지사원", 0, true))
-//        list.add(CommonUserDto("", "김차장", 0, true))
-//        list.add(CommonUserDto("", "최부장", 0, true))
-//        list.add(CommonUserDto("", "유부장", 0, true))
-//        list.add(CommonUserDto("", "김인턴", 0, true))
-//        list.add(CommonUserDto("", "이부장", 0, true))
-//        list.add(CommonUserDto("", "지차장", 0, true))
-//        list.add(CommonUserDto("", "안사원", 0, true))
-//        list.add(CommonUserDto("", "이부장", 0, true))
-//        list.add(CommonUserDto("", "안상무", 0, true))
-//        list.add(CommonUserDto("", "안사원", 0, true))
-//
-//        _followers.postValue(list)
+    fun setFollow(li:FollowStateDto) {
+        _isFollow.postValue(li)
     }
 
-    /**init followers*/
-    fun init_followings() {
+    private var _isScrap = MutableLiveData<ScrapStateDto>()
+    val isScrap : LiveData<ScrapStateDto>
+        get() = _isScrap
 
-//        /**
-//         * 서버와 연결 로직
-//         * 서버에서 following 데이터 받아오기
-//         *
-//         *
-//         *
-//         *
-//         *
-//         * */
-//
-//        var list = mutableListOf<CommonUserDto>()
-//        list.add(CommonUserDto("", "김부장", 0, true))
-//        list.add(CommonUserDto("", "김차장", 0, true))
-//        list.add(CommonUserDto("", "지차장", 0, true))
-//        list.add(CommonUserDto("", "김차장", 0, true))
-//        list.add(CommonUserDto("", "김부장", 0, true))
-//        list.add(CommonUserDto("", "이부장", 0, true))
-//        list.add(CommonUserDto("", "지차장", 0, true))
-//        list.add(CommonUserDto("", "안사원", 0, true))
-//        list.add(CommonUserDto("", "이부장", 0, true))
-//        list.add(CommonUserDto("", "안상무", 0, true))
-//        list.add(CommonUserDto("", "안사원", 0, true))
-//
-//        _followings.postValue(list)
+    fun setScrap(li:ScrapStateDto) {
+        _isScrap.postValue(li)
     }
 
     /**
@@ -88,7 +53,9 @@ class FollowViewModel() : ViewModel() {
      * */
     fun my_followers() = viewModelScope.launch {
 
-        val response = repository.get_my_follower("abc")
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = followRepository.get_my_follower(accessToken)
         response.enqueue(object : Callback<FollowListDto> {
             override fun onResponse(call: Call<FollowListDto>, response: Response<FollowListDto>) {
                 if (response.isSuccessful) {
@@ -109,7 +76,9 @@ class FollowViewModel() : ViewModel() {
      * */
     fun my_followings() = viewModelScope.launch {
 
-        val response = repository.get_my_followings("abc")
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = followRepository.get_my_followings(accessToken)
         response.enqueue(object : Callback<FollowListDto> {
             override fun onResponse(call: Call<FollowListDto>, response: Response<FollowListDto>) {
                 if (response.isSuccessful) {
@@ -120,6 +89,50 @@ class FollowViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<FollowListDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    //팔로우 하기
+    fun follow(toUserId: Int) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = followRepository.follow(accessToken, toUserId)
+
+        response.enqueue(object : Callback<FollowStateDto> {
+            override fun onResponse(call: Call<FollowStateDto>, response: Response<FollowStateDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _isFollow.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<FollowStateDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    //팔로우 하기
+    fun scrap(documentId : Int?=null, reportId : Int?=null, toktokId : Int?=null) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = followRepository.scrap(accessToken, LikeDto(documentId, toktokId, reportId, null) )
+
+        response.enqueue(object : Callback<ScrapStateDto> {
+            override fun onResponse(call: Call<ScrapStateDto>, response: Response<ScrapStateDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _isScrap.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ScrapStateDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

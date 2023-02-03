@@ -29,15 +29,11 @@ class CommunityUploadDocumentItemRVAdapter (private var dataList: DocumentWithRe
             if(adapterPosition == dataList.content!!.size-1) binding.approvalLine.isVisible = false
 
             when(data.state){
-                1->{
+                0->{
                     binding.approvalStateApproval.isVisible = true
                     binding.approvalStateReject.isVisible = false
                 }
-                2->{
-                    binding.approvalStateApproval.isVisible = false
-                    binding.approvalStateReject.isVisible = true
-                }
-                else->{
+                1->{
                     binding.approvalStateApproval.isVisible = false
                     binding.approvalStateReject.isVisible = true
                 }
