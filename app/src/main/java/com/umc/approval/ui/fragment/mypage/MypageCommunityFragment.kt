@@ -11,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.FragmentMypageCommunityBinding
 import com.umc.approval.databinding.FragmentMypageDocumentBinding
@@ -102,7 +104,7 @@ class MypageCommunityFragment : Fragment() {
 
                 // 클릭 이벤트 처리
                 dataRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
-                    override fun move_to_tok_activity() {
+                    override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
                         startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
                     }
                 }
@@ -115,10 +117,14 @@ class MypageCommunityFragment : Fragment() {
 
                 // 클릭 이벤트 처리
                 dataRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
-                    override fun move_to_report_activity() {
+                    override fun move_to_report_activity(v: View, data: CommunityReport, pos: Int) {
                         startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
                     }
-                    override fun move_to_document_activity() {
+                    override fun move_to_document_activity(
+                        v: View,
+                        data: CommunityReport,
+                        pos: Int
+                    ) {
                         startActivity(Intent(requireContext(), DocumentActivity::class.java))
                     }
                 }
