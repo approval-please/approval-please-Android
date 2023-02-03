@@ -1,9 +1,7 @@
 package com.umc.approval.ui.fragment.search
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +15,8 @@ import com.umc.approval.databinding.FragmentSearchCommunityTabBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
-import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
-import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
+import com.umc.approval.ui.viewmodel.search.SearchTokViewModel
+import com.umc.approval.util.Utils
 
 class CommunityTabFragment: Fragment() {
 
@@ -27,7 +25,7 @@ class CommunityTabFragment: Fragment() {
 
     private lateinit var communityTalkItemRVAdapter: CommunityTalkItemRVAdapter
 
-    private val viewModel by viewModels<CommunityTokViewModel>()
+    private val viewModel by viewModels<SearchTokViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +41,7 @@ class CommunityTabFragment: Fragment() {
         live_data()
 
         binding.categorySelect.setOnClickListener {
-            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment()
+            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment(binding.categoryText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -64,52 +62,56 @@ class CommunityTabFragment: Fragment() {
             .setFragmentResultListener("category", this) { requestKey, bundle ->
                 val result = bundle.getString("result")
                 binding.categoryText.text = result
-            }
-
-        childFragmentManager
-            .setFragmentResultListener("categoryList", this) { requestKey, bundle ->
-                val category = bundle.getIntegerArrayList("category")
-                Log.d("로그", "카테고리 인덱스: $category")
-
-                // 체크한 카테고리 정보(category)에 따라 리사이클러뷰 아이템 갱신
+                if (result == "부서 전체") {
+                    viewModel.setCategory(18)
+                } else {
+                    viewModel.setCategory(Utils.categoryMapReverse[result]!!)
+                }
             }
 
         childFragmentManager
             .setFragmentResultListener("sort", this) { requestKey, bundle ->
                 val result = bundle.getString("result")
                 binding.sortText.text = result
-
-                // 리사이클러뷰 아이템 갱신
+                viewModel.setSort(Utils.searchSortMap[result]!!)
             }
 
         return view
     }
 
-    /**시작시 로그인 상태 확인*/
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
+        viewModel.setQuery("#query")
+        viewModel.setTag(viewModel.query.value!!)
+        viewModel.setSort(0)
 
-        viewModel.get_all_toks()
+        viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
     override fun onResume() {
         super.onResume()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
-        viewModel.get_all_toks()
+        viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
     private fun live_data() {
 
-        viewModel.tok_list.observe(viewLifecycleOwner) {
+        // category 상태 변화시
+        viewModel.category.observe(viewLifecycleOwner) {
+            viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        }
+
+        // sortBy(정렬) 상태 변화시
+        viewModel.sort.observe(viewLifecycleOwner) {
+            viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        }
+
+        // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
+        viewModel.toktok.observe(viewLifecycleOwner) {
             communityTalkItemRVAdapter = CommunityTalkItemRVAdapter(it)
 
-            val community_item_rv: RecyclerView = binding.rvSearchResultApprovalPaper
+            val community_item_rv: RecyclerView = binding.rvSearchResultToktok
 
             community_item_rv.adapter = communityTalkItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -119,18 +121,6 @@ class CommunityTabFragment: Fragment() {
                     startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
                 }
             }
-        }
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
         }
     }
 }

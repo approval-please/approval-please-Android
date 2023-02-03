@@ -21,4 +21,7 @@ object Utils {
 
     /*sort*/
     val sortByMap = mapOf<String, Int>("인기순" to 0,"최신순" to 2)
+
+    /*searchSort*/
+    val searchSortMap = mapOf<String, Int>("최신순" to 0, "인기순" to 1)
 }

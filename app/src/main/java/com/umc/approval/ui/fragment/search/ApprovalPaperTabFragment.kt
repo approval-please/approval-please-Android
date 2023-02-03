@@ -39,7 +39,7 @@ class ApprovalPaperTabFragment: Fragment() {
         setApprovalPaperList()  // 리사이클러뷰 데이터 & 어댑터 설정
 
         binding.categorySelect.setOnClickListener {
-            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment()
+            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment(binding.categoryText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -69,14 +69,6 @@ class ApprovalPaperTabFragment: Fragment() {
             .setFragmentResultListener("category", this) { _, bundle ->
                 val result = bundle.getString("result")
                 binding.categoryText.text = result
-            }
-
-        childFragmentManager
-            .setFragmentResultListener("categoryList", this) { _, bundle ->
-                val category = bundle.getIntegerArrayList("category")
-                Log.d("로그", "카테고리 인덱스: $category")
-
-                // 체크한 카테고리 정보(category)에 따라 리사이클러뷰 아이템 갱신
             }
 
         childFragmentManager

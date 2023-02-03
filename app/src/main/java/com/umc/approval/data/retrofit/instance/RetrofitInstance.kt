@@ -75,4 +75,8 @@ object RetrofitInstance {
     val mypageAPI : MyPageAPI by lazy{
         retrofit.create(MyPageAPI::class.java)
     }
+
+    val searchAPI: SearchAPI by lazy {
+        retrofit.create(SearchAPI::class.java)
+    }
 }

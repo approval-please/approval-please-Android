@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentSearchReportTabBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
-import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
-import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
-import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
+import com.umc.approval.ui.viewmodel.search.SearchReportViewModel
+import com.umc.approval.util.Utils
 
 class ReportTabFragment: Fragment() {
 
@@ -30,7 +29,7 @@ class ReportTabFragment: Fragment() {
     //Community Image RV Adapter
     private lateinit var communityReportItemRVAdapter: CommunityReportItemRVAdapter
 
-    private val viewModel by viewModels<CommunityReportViewModel>()
+    private val viewModel by viewModels<SearchReportViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +45,7 @@ class ReportTabFragment: Fragment() {
         live_data()
 
         binding.categorySelect.setOnClickListener {
-            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment()
+            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment(binding.categoryText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -67,50 +66,53 @@ class ReportTabFragment: Fragment() {
             .setFragmentResultListener("category", this) { requestKey, bundle ->
                 val result = bundle.getString("result")
                 binding.categoryText.text = result
-            }
-
-        childFragmentManager
-            .setFragmentResultListener("categoryList", this) { requestKey, bundle ->
-                val category = bundle.getIntegerArrayList("category")
-                Log.d("로그", "카테고리 인덱스: $category")
-
-                // 체크한 카테고리 정보(category)에 따라 리사이클러뷰 아이템 갱신
+                if (result == "부서 전체") {
+                    viewModel.setCategory(18)
+                } else {
+                    viewModel.setCategory(Utils.categoryMapReverse[result]!!)
+                }
             }
 
         childFragmentManager
             .setFragmentResultListener("sort", this) { requestKey, bundle ->
                 val result = bundle.getString("result")
                 binding.sortText.text = result
-
-                // 리사이클러뷰 아이템 갱신
+                viewModel.setSort(Utils.searchSortMap[result]!!)
             }
 
         return view
     }
 
-    /**시작시 로그인 상태 확인*/
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
+        viewModel.setQuery("#query")
+        viewModel.setTag(viewModel.query.value!!)
+        viewModel.setSort(0)
 
-        viewModel.get_all_reports()
+        viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
     override fun onResume() {
         super.onResume()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
-        viewModel.get_all_reports()
+        viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
     private fun live_data() {
 
-        viewModel.report_list.observe(viewLifecycleOwner) {
+        // category 상태 변화시
+        viewModel.category.observe(viewLifecycleOwner) {
+            viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        }
 
+        // sortBy(정렬) 상태 변화시
+        viewModel.sort.observe(viewLifecycleOwner) {
+            viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        }
+
+        // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
+        viewModel.report.observe(viewLifecycleOwner) {
             communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
 
             val community_item_rv: RecyclerView = binding.rvSearchResultApprovalPaper
@@ -135,17 +137,5 @@ class ReportTabFragment: Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
-        }
     }
 }
