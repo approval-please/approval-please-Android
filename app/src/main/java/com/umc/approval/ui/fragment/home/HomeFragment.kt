@@ -2,6 +2,8 @@ package com.umc.approval.ui.fragment.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -43,9 +45,6 @@ class HomeFragment : Fragment() {
 
     private var bannerPosition = 0
 
-    /**login view model*/
-    private val viewModel by viewModels<LoginFragmentViewModel>()
-
     /**Community view model*/
     private val reportViewModel by viewModels<CommunityReportViewModel>()
 
@@ -71,15 +70,6 @@ class HomeFragment : Fragment() {
         //live data
         live_data_from_server()
         
-        //전체 서류 가지고오는 로직
-        //approvalViewModel.init_all_category_approval()
-
-        //관심 서류 가지고오는 로직
-        //approvalViewModel.init_interest_category_approval()
-
-        //tok 서류 가지고오는 로직
-        //tokViewModel.init_all_toks()
-
         //관심부서 탭으로 이동
         setting_interesting()
 
@@ -128,11 +118,8 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
         //전체 서류 가지고오는 로직
-        approvalViewModel.get_all_documents()
+        approvalViewModel.get_all_documents(sortBy = "0")
 
         //관신 서류 가지고오는 로직
         approvalViewModel.get_interesting_documents()
@@ -150,12 +137,9 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
         if (binding.best.isChecked) {
             //전체 서류 가지고오는 로직
-            approvalViewModel.get_all_documents("0")
+            approvalViewModel.get_all_documents(sortBy = "0")
         } else {
             //전체 서류 가지고오는 로직
             approvalViewModel.get_all_documents()
@@ -178,7 +162,7 @@ class HomeFragment : Fragment() {
     private fun best_new_click() {
         //인기순
         binding.best.setOnClickListener {
-            approvalViewModel.get_all_documents("0")
+            approvalViewModel.get_all_documents(sortBy = "0")
         }
 
         //최신 순
@@ -208,7 +192,7 @@ class HomeFragment : Fragment() {
     private fun live_data_from_server() {
 
         //엑세스 토큰 확인하는 라이브 데이터
-        viewModel.accessToken.observe(viewLifecycleOwner) {
+        approvalViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.notLoginStatus.isVisible = false
                 binding.loginStatus.isVisible = true

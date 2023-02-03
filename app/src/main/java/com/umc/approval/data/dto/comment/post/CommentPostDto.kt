@@ -9,15 +9,15 @@ import com.google.gson.annotations.SerializedName
 data class CommentPostDto(
 
     @SerializedName("documentId")
-    val documentId: Int?=null,
+    var documentId: Int?=null,
     @SerializedName("reportId")
-    val reportId: Int?=null,
+    var reportId: Int?=null,
     @SerializedName("toktokId")
-    val toktokId: Int?=null,
+    var toktokId: Int?=null,
     @SerializedName("parentCommentId")
-    val parentCommentId: Int?=null,
+    var parentCommentId: Int?=null,
     @SerializedName("content")
-    val content: String ?= null,
+    var content: String ?= null,
     @SerializedName("image")
-    val image: String ?= null,
+    var image: String ?= null,
 )

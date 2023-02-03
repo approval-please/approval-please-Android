@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.databinding.ItemCommunityPostVoteBinding
-import com.umc.approval.util.VoteItem
 
-class CommunityVoteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayListOf()): RecyclerView.Adapter<CommunityVoteRVAdapter.DataViewHolder>() {
+class CommunityVoteRVAdapter(private val dataList: MutableList<VoteItem>): RecyclerView.Adapter<CommunityVoteRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemCommunityPostVoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,6 +30,9 @@ class CommunityVoteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayLi
                 itemView.setOnClickListener {
                     listner?.onItemClick(itemView, data, pos)
                 }
+                binding.voteItemCheck.setOnClickListener {
+                    listner?.voteClick(it, data.id , pos)
+                }
             }
         }
     }
@@ -37,6 +40,7 @@ class CommunityVoteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayLi
     // 아이템 클릭 리스너
     interface OnItemClickListner {
         fun onItemClick(v: View, data: VoteItem, pos: Int)
+        fun voteClick(v: View, data: Int, pos: Int)
     }
 
     private var listner: OnItemClickListner? = null

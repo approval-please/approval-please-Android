@@ -2,6 +2,7 @@ package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
 import android.graphics.Rect
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,8 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
     inner class DataViewHolder(private val binding: ApprovalFragmentItemApprovalPaperBinding, context: Context): RecyclerView.ViewHolder(binding.root) {
         val context = context
         fun bind(data: ApprovalPaper) {
+
+            Log.d("info", data.title)
 
             /**
              * 이미지가 없으면 이미지 제외하고 처리

@@ -72,7 +72,7 @@ interface LoginAPI {
      * */
     @POST("/auth/kakao")
     @Headers("content-type: application/json")
-    fun social_login(@Header("Authorization") accessToken : String):Call<ReturnSocialLoginDto>
+    fun social_login(@Header("Authorization") accessToken : String, @Body email: String):Call<ReturnSocialLoginDto>
 
     /**
      * 비밀번호 변경 API

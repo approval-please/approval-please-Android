@@ -8,7 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.ItemUploadVoteBinding
 
-class CommunityUploadVoteItemRVAdapter (private var dataList: ArrayList<String> = arrayListOf()): RecyclerView.Adapter<CommunityUploadVoteItemRVAdapter.DataViewHolder>() {
+class CommunityUploadVoteItemRVAdapter (private var dataList: MutableList<String>): RecyclerView.Adapter<CommunityUploadVoteItemRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemUploadVoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)

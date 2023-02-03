@@ -47,6 +47,11 @@ class UploadDocumentViewModel() : ViewModel() {
     val pic : LiveData<List<Uri>>
         get() = _pic
 
+    /**images Livedata*/
+    private var _images = MutableLiveData<List<String>>()
+    val images : LiveData<List<String>>
+        get() = _images
+
     /**Open graph Livedata*/
     private var _opengraph = MutableLiveData<OpenGraphDto>()
     val opengraph : LiveData<OpenGraphDto>
@@ -80,6 +85,11 @@ class UploadDocumentViewModel() : ViewModel() {
     /**tag 선택시 적용*/
     fun setTags(tags: List<String>) {
         _tags.postValue(tags)
+    }
+
+    /**images 선택시 적용*/
+    fun setImages(tags: List<String>) {
+        _images.postValue(tags)
     }
 
     /**tag 선택시 적용*/

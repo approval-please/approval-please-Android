@@ -8,6 +8,7 @@ import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
 import com.umc.approval.data.dto.profile.ProfileChange
+import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -30,7 +31,7 @@ interface MyPageAPI {
     @GET("/profile/my")
     @Headers("content-type: application/json")
     fun get_my_page(
-        @Header("Authorization") accessToken : String) : Call<ProfileDto>
+        @Header("Authorization") accessToken : String) : Call<ProfileContentDto>
 
     /**
      * @Post
@@ -41,28 +42,6 @@ interface MyPageAPI {
     @GET("/profile/{userId}")
     @Headers("content-type: application/json")
     fun get_other_page(@Path("userId") userId: String) : Call<ProfileDto>
-
-    /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * 내 팔로잉 목록 조회
-     * API 명세서 Check 완료
-     * */
-    @GET("/profile/my/followings")
-    @Headers("content-type: application/json")
-    fun get_my_followings(
-        @Header("Authorization") accessToken : String) : Call<FollowListDto>
-
-    /**
-     * @Post
-     * accessToken : 사용자 검증 토큰
-     * 내 팔로우 목록 조회 API
-     * API 명세서 Check 완료
-     * */
-    @GET("/profile/my/followers")
-    @Headers("content-type: application/json")
-    fun get_my_followers(
-        @Header("Authorization") accessToken : String) : Call<FollowListDto>
 
     /**
      * @Post
@@ -95,5 +74,4 @@ interface MyPageAPI {
     @Headers("content-type: application/json")
     fun get_my_performances(
         @Header("Authorization") accessToken : String) : Call<RecordDto>
-
 }

@@ -197,6 +197,7 @@ class UploadActivity : AppCompatActivity() {
 
                     //사진이 있을 경우
                     if (viewModel.pic.value != null) {
+                        uploadFile.images = viewModel.images.value
                         S3_connect()
                     }
 
@@ -584,6 +585,13 @@ class UploadActivity : AppCompatActivity() {
             binding.uploadItem.adapter = imageRVAdapter
             binding.uploadItem.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+            val images = mutableListOf<String>()
+            for (i in it) {
+                val random = UUID.randomUUID().toString()
+                images.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
+            }
+            viewModel.setImages(images)
         }
     }
 
@@ -664,15 +672,15 @@ class UploadActivity : AppCompatActivity() {
     /*S3 connect*/
     private fun S3_connect() {
 
-        val imageList = mutableListOf<String>()
+        for ((index,uri) in viewModel.pic.value!!.withIndex()) {
 
-        for (uri in viewModel.pic.value!!) {
-
-            val random = UUID.randomUUID().toString()
+            val new_list = viewModel.images.value!![index].split("/")
 
             /**uri 변환*/
             val realPathFromURI = getRealPathFromURI(uri)
             val file = File(realPathFromURI)
+
+            Log.d("new_list", new_list.toString())
 
             /**S3에 저장*/
             S3Util().getInstance()
@@ -680,13 +688,9 @@ class UploadActivity : AppCompatActivity() {
                 ?.setRegion(Regions.AP_NORTHEAST_2)
                 ?.uploadWithTransferUtility(
                     this,
-                    "approval-please", file, random
+                    "approval-please", file, new_list.get(new_list.size-1)
                 )
-
-            imageList.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
         }
-
-        uploadFile.images = imageList
     }
 
     /*File Uri for S3 connect*/

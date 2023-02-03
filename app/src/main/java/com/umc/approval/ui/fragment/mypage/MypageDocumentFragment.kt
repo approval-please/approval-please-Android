@@ -50,10 +50,10 @@ class MypageDocumentFragment : Fragment() {
             viewModel.setApproved(2)
         }
         binding.approve.setOnClickListener {
-            viewModel.setApproved(0)
+            viewModel.setApproved(1)
         }
         binding.reject.setOnClickListener {
-            viewModel.setApproved(1)
+            viewModel.setApproved(0)
         }
 
         binding.stateSelect.setOnClickListener {
@@ -85,13 +85,6 @@ class MypageDocumentFragment : Fragment() {
         viewModel.get_mypage_documents(viewModel.state.value, viewModel.isApproved.value)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        //다른 뷰 갔다 왔을때 재 시작 로직
-        viewModel.get_mypage_documents(viewModel.state.value, viewModel.isApproved.value)
-    }
-
     //라이브 데이터
     private fun live_data() {
 
@@ -117,7 +110,10 @@ class MypageDocumentFragment : Fragment() {
             dataRVAdapter.setOnItemClickListener(object :
                 ApprovalPaperListRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                    //결재 서류 아이디를 통해 상세보기로 이동
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+                    startActivity(intent)
                 }
             })
         }

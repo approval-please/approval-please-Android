@@ -9,8 +9,11 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
+import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,17 +49,18 @@ class MypageViewModel() : ViewModel() {
      * */
     fun my_profile() = viewModelScope.launch {
 
-        val response = repository.get_my_page("abc")
-        response.enqueue(object : Callback<ProfileDto> {
-            override fun onResponse(call: Call<ProfileDto>, response: Response<ProfileDto>) {
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.get_my_page(accessToken)
+        response.enqueue(object : Callback<ProfileContentDto> {
+            override fun onResponse(call: Call<ProfileContentDto>, response: Response<ProfileContentDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    _myInfo.postValue(response.body())
+                    _myInfo.postValue(response.body()!!.content)
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<ProfileDto>, t: Throwable) {
+            override fun onFailure(call: Call<ProfileContentDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
@@ -67,7 +71,8 @@ class MypageViewModel() : ViewModel() {
      * */
     fun get_other_documents(userId: Int, state: Int?=null, isApproved : Int?=null) = viewModelScope.launch {
 
-        val response = repository.get_other_documents("abc", userId, state, isApproved)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.get_other_documents(accessToken, userId, state, isApproved)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {
                 if (response.isSuccessful) {
@@ -87,7 +92,8 @@ class MypageViewModel() : ViewModel() {
      * */
     fun get_my_performances() = viewModelScope.launch {
 
-        val response = repository.get_my_perfoemances("abc")
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.get_my_perfoemances(accessToken)
         response.enqueue(object : Callback<RecordDto> {
             override fun onResponse(call: Call<RecordDto>, response: Response<RecordDto>) {
                 if (response.isSuccessful) {

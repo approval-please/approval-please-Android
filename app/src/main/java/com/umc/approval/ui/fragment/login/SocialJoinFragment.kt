@@ -137,7 +137,8 @@ class SocialJoinFragment: Fragment() {
         /**회원가입 체크 체크*/
         binding.join.setOnClickListener {
 
-            val socialJoinDto = SocialJoinDto("팀", get_email.email, "KAKAO", "01012345678", 12345)
+            val socialJoinDto = SocialJoinDto("팀", get_email.email, "KAKAO",
+                binding.phone.text.toString(), get_email.socialId)
 
             //join
             viewModel.social_join(socialJoinDto)

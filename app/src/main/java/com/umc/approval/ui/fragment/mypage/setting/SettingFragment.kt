@@ -15,6 +15,9 @@ import com.umc.approval.databinding.FragmentNotificationBinding
 import com.umc.approval.databinding.FragmentSettingBinding
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * 내 정보 > 설정 Fragment View
@@ -39,10 +42,13 @@ class SettingFragment : Fragment() {
         val view = binding.root
 
         binding.logout.setOnClickListener {
-            viewModel.logout()
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                viewModel.logout()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
         }
 
         binding.backToMypage.setOnClickListener {

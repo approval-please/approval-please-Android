@@ -82,12 +82,14 @@ class LoginFragment : Fragment() {
 
             //최초 로그인 시
             if (status == 0) {
-                val to_social_join = LoginFragmentDirections.actionLoginFragmentToSocialJoinFragment(viewModel.kakao_email.value.toString())
+                val to_social_join = LoginFragmentDirections.actionLoginFragmentToSocialJoinFragment(
+                    viewModel.kakao_email.value.toString(), viewModel.social_id.value.toString())
                 Navigation.findNavController(binding.root).navigate(to_social_join)
             } else if (status == 2) {
                 Toast.makeText(requireContext(), "계정이 존재합니다", Toast.LENGTH_SHORT).show()
             } else if (status == 1) {
-                viewModel.setAccessToken("Bearer " + viewModel.accessToken.value.toString())
+                viewModel.setAccessToken("Bearer " + viewModel.social_status.value!!.accessToken.toString())
+                requireActivity().finish()
             }
         }
 
@@ -216,7 +218,8 @@ class LoginFragment : Fragment() {
                     }
                     else if (user != null) {
                         //로그인 진행
-                        viewModel.social_login(user.kakaoAccount!!.email.toString(), user.kakaoAccount!!.email.toString())
+                        viewModel.social_login(token.accessToken.toString(),
+                            user.kakaoAccount!!.email.toString(), user.id.toString())
                     }
                 }
             }

@@ -56,5 +56,7 @@ data class CommunityReportDetailDto(
     @SerializedName("isModified")
     var isModified : Boolean,
     @SerializedName("view")
-    var view : Int
+    var view : Int,
+    @SerializedName("isNotification")
+    var isNotification : Boolean,
 )

@@ -21,7 +21,6 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     inner class ViewHolder(val binding: CommunityTalkItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-
         fun binding(data: CommunityTok) {
 
             /*결재 보고서 부분*/
@@ -50,7 +49,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(App.context(), RecyclerView.HORIZONTAL, false)
             }
 
-            if (data.link == null) {
+            if (data.link != null) {
                 binding.reportOpenGraphImage.load(data.link.image)
                 binding.reportOpenGraphText.setText(data.link.title)
                 binding.reportOpenGraphUrl.setText(data.link.url)
@@ -66,10 +65,11 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.binding(items.communityTok[position])
         if (itemClick != null){
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_tok_activity()
+                itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
             })
         }
     }
@@ -80,7 +80,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     /**RV item click event*/
     interface ItemClick{ //인터페이스
-        fun move_to_tok_activity()
+        fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int)
     }
 
     var itemClick: ItemClick? = null

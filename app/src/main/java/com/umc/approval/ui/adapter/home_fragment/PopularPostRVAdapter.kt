@@ -37,7 +37,10 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             // binding.tvImageCount.text = "+$data.image.size"
 
             if (data.images != null) {
-                binding.ivThumbnail.load(data.images.get(0))
+
+                if (data.images.isNotEmpty()) {
+                    binding.ivThumbnail.load(data.images.get(0))
+                }
             } else {
                 binding.ivThumbnail.visibility = View.GONE
                 binding.tvImageCount.visibility = View.GONE

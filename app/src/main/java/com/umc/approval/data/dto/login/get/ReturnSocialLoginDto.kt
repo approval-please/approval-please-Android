@@ -12,7 +12,7 @@ data class ReturnSocialLoginDto (
         @SerializedName("refreshToken")
         var refreshToken : String,
         @SerializedName("socialId")
-        var socialId : Int,
+        var socialId : String,
         @SerializedName("status")
         var status : Int,
         @SerializedName("socialType")
