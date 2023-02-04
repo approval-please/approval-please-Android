@@ -132,6 +132,30 @@ class HomeFragment : Fragment() {
         approvalViewModel.get_interest()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (binding.best.isChecked) {
+            //전체 서류 가지고오는 로직
+            approvalViewModel.get_all_documents(sortBy = "0")
+        } else {
+            //전체 서류 가지고오는 로직
+            approvalViewModel.get_all_documents()
+        }
+
+        //관심 서류 가지고오는 로직
+        approvalViewModel.get_interesting_documents()
+
+        //tok 서류 가지고오는 로직
+        tokViewModel.get_all_toks()
+
+        //report 서류 가지고오는 로직
+        reportViewModel.get_all_reports()
+
+        //카테고리
+        approvalViewModel.get_interest()
+    }
+
     //인기 최신 순으로 서류 목록 가져오기
     private fun best_new_click() {
         //인기순

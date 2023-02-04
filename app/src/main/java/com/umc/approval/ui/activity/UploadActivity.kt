@@ -165,8 +165,8 @@ class UploadActivity : AppCompatActivity() {
         //엑세스 토큰 검증
         viewModel.accessToken.observe(this) {
             if (!it) {
-                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
+                startActivity(Intent(this, LoginActivity::class.java))
                 Toast.makeText(this, "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show()
             }
         }

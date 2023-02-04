@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.umc.approval.databinding.FragmentApprovalBinding
+import com.umc.approval.ui.activity.LoginActivity
+import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.activity.UploadActivity
 
 /**
@@ -31,6 +33,16 @@ class ApprovalFragment : Fragment() {
         binding.fabAddPost.setOnClickListener{
             // 게시글 작성 화면으로 이동
             startActivity(Intent(requireContext(), UploadActivity::class.java))
+        }
+
+        /**Login Activity로 이동*/
+        binding.mypageButton.setOnClickListener {
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+
+        /**Search Activity로 이동*/
+        binding.searchButton.setOnClickListener {
+            startActivity(Intent(requireContext(), SearchActivity::class.java))
         }
 
         return view
