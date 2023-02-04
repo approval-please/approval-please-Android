@@ -7,16 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
-import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentSearchCommunityTabBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
+import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 import com.umc.approval.ui.viewmodel.search.SearchTokViewModel
 import com.umc.approval.util.Utils
 
@@ -28,6 +29,7 @@ class CommunityTabFragment: Fragment() {
     private lateinit var communityTalkItemRVAdapter: CommunityTalkItemRVAdapter
 
     private val viewModel by viewModels<SearchTokViewModel>()
+    private val keywordViewModel by activityViewModels<SearchKeywordViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,9 @@ class CommunityTabFragment: Fragment() {
     ): View {
         _binding = FragmentSearchCommunityTabBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        viewModel.setTag(keywordViewModel.search_keyword.value.toString())
+        viewModel.setSort(0)
 
         live_data()
 
@@ -84,29 +89,26 @@ class CommunityTabFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.setQuery("#query")
-        viewModel.setTag(viewModel.query.value!!)
-        viewModel.setSort(0)
+        viewModel.setQuery(keywordViewModel.search_keyword.value!!)
 
-        viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        viewModel.get_toktok(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
     private fun live_data() {
 
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
-            viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+            viewModel.get_toktok(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.sort.observe(viewLifecycleOwner) {
-            viewModel.get_toktok(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+            viewModel.get_toktok(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        }
+
+        // query(검색어) 상태 변화시
+        keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
+            viewModel.get_toktok(it, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터

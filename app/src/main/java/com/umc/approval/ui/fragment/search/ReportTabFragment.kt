@@ -1,14 +1,13 @@
 package com.umc.approval.ui.fragment.search
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +18,7 @@ import com.umc.approval.ui.activity.CommunityReportActivity
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
+import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 import com.umc.approval.ui.viewmodel.search.SearchReportViewModel
 import com.umc.approval.util.Utils
 
@@ -31,6 +31,7 @@ class ReportTabFragment: Fragment() {
     private lateinit var communityReportItemRVAdapter: CommunityReportItemRVAdapter
 
     private val viewModel by viewModels<SearchReportViewModel>()
+    private val keywordViewModel by activityViewModels<SearchKeywordViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,9 @@ class ReportTabFragment: Fragment() {
     ): View {
         _binding = FragmentSearchReportTabBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        viewModel.setTag(keywordViewModel.search_keyword.value.toString())
+        viewModel.setSort(0)
 
         live_data()
 
@@ -87,29 +91,26 @@ class ReportTabFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        viewModel.setQuery("#query")
-        viewModel.setTag(viewModel.query.value!!)
-        viewModel.setSort(0)
+        viewModel.setQuery(keywordViewModel.search_keyword.value!!)
 
-        viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
     private fun live_data() {
 
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
-            viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+            viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.sort.observe(viewLifecycleOwner) {
-            viewModel.get_reports(viewModel.query.value!!, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+            viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+        }
+
+        // query(검색어) 상태 변화시
+        keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
+            viewModel.get_reports(it, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
@@ -144,17 +145,5 @@ class ReportTabFragment: Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
-        }
     }
 }
