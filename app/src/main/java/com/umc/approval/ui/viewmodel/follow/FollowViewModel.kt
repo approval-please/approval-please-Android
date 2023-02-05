@@ -9,6 +9,7 @@ import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.NotificationStateDto
 import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.repository.follow.FollowFragmentRepository
@@ -32,6 +33,7 @@ class FollowViewModel() : ViewModel() {
     val followings : LiveData<FollowListDto>
         get() = _followings
 
+    //팔로우
     private var _isFollow = MutableLiveData<FollowStateDto>()
     val isFollow : LiveData<FollowStateDto>
         get() = _isFollow
@@ -40,12 +42,22 @@ class FollowViewModel() : ViewModel() {
         _isFollow.postValue(li)
     }
 
+    //스크랩
     private var _isScrap = MutableLiveData<ScrapStateDto>()
     val isScrap : LiveData<ScrapStateDto>
         get() = _isScrap
 
     fun setScrap(li:ScrapStateDto) {
         _isScrap.postValue(li)
+    }
+
+    //알림설정
+    private var _notif = MutableLiveData<NotificationStateDto>()
+    val notif : LiveData<NotificationStateDto>
+        get() = _notif
+
+    fun setNotification(li:NotificationStateDto) {
+        _notif.postValue(li)
     }
 
     /**
@@ -116,12 +128,12 @@ class FollowViewModel() : ViewModel() {
         })
     }
 
-    //팔로우 하기
+    //스크랩 하기
     fun scrap(documentId : Int?=null, reportId : Int?=null, toktokId : Int?=null) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = followRepository.scrap(accessToken, LikeDto(documentId, toktokId, reportId, null) )
+        val response = followRepository.scrap(accessToken, LikeDto(documentId, toktokId, reportId) )
 
         response.enqueue(object : Callback<ScrapStateDto> {
             override fun onResponse(call: Call<ScrapStateDto>, response: Response<ScrapStateDto>) {
@@ -133,6 +145,51 @@ class FollowViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<ScrapStateDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    //알림설정하기
+    fun notification(documentId : Int?=null, reportId : Int?=null, toktokId : Int?=null) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = followRepository.notification(accessToken, LikeDto(documentId, toktokId, reportId) )
+
+        response.enqueue(object : Callback<NotificationStateDto> {
+            override fun onResponse(call: Call<NotificationStateDto>, response: Response<NotificationStateDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _notif.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<NotificationStateDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    //신고하기
+    fun accuse(documentId : Int?=null, reportId : Int?=null,
+               toktokId : Int?=null, commentId : Int?=null, accuseUserId : Int?=null) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = followRepository.notification(accessToken, LikeDto(documentId, toktokId, reportId, commentId, accuseUserId))
+
+        response.enqueue(object : Callback<NotificationStateDto> {
+            override fun onResponse(call: Call<NotificationStateDto>, response: Response<NotificationStateDto>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                    _notif.postValue(response.body())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<NotificationStateDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

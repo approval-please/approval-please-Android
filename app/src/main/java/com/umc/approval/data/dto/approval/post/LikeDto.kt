@@ -16,5 +16,6 @@ data class LikeDto(
     val reportId: Int ?= null,
     @SerializedName("commentId")
     val commentId: Int ?= null,
-
+    @SerializedName("accuseUserId")
+    val accuseUserId: Int ?= null,
 )
