@@ -3,9 +3,7 @@ package com.umc.approval.data.retrofit.api
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
-import com.umc.approval.data.dto.mypage.FollowListDto
-import com.umc.approval.data.dto.mypage.Profile
-import com.umc.approval.data.dto.mypage.RecordDto
+import com.umc.approval.data.dto.mypage.*
 import com.umc.approval.data.dto.profile.ProfileChange
 import com.umc.approval.data.dto.profile.ProfileDto
 import okhttp3.ResponseBody
@@ -94,4 +92,18 @@ interface MyPageAPI {
     @Headers("content-type: application/json")
     fun get_my_performances(
         @Header("Authorization") accessToken : String) : Call<RecordDto>
+
+    /* 내 댓글 목록 가져오기 */
+    @GET("/profile/my/comments")
+    @Headers("content-type: application/json")
+    fun get_my_comments(
+        @Header("Authorization") accessToken : String, @Query("postType") postType : Int? = null, @Query("state") state : Int? = null
+    ) : Call<MyCommentDto>
+
+    /* 내 스크랩 목록 가져오기 */
+    @GET("/profile/my/scraps")
+    @Headers("content-type: application/json")
+    fun get_my_scraps(
+        @Header("Authorization") accessToken : String, @Query("postType") postType : Int? = null, @Query("state") state : Int? = null
+    ) : Call<MyScrapDto>
 }

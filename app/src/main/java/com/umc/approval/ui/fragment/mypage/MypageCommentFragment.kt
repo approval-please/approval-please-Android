@@ -14,10 +14,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityReportDocumentDto
+import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentMypageCommentBinding
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
+import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
+import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
+import com.umc.approval.ui.viewmodel.mypage.MyPageCommentViewModel
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /*
@@ -28,7 +36,7 @@ class MypageCommentFragment : Fragment() {
     private var _binding : FragmentMypageCommentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<MypageViewModel>()
+    private val viewModel by viewModels<MyPageCommentViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +49,28 @@ class MypageCommentFragment : Fragment() {
         _binding = FragmentMypageCommentBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        binding.cgFilter.setOnCheckedStateChangeListener { _, checkedIds ->
+        var state : Int? = null
+        var type : Int? = null
+
+        getApproval(type, state)
+
+        binding.cgFilter.setOnCheckedStateChangeListener { chipGroup, checkedIds ->
             Log.d("로그", "서류 종류 선택, $checkedIds")
             // checkedIds에 따라 API 호출, 리사이클러뷰 갱신
+            when(chipGroup.checkedChipId){
+                binding.chipApproval.id -> {
+                    type = null
+                    getApproval(type, state)
+                }
+                binding.chipTok.id -> {
+                    type = 0
+                    getTok(type, state)
+                }
+                binding.chipReport.id -> {
+                    type = 1
+                    getReport(type, state)
+                }
+            }
         }
 
         binding.stateSelect.setOnClickListener {
@@ -61,20 +88,19 @@ class MypageCommentFragment : Fragment() {
                 binding.stateText.text = result
 
                 // 리사이클러뷰 아이템 갱신
+                Log.d("status", result.toString())
+                when(result){
+                    "상태 전체" -> { state = null }
+                    "승인됨" -> { state = 0 }
+                    "반려됨" -> { state = 1 }
+                    "결재 대기중" -> { state = 2 }
+                }
+                when(type){
+                    null -> { getApproval(type, state) }
+                    0 -> { getTok(type, state) }
+                    1 -> { getReport(type, state) }
+                }
             }
-
-//        val paperRVAdapter = ApprovalPaperListRVAdapter()
-//        binding.rvMypageComment.adapter = paperRVAdapter
-//        binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-
-//        val talkRVAdapter = CommunityTalkItemRVAdapter()
-//        binding.rvMypageCommunity.adapter = talkRVAdapter
-//        binding.rvMypageCommunity.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-//
-//        val reportRVAdapter = CommunityReportItemRVAdapter()
-//        binding.rvMypageCommunity.adapter = reportRVAdapter
-//        binding.rvMypageCommunity.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-
         return view
     }
 
@@ -88,5 +114,52 @@ class MypageCommentFragment : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    /* 결재 서류 불러 오는 함수 */
+    private fun getApproval(type : Int?, state : Int?){
+        viewModel.init_my_comments()
+        viewModel.get_my_comments(type, state)
+        viewModel.comment.observe(viewLifecycleOwner){
+            binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            if(it.approval_content is ApprovalPaperDto){
+                val paperRVAdapter = ApprovalPaperListRVAdapter(it.approval_content)
+                paperRVAdapter?.notifyDataSetChanged()
+                binding.rvMypageComment.adapter = paperRVAdapter
+            }
+            else{
+                Log.d("error", "approval_content data 없음")
+            }
+        }
+    }
+    /* 결재 톡톡 불러 오는 함수 */
+    private fun getTok(type : Int?, state : Int?){
+        viewModel.get_my_comments(type, state)
+        viewModel.comment.observe(viewLifecycleOwner){
+            binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            if(it.tok_content is CommunityTokDto){
+                val talkRVAdapter = CommunityTalkItemRVAdapter(it.tok_content)
+                talkRVAdapter?.notifyDataSetChanged()
+                binding.rvMypageComment.adapter = talkRVAdapter
+            }
+            else{
+                Log.d("error", "tok_content data 없음")
+            }
+        }
+    }
+    /* 결재 보고서 불러 오는 함수 */
+    private fun getReport(type : Int?, state : Int?){
+        viewModel.get_my_comments(type, state)
+        viewModel.comment.observe(viewLifecycleOwner){
+            binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            if(it.report_content is CommunityReportDto){
+                val reportRVAdapter = CommunityReportItemRVAdapter(it.report_content)
+                reportRVAdapter?.notifyDataSetChanged()
+                binding.rvMypageComment.adapter = reportRVAdapter
+            }
+            else{
+                Log.d("error", "report_content data 없음")
+            }
+        }
     }
 }
