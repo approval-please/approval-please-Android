@@ -4,6 +4,7 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.common.CommonUserListDto
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.search.get.SearchUserDto
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -13,14 +14,15 @@ import retrofit2.http.*
 interface SearchAPI {
 
     //postType 0, tok
-    @GET("/search")
+    @GET("/documents/search")
     @Headers("content-type: application/json")
-    fun search_documment(@Query("query") query: String,
-                         @Query("postType") postType: String,
-                         @Query("category") category: String,
-                         @Query("state") state : Int,
-                         @Query("sortBy") sortBy : Int,
-                         @Query("page") page : Int) : Call<ApprovalPaperDto>
+    fun search_documents(
+        @Query("query") query: String,
+        @Query("isTag") isTag : Int,
+        @Query("state") state : Int?=null,
+        @Query("category") category: Int?=null,
+        @Query("sortBy") sortBy : Int,
+    ):Call<ApprovalPaperDto>
 
     //postType 1-1, tok
     @GET("/community/toktoks/search")
@@ -43,13 +45,9 @@ interface SearchAPI {
     ):Call<CommunityReportDto>
 
     //postType 2
-    @GET("/search")
+    @GET("/profile/search")
     @Headers("content-type: application/json")
     fun search_user(@Query("query") query: String,
-                         @Query("postType") postType: String,
-                         @Query("category") category: String,
-                         @Query("state") state : Int,
-                         @Query("sortBy") sortBy : Int,
-                         @Query("page") page : Int) : Call<CommonUserListDto>
+    ) : Call<SearchUserDto>
 
 }
