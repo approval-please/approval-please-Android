@@ -37,6 +37,7 @@ import me.relex.circleindicator.CircleIndicator3
  * Home Fragment
  */
 class HomeFragment : Fragment() {
+
     private var _binding : FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
