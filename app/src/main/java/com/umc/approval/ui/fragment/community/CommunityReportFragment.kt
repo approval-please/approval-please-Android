@@ -2,19 +2,17 @@ package com.umc.approval.ui.fragment.community
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.community.get.CommunityReport
-import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentCommunityReportBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
-import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
@@ -28,7 +26,6 @@ class CommunityReportFragment : Fragment() {
     private lateinit var communityReportItemRVAdapter: CommunityReportItemRVAdapter
 
     private val viewModel by viewModels<CommunityReportViewModel>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +64,8 @@ class CommunityReportFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        viewModel.checkAccessToken()
+
         /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.get_all_reports()
     }
@@ -74,19 +73,29 @@ class CommunityReportFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        //애뮬 오류인지 체크 필요
-//        if (binding.hotCategory.isChecked) {
-//            viewModel.get_all_reports(0)
-//        } else if (binding.followCategory.isChecked) {
-//            viewModel.get_all_reports(1)
-//        } else if (binding.myCategory.isChecked) {
-//            viewModel.get_all_reports(2)
-//        } else {
-//            viewModel.get_all_reports(3)
-//        }
+        if (binding.hotCategory.isChecked) {
+            viewModel.get_all_reports(0)
+        } else if (binding.followCategory.isChecked) {
+            viewModel.get_all_reports(1)
+        } else if (binding.myCategory.isChecked) {
+            viewModel.get_all_reports(2)
+        } else {
+            viewModel.get_all_reports(3)
+        }
     }
 
     private fun live_data() {
+
+        //엑세스 토큰 확인하는 라이브 데이터
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.followCategory.isVisible = true
+                binding.myCategory.isVisible = true
+            } else {
+                binding.followCategory.isVisible = false
+                binding.myCategory.isVisible = false
+            }
+        }
 
         viewModel.report_list.observe(viewLifecycleOwner) {
 

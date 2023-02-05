@@ -36,15 +36,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <TextView
             android:id="@+id/report_user_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/home_fragment_post_rank_background"
+            android:text="부장"
+            android:layout_gravity="center"
+            style="@style/smallText_black_light"
             android:layout_marginRight="3dp"
             android:layout_marginLeft="3dp"
-            android:layout_gravity="center"
-            android:src="@drawable/mypage_rank_chajang">
-        </ImageView>
+            android:layout_marginStart="5dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"

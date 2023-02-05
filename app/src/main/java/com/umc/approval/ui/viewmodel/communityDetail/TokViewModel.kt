@@ -59,15 +59,64 @@ class TokViewModel() : ViewModel() {
     val votePeopleEachOption : LiveData<CommunityVoteResult>
         get() = _votePeopleEachOption
 
-    private var _reVote = MutableLiveData<Int>()
-    val reVote : LiveData<Int>
+    //재투표 한 경우
+    private var _reVote = MutableLiveData<Boolean>()
+    val reVote : LiveData<Boolean>
         get() = _reVote
 
-    fun setReVote(li:Int) {
+    //투표를 한 경우
+    private var _isVote = MutableLiveData<Boolean>()
+    val isVote : LiveData<Boolean>
+        get() = _isVote
+
+    //투표를 종료한 경우
+    private var _isEnd = MutableLiveData<Boolean>()
+    val isEnd : LiveData<Boolean>
+        get() = _isEnd
+
+    //투표한 리스트
+    private var _votedList = MutableLiveData<MutableList<Int>>()
+    val votedList : LiveData<MutableList<Int>>
+        get() = _votedList
+
+    //투표 종료 설정
+    fun setIsEnd(boolean: Boolean) {
+        _isEnd.postValue(boolean)
+    }
+
+    //재투표 설정
+    fun setReVote(li:Boolean) {
         _reVote.postValue(li)
     }
 
-    fun setVotePeopleEachOption(li:CommunityVoteResult) {
+    //투표했는지 안했는지 설정
+    fun setVoted(li:Boolean) {
+        _isVote.postValue(li)
+    }
+
+    //투표한 곳 초기화
+    fun initVoteList() = viewModelScope.launch {
+        val list = mutableListOf<Int>()
+
+        //투표지가 없거나 선택되지 투표를 하지 않았을 경우
+        if (tok.value!!.voteSelect != null && tok.value!!.voteSelect!!.isNotEmpty()) {
+
+            for (i in tok.value!!.voteSelect!!) {
+                list.add(i.voteOptionId)
+            }
+        }
+
+        if (list.isEmpty()) {
+            _isVote.postValue(false)
+        } else {
+            _isVote.postValue(true)
+        }
+
+        _votedList.postValue(list)
+    }
+
+    //각 투표 수 초기화
+    fun setVotePeopleEachOption(li:CommunityVoteResult) = viewModelScope.launch {
         _votePeopleEachOption.postValue(li)
     }
 
@@ -108,8 +157,9 @@ class TokViewModel() : ViewModel() {
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-2.png",
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-3.png"),
             3, "어느 것이 좋을까요", false, 96, null, false,
-            listOf(VoteOption(1, "A가 좋을까요"), VoteOption(2, "B가 좋을까요")), null,
-            listOf(32, 64), null, 32, false, false, false, 24, false,
+            listOf(VoteOption(1, "A가 좋을까요"), VoteOption(2, "B가 좋을까요")),
+            listOf(),
+            listOf(32, 64), false, 32, false, false, false, 24, false,
             "50분전", 32, 26, true)
 
         _tok.postValue(data)
@@ -156,6 +206,26 @@ class TokViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<CommunityVoteResult>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    //투표 종료하기
+    fun end_vote(voteId: String) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.end_vote(accessToken, voteId)
+
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

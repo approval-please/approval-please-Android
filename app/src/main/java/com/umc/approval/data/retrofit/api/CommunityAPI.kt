@@ -108,14 +108,12 @@ interface CommunityAPI {
         @Path("reportId") reportId : String,
     ): Call<ResponseBody>
 
-
     @POST("/community/toktoks/votes/{voteId}")
     @Headers("content-type: application/json")
     fun post_vote(
         @Header("Authorization") accessToken: String, @Path("voteId") voteId: String,
         @Body voteOptionIds : CommunityVotePost
     ):Call<CommunityVoteResult>
-
 
     /**
      * @Post
@@ -128,4 +126,10 @@ interface CommunityAPI {
     fun get_community(
         @Header("Authorization") accessToken : String,
         @Query("postType") postType: Int?=null) : Call<CommunityDto>
+        
+    @POST("/community/toktoks/endVote/{voteId}")
+    @Headers("content-type: application/json")
+    fun end_vote(
+        @Header("Authorization") accessToken: String, @Path("voteId") voteId: String
+    ):Call<ResponseBody>
 }

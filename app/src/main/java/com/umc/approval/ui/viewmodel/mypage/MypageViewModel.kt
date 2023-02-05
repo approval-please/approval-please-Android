@@ -11,16 +11,26 @@ import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
 import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
+import com.umc.approval.data.repository.AccessTokenRepository
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 /**My Page ViewModel*/
 class MypageViewModel() : ViewModel() {
+
+    //엑세스 토큰 리포지토리
+    private val accessTokenRepository = AccessTokenRepository()
+
+    /**엑세스 토큰 여부 판단 라이브데이터*/
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
+        get() = _accessToken
 
     private val repository = MyPageFragmentRepository()
 
@@ -104,6 +114,29 @@ class MypageViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<RecordDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 로그인 상태 체크 API
+     * 정상 동작 Check 완료
+     * */
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

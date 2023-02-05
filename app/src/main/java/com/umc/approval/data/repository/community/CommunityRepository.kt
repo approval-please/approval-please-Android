@@ -50,6 +50,11 @@ class CommunityRepository() {
         return communityApi.post_vote(accessToken, voteId, list)
     }
 
+    /**end vote*/
+    fun end_vote(accessToken: String, voteId: String): Call<ResponseBody> {
+        return communityApi.end_vote(accessToken, voteId)
+    }
+
     /**delete toktok detail*/
     fun delete_tok(accessToken: String, tokId: String): Call<ResponseBody> {
         return communityApi.delete_tok(accessToken, tokId)

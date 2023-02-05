@@ -10,9 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.umc.approval.App
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
@@ -21,16 +19,10 @@ import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
-import com.umc.approval.data.dto.community.get.CommunityReport
-import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
-import com.umc.approval.ui.fragment.mypage.MypageFragment
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -63,6 +55,7 @@ class DocumentActivity : AppCompatActivity() {
                 Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             } else {
                 viewModel.document_like()
             }
@@ -87,6 +80,7 @@ class DocumentActivity : AppCompatActivity() {
                 Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
         
@@ -202,13 +196,25 @@ class DocumentActivity : AppCompatActivity() {
             }
 
             if (it.imageUrl != null) {
-                // 리사이클러뷰 레이아웃 설정
-                binding.imageRecyclerview.layoutManager = LinearLayoutManager(applicationContext)
 
-                // 이미지 리사이클러뷰 연결
-                val documentImageAdapter = DocumentImageAdapter(it.imageUrl)
-                documentImageAdapter.notifyDataSetChanged()
-                binding.imageRecyclerview.adapter = documentImageAdapter
+                val list1 = mutableListOf<String>()
+                val list2 = mutableListOf<String>()
+
+                for ((i, k) in it.imageUrl.withIndex()) {
+                    if (i == 0 || i == 2) {
+                        list1.add(k)
+                    } else {
+                        list2.add(k)
+                    }
+                }
+
+                val documentImageAdapter2 = DocumentImageAdapter(list1)
+                binding.imageRv2.adapter = documentImageAdapter2
+                binding.imageRv2.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+                val documentImageAdapter1 = DocumentImageAdapter(list2)
+                binding.imageRv1.adapter = documentImageAdapter1
+                binding.imageRv1.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             }
 
             //작성자일 경우

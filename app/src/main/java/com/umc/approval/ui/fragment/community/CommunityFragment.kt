@@ -16,6 +16,8 @@ import com.umc.approval.R
 import com.umc.approval.databinding.FragmentCommunityBinding
 import com.umc.approval.ui.activity.CommunityTokVoteParticipant
 import com.umc.approval.ui.activity.CommunityUploadActivity
+import com.umc.approval.ui.activity.LoginActivity
+import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityVPAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
@@ -41,6 +43,16 @@ class CommunityFragment : Fragment() {
     ): View? {
         _binding = FragmentCommunityBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        /**Login Activity로 이동*/
+        binding.mypageButton.setOnClickListener {
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+
+        /**Search Activity로 이동*/
+        binding.searchButton.setOnClickListener {
+            startActivity(Intent(requireContext(), SearchActivity::class.java))
+        }
 
         //view pager와 탭 레이아웃 연결
         connect_view_pager()

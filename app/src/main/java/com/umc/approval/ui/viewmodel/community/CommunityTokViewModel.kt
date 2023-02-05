@@ -24,6 +24,14 @@ import retrofit2.Response
  * */
 class CommunityTokViewModel() : ViewModel() {
 
+    //엑세스 토큰 리포지토리
+    private val accessTokenRepository = AccessTokenRepository()
+
+    /**엑세스 토큰 여부 판단 라이브데이터*/
+    private var _accessToken = MutableLiveData<Boolean>()
+    val accessToken : LiveData<Boolean>
+        get() = _accessToken
+
     //커뮤니티 리포지토리
     private val repository = CommunityRepository()
 
@@ -56,6 +64,29 @@ class CommunityTokViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<CommunityTokDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    /**
+     * 로그인 상태 체크 API
+     * 정상 동작 Check 완료
+     * */
+    fun checkAccessToken() = viewModelScope.launch {
+        val tokenValue = AccessTokenDataStore().getAccessToken().first()
+        val response = accessTokenRepository.checkAccessToken(tokenValue)
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", "Success")
+                    _accessToken.postValue(true)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                    _accessToken.postValue(false)
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
