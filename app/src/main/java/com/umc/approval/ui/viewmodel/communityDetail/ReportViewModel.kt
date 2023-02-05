@@ -135,6 +135,29 @@ class ReportViewModel() : ViewModel() {
         })
     }
 
+    /**
+     * tok 삭제 API
+     * */
+    fun delete_report(reportId: String) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.delete_report(accessToken, reportId)
+
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    Log.d("RESPONSE", response.body().toString())
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
     /**엑세스 토큰 체크*/
     fun checkAccessToken() = viewModelScope.launch {
         val tokenValue = AccessTokenDataStore().getAccessToken().first()

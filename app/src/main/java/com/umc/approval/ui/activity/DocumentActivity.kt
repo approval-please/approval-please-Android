@@ -1,16 +1,20 @@
 package com.umc.approval.ui.activity
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
@@ -19,10 +23,17 @@ import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.NotificationStateDto
+import com.umc.approval.data.dto.follow.ScrapStateDto
+import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
+import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
+import com.umc.approval.databinding.ActivityCommunityReportUserDialogBinding
 import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
+import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -32,6 +43,18 @@ class DocumentActivity : AppCompatActivity() {
     /**Approval view model*/
     private val viewModel by viewModels<DocumentViewModel>()
     private val commentViewModel by viewModels<CommentViewModel>()
+
+    //viewModel
+    private val followViewModel by viewModels<FollowViewModel>()
+
+    /*다이얼로그*/
+    private lateinit var activityCommunityReportPostDialogBinding: ActivityCommunityReportPostDialogBinding
+    private lateinit var activityCommunityReportUserDialogBinding: ActivityCommunityReportUserDialogBinding
+    private lateinit var activityCommunityRemovePostDialogBinding: ActivityCommunityRemovePostDialogBinding
+
+    /*다이얼로그 버튼*/
+    private lateinit var dialogCancelButton : Button
+    private lateinit var dialogConfirmButton : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +80,7 @@ class DocumentActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                viewModel.document_like()
+                followViewModel.like(documentId = viewModel.document.value!!.documentId)
             }
         }
 
@@ -157,7 +180,7 @@ class DocumentActivity : AppCompatActivity() {
         }
 
         //로직
-        viewModel.like.observe(this) {
+        followViewModel.like.observe(this) {
             if (it == true) {
                 binding.heart.setImageResource(R.drawable.fill_heart)
             } else {
@@ -168,10 +191,23 @@ class DocumentActivity : AppCompatActivity() {
         //결재 서류 라이브 데이터
         viewModel.document.observe(this) {
 
-            viewModel.setLike(it.isLiked!!)
+            followViewModel.setLike(it.isLiked!!)
+
+            //scrap했다면
+            if (it.isScrap == true) {
+                followViewModel.setScrap(ScrapStateDto(true))
+            } else {
+                followViewModel.setScrap(ScrapStateDto(false))
+            }
+
+            //알림설정했다면
+            if (it.isNotification == true) {
+                followViewModel.setNotification(NotificationStateDto(true))
+            } else {
+                followViewModel.setNotification(NotificationStateDto(false))
+            }
 
             binding.cate.text = categoryMap[it.category]
-
             binding.profile.load(it.profileImage)
             binding.name.text = it.nickname
             binding.title.text = it.title
@@ -405,5 +441,173 @@ class DocumentActivity : AppCompatActivity() {
             5->{ rank = "부장" }
         }
         return rank
+    }
+
+    //다이얼로그
+    //다이얼로그 로직
+    private fun post_more() {
+
+        binding.uploadSettingBtn.setOnClickListener {
+
+            val writer = viewModel.document.value!!.isWriter
+            val notice = followViewModel.notif.value!!.isNotification
+            val storage = followViewModel.isScrap.value!!.isScrap
+
+            val bottomSheetView =
+                layoutInflater.inflate(R.layout.community_post_selector_dialog, null)
+            val bottomSheetDialog = BottomSheetDialog(this)
+            bottomSheetDialog.setContentView(bottomSheetView)
+            bottomSheetDialog.show()
+
+            //dialog의 view Component 접근
+            val setting_notice_on = bottomSheetView.findViewById<LinearLayout>(R.id.setting_notice_on)
+            val setting_notice_off = bottomSheetView.findViewById<LinearLayout>(R.id.setting_notice_off)
+            val setting_storage_on = bottomSheetView.findViewById<LinearLayout>(R.id.setting_storage_on)
+            val setting_storage_off = bottomSheetView.findViewById<LinearLayout>(R.id.setting_storage_off)
+            val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
+            val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
+            val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
+
+            // visible 처리
+            if(writer == true){
+                setting_report_post.isVisible = false
+                setting_report_user.isVisible = false
+                setting_remove_post.isVisible = true
+            }else{
+                setting_report_post.isVisible = true
+                setting_report_user.isVisible = true
+                setting_remove_post.isVisible = false
+            }
+
+            if(notice == false){
+                setting_notice_on.isVisible = true
+                setting_notice_off.isVisible = false
+            }else{
+                setting_notice_on.isVisible = false
+                setting_notice_off.isVisible = true
+            }
+
+            if(storage == false){
+                setting_storage_on.isVisible = true
+                setting_storage_off.isVisible = false
+            }else{
+                setting_storage_on.isVisible = false
+                setting_storage_off.isVisible = true
+            }
+
+            // 다이얼로그 클릭 이벤트
+            setting_notice_on!!.setOnClickListener {
+                followViewModel.notification(documentId = viewModel.document.value!!.documentId)
+                bottomSheetDialog.cancel()
+            }
+
+            setting_notice_off!!.setOnClickListener {
+                followViewModel.notification(documentId = viewModel.document.value!!.documentId)
+                bottomSheetDialog.cancel()
+            }
+
+            setting_storage_on!!.setOnClickListener {
+                followViewModel.scrap(documentId = viewModel.document.value!!.documentId)
+                bottomSheetDialog.cancel()
+            }
+
+            setting_storage_off!!.setOnClickListener {
+                followViewModel.scrap(documentId = viewModel.document.value!!.documentId)
+                bottomSheetDialog.cancel()
+            }
+
+            setting_report_post!!.setOnClickListener {
+                showReportPostDialog()
+                bottomSheetDialog.cancel()
+            }
+
+            setting_report_user!!.setOnClickListener {
+                showReportUserDialog()
+                bottomSheetDialog.cancel()
+            }
+
+            setting_remove_post!!.setOnClickListener {
+                showRemovePostDialog()
+                bottomSheetDialog.cancel()
+            }
+        }
+    }
+
+    //톡 삭제 다이얼로그
+    private fun showRemovePostDialog(){
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityRemovePostDialogBinding = ActivityCommunityRemovePostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityRemovePostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            linkDialog.dismiss()
+            viewModel.delete_document(viewModel.document.value!!.documentId.toString())
+            finish()
+        }
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //사용자 신고
+    private fun showReportUserDialog(){
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportUserDialogBinding = ActivityCommunityReportUserDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(documentId = viewModel.document.value!!.documentId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //게시글 신고
+    private fun showReportPostDialog(){
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportPostDialogBinding = ActivityCommunityReportPostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(documentId = viewModel.document.value!!.documentId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
     }
 }

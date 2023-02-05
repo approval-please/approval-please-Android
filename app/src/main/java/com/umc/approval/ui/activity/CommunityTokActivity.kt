@@ -37,6 +37,7 @@ import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.Utils.categoryMap
+import com.umc.approval.util.Utils.level
 
 
 class CommunityTokActivity : AppCompatActivity() {
@@ -106,6 +107,19 @@ class CommunityTokActivity : AppCompatActivity() {
 
         /*setting*/
         post_more()
+
+        //좋아요
+        binding.postLikeState.setOnClickListener {
+
+            if (viewModel.accessToken.value == false) {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                followViewModel.like(toktokId = viewModel.tok.value!!.toktokId)
+            }
+        }
 
         //follow하면
         binding.follow.setOnClickListener {
@@ -305,6 +319,15 @@ class CommunityTokActivity : AppCompatActivity() {
 
     private fun live_data(){
 
+        //로직
+        followViewModel.like.observe(this) {
+            if (it == true) {
+                binding.postLikeState.setImageResource(R.drawable.community_post_like_btn)
+            } else {
+                binding.postLikeState.setImageResource(R.drawable.community_post_unlike_btn)
+            }
+        }
+
         //팔로잉 로직
         followViewModel.isFollow.observe(this) {
             if (it.isFollow == false) {
@@ -325,16 +348,29 @@ class CommunityTokActivity : AppCompatActivity() {
             binding.communityPostScrapNum.text = "스크랩 "+ it.scrapCount.toString()
             //방문자수
             binding.communityPostVisitorsNum.text = "조회수 "+ it.view.toString()
-            //프로필 이미지
-            if (it.profileImage != null) {
-                binding.communityPostUserProfile.load(it.profileImage)
-            }
             //닉네임
             binding.communityPostUserName.text = it.nickname
+            //직급
+            binding.rank.text = level[it.level]
             //카테고리
             binding.communityPostCategory.text = categoryMap[it.category]
             //시간
             binding.communityPostTime.text = it.datetime
+            //content
+            binding.communityPostContent.text = it.content
+            //댓글 수
+            binding.commentNum.text = it.commentCount.toString()
+
+            //프로필 이미지
+            if (it.profileImage != null) {
+                binding.communityPostUserProfile.load(it.profileImage)
+            }
+
+            if (it.likeOrNot == true) {
+                binding.postLikeState.setImageResource(R.drawable.community_post_like_btn)
+            } else {
+                binding.postLikeState.setImageResource(R.drawable.community_post_unlike_btn)
+            }
 
             if (it.writerOrNot == true) {
                 binding.unfollow.isVisible = false
@@ -361,12 +397,6 @@ class CommunityTokActivity : AppCompatActivity() {
             } else {
                 followViewModel.setNotification(NotificationStateDto(false))
             }
-
-            //content
-            binding.communityPostContent.text = it.content
-
-            //댓글 수
-            binding.commentNum.text = it.commentCount.toString()
 
             //이미지가 비어있는 경우
             if (it.images!!.isNotEmpty()) {
@@ -419,6 +449,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
                 //각 선택지 투표자 수
                 viewModel.setVotePeopleEachOption(CommunityVoteResult(it.votePeopleEachOption!!))
+            } else {
             }
         }
 
