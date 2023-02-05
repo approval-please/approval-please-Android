@@ -49,12 +49,16 @@ class UserTabFragment: Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.get_user(keywordViewModel.search_keyword.value)
+    }
+
     private fun setLikeList() {
-        val like: ArrayList<Participant> = arrayListOf()
 
         // query(검색어) 상태 변화시
         keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
-            viewModel.get_user()
+            viewModel.get_user(keywordViewModel.search_keyword.value)
         }
 
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터

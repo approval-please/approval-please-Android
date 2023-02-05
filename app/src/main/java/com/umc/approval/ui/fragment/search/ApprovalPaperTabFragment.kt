@@ -46,6 +46,8 @@ class ApprovalPaperTabFragment: Fragment() {
         _binding = FragmentSearchApprovalPaperTabBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        viewModel.setQuery(keywordViewModel.search_keyword.value)
+
         setApprovalPaperList()  // 리사이클러뷰 데이터 & 어댑터 설정
 
         binding.categorySelect.setOnClickListener {
@@ -103,6 +105,11 @@ class ApprovalPaperTabFragment: Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.get_documents(keywordViewModel.search_keyword.value)
+    }
+
     /**
      * viewBinding이 더이상 필요 없을 경우 null 처리 필요
      */
@@ -115,22 +122,22 @@ class ApprovalPaperTabFragment: Fragment() {
 
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
-            viewModel.get_documents()
+            viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.state.observe(viewLifecycleOwner) {
-            viewModel.get_documents()
+            viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.sort.observe(viewLifecycleOwner) {
-            viewModel.get_documents()
+            viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // query(검색어) 상태 변화시
         keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
-            viewModel.get_documents()
+            viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
 

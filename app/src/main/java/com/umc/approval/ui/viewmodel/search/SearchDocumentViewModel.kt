@@ -22,8 +22,8 @@ class SearchDocumentViewModel : ViewModel() {
         get() = _report
 
     /** 검색어 */
-    private var _query = MutableLiveData<String>()
-    val query : LiveData<String>
+    private var _query = MutableLiveData<String?>()
+    val query : LiveData<String?>
         get() = _query
 
     /**카테고리 선택 라이브 데이터*/
@@ -41,7 +41,7 @@ class SearchDocumentViewModel : ViewModel() {
     val sort: LiveData<Int>
         get() = _sort
 
-    fun setQuery(string: String) {
+    fun setQuery(string: String?) {
         _query.postValue(string)
     }
 
@@ -57,8 +57,8 @@ class SearchDocumentViewModel : ViewModel() {
         _state.postValue(int)
     }
 
-    fun get_documents() = viewModelScope.launch {
-        var query = _query.value ?: ""
+    fun get_documents(query:String?=null) = viewModelScope.launch {
+        var query = query?:_query.value ?: ""
         var isTag = 0
         if(query.contains('#')) isTag =1
         var category = _category.value

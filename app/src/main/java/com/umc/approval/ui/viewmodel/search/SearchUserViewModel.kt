@@ -23,18 +23,18 @@ class SearchUserViewModel  : ViewModel() {
         get() = _report
 
     /** 검색어 */
-    private var _query = MutableLiveData<String>()
-    val query : LiveData<String>
+    private var _query = MutableLiveData<String?>()
+    val query : LiveData<String?>
         get() = _query
 
 
-    fun setQuery(string: String) {
+    fun setQuery(string: String?) {
         _query.postValue(string)
     }
 
 
-    fun get_user() = viewModelScope.launch {
-        var query = _query.value ?: ""
+    fun get_user(query:String?=null) = viewModelScope.launch {
+        var query = query?:_query.value ?: ""
 
         val response = repository.search_user(query)
         response.enqueue(object : Callback<SearchUserDto> {
