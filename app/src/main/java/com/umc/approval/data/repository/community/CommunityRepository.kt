@@ -7,6 +7,7 @@ import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
 import com.umc.approval.data.dto.communitydetail.post.CommunityVotePost
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
+import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.communityApi
@@ -67,5 +68,12 @@ class CommunityRepository() {
     /**get report detail*/
     fun delete_report(accessToken: String, reportId: String): Call<ResponseBody> {
         return communityApi.delete_report(accessToken, reportId)
+    }
+
+    /**
+     * 마이페이지 커뮤니티 API
+     */
+    fun get_community(accessToken : String, postType: Int?=null) : Call<CommunityDto> {
+        return communityApi.get_community(accessToken, postType)
     }
 }

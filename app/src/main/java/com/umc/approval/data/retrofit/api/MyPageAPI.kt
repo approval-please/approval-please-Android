@@ -1,6 +1,11 @@
 package com.umc.approval.data.retrofit.api
 
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.mypage.CommunityDto
+import com.umc.approval.data.dto.mypage.FollowListDto
+import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
 import com.umc.approval.data.dto.profile.ProfileChange
 import com.umc.approval.data.dto.profile.ProfileContentDto

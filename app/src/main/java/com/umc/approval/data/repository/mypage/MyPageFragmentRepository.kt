@@ -1,6 +1,8 @@
 package com.umc.approval.data.repository.mypage
 
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
+import com.umc.approval.data.dto.community.get.CommunityTok
+import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
@@ -32,4 +34,5 @@ class MyPageFragmentRepository {
     fun get_my_perfoemances(accessToken : String) : Call<RecordDto>{
         return mypageAPI.get_my_performances(accessToken)
     }
+
 }

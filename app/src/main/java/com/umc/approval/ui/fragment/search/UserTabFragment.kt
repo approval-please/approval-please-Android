@@ -48,21 +48,7 @@ class UserTabFragment: Fragment() {
         }
 
         val participantRVAdapter = ParticipantRVAdapter(like)
-        val spaceDecoration = VerticalSpaceItemDecoration(90)
-        binding.rvLike.addItemDecoration(spaceDecoration)
         binding.rvLike.adapter = participantRVAdapter
         binding.rvLike.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-    }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
-        }
     }
 }

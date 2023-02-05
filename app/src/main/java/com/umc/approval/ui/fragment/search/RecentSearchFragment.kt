@@ -1,7 +1,6 @@
 package com.umc.approval.ui.fragment.search
 
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -10,8 +9,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -22,6 +21,7 @@ import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.search_fragment.RecentSearchRVAdapter
 import com.umc.approval.ui.adapter.search_fragment.SearchResultVPAdapter
 import com.umc.approval.ui.viewmodel.search.RecentSearchViewModel
+import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 
 
 /**
@@ -38,6 +38,8 @@ class RecentSearchFragment : Fragment() {
     //RecentSearch View Model
     lateinit var viewModel: RecentSearchViewModel
 
+    private val keywordViewModel by activityViewModels<SearchKeywordViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,7 +47,7 @@ class RecentSearchFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentRecentSearchBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -56,17 +58,6 @@ class RecentSearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as SearchActivity).viewModel
-
-        /**검색 버튼 눌렀을때 이벤트 발생*/
-        binding.search.setOnEditorActionListener { _, actionId, _ ->
-            var handled = false
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                viewModel.addKeyword(KeywordDto(0, binding.search.text.toString(), "cswcsm02@gmail.com"))
-                handled = true
-            }
-
-            handled
-        }
 
         /**최근 검색어 전체 삭제*/
         binding.allDeleteText.setOnClickListener {
@@ -91,24 +82,31 @@ class RecentSearchFragment : Fragment() {
             tab.text = tabTitleArray[position]
         }.attach()
 
-        // 엔터 버튼 누르면 검색 결과 화면 보이게
+        /**검색 버튼 눌렀을때 이벤트 발생*/
         binding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    viewModel.addKeyword(KeywordDto(0, binding.search.text.toString(), "cswcsm02@gmail.com"))
 
-                    binding.beforeSearchFrame.visibility = View.GONE
-                    binding.searchResultFrame.visibility = View.VISIBLE
-                    binding.search.isCursorVisible = false
+                    afterSearchView()
 
-                    // 키보드 내리기
-                    val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputMethodManager.hideSoftInputFromWindow(binding.search.windowToken, 0)
+                    keywordViewModel.setSearchKeyword(binding.search.text.toString())
 
                     return true
                 }
                 return false
             }
         })
+    }
+
+    private fun afterSearchView() {
+        binding.beforeSearchFrame.visibility = View.GONE
+        binding.searchResultFrame.visibility = View.VISIBLE
+        binding.search.isCursorVisible = false
+
+        // 키보드 내리기
+        val inputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(binding.search.windowToken, 0)
     }
 
     /**최근 검색어 RV를 초기화 및 최근 검색어 삭제 메서드*/
@@ -140,6 +138,9 @@ class RecentSearchFragment : Fragment() {
                 }
                 //키워드 검색
                 override fun search(view: View, keyword: KeywordDto) {
+                    keywordViewModel.setSearchKeyword(keyword.keyword)
+                    afterSearchView()
+                    binding.search.setText(keyword.keyword)
                 }
             }
         }

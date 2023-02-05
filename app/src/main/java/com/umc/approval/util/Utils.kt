@@ -22,6 +22,9 @@ object Utils {
     /*sort*/
     val sortByMap = mapOf<String, Int>("인기순" to 0,"최신순" to 2)
 
+    /*searchSort*/
+    val searchSortMap = mapOf<String, Int>("최신순" to 0, "인기순" to 1)
+
     val level = mapOf<Int, String>(0 to "사원", 1 to "주임", 2 to "대리",
         3 to "차장", 4 to "과장", 5 to "부장")
 }

@@ -12,7 +12,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/rv_search_result_approval_paper"
+        app:layout_constraintBottom_toTopOf="@id/rv_search_result_toktok"
         android:layout_marginTop="25dp">
 
         <LinearLayout
@@ -74,7 +74,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_search_result_approval_paper"
+        android:id="@+id/rv_search_result_toktok"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:overScrollMode="never"
