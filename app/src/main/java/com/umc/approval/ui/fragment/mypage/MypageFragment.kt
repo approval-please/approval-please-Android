@@ -14,10 +14,12 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEachIndexed
+import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
 import com.umc.approval.check.collie.OtherpageFragment
 import com.umc.approval.databinding.FragmentMypageBinding
+import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.ProfileChangeActivity
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
@@ -85,36 +87,49 @@ class MypageFragment : Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.checkAccessToken()
+    }
+
     override fun onResume() {
         super.onResume()
-        Log.d("test", "테스트")
         viewModel.my_profile()
     }
 
     /**profile live data*/
     private fun profile_live_data() {
+
+        //엑세스 토큰 확인하는 라이브 데이터
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it == false) {
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                requireActivity().finish()
+            }
+        }
+
         viewModel.myInfo.observe(viewLifecycleOwner) {
 
             //follower
-            binding.followerTextview.setText("팔로워 " + viewModel.myInfo.value!!.follows.toString())
+            binding.followerTextview.setText("팔로워 " + it.follows.toString())
             //following
-            binding.followingTextview.setText("팔로잉 " + viewModel.myInfo.value!!.followings.toString())
+            binding.followingTextview.setText("팔로잉 " + it.followings.toString())
             //nickname
-            binding.nicknameTextview.setText(viewModel.myInfo.value!!.nickname)
+            binding.nicknameTextview.setText(it.nickname)
             //introduce
-            binding.profileMsgTextview.setText(viewModel.myInfo.value!!.introduction)
+            binding.profileMsgTextview.setText(it.introduction)
             //point
-            userpoint = viewModel.myInfo.value!!.promotionPoint.toFloat()
+            userpoint = it.promotionPoint.toFloat()
             progress = userpoint / rankpoint * 100.0f
             binding.pointNum1.text = userpoint.toInt().toString()
             binding.pointNum2.text = " / " + rankpoint.toInt().toString()
             binding.mypageProgressbar.progress = progress.toInt()
             //rank
-            var rank : String? = setRank(viewModel.myInfo.value!!.level)
+            var rank : String? = setRank(it.level)
             binding.rank.text = rank
             //profile image
             if (viewModel.myInfo.value!!.profileImage != null) {
-                binding.profileImage.load(viewModel.myInfo.value!!.profileImage)
+                binding.profileImage.load(it.profileImage)
             }
         }
     }

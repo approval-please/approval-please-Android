@@ -15,6 +15,8 @@ import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.CommunityReportItemBinding
 import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.util.Utils
+import com.umc.approval.util.Utils.categoryMap
 
 /**
  * 결재 톡톡 및 보고서를 받아와 연결해주는 RV Adapter
@@ -25,7 +27,8 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
 
         fun binding(data : CommunityReport) {
 
-            Log.d("report", data.toString())
+
+            binding.reportUserRank.text = Utils.level[data.userLevel]
 
             /*결재서류 부분*/
             if(data.document.thumbnailImage == null){

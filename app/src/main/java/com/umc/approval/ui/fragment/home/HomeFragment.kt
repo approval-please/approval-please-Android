@@ -110,8 +110,6 @@ class HomeFragment : Fragment() {
         }
 
         setBannerImage()
-
-
     }
 
     /**시작시 로그인 상태 확인*/

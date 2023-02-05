@@ -2,19 +2,17 @@ package com.umc.approval.ui.fragment.community
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentCommunityTalkBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
-import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
 
@@ -68,6 +66,8 @@ class CommunityTalkFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        viewModel.checkAccessToken()
+
         //모든 톡 목록 가지고오는 로직
         viewModel.get_all_toks()
     }
@@ -87,6 +87,17 @@ class CommunityTalkFragment : Fragment() {
     }
 
     private fun live_data() {
+
+        //엑세스 토큰 확인하는 라이브 데이터
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.followCategory.isVisible = true
+                binding.myCategory.isVisible = true
+            } else {
+                binding.followCategory.isVisible = false
+                binding.myCategory.isVisible = false
+            }
+        }
 
         viewModel.tok_list.observe(viewLifecycleOwner) {
             communityTalkItemRVAdapter = CommunityTalkItemRVAdapter(it)
