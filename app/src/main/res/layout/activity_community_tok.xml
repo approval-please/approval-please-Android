@@ -144,7 +144,7 @@
 
 
                 <ImageButton
-                    android:id="@+id/follow"
+                    android:id="@+id/unfollow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/community_post_unfollow_state"
@@ -155,7 +155,7 @@
                     ></ImageButton>
 
                 <ImageButton
-                    android:id="@+id/unfollow"
+                    android:id="@+id/follow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/community_post_follow_state"

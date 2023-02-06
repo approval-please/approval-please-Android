@@ -222,19 +222,16 @@ class CommunityReportActivity : AppCompatActivity() {
             val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
             val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
             val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
-            val setting_edit_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_edit_post)
 
             // visible 처리
             if(writer == true){
                 setting_report_post.isVisible = false
                 setting_report_user.isVisible = false
                 setting_remove_post.isVisible = true
-                setting_edit_post.isVisible = true
             }else{
                 setting_report_post.isVisible = true
                 setting_report_user.isVisible = true
                 setting_remove_post.isVisible = false
-                setting_edit_post.isVisible = false
             }
 
             if(notice == false){
@@ -282,10 +279,6 @@ class CommunityReportActivity : AppCompatActivity() {
 
             setting_remove_post!!.setOnClickListener {
                 showRemovePostDialog()
-                bottomSheetDialog.cancel()
-            }
-
-            setting_edit_post!!.setOnClickListener {
                 bottomSheetDialog.cancel()
             }
         }

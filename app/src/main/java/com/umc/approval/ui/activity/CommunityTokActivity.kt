@@ -20,6 +20,7 @@ import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.NotificationStateDto
 import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
@@ -141,7 +142,7 @@ class CommunityTokActivity : AppCompatActivity() {
         binding.uploadSettingBtn.setOnClickListener {
 
             val writer = viewModel.tok.value!!.writerOrNot
-            val notice = viewModel.tok.value!!.isNotification
+            val notice = followViewModel.notif.value!!.isNotification
             val storage = followViewModel.isScrap.value!!.isScrap
 
             val bottomSheetView =
@@ -158,19 +159,16 @@ class CommunityTokActivity : AppCompatActivity() {
             val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
             val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
             val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
-            val setting_edit_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_edit_post)
 
             // visible 처리
             if(writer == true){
                 setting_report_post.isVisible = false
                 setting_report_user.isVisible = false
                 setting_remove_post.isVisible = true
-                setting_edit_post.isVisible = true
             }else{
                 setting_report_post.isVisible = true
                 setting_report_user.isVisible = true
                 setting_remove_post.isVisible = false
-                setting_edit_post.isVisible = false
             }
 
             if(notice == false){
@@ -191,10 +189,12 @@ class CommunityTokActivity : AppCompatActivity() {
 
             // 다이얼로그 클릭 이벤트
             setting_notice_on!!.setOnClickListener {
+                followViewModel.notification(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
             }
 
             setting_notice_off!!.setOnClickListener {
+                followViewModel.notification(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
             }
 
@@ -220,10 +220,6 @@ class CommunityTokActivity : AppCompatActivity() {
 
             setting_remove_post!!.setOnClickListener {
                 showRemovePostDialog()
-                bottomSheetDialog.cancel()
-            }
-
-            setting_edit_post!!.setOnClickListener {
                 bottomSheetDialog.cancel()
             }
         }
@@ -273,6 +269,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = viewModel.tok.value!!.userId)
             linkDialog.dismiss()
         }
 
@@ -298,6 +295,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(toktokId = viewModel.tok.value!!.toktokId)
             linkDialog.dismiss()
         }
 
@@ -338,11 +336,16 @@ class CommunityTokActivity : AppCompatActivity() {
             //시간
             binding.communityPostTime.text = it.datetime
 
-            //follow했다면
-            if (it.followOrNot == true) {
-                followViewModel.setFollow(FollowStateDto(false))
+            if (it.writerOrNot == true) {
+                binding.unfollow.isVisible = false
+                binding.follow.isVisible = false
             } else {
-                followViewModel.setFollow(FollowStateDto(true))
+                //follow했다면
+                if (it.followOrNot == true) {
+                    followViewModel.setFollow(FollowStateDto(true))
+                } else {
+                    followViewModel.setFollow(FollowStateDto(false))
+                }
             }
 
             //scrap했다면
@@ -350,6 +353,13 @@ class CommunityTokActivity : AppCompatActivity() {
                 followViewModel.setScrap(ScrapStateDto(true))
             } else {
                 followViewModel.setScrap(ScrapStateDto(false))
+            }
+
+            //알림설정했다면
+            if (it.isNotification == true) {
+                followViewModel.setNotification(NotificationStateDto(true))
+            } else {
+                followViewModel.setNotification(NotificationStateDto(false))
             }
 
             //content
