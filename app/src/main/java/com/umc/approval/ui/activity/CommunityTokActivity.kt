@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
-import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.follow.FollowStateDto
@@ -31,7 +31,6 @@ import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteComplete
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
-import com.umc.approval.ui.adapter.search_fragment.RecentSearchRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
@@ -496,11 +495,26 @@ class CommunityTokActivity : AppCompatActivity() {
                         startActivity(voteIntent)
                     }
 
-                    override fun voteClick(v: View, data: Int, pos: Int) {
+                    override fun voteClick(
+                        v: View,
+                        data: Int,
+                        pos: Int,
+                        voteItemCheck: AppCompatCheckBox
+                    ) {
                         if (data in sendVote) {
                             sendVote.remove(data)
                         } else {
-                            sendVote.add(data)
+                            //멀티 선택일 경우
+                            if (viewModel.tok.value!!.voteIsSingle!! == false) {
+                                sendVote.add(data)
+                            } else { //싱글 선택일 경우
+                                if (sendVote.isEmpty()) {
+                                    sendVote.add(data)
+                                } else {
+                                    Toast.makeText(applicationContext, "복수 선택이 불가능합니다", Toast.LENGTH_SHORT).show()
+                                    voteItemCheck.isChecked = false
+                                }
+                            }
                         }
                     }
                 })
@@ -539,7 +553,12 @@ class CommunityTokActivity : AppCompatActivity() {
                             startActivity(voteIntent)
                         }
 
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                         }
                     })
 
@@ -580,7 +599,12 @@ class CommunityTokActivity : AppCompatActivity() {
                             voteIntent.putExtra("voteId", data.voteOptionId)
                             startActivity(voteIntent)
                         }
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                         }
                     })
                 } else if (viewModel.isVote.value == false) { // 투표 안했을 때
@@ -600,11 +624,26 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteRVAdapter.OnItemClickListner {
                         override fun onItemClick(v: View, data: VoteOption, pos: Int) {
                         }
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                             if (data in sendVote) {
                                 sendVote.remove(data)
                             } else {
-                                sendVote.add(data)
+                                //멀티 선택일 경우
+                                if (viewModel.tok.value!!.voteIsSingle!! == false) {
+                                    sendVote.add(data)
+                                } else { //싱글 선택일 경우
+                                    if (sendVote.isEmpty()) {
+                                        sendVote.add(data)
+                                    } else {
+                                        Toast.makeText(applicationContext, "복수 선택이 불가능합니다", Toast.LENGTH_SHORT).show()
+                                        voteItemCheck.isChecked = false
+                                    }
+                                }
                             }
                         }
                     })
@@ -645,7 +684,12 @@ class CommunityTokActivity : AppCompatActivity() {
                             startActivity(voteIntent)
                         }
 
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                         }
                     })
                 }

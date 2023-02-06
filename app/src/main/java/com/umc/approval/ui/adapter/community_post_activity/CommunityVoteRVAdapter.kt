@@ -3,6 +3,7 @@ package com.umc.approval.ui.adapter.community_post_activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.databinding.ItemCommunityPostVoteBinding
@@ -37,7 +38,7 @@ class CommunityVoteRVAdapter(private val dataList: List<VoteOption>,
                     listner?.onItemClick(itemView, data, pos)
                 }
                 binding.voteItemCheck.setOnClickListener {
-                    listner?.voteClick(it, data.voteOptionId , pos)
+                    listner?.voteClick(it, data.voteOptionId , pos, binding.voteItemCheck)
                 }
             }
         }
@@ -46,7 +47,7 @@ class CommunityVoteRVAdapter(private val dataList: List<VoteOption>,
     // 아이템 클릭 리스너
     interface OnItemClickListner {
         fun onItemClick(v: View, data: VoteOption, pos: Int)
-        fun voteClick(v: View, data: Int, pos: Int)
+        fun voteClick(v: View, data: Int, pos: Int, voteItemCheck: AppCompatCheckBox)
     }
 
     private var listner: OnItemClickListner? = null

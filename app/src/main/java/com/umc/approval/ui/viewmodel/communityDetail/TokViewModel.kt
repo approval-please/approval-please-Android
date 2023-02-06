@@ -156,10 +156,10 @@ class TokViewModel() : ViewModel() {
             listOf("맥북", "노트북"), listOf<String>("https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-1.png",
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-2.png",
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-3.png"),
-            3, "어느 것이 좋을까요", false, 96, null, false,
+            3, "어느 것이 좋을까요", false, 96, true, false,
             listOf(VoteOption(1, "A가 좋을까요"), VoteOption(2, "B가 좋을까요")),
             listOf(),
-            listOf(32, 64), true, 32, false, false, false, 24, false,
+            listOf(32, 64), false, 32, false, false, false, 24, false,
             "50분전", 32, 26, false)
 
         _tok.postValue(data)
