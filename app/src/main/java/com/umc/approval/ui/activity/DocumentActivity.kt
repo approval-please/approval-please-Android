@@ -343,8 +343,10 @@ class DocumentActivity : AppCompatActivity() {
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
+                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         commentViewModel.setParentCommentId(data.commentId)
+                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
                     }
                 }
 
