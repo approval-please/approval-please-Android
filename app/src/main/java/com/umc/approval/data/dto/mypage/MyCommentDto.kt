@@ -8,14 +8,14 @@ import com.umc.approval.data.dto.community.get.CommunityTokDto
 data class MyCommentDto(
     @SerializedName("documentCount")
     val documentCount : Int? = null,
-    @SerializedName("approval_content")
-    val approval_content : ApprovalPaperDto? = null,
+    @SerializedName("documentContent")
+    val documentContent : ApprovalPaperDto? = null,
     @SerializedName("toktokCount")
     val toktokCount : Int? = null,
-    @SerializedName("toktok_content")
-    val tok_content : CommunityTokDto? = null,
+    @SerializedName("toktokContent")
+    val toktokContent : CommunityTokDto? = null,
     @SerializedName("reportCount")
     val reportCount : Int? = null,
-    @SerializedName("report_content")
-    val report_content : CommunityReportDto? = null
+    @SerializedName("reportContent")
+    val reportContent : CommunityReportDto? = null
 )

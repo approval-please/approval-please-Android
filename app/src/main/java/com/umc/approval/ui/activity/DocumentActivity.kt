@@ -581,7 +581,7 @@ class DocumentActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
-            followViewModel.accuse(documentId = viewModel.document.value!!.documentId)
+            followViewModel.accuse(accuseUserId = viewModel.document.value!!.userId)
             linkDialog.dismiss()
         }
 

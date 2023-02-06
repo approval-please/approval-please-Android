@@ -61,7 +61,7 @@ interface FollowAPI {
     /**
      * 신고 API
      */
-    @POST("/notification")
+    @POST("/accuse")
     @Headers("content-type: application/json")
     fun accuse(
         @Header("Authorization") accessToken: String,
