@@ -142,7 +142,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
         val toktokId = intent.getStringExtra("toktokId")
 
-//        commentViewModel.get_comments(toktokId = toktokId.toString())
+        commentViewModel.get_comments(toktokId = toktokId.toString())
 
 //        viewModel.get_tok_detail(toktokId.toString())
 
@@ -449,7 +449,6 @@ class CommunityTokActivity : AppCompatActivity() {
 
                 //각 선택지 투표자 수
                 viewModel.setVotePeopleEachOption(CommunityVoteResult(it.votePeopleEachOption!!))
-            } else {
             }
         }
 

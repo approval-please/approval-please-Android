@@ -159,7 +159,7 @@ class TokViewModel() : ViewModel() {
             3, "어느 것이 좋을까요", false, 96, null, false,
             listOf(VoteOption(1, "A가 좋을까요"), VoteOption(2, "B가 좋을까요")),
             listOf(),
-            listOf(32, 64), false, 32, false, false, false, 24, false,
+            listOf(32, 64), true, 32, false, false, false, 24, false,
             "50분전", 32, 26, false)
 
         _tok.postValue(data)
