@@ -228,12 +228,12 @@ class MypageFragment : Fragment() {
 
             }
         })
-        binding.pointNum2.setOnClickListener {
-            val otherpageFragment = OtherpageFragment()
-            otherpageFragment.let{
-                activity?.supportFragmentManager?.beginTransaction()!!.add(R.id.main_layout, it).commit()
-            }
-        }
+//        binding.pointNum2.setOnClickListener {
+//            val otherpageFragment = OtherpageFragment()
+//            otherpageFragment.let{
+//                activity?.supportFragmentManager?.beginTransaction()!!.add(R.id.main_layout, it).commit()
+//            }
+//        }
     }
 
     /**

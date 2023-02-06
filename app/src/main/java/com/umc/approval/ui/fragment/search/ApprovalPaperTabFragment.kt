@@ -149,7 +149,11 @@ class ApprovalPaperTabFragment: Fragment() {
             // 클릭 이벤트 처리
             dataRVAdapter?.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
-                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+
+                    //document Id 전달
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+                    startActivity(intent)
                 }
             })
         }

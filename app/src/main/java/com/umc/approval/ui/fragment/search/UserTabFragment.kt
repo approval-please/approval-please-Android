@@ -1,8 +1,6 @@
 package com.umc.approval.ui.fragment.search
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,19 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.approval.get.ApprovalPaper
-import com.umc.approval.data.dto.community.get.CommunityTok
-import com.umc.approval.data.dto.search.get.SearchUserDto
 import com.umc.approval.data.dto.search.get.SearchUserInfoDto
 import com.umc.approval.databinding.FragmentSearchUserTabBinding
-import com.umc.approval.ui.activity.CommunityTokActivity
-import com.umc.approval.ui.activity.DocumentActivity
-import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
-import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.adapter.search_fragment.SearchUserRVAdapter
 import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 import com.umc.approval.ui.viewmodel.search.SearchUserViewModel
-import com.umc.approval.util.Participant
 
 class UserTabFragment: Fragment() {
 
@@ -71,7 +61,10 @@ class UserTabFragment: Fragment() {
             // 클릭 이벤트 처리
             participantRVAdapter?.setOnItemClickListener(object: SearchUserRVAdapter.OnItemClickListner {
                 override fun onItemClick(v: View, data: SearchUserInfoDto, pos: Int) {
-                    Log.d("유저 선택",data.toString())
+                    //userId Id 전달
+//                    val intent = Intent(requireContext(), ::class.java)
+//                    intent.putExtra("userId", data.userId.toString())
+//                    startActivity(intent)
                 }
             })
         }
