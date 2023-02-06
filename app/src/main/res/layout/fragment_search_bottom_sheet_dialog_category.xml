@@ -33,18 +33,18 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_apply"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            app:backgroundTint="@color/approval_please_main_color"
-            android:text="적용하기"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:textSize="11sp"
-            android:fontFamily="@font/light"
-            android:padding="0dp"
-            android:layout_gravity="center"/>
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btn_apply"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="30dp"-->
+<!--            app:backgroundTint="@color/approval_please_main_color"-->
+<!--            android:text="적용하기"-->
+<!--            android:insetTop="0dp"-->
+<!--            android:insetBottom="0dp"-->
+<!--            android:textSize="11sp"-->
+<!--            android:fontFamily="@font/light"-->
+<!--            android:padding="0dp"-->
+<!--            android:layout_gravity="center"/>-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -58,10 +58,329 @@
         android:layout_width="match_parent"
         android:layout_height="300dp" >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_category"
+        <RadioGroup
+            android:id="@+id/rg_selector"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/dialog_all"
+                android:button="@color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="부서 전체"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"
+                android:fontFamily="@font/medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_0"
+                android:button="@color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="디지털기기"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"
+                android:fontFamily="@font/medium" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="생활가전"
+                android:textSize="12sp"
+                android:fontFamily="@font/medium"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="생활용품"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="가구/인테리어"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="주방/건강"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="출산/유아동"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="패션의류/잡화"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="뷰티/미용"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="스포츠/헬스/레저"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="취미/게임/오나구"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="문구/오피스"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="도서/음악"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="티켓/교환권"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="식품"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="동물/식물"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="영화/공연"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="자동차/공구"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/approval_please_bold_gray_color"/>
+
+            <RadioButton
+                android:id="@+id/dialog_17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@color/transparent"
+                android:fontFamily="@font/medium"
+                android:textColor="@drawable/approval_bottom_sheet_dialog_item_selector"
+                android:text="기타 물품"
+                android:textSize="12sp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="15dp"/>
+        </RadioGroup>
     </ScrollView>
 
 </LinearLayout>

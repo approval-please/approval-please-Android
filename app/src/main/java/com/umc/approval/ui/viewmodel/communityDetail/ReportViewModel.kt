@@ -96,11 +96,16 @@ class ReportViewModel() : ViewModel() {
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-2.png",
                 "https://approval-please.s3.ap-northeast-2.amazonaws.com/approval/docu1-3.png"),
             listOf(
-                OpenGraphDto("https://github.com/", "GitHub: Let’s build from here","https://github.githubassets.com/images/modules/site/social-cards/campaign-social.png"),
-                OpenGraphDto("https://github.com/", "GitHub: Let’s build from here","https://github.githubassets.com/images/modules/site/social-cards/campaign-social.png"),
-                OpenGraphDto("https://github.com/", "GitHub: Let’s build from here","https://github.githubassets.com/images/modules/site/social-cards/campaign-social.png")),
+                OpenGraphDto("https://www.daangn.com/articles/525698779",
+                    "2017 맥북프로 15인치 고급... | 당근마켓 중고거래","https://dnvefa72aowie.cloudfront.net/origin/article/202301/2CA295C453C84A4C1082AEE102A1CE59F67D4EE3DFD7F072AD9994DBEC968C3E.jpg?q=95&s=1440x1440&t=inside"),
+                OpenGraphDto("https://www.daangn.com/articles/525698779",
+                    "2017 맥북프로 15인치 고급... | 당근마켓 중고거래","https://dnvefa72aowie.cloudfront.net/origin/article/202301/2CA295C453C84A4C1082AEE102A1CE59F67D4EE3DFD7F072AD9994DBEC968C3E.jpg?q=95&s=1440x1440&t=inside"),
+                OpenGraphDto("https://www.daangn.com/articles/525698779",
+                    "2017 맥북프로 15인치 고급... | 당근마켓 중고거래","https://dnvefa72aowie.cloudfront.net/origin/article/202301/2CA295C453C84A4C1082AEE102A1CE59F67D4EE3DFD7F072AD9994DBEC968C3E.jpg?q=95&s=1440x1440&t=inside"),
+                OpenGraphDto("https://www.daangn.com/articles/525698779",
+                    "2017 맥북프로 15인치 고급... | 당근마켓 중고거래","https://dnvefa72aowie.cloudfront.net/origin/article/202301/2CA295C453C84A4C1082AEE102A1CE59F67D4EE3DFD7F072AD9994DBEC968C3E.jpg?q=95&s=1440x1440&t=inside")),
             listOf("맥북", "노트북"), 360, false, false,
-            false, false, 36, 62, "50분전", false, 3200)
+            false, false, 36, 62, "50분전", false, 3200, false)
 
         _report.postValue(data)
     }

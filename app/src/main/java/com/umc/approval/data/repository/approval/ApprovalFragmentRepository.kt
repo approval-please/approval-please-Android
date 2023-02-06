@@ -9,6 +9,7 @@ import com.umc.approval.data.dto.upload.post.ApprovalUploadDto
 import com.umc.approval.data.retrofit.instance.RetrofitInstance.ApprovalApi
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.http.Header
 import retrofit2.http.Query
 
 /**
@@ -33,8 +34,8 @@ class ApprovalFragmentRepository {
     /**
      * 결재서류 상세 조회 API
      */
-    fun getDocumentDetail(documentId: String): Call<DocumentDto> {
-        return ApprovalApi.getDocumentDetail(documentId)
+    fun getDocumentDetail(accessToken: String, documentId: String): Call<DocumentDto> {
+        return ApprovalApi.getDocumentDetail(accessToken, documentId)
     }
 
     /**

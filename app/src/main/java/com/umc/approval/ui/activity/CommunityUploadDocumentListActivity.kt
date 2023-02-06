@@ -31,6 +31,7 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
         viewModel.documents.observe(this) {
 
             if (it.content != null) {
+                binding.tvDepartmentCount.text = it.content.size.toString()
                 if (it.content.isNotEmpty()) {
                     val dataRVAdapter = CommunityUploadDocumentItemRVAdapter(it)
                     binding.uploadDocumentItem.adapter = dataRVAdapter
@@ -40,7 +41,7 @@ class CommunityUploadDocumentListActivity : AppCompatActivity() {
                     dataRVAdapter.setOnItemClickListener(object: CommunityUploadDocumentItemRVAdapter.OnItemClickListner {
                         override fun onItemClick(v: View, data: DocumentWithReportDto, pos: Int) {
                             val documentIntent = Intent() // 인텐트를 생성
-                            documentIntent.putExtra("title", data.title)
+                            documentIntent.putExtra("documentId", data.documentId)
                             setResult(RESULT_OK, documentIntent)
                             finish()
                         }

@@ -56,8 +56,8 @@ class LoginFragmentRepository() {
     /**
      * Social Join API
      * */
-    fun social_login(accessToken: String): Call<ReturnSocialLoginDto> {
-        return serverApi.social_login(accessToken)
+    fun social_login(accessToken: String, email: String): Call<ReturnSocialLoginDto> {
+        return serverApi.social_login(accessToken, email)
     }
 
     /**

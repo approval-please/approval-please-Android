@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.databinding.ItemCommunityPostImageBinding
 
-class CommunityImageRVAdapter (private var dataList: List<String> = arrayListOf()): RecyclerView.Adapter<CommunityImageRVAdapter.DataViewHolder>() {
+class CommunityImageRVAdapter (private var dataList: List<String>): RecyclerView.Adapter<CommunityImageRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemCommunityPostImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)

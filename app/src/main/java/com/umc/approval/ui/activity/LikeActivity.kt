@@ -3,12 +3,10 @@ package com.umc.approval.ui.activity
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.ActivityLikeBinding
-import com.umc.approval.ui.adapter.like_activity.LikeRVAdapter
 import com.umc.approval.ui.adapter.participant_activity.ParticipantRVAdapter
 import com.umc.approval.util.Participant
 

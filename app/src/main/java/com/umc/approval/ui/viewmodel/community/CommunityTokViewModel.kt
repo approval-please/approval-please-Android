@@ -19,79 +19,29 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 로직 체크 완료
+ * */
 class CommunityTokViewModel() : ViewModel() {
-
-    //커뮤니티 리포지토리
-    private val repository = CommunityRepository()
 
     //엑세스 토큰 리포지토리
     private val accessTokenRepository = AccessTokenRepository()
-
-    /**tok 목록 라이브 데이터*/
-    private var _tok_list = MutableLiveData<CommunityTokDto>()
-    val tok_list : LiveData<CommunityTokDto>
-        get() = _tok_list
 
     /**엑세스 토큰 여부 판단 라이브데이터*/
     private var _accessToken = MutableLiveData<Boolean>()
     val accessToken : LiveData<Boolean>
         get() = _accessToken
 
-    //선택 데이터
-    private var _select = MutableLiveData<Int>()
-    val select : LiveData<Int>
-        get() = _select
+    //커뮤니티 리포지토리
+    private val repository = CommunityRepository()
 
-
-//    //테스트 데이터
-//    fun init_all_toks() = viewModelScope.launch {
-//
-//        val init_data = mutableListOf<CommunityTok>()
-//
-//        var openGraphDto = OpenGraphDto(
-//            "https://www.naver.com/",
-//            "네이버",
-//            "네이버"
-//        )
-//
-//        init_data.add(
-//            CommunityTok(
-//                0,"", "강사원", 0, 0, "결재톡톡 보고서", "텀블러", false,
-//                5,false, mutableListOf("image1", "image2"), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf("기계", "환경"), 13, 12, 12, "")
-//        )
-//
-//        init_data.add(
-//            CommunityTok(
-//                0,"", "강사원", 0, 0, "결재톡톡 보고서", "텀블러", false,
-//                5,false, mutableListOf("image1", "image2"), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf("기계", "환경"), 13, 12, 12, "")
-//        )
-//
-//        init_data.add(
-//            CommunityTok(
-//                0,"", "강사원", 0, 0, "결재톡톡 보고서", "텀블러", false,
-//                5,false, mutableListOf("image1", "image2"), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf("기계", "환경"), 13, 12, 12, "")
-//        )
-//
-//        init_data.add(
-//            CommunityTok(
-//                0,"", "강사원", 0, 0, "결재톡톡 보고서", "텀블러", false,
-//                5,false, mutableListOf("image1", "image2"), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf("기계", "환경"), 13, 12, 12, "")
-//        )
-//
-//        //서버로부터 받아온 데이터
-//        val communityTokDto = CommunityTokDto(init_data)
-//
-//        //데이터 삽입
-//        _tok_list.postValue(communityTokDto)
-//    }
-
+    /**tok 목록 라이브 데이터*/
+    private var _tok_list = MutableLiveData<CommunityTokDto>()
+    val tok_list : LiveData<CommunityTokDto>
+        get() = _tok_list
 
     /**
-     * 모든 documents 목록을 반환받는 메소드
+     * 모든 tok 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
     fun get_all_toks(sortBy: Int ?= null) = viewModelScope.launch {
@@ -101,7 +51,9 @@ class CommunityTokViewModel() : ViewModel() {
             sort = null
         }
 
-        val response = repository.get_toks(sort)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.get_toks(accessToken, sort)
         response.enqueue(object : Callback<CommunityTokDto> {
             override fun onResponse(call: Call<CommunityTokDto>, response: Response<CommunityTokDto>) {
                 if (response.isSuccessful) {
@@ -117,7 +69,8 @@ class CommunityTokViewModel() : ViewModel() {
         })
     }
 
-    /**엑세스 체크 API
+    /**
+     * 로그인 상태 체크 API
      * 정상 동작 Check 완료
      * */
     fun checkAccessToken() = viewModelScope.launch {

@@ -54,9 +54,6 @@ class ApprovalAllCategoryViewFragment: Fragment() {
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
-
         viewModel.get_all_documents(viewModel.category.value,
             commonViewModel.state.value, commonViewModel.sortBy.value)
 
@@ -65,9 +62,6 @@ class ApprovalAllCategoryViewFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
 
         viewModel.setCategory(18)
 

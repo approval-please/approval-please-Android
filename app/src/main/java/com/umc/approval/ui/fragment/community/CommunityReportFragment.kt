@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.databinding.FragmentCommunityReportBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
 import com.umc.approval.ui.activity.DocumentActivity
@@ -24,7 +26,6 @@ class CommunityReportFragment : Fragment() {
     private lateinit var communityReportItemRVAdapter: CommunityReportItemRVAdapter
 
     private val viewModel by viewModels<CommunityReportViewModel>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,19 +64,14 @@ class CommunityReportFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.checkAccessToken()
 
+        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
         viewModel.get_all_reports()
     }
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.get_all_reports()
-
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        viewModel.checkAccessToken()
 
         if (binding.hotCategory.isChecked) {
             viewModel.get_all_reports(0)
@@ -90,21 +86,38 @@ class CommunityReportFragment : Fragment() {
 
     private fun live_data() {
 
+        //엑세스 토큰 확인하는 라이브 데이터
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.followCategory.isVisible = true
+                binding.myCategory.isVisible = true
+            } else {
+                binding.followCategory.isVisible = false
+                binding.myCategory.isVisible = false
+            }
+        }
+
         viewModel.report_list.observe(viewLifecycleOwner) {
 
             communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
 
-            val community_item_rv: RecyclerView = binding.communityRvReportItem
+            val community_item_rv: RecyclerView = binding.communityRvItem
 
             community_item_rv.adapter = communityReportItemRVAdapter
             community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
             communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
-                override fun move_to_report_activity() {
-                    startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                override fun move_to_report_activity(v: View, data: CommunityReport, pos: Int) {
+                    //report Id 전달
+                    val intent = Intent(requireContext(), CommunityReportActivity::class.java)
+                    intent.putExtra("reportId", data.reportId.toString())
+                    startActivity(intent)
                 }
-                override fun move_to_document_activity() {
-                    startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                override fun move_to_document_activity(v: View, data: CommunityReport, pos: Int) {
+                    //report Id 전달
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.document.documentId.toString())
+                    startActivity(intent)
                 }
             }
         }

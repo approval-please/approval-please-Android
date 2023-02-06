@@ -4,6 +4,10 @@ import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
+import com.umc.approval.data.dto.mypage.CommunityDto
+import com.umc.approval.data.dto.communitydetail.get.CommunityTokDetailDto
+import com.umc.approval.data.dto.communitydetail.post.CommunityVotePost
+import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.upload.post.ReportUploadDto
 import com.umc.approval.data.dto.upload.post.TalkUploadDto
 import okhttp3.ResponseBody
@@ -22,7 +26,8 @@ interface CommunityAPI {
      */
     @GET("/community/toktoks")
     @Headers("content-type: application/json")
-    fun get_community_tok_items(@Query("sortBy") sortBy: Int ?= null):Call<CommunityTokDto>
+    fun get_community_tok_items(@Header("Authorization") accessToken: String,
+                                @Query("sortBy") sortBy: Int ?= null):Call<CommunityTokDto>
 
     /**
      * 리포트 목록 조회 API
@@ -31,7 +36,8 @@ interface CommunityAPI {
      */
     @GET("/community/reports")
     @Headers("content-type: application/json")
-    fun get_community_report_items(@Query("sortBy") sortBy: Int ?= null):Call<CommunityReportDto>
+    fun get_community_report_items(@Header("Authorization") accessToken: String,
+                                   @Query("sortBy") sortBy: Int ?= null):Call<CommunityReportDto>
 
     /**
      * 톡 업로드 API
@@ -68,8 +74,8 @@ interface CommunityAPI {
     @Headers("content-type: application/json")
     fun get_community_tok_detail(
         @Header("Authorization") accessToken: String,
-        @Path("toktokId") toktokId : Int,
-    ): Call<CommunityItemDto>
+        @Path("toktokId") toktokId : String,
+    ): Call<CommunityTokDetailDto>
 
     /**
      * CommunityItemDto: 커뮤니티 포스트 정보(profileImage, nickname, level, isFollow) 리스트
@@ -81,4 +87,49 @@ interface CommunityAPI {
         @Header("Authorization") accessToken: String,
         @Path("reportId") reportId : String,
     ): Call<CommunityReportDetailDto>
+
+    /**
+     * tok 삭제 API
+     */
+    @DELETE("/community/toktoks/{toktokId}")
+    @Headers("content-type: application/json")
+    fun delete_tok(
+        @Header("Authorization") accessToken: String,
+        @Path("toktokId") toktokId : String,
+    ): Call<ResponseBody>
+
+    /**
+     * report 삭제 API
+     */
+    @DELETE("/community/reports/{reportId}")
+    @Headers("content-type: application/json")
+    fun delete_report(
+        @Header("Authorization") accessToken: String,
+        @Path("reportId") reportId : String,
+    ): Call<ResponseBody>
+
+    @POST("/community/toktoks/votes/{voteId}")
+    @Headers("content-type: application/json")
+    fun post_vote(
+        @Header("Authorization") accessToken: String, @Path("voteId") voteId: String,
+        @Body voteOptionIds : CommunityVotePost
+    ):Call<CommunityVoteResult>
+
+    /**
+     * @Post
+     * accessToken : 사용자 검증 토큰
+     * postType: 게시글 유형
+     * 커뮤니티 탭
+     */
+    @GET("/profile/my/community")
+    @Headers("content-type: application/json")
+    fun get_community(
+        @Header("Authorization") accessToken : String,
+        @Query("postType") postType: Int?=null) : Call<CommunityDto>
+        
+    @POST("/community/toktoks/endVote/{voteId}")
+    @Headers("content-type: application/json")
+    fun end_vote(
+        @Header("Authorization") accessToken: String, @Path("voteId") voteId: String
+    ):Call<ResponseBody>
 }

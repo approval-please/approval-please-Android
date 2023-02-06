@@ -75,6 +75,50 @@ class CommunityUploadViewModel() : ViewModel() {
     val link : LiveData<String>
         get() = _link
 
+    private var _voteTitle = MutableLiveData<String>()
+    val voteTitle : LiveData<String>
+        get() = _voteTitle
+
+    private var _voteMulti = MutableLiveData<Boolean>()
+    val voteMulti : LiveData<Boolean>
+        get() = _voteMulti
+
+    private var _voteOption = MutableLiveData<MutableList<String>>()
+    val voteOption : LiveData<MutableList<String>>
+        get() = _voteOption
+
+    private var _voteIsSingle = MutableLiveData<Boolean>()
+    val voteIsSingle : LiveData<Boolean>
+        get() = _voteIsSingle
+
+    private var _voteIsAnonymous = MutableLiveData<Boolean>()
+    val voteIsAnonymous : LiveData<Boolean>
+        get() = _voteIsAnonymous
+
+    //투표 관련 기능
+    fun initVoteOption(options: MutableList<String>) {
+        _voteOption.postValue(options)
+    }
+
+    //투표 관련 기능
+    fun setVoteOption(options: MutableList<String>) {
+        _voteOption.postValue(options)
+    }
+
+    fun setVoteTitle(li: String) {
+        _voteTitle.postValue(li)
+    }
+    fun setVoteIsSingle(li: Boolean) {
+        _voteIsSingle.postValue(li)
+    }
+    fun setIsAnonymous(li: Boolean) {
+        _voteIsAnonymous.postValue(li)
+    }
+    fun setMulti(li: Boolean) {
+        _voteMulti.postValue(li)
+    }
+
+    //투표 제외 기능
     fun setTags(tags: List<String>) {
         _tags.postValue(tags)
     }

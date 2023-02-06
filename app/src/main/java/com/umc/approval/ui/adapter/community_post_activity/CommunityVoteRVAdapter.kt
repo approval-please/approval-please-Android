@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.databinding.ItemCommunityPostVoteBinding
-import com.umc.approval.util.VoteItem
 
-class CommunityVoteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayListOf()): RecyclerView.Adapter<CommunityVoteRVAdapter.DataViewHolder>() {
+class CommunityVoteRVAdapter(private val dataList: List<VoteOption>,
+                             private val selected: List<Int>): RecyclerView.Adapter<CommunityVoteRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
             ItemCommunityPostVoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,13 +23,21 @@ class CommunityVoteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayLi
 
     inner class DataViewHolder(private val binding: ItemCommunityPostVoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: VoteItem) {
-            binding.voteItemCheck.isChecked = data.check
-            binding.voteItemContent.text = data.content
+        fun bind(data: VoteOption) {
+            //투표한게 있다면
+            if(data.voteOptionId in selected){
+                binding.voteItemCheck.isChecked = true
+            }
+
+            binding.voteItemContent.text = data.opt
+
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 itemView.setOnClickListener {
                     listner?.onItemClick(itemView, data, pos)
+                }
+                binding.voteItemCheck.setOnClickListener {
+                    listner?.voteClick(it, data.voteOptionId , pos)
                 }
             }
         }
@@ -36,7 +45,8 @@ class CommunityVoteRVAdapter(private val dataList: ArrayList<VoteItem> = arrayLi
 
     // 아이템 클릭 리스너
     interface OnItemClickListner {
-        fun onItemClick(v: View, data: VoteItem, pos: Int)
+        fun onItemClick(v: View, data: VoteOption, pos: Int)
+        fun voteClick(v: View, data: Int, pos: Int)
     }
 
     private var listner: OnItemClickListner? = null

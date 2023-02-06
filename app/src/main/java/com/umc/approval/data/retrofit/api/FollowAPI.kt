@@ -1,7 +1,11 @@
 package com.umc.approval.data.retrofit.api
 
-import com.umc.approval.data.dto.common.CommonUserListDto
+import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.NotificationStateDto
+import com.umc.approval.data.dto.follow.ScrapStateDto
+import com.umc.approval.data.dto.mypage.FollowListDto
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -9,39 +13,58 @@ interface FollowAPI {
 
 
     /**
-     * @Post
-     * accessToken: 사용자 검증 토큰
-     * @Get
-     * FollowerDto
-     */
+     * 내 팔로잉 목록 조회
+     * */
+    @GET("/profile/my/followings")
+    @Headers("content-type: application/json")
+    fun get_my_followings(
+        @Header("Authorization") accessToken : String) : Call<FollowListDto>
+
+    /**
+     * 내 팔로우 목록 조회 API
+     * */
     @GET("/profile/my/followers")
     @Headers("content-type: application/json")
-    fun get_follower(
-        @Header("Authorization") accessToken : String, @Query("query") query: String) : Call<CommonUserListDto>
+    fun get_my_followers(
+        @Header("Authorization") accessToken : String) : Call<FollowListDto>
 
     /**
-     * @Post
-     * accessToken: 사용자 검증 토큰
-     * @Get
-     * FollowingDto
-     */
-    @GET("/profile/my/following")
-    @Headers("content-type: application/json")
-    fun get_following(
-        @Header("Authorization") accessToken : String, @Query("query") query: String) : Call<CommonUserListDto>
-
-    /**
-     * @Post
-     * accessToken: 사용자 검증 토큰
-     * userId: 유저 ID
-     * @Get
-     * followState: 팔로우 상태
      * 유저 팔로우/언팔로우 API
      */
     @POST("/follow")
     @Headers("content-type: application/json")
     fun follow(
         @Header("Authorization") accessToken: String,
-        @Query("userId") userId: Int
+        @Body toUserId: Int
     ): Call<FollowStateDto>
+
+    /**
+     * 스크랩 API
+     */
+    @POST("/scrap")
+    @Headers("content-type: application/json")
+    fun scrap(
+        @Header("Authorization") accessToken: String,
+        @Body likeDto: LikeDto
+    ): Call<ScrapStateDto>
+
+    /**
+     * 알림설정 API
+     */
+    @POST("/notification")
+    @Headers("content-type: application/json")
+    fun notification(
+        @Header("Authorization") accessToken: String,
+        @Body likeDto: LikeDto
+    ): Call<NotificationStateDto>
+
+    /**
+     * 신고 API
+     */
+    @POST("/notification")
+    @Headers("content-type: application/json")
+    fun accuse(
+        @Header("Authorization") accessToken: String,
+        @Body likeDto: LikeDto
+    ): Call<ResponseBody>
 }

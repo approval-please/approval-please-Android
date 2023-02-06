@@ -35,9 +35,6 @@ class FollowingFragment : Fragment() {
         _binding = FragmentFollowingBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //초기 데이터 get
-        viewModel.init_followings()
-
         //서버에서 데이터 가지고오기
         viewModel.my_followings()
 

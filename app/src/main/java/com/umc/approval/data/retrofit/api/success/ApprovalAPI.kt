@@ -41,6 +41,7 @@ interface ApprovalAPI {
     @GET("/documents/{documentId}")
     @Headers("content-type: application/json")
     fun getDocumentDetail(
+        @Header("Authorization") accessToken: String,
         @Path("documentId") documentId: String
     ): Call<DocumentDto>
 

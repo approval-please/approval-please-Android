@@ -4,8 +4,11 @@ import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
+import com.umc.approval.data.dto.comment.get.CommentDto
+import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportBinding
@@ -25,6 +30,7 @@ import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLink
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
 import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
+import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
@@ -61,6 +67,26 @@ class CommunityReportActivity : AppCompatActivity() {
 
         live_data()
 
+        //작성 누를 시 댓글 작성
+        binding.writeButton.setOnClickListener {
+            if (reportViewModel.accessToken.value != false) {
+                val postComment = CommentPostDto(reportId = reportViewModel.report.value!!.reportId ,
+                    content = binding.communityCommentEt.text.toString(), parentCommentId = null)
+
+                if (commentViewModel.commentId.value != -1) {
+                    postComment.parentCommentId = commentViewModel.commentId.value
+                }
+
+                commentViewModel.post_comments(postComment, reportId = reportViewModel.report.value!!.reportId.toString())
+                binding.communityCommentEt.text.clear()
+                commentViewModel.setParentCommentId(-1)
+            } else {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
         binding.communityDocumentLayout.documentBtn.setOnClickListener{
             val intent = Intent(this, DocumentActivity::class.java)
             intent.putExtra("documentId", reportViewModel.report.value!!.documentId.toString())
@@ -84,6 +110,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
             binding.communityDocumentLayout.documentTitle.text = it.documentTitle
             binding.communityDocumentLayout.documentContent.text = it.documentContent
+            binding.communityPostUserName.text = it.nickname
 
             if (it.documentTag == null || it.documentTag.isEmpty()) {
                 binding.communityDocumentLayout.documentHashtagItem.isVisible = false
@@ -128,12 +155,31 @@ class CommunityReportActivity : AppCompatActivity() {
             }
 
             //report 이미지 처리
-            if(it.reportLink == null || it.reportLink.isEmpty()) {
+            if(it.reportTag == null || it.reportTag.isEmpty()) {
                 binding.uploadHashtagItem.isVisible = false
             } else {
                 val reportTagRVAdapter = UploadHashtagRVAdapter(it.reportTag)
                 binding.uploadHashtagItem.adapter = reportTagRVAdapter
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
+            }
+        }
+
+        //댓글 라이브 데이터
+        commentViewModel.comments.observe(this) {
+
+            val documentCommentAdapter = ParentCommentAdapter(it)
+            binding.commentItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            binding.commentItem.adapter = documentCommentAdapter
+
+            documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
+
+                override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
+                    if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
+                        commentViewModel.setParentCommentId(-1)
+                    } else {
+                        commentViewModel.setParentCommentId(data.commentId)
+                    }
+                }
             }
         }
     }
@@ -148,29 +194,19 @@ class CommunityReportActivity : AppCompatActivity() {
 
         reportViewModel.get_report_detail(reportId.toString())
 
-        reportViewModel.init()
+        commentViewModel.get_comments(reportId = reportId.toString())
+
+//        reportViewModel.init()
     }
 
-    //뷰 재시작시 로그인 상태 검증 및 서류 정보 가지고 오는 로직
-    override fun onResume() {
-        super.onResume()
-
-        /**AccessToken 확인해서 로그인 상태인지 아닌지 확인*/
-        reportViewModel.checkAccessToken()
-
-        val reportId = intent.getStringExtra("reportId")
-
-        reportViewModel.get_report_detail(reportId.toString())
-
-    }
-
-    /**post more*/
+    //다이얼로그 로직
     private fun post_more() {
-        val writer = 0
-        val notice = 0
-        val storage = 0
 
         binding.uploadSettingBtn.setOnClickListener {
+
+            val writer = reportViewModel.report.value!!.writerOrNot
+            val notice = reportViewModel.report.value!!.isNotification
+            val storage = reportViewModel.report.value!!.scrapOrNot
 
             val bottomSheetView =
                 layoutInflater.inflate(R.layout.community_post_selector_dialog, null)
@@ -186,22 +222,19 @@ class CommunityReportActivity : AppCompatActivity() {
             val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
             val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
             val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
-            val setting_edit_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_edit_post)
 
             // visible 처리
-            if(writer == 1){
+            if(writer == true){
                 setting_report_post.isVisible = false
                 setting_report_user.isVisible = false
                 setting_remove_post.isVisible = true
-                setting_edit_post.isVisible = true
             }else{
                 setting_report_post.isVisible = true
                 setting_report_user.isVisible = true
                 setting_remove_post.isVisible = false
-                setting_edit_post.isVisible = false
             }
 
-            if(notice == 0){
+            if(notice == false){
                 setting_notice_on.isVisible = true
                 setting_notice_off.isVisible = false
             }else{
@@ -209,7 +242,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 setting_notice_off.isVisible = true
             }
 
-            if(storage == 0){
+            if(storage == false){
                 setting_storage_on.isVisible = true
                 setting_storage_off.isVisible = false
             }else{
@@ -248,11 +281,6 @@ class CommunityReportActivity : AppCompatActivity() {
                 showRemovePostDialog()
                 bottomSheetDialog.cancel()
             }
-
-            setting_edit_post!!.setOnClickListener {
-                bottomSheetDialog.cancel()
-            }
-
         }
     }
 
@@ -326,15 +354,4 @@ class CommunityReportActivity : AppCompatActivity() {
         /*link 팝업*/
         linkDialog.show()
     }
-
-//    data class CommentItem(
-//        val id:Int,
-//        val user_nickname: String,
-//        val user_rank :String,
-//        val content:String,
-//        val date : String,
-//        val like : Int,
-//        val replyComment : Int,
-//    )
-
 }

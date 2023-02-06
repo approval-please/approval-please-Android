@@ -108,8 +108,8 @@ class JoinViewModel() : ViewModel() {
             override fun onResponse(call: Call<ReturnBasicLoginDto>, response: Response<ReturnBasicLoginDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    _join_state.postValue(true)
                     setAccessToken("Bearer " + response.body()!!.accessToken.toString())
+                    _join_state.postValue(true)
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -132,8 +132,8 @@ class JoinViewModel() : ViewModel() {
             override fun onResponse(call: Call<ReturnBasicLoginDto>, response: Response<ReturnBasicLoginDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
+                    setAccessToken("Bearer " + response.body()!!.accessToken.toString())
                     _join_state.postValue(true)
-//                    setAccessToken("Bearer " + response.body()!!.accessToken.toString())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

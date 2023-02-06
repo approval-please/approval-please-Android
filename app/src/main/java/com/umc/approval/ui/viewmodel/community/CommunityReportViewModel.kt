@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
@@ -19,72 +20,27 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * 로직 체크 완료
+ * */
 class CommunityReportViewModel() : ViewModel() {
-
-    private val repository = CommunityRepository()
 
     //엑세스 토큰 리포지토리
     private val accessTokenRepository = AccessTokenRepository()
-
-    private var _report_list = MutableLiveData<CommunityReportDto>()
-    val report_list : LiveData<CommunityReportDto>
-        get() = _report_list
 
     /**엑세스 토큰 여부 판단 라이브데이터*/
     private var _accessToken = MutableLiveData<Boolean>()
     val accessToken : LiveData<Boolean>
         get() = _accessToken
 
-    /**
-     * init report list
-     * */
-    fun init_all_reports() = viewModelScope.launch {
+    private val repository = CommunityRepository()
 
-        val init_data = mutableListOf<CommunityReport>()
-
-        var openGraphDto = OpenGraphDto(
-            "https://www.naver.com/",
-            "네이버",
-            "네이버"
-        )
-
-//        init_data.add(
-//            CommunityReport(
-//                0, 0, "강사원", 0, "","", mutableListOf(""),
-//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf(""),0,false,false,0,0,"",0)
-//        )
-//
-//        init_data.add(
-//            CommunityReport(
-//                0, 0, "강사원", 0, "","", mutableListOf(""),
-//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf(""),0,false,false,0,0,"",0)
-//        )
-//
-//        init_data.add(
-//            CommunityReport(
-//                0, 0, "강사원", 0, "","", mutableListOf(""),
-//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf(""),0,false,false,0,0,"",0)
-//        )
-//
-//        init_data.add(
-//            CommunityReport(
-//                0, 0, "강사원", 0, "","", mutableListOf(""),
-//                mutableListOf(""),"", mutableListOf(""), mutableListOf(openGraphDto, openGraphDto),
-//                mutableListOf(""),0,false,false,0,0,"",0)
-//        )
-
-        //서버로부터 받아온 데이터
-//        val communityReportDto = CommunityReportDto(init_data)
-//
-//        //데이터 삽입
-//        _report_list.postValue(communityReportDto)
-    }
+    private var _report_list = MutableLiveData<CommunityReportDto>()
+    val report_list : LiveData<CommunityReportDto>
+        get() = _report_list
 
     /**
-     * 모든 documents 목록을 반환받는 메소드
+     * 모든 report 목록을 반환받는 메소드
      * 정상 동작 Check 완료
      * */
     fun get_all_reports(sortBy: Int ?= null) = viewModelScope.launch {
@@ -94,7 +50,9 @@ class CommunityReportViewModel() : ViewModel() {
             sort = null
         }
 
-        val response = repository.get_reports(sort)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.get_reports(accessToken, sort)
         response.enqueue(object : Callback<CommunityReportDto> {
             override fun onResponse(call: Call<CommunityReportDto>, response: Response<CommunityReportDto>) {
                 if (response.isSuccessful) {
@@ -110,7 +68,8 @@ class CommunityReportViewModel() : ViewModel() {
         })
     }
 
-    /**엑세스 체크 API
+    /**
+     * 로그인 상태 체크 API
      * 정상 동작 Check 완료
      * */
     fun checkAccessToken() = viewModelScope.launch {

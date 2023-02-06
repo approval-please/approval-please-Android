@@ -76,20 +76,13 @@
             app:chipStartPadding="0dp" />
     </com.google.android.material.chip.ChipGroup>
 
-    <ScrollView
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/community_rv_item"
+        android:layout_marginTop="10dp"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@+id/community_category">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/community_rv_item"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/community_category"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

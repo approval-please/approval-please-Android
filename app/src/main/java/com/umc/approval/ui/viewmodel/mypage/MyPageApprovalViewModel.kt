@@ -38,7 +38,7 @@ class MyPageApprovalViewModel() : ViewModel() {
         get() = _state
 
     /**승인 반려 순*/
-    private var _isApproved   = MutableLiveData<String>()
+    private var _isApproved = MutableLiveData<String>()
     val isApproved  : LiveData<String>
         get() = _isApproved
 

@@ -13,6 +13,8 @@ import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.CommunityTalkItemBinding
 import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.util.Utils.categoryMap
+import com.umc.approval.util.Utils.level
 
 /**
  * 결재 톡톡 및 보고서를 받아와 연결해주는 RV Adapter
@@ -21,15 +23,29 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     inner class ViewHolder(val binding: CommunityTalkItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-
         fun binding(data: CommunityTok) {
 
             /*결재 보고서 부분*/
             binding.reportCategoryItemText.text = data.content // 내용
             binding.communityPostUserName.text = data.nickname
             binding.reportViewText.text = data.view.toString()
+            binding.communityPostCategory.text = categoryMap[data.category]
+            binding.communityPostTime.text = data.datetime
+            binding.rank.text = level[data.userLevel]
             binding.tvLikeCount.text = data.likeCount.toString()
             binding.tvCommentCount.text = data.commentCount.toString()
+
+            if (data.voteDto != null) {
+                if (data.voteDto.isEnd == false) {
+                    binding.communityPostVoteState.text = "투표진행중"
+                } else {
+                    binding.communityPostVoteState.text = "투표 종료"
+                }
+                binding.communityPostVoteTitle.text = data.voteDto.title
+                binding.communityPostVoteParticipant.text = data.voteDto.voteUserCount.toString() + "명 참여"
+            } else {
+                binding.communityPostVote.isVisible = false
+            }
 
             binding.communityPostUserProfile.load(data.profileImage)
 
@@ -50,7 +66,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
                 binding.uploadHashtagItem.layoutManager = LinearLayoutManager(App.context(), RecyclerView.HORIZONTAL, false)
             }
 
-            if (data.link == null) {
+            if (data.link != null) {
                 binding.reportOpenGraphImage.load(data.link.image)
                 binding.reportOpenGraphText.setText(data.link.title)
                 binding.reportOpenGraphUrl.setText(data.link.url)
@@ -66,10 +82,11 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.binding(items.communityTok[position])
         if (itemClick != null){
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_tok_activity()
+                itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
             })
         }
     }
@@ -80,7 +97,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
 
     /**RV item click event*/
     interface ItemClick{ //인터페이스
-        fun move_to_tok_activity()
+        fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int)
     }
 
     var itemClick: ItemClick? = null

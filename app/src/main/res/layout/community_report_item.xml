@@ -36,15 +36,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <TextView
             android:id="@+id/report_user_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/home_fragment_post_rank_background"
+            android:text="부장"
+            android:layout_gravity="center"
+            style="@style/smallText_black_light"
             android:layout_marginRight="3dp"
             android:layout_marginLeft="3dp"
-            android:layout_gravity="center"
-            android:src="@drawable/mypage_rank_chajang">
-        </ImageView>
+            android:layout_marginStart="5dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,12 +59,6 @@
             android:textSize="12dp"
             android:fontFamily="@font/light"></TextView>
 
-        <View
-            android:layout_weight="1"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:background="@color/transparent"
-            android:layout_gravity="left"></View>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -120,7 +118,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/image_rv"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -190,7 +188,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/upload_hashtag_item"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="16dp"></androidx.recyclerview.widget.RecyclerView>

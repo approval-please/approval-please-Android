@@ -16,5 +16,5 @@ data class SocialJoinDto (
         @SerializedName("phoneNumber")
         var phoneNumber : String,
         @SerializedName("socialId")
-        var socialId : Int,
+        var socialId : String,
 )

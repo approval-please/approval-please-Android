@@ -33,9 +33,6 @@ class FollowerFragment : Fragment() {
         _binding = FragmentFollowerBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //초기 데이터 get
-        viewModel.init_followers()
-
         //라이브데이터 변경 감징
         live_data()
 

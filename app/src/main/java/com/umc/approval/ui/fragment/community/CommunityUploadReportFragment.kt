@@ -48,15 +48,14 @@ import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLink
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVoteItemRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.util.CrawlingTask
-import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -68,6 +67,8 @@ class CommunityUploadReportFragment : Fragment() {
     private val viewModel by activityViewModels<CommunityReportUploadViewModel>()
 
     private val commonViewModel by activityViewModels<CommunityViewModel>()
+
+    private val documentViewModel by viewModels<DocumentViewModel>()
 
 
     /**Image Adapter*/
@@ -138,6 +139,14 @@ class CommunityUploadReportFragment : Fragment() {
         binding.openGraphLayout.isVisible = false
         binding.uploadHashtagItem.isVisible = false
 
+        viewModel.documentId.observe(viewLifecycleOwner) {
+            documentViewModel.get_document_detail(it.toString())
+        }
+
+        documentViewModel.document.observe(viewLifecycleOwner) {
+            binding.documentBtn.text = it.title.toString()
+        }
+
         /*이미지 선택시 실행되는 메서드*/
         observe_pic()
 
@@ -151,6 +160,8 @@ class CommunityUploadReportFragment : Fragment() {
 
         /*opengraph observer*/
         opengraph_observe()
+
+        init_link_tag()
 
         /*링크 첨부 다이얼로그*/
         binding.uploadLinkBtn.setOnClickListener{
@@ -171,9 +182,34 @@ class CommunityUploadReportFragment : Fragment() {
 
         commonViewModel.setLink(1)
 
-        viewModel.setDocumentId(0)
-
         return binding.root
+    }
+
+    private fun init_link_tag() {
+        val linkDialog = Dialog(communityUploadActivity);
+        linkDialogBinding = ActivityUploadLinkDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(linkDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = linkDialogBinding.uploadLinkDialogCancelButton
+        dialogConfirmButton = linkDialogBinding.uploadLinkDialogConfirmButton
+        linkDialogEditText = linkDialogBinding.uploadLinkDialogEt
+        linkEraseButton = linkDialogBinding.uploadLinkEraseBtn
+        opengraphText = linkDialogBinding.openGraphText
+        opengraphUrl = linkDialogBinding.openGraphUrl
+        opengraphImage = linkDialogBinding.openGraphImage
+        opengraphId = linkDialogBinding.openGraph
+
+        val tagDialog = Dialog(requireContext());
+        tagDialogBinding = ActivityUploadTagDialogBinding.inflate(layoutInflater)
+
+        tagDialog.setContentView(tagDialogBinding.root)
+        tagDialog.setCanceledOnTouchOutside(true)
+        tagDialog.setCancelable(true)
+        dialogCancelButton = tagDialogBinding.uploadTagDialogCancelButton
+        dialogConfirmButton = tagDialogBinding.uploadTagDialogConfirmButton
+        tagDialogEditText = tagDialogBinding.uploadTagDialogEt
     }
 
     override fun onResume() {
@@ -287,6 +323,13 @@ class CommunityUploadReportFragment : Fragment() {
             binding.imageRv.adapter = imageRVAdapter
             binding.imageRv.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            val images = mutableListOf<String>()
+            for (i in it) {
+                val random = UUID.randomUUID().toString()
+                images.add("https://approval-please.s3.ap-northeast-2.amazonaws.com/" + random)
+            }
+            viewModel.setRealImage(images)
         }
     }
 
@@ -343,9 +386,9 @@ class CommunityUploadReportFragment : Fragment() {
             }
         }else if (requestCode == 2000) {
             if (resultCode == RESULT_OK) {
-                val resultMsg = data?.getStringExtra("title")
-                binding.documentBtn.text = resultMsg
-
+                val resultMsg = data?.getIntExtra("documentId", 100)
+                Log.d("test", resultMsg.toString())
+                viewModel.setDocumentId(resultMsg!!.toInt())
             } else if (resultCode == RESULT_CANCELED) {
                 val resultMsg = data?.getStringExtra("title")
             } else {

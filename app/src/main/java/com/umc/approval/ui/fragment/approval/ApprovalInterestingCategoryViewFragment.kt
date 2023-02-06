@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -25,6 +27,7 @@ import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils
+import kotlinx.coroutines.CoroutineScope
 
 class ApprovalInterestingCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalInterestingCategoryViewBinding? = null
@@ -160,12 +163,16 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
                     Log.d("로그", "카테고리 선택, pos: $pos, data: $data")
                     if (data.category in Utils.categoryMapReverse) {
                         viewModel.setCategory(Utils.categoryMapReverse.get(data.category)!!.toInt())
-                        viewModel.get_interesting_documents(
-                            viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
+                        Handler(Looper.myLooper()!!).postDelayed({
+                            viewModel.get_interesting_documents(
+                                viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
+                        }, 100)
                     } else {
                         viewModel.setCategory(18)
-                        viewModel.get_interesting_documents(
-                            viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
+                        Handler(Looper.myLooper()!!).postDelayed({
+                            viewModel.get_interesting_documents(
+                                viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
+                        }, 100)
                     }
                 }
             })
