@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.umc.approval.data.dto.approval.get.LikeReturnDto
 import com.umc.approval.data.dto.approval.post.LikeDto
 import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
@@ -13,6 +14,7 @@ import com.umc.approval.data.dto.follow.NotificationStateDto
 import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.repository.follow.FollowFragmentRepository
+import com.umc.approval.data.repository.like.LikeRepository
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
@@ -24,6 +26,9 @@ import retrofit2.Response
 class FollowViewModel() : ViewModel() {
 
     private val followRepository = FollowFragmentRepository()
+
+    //라이크 리포지토리
+    private val likeRepository = LikeRepository()
 
     private var _followers = MutableLiveData<FollowListDto>()
     val followers : LiveData<FollowListDto>
@@ -58,6 +63,15 @@ class FollowViewModel() : ViewModel() {
 
     fun setNotification(li:NotificationStateDto) {
         _notif.postValue(li)
+    }
+
+    //좋아요
+    private var _like = MutableLiveData<Boolean>()
+    val like : LiveData<Boolean>
+        get() = _like
+
+    fun setLike(li: Boolean) {
+        _like.postValue(li)
     }
 
     /**
@@ -190,6 +204,27 @@ class FollowViewModel() : ViewModel() {
                 }
             }
             override fun onFailure(call: Call<NotificationStateDto>, t: Throwable) {
+                Log.d("ContinueFail", "FAIL")
+            }
+        })
+    }
+
+    fun like(documentId: Int?=null, toktokId: Int?=null, reportId: Int?=null) = viewModelScope.launch {
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = likeRepository.like(accessToken,
+            LikeDto(documentId = documentId, toktokId = toktokId, reportId = reportId))
+
+        response.enqueue(object : Callback<LikeReturnDto> {
+            override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
+                if (response.isSuccessful) {
+                    _like.postValue(response.body()!!.isLike)
+                } else {
+                    Log.d("RESPONSE", "FAIL")
+                }
+            }
+            override fun onFailure(call: Call<LikeReturnDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

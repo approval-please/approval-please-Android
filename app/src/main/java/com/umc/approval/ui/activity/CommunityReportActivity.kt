@@ -18,6 +18,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.follow.NotificationStateDto
+import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportBinding
@@ -35,7 +38,9 @@ import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.ReportViewModel
+import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.CommentItem
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.VoteItem
 
@@ -46,6 +51,9 @@ class CommunityReportActivity : AppCompatActivity() {
     val reportViewModel by viewModels<ReportViewModel>()
 
     val commentViewModel by viewModels<CommentViewModel>()
+
+    //viewModel
+    private val followViewModel by viewModels<FollowViewModel>()
 
     /*다이얼로그*/
     private lateinit var activityCommunityReportPostDialogBinding: ActivityCommunityReportPostDialogBinding
@@ -66,6 +74,30 @@ class CommunityReportActivity : AppCompatActivity() {
         post_more()
 
         live_data()
+
+        //follow하면
+        binding.follow.setOnClickListener {
+            followViewModel.follow(reportViewModel.report.value!!.userId!!)
+        }
+
+        //unfollow하면
+        binding.unfollow.setOnClickListener {
+            followViewModel.follow(reportViewModel.report.value!!.userId!!)
+        }
+
+        //좋아요
+        binding.postLikeState.setOnClickListener {
+
+            if (reportViewModel.accessToken.value == false) {
+                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                followViewModel.like(reportId = reportViewModel.report.value!!.reportId)
+            }
+        }
+
 
         //작성 누를 시 댓글 작성
         binding.writeButton.setOnClickListener {
@@ -105,13 +137,86 @@ class CommunityReportActivity : AppCompatActivity() {
 
     private fun live_data() {
 
+        //로직
+        followViewModel.like.observe(this) {
+            if (it == true) {
+                binding.postLikeState.setImageResource(R.drawable.community_post_like_btn)
+            } else {
+                binding.postLikeState.setImageResource(R.drawable.community_post_unlike_btn)
+            }
+        }
+
+        //팔로잉 로직
+        followViewModel.isFollow.observe(this) {
+            if (it.isFollow == false) {
+                binding.unfollow.isVisible = true
+                binding.follow.isVisible = false
+            } else {
+                binding.unfollow.isVisible = false
+                binding.follow.isVisible = true
+            }
+        }
+
         //리포트 데이터 받아왔을때 처리
         reportViewModel.report.observe(this) {
 
-            binding.communityDocumentLayout.documentTitle.text = it.documentTitle
-            binding.communityDocumentLayout.documentContent.text = it.documentContent
-            binding.communityPostUserName.text = it.nickname
+            //프로필 이미지 처리
+            if (it.profileImage != null) {
+                binding.communityPostUserProfile.load(it.profileImage)
+            }
 
+            //닉네임
+            binding.communityPostUserName.text = it.nickname
+            //직급
+            binding.rank.text = Utils.level[it.level]
+            //카테고리
+            binding.communityPostCategory.text = categoryMap[it.documentCategory]
+            //시간
+            binding.communityPostTime.text = it.datetime
+            //서류 제목
+            binding.communityDocumentLayout.documentTitle.text = it.documentTitle
+            //서류 내용
+            binding.communityDocumentLayout.documentContent.text = it.documentContent
+            //좋아요
+            binding.communityPostLikeNum.text = "좋아요 "+ it.likedCount
+            //스크랩
+            binding.communityPostScrapNum.text = "스크랩 "+ it.scrapCount
+            //조회수
+            binding.communityPostVisitorsNum.text = "조회수 "+ it.view
+
+            if (it.likeOrNot == true) {
+                binding.postLikeState.setImageResource(R.drawable.community_post_like_btn)
+            } else {
+                binding.postLikeState.setImageResource(R.drawable.community_post_unlike_btn)
+            }
+
+            if (it.writerOrNot == true) {
+                binding.unfollow.isVisible = false
+                binding.follow.isVisible = false
+            } else {
+                //follow했다면
+                if (it.followOrNot == true) {
+                    followViewModel.setFollow(FollowStateDto(true))
+                } else {
+                    followViewModel.setFollow(FollowStateDto(false))
+                }
+            }
+
+            //scrap했다면
+            if (it.scrapOrNot == true) {
+                followViewModel.setScrap(ScrapStateDto(true))
+            } else {
+                followViewModel.setScrap(ScrapStateDto(false))
+            }
+
+            //알림설정했다면
+            if (it.isNotification == true) {
+                followViewModel.setNotification(NotificationStateDto(true))
+            } else {
+                followViewModel.setNotification(NotificationStateDto(false))
+            }
+
+            //서류 태그
             if (it.documentTag == null || it.documentTag.isEmpty()) {
                 binding.communityDocumentLayout.documentHashtagItem.isVisible = false
             } else {
@@ -120,9 +225,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 binding.communityDocumentLayout.documentHashtagItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
             }
 
-            binding.communityPostUserProfile.load(it.profileImage)
-
-            //report 이미지 처리
+            //서류 이미지 처리
             if(it.documentImageCount == 0) {
                 binding.communityDocumentLayout.documentImageCountTv.isVisible = false
                 binding.communityDocumentLayout.ivApprovalReportThumbnail.isVisible = false
@@ -131,12 +234,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 binding.communityDocumentLayout.ivApprovalReportThumbnail.load(it.documentImageUrl)
             }
 
-            binding.communityPostCategory.text = categoryMap[it.documentCategory]
-            binding.communityPostLikeNum.text = "좋아요 "+ it.likedCount
-            binding.communityPostScrapNum.text = "스크랩 "+ it.scrapCount
-            binding.communityPostVisitorsNum.text = "조회수 "+ it.view
-
-            //report 이미지 처리
+            //리포트 이미지 처리
             if(it.reportImageUrl == null || it.reportImageUrl.isEmpty()) {
                 binding.imageRv.isVisible = false
             } else {
@@ -145,7 +243,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 binding.imageRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             }
 
-            //report 이미지 처리
+            //리프트 링크 처리
             if(it.reportLink == null || it.reportLink.isEmpty()) {
                 binding.uploadLinkItem.isVisible = false
             } else {
@@ -154,7 +252,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 binding.uploadLinkItem.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
             }
 
-            //report 이미지 처리
+            //리포트 태그 처리
             if(it.reportTag == null || it.reportTag.isEmpty()) {
                 binding.uploadHashtagItem.isVisible = false
             } else {
@@ -199,14 +297,13 @@ class CommunityReportActivity : AppCompatActivity() {
 //        reportViewModel.init()
     }
 
-    //다이얼로그 로직
     private fun post_more() {
 
         binding.uploadSettingBtn.setOnClickListener {
 
             val writer = reportViewModel.report.value!!.writerOrNot
-            val notice = reportViewModel.report.value!!.isNotification
-            val storage = reportViewModel.report.value!!.scrapOrNot
+            val notice = followViewModel.notif.value!!.isNotification
+            val storage = followViewModel.isScrap.value!!.isScrap
 
             val bottomSheetView =
                 layoutInflater.inflate(R.layout.community_post_selector_dialog, null)
@@ -252,18 +349,22 @@ class CommunityReportActivity : AppCompatActivity() {
 
             // 다이얼로그 클릭 이벤트
             setting_notice_on!!.setOnClickListener {
+                followViewModel.notification(reportId = reportViewModel.report.value!!.reportId)
                 bottomSheetDialog.cancel()
             }
 
             setting_notice_off!!.setOnClickListener {
+                followViewModel.notification(reportId = reportViewModel.report.value!!.reportId)
                 bottomSheetDialog.cancel()
             }
 
             setting_storage_on!!.setOnClickListener {
+                followViewModel.scrap(reportId = reportViewModel.report.value!!.reportId)
                 bottomSheetDialog.cancel()
             }
 
             setting_storage_off!!.setOnClickListener {
+                followViewModel.scrap(reportId = reportViewModel.report.value!!.reportId)
                 bottomSheetDialog.cancel()
             }
 
@@ -301,6 +402,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
+            reportViewModel.delete_report(reportViewModel.report.value!!.reportId.toString())
             linkDialog.dismiss()
         }
         /*link 팝업*/
@@ -324,6 +426,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = reportViewModel.report.value!!.userId)
             linkDialog.dismiss()
         }
 
@@ -348,6 +451,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(reportId = reportViewModel.report.value!!.reportId)
             linkDialog.dismiss()
         }
 

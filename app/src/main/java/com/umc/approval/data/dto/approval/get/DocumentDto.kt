@@ -59,4 +59,6 @@ data class DocumentDto(
     var isVoted: Int ?= null,
     @SerializedName("userId")
     val userId: Int ?= null,
+    @SerializedName("isNotification")
+    val isNotification: Boolean ?= false,
 )

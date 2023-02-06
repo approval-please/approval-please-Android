@@ -94,17 +94,19 @@
                     app:layout_constraintStart_toEndOf="@id/community_post_user_profile"
                     app:layout_constraintTop_toTopOf="@id/community_post_user_info"></TextView>
 
-                <ImageView
+                <TextView
+                    android:id="@+id/rank"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/home_fragment_post_rank_background"
+                    android:text="부장"
                     android:layout_marginTop="1dp"
-                    android:foregroundGravity="center"
-                    android:src="@drawable/mypage_rank_chajang"
+                    style="@style/smallText_black_light"
                     app:layout_constraintStart_toEndOf="@id/community_post_user_name"
                     app:layout_constraintTop_toTopOf="@id/community_post_user_info"
-
-                    ></ImageView>
+                    android:layout_marginStart="4dp"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"/>
 
                 <TextView
                     android:id="@+id/community_post_category"
@@ -144,9 +146,21 @@
 
 
                 <ImageButton
+                    android:id="@+id/unfollow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/community_post_unfollow_state"
+                    android:background="@color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    ></ImageButton>
+
+                <ImageButton
+                    android:id="@+id/follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/community_post_follow_state"
                     android:background="@color/transparent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

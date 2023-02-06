@@ -37,9 +37,6 @@ class DocumentViewModel() : ViewModel() {
     //엑세스 토큰 체크 리포지토리
     private val accessTokenRepository = AccessTokenRepository()
 
-    //라이크 리포지토리
-    private val likeRepository = LikeRepository()
-
     //서버에서 받아올 서류 데이터
     private var _document = MutableLiveData<DocumentDto>()
     val document : LiveData<DocumentDto>
@@ -55,17 +52,9 @@ class DocumentViewModel() : ViewModel() {
     val category : LiveData<InterestingDto>
         get() = _category
 
-    private var _like = MutableLiveData<Boolean>()
-    val like : LiveData<Boolean>
-        get() = _like
-
     private var _after = MutableLiveData<AgreeDto>()
     val after : LiveData<AgreeDto>
         get() = _after
-
-    fun setLike(li: Boolean) {
-        _like.postValue(li)
-    }
 
     fun setIsVoted(li: Int) {
         document.value!!.isVoted = li
@@ -164,27 +153,6 @@ class DocumentViewModel() : ViewModel() {
             }
         })
     }
-
-
-    fun document_like() = viewModelScope.launch {
-
-        val accessToken = AccessTokenDataStore().getAccessToken().first()
-
-        val response = likeRepository.like(accessToken, LikeDto(documentId = document.value!!.documentId))
-        response.enqueue(object : Callback<LikeReturnDto> {
-            override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
-                if (response.isSuccessful) {
-                    _like.postValue(response.body()!!.isLike)
-                } else {
-                    Log.d("RESPONSE", "FAIL")
-                }
-            }
-            override fun onFailure(call: Call<LikeReturnDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
-    }
-
 
     /**엑세스 토큰 체크*/
     fun checkAccessToken() = viewModelScope.launch {
