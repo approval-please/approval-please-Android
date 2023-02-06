@@ -95,8 +95,8 @@ class MypageCommunityFragment : Fragment() {
         //서버에서 데이터 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.community.observe(viewLifecycleOwner) {
 
-            if (it.communityReport == null || it.communityReport!!.isEmpty()) {
-                val communityTok = CommunityTokDto(it.toktokCount!!, it.communityTok!!)
+            if (it.reportContent == null || it.reportContent!!.isEmpty()) {
+                val communityTok = CommunityTokDto(it.toktokCount!!, it.toktokContent!!)
                 val dataRVAdapter = CommunityTalkItemRVAdapter(communityTok)
                 binding.rvMypageCommunity.adapter = dataRVAdapter
                 binding.rvMypageCommunity.layoutManager =
@@ -109,7 +109,7 @@ class MypageCommunityFragment : Fragment() {
                     }
                 }
             } else {
-                val communityReport = CommunityReportDto(it.reportCount!!, it.communityReport!!)
+                val communityReport = CommunityReportDto(it.reportCount!!, it.reportContent!!)
                 val dataRVAdapter = CommunityReportItemRVAdapter(communityReport)
                 binding.rvMypageCommunity.adapter = dataRVAdapter
                 binding.rvMypageCommunity.layoutManager =

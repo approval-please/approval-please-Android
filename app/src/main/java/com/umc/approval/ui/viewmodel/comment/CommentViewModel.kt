@@ -110,7 +110,7 @@ class CommentViewModel() : ViewModel() {
      * Comment 삭제 API
      * 정상 동작 Check 완료
      * */
-    fun delete_comments(type: Int, commentId : String) = viewModelScope.launch {
+    fun delete_comments(commentId : String, documentId: String?=null, toktokId: String?=null, reportId: String?=null) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
@@ -119,7 +119,13 @@ class CommentViewModel() : ViewModel() {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    get_comments()
+                    if (documentId != null) {
+                        get_comments(documentId = documentId)
+                    } else if (toktokId != null) {
+                        get_comments(toktokId = toktokId)
+                    } else if (reportId != null) {
+                        get_comments(reportId = reportId)
+                    }
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

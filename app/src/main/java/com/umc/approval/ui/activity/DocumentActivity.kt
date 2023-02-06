@@ -1,6 +1,7 @@
 package com.umc.approval.ui.activity
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.widget.Toast
@@ -23,7 +24,6 @@ import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
-import com.umc.approval.data.dto.follow.FollowStateDto
 import com.umc.approval.data.dto.follow.NotificationStateDto
 import com.umc.approval.data.dto.follow.ScrapStateDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
@@ -195,6 +195,8 @@ class DocumentActivity : AppCompatActivity() {
         //결재 서류 라이브 데이터
         viewModel.document.observe(this) {
 
+            commentViewModel.get_comments(documentId = it.documentId.toString())
+
             followViewModel.setLike(it.isLiked!!)
 
             //scrap했다면
@@ -329,7 +331,10 @@ class DocumentActivity : AppCompatActivity() {
         commentViewModel.comments.observe(this) {
 
             binding.documentCommentRecyclerview.layoutManager = LinearLayoutManager(this)
-            val documentCommentAdapter = ParentCommentAdapter(it)
+
+            /**대댓글 다이얼로그를 위한 파라미터 로직*/
+            val documentCommentAdapter = ParentCommentAdapter(it, this, layoutInflater,
+                viewModel.document.value!!.isWriter!!, followViewModel, commentViewModel, documentId = viewModel.document.value!!.documentId.toString())
             documentCommentAdapter.notifyDataSetChanged()
             binding.documentCommentRecyclerview.adapter = documentCommentAdapter
 
@@ -340,6 +345,48 @@ class DocumentActivity : AppCompatActivity() {
                         commentViewModel.setParentCommentId(-1)
                     } else {
                         commentViewModel.setParentCommentId(data.commentId)
+                    }
+                }
+
+                /**댓글 다이얼로그 로직*/
+                override fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context) {
+                    val writer = viewModel.document.value!!.isWriter
+
+                    val bottomSheetView =
+                        layoutInflater.inflate(R.layout.community_comment_selector_dialog, null)
+                    val bottomSheetDialog = BottomSheetDialog(context)
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
+
+                    //dialog의 view Component 접근
+                    val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
+                    val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
+                    val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
+
+                    // visible 처리
+                    if(writer == true){
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = true
+                    }else{
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = false
+                    }
+
+                    setting_report_post!!.setOnClickListener {
+                        showReportCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_report_user!!.setOnClickListener {
+                        showReportCommentUserDialog(data.userId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_remove_post!!.setOnClickListener {
+                        showRemoveCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
                     }
                 }
             }
@@ -370,8 +417,6 @@ class DocumentActivity : AppCompatActivity() {
         val documentId = intent.getStringExtra("documentId")
 
         viewModel.get_document_detail(documentId.toString())
-
-        commentViewModel.get_comments(documentId = documentId.toString())
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -608,6 +653,85 @@ class DocumentActivity : AppCompatActivity() {
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(documentId = viewModel.document.value!!.documentId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    /**댓글 다이얼로그 로직*/
+    private fun showRemoveCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityRemovePostDialogBinding = ActivityCommunityRemovePostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityRemovePostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            linkDialog.dismiss()
+            commentViewModel.delete_comments(commentId = commentId.toString(),
+                documentId = viewModel.document.value!!.documentId.toString())
+            finish()
+        }
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //사용자 신고
+    private fun showReportCommentUserDialog(userId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportUserDialogBinding = ActivityCommunityReportUserDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = userId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //댓글 신고
+    private fun showReportCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportPostDialogBinding = ActivityCommunityReportPostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(commentId = commentId)
             linkDialog.dismiss()
         }
 

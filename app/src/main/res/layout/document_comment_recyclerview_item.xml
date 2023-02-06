@@ -44,6 +44,7 @@
         android:layout_marginTop="7.4dp"
         android:layout_marginEnd="28dp"/>
     <ImageView
+        android:id="@+id/setting"
         android:layout_width="13dp"
         android:layout_height="13dp"
         android:src="@drawable/document_comment_recyclerview_icon_menu"

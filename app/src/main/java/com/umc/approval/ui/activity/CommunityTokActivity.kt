@@ -1,6 +1,7 @@
 package com.umc.approval.ui.activity
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -140,8 +141,6 @@ class CommunityTokActivity : AppCompatActivity() {
         super.onStart()
 
         val toktokId = intent.getStringExtra("toktokId")
-
-        commentViewModel.get_comments(toktokId = toktokId.toString())
 
 //        viewModel.get_tok_detail(toktokId.toString())
 
@@ -340,6 +339,8 @@ class CommunityTokActivity : AppCompatActivity() {
 
         //톡 로직
         viewModel.tok.observe(this) {
+
+            commentViewModel.get_comments(toktokId = it.toktokId.toString())
 
             //좋아요수
             binding.communityPostLikeNum.text = "좋아요 "+ it.likedCount.toString()
@@ -700,7 +701,11 @@ class CommunityTokActivity : AppCompatActivity() {
         commentViewModel.comments.observe(this) {
 
             binding.commentItem.layoutManager = LinearLayoutManager(this)
-            val documentCommentAdapter = ParentCommentAdapter(it)
+            /**대댓글 다이얼로그를 위한 파라미터 로직*/
+            val documentCommentAdapter = ParentCommentAdapter(it, this, layoutInflater,
+                viewModel.tok.value!!.writerOrNot!!,
+                followViewModel, commentViewModel, toktokId = viewModel.tok.value!!.toktokId.toString()
+            )
             documentCommentAdapter.notifyDataSetChanged()
             binding.commentItem.adapter = documentCommentAdapter
 
@@ -713,7 +718,128 @@ class CommunityTokActivity : AppCompatActivity() {
                         commentViewModel.setParentCommentId(data.commentId)
                     }
                 }
+
+                /**댓글 다이얼로그 로직*/
+                override fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context) {
+                    val writer = viewModel.tok.value!!.writerOrNot
+
+                    val bottomSheetView =
+                        layoutInflater.inflate(R.layout.community_comment_selector_dialog, null)
+                    val bottomSheetDialog = BottomSheetDialog(context)
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
+
+                    //dialog의 view Component 접근
+                    val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
+                    val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
+                    val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
+
+                    // visible 처리
+                    if(writer == true){
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = true
+                    }else{
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = false
+                    }
+
+                    setting_report_post!!.setOnClickListener {
+                        showReportCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_report_user!!.setOnClickListener {
+                        showReportCommentUserDialog(data.userId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_remove_post!!.setOnClickListener {
+                        showRemoveCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
+                    }
+                }
             }
         }
+    }
+
+    /**댓글 다이얼로그 로직*/
+    private fun showRemoveCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityRemovePostDialogBinding = ActivityCommunityRemovePostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityRemovePostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            linkDialog.dismiss()
+            commentViewModel.delete_comments(commentId = commentId.toString(),
+                toktokId = viewModel.tok.value!!.toktokId.toString())
+            finish()
+        }
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //사용자 신고
+    private fun showReportCommentUserDialog(userId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportUserDialogBinding = ActivityCommunityReportUserDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = userId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //댓글 신고
+    private fun showReportCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportPostDialogBinding = ActivityCommunityReportPostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(commentId = commentId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
     }
 }
