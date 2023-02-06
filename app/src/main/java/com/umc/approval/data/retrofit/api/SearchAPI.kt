@@ -19,8 +19,8 @@ interface SearchAPI {
     fun search_documents(
         @Query("query") query: String,
         @Query("isTag") isTag : Int,
-        @Query("state") state : Int?=null,
         @Query("category") category: Int?=null,
+        @Query("state") state : Int?=null,
         @Query("sortBy") sortBy : Int,
     ):Call<ApprovalPaperDto>
 
