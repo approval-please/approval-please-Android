@@ -104,7 +104,6 @@ class MypageFragment : Fragment() {
         viewModel.accessToken.observe(viewLifecycleOwner) {
             if (it == false) {
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
-                requireActivity().finish()
             }
         }
 

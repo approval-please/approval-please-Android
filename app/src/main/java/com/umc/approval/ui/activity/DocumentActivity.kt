@@ -69,6 +69,8 @@ class DocumentActivity : AppCompatActivity() {
 
         approve_or_reject()
 
+        post_more()
+
         //서류가 들어왔을때 View 구성
         live_data()
 
@@ -115,6 +117,8 @@ class DocumentActivity : AppCompatActivity() {
             intent.putExtra("report", true)
 
             startActivity(intent)
+
+            finish()
         }
 
         //보고서 확인 버튼
