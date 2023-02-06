@@ -87,10 +87,10 @@ class RecentSearchFragment : Fragment() {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     viewModel.addKeyword(KeywordDto(0, binding.search.text.toString(), "cswcsm02@gmail.com"))
+                    keywordViewModel.setSearchKeyword(binding.search.text.toString())
 
                     afterSearchView()
 
-                    keywordViewModel.setSearchKeyword(binding.search.text.toString())
 
                     return true
                 }
