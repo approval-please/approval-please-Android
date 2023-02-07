@@ -1,5 +1,6 @@
 package com.umc.approval.ui.adapter.document_comment_activity
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,14 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.R
 import com.umc.approval.data.dto.comment.get.CommentDto
-import com.umc.approval.data.dto.comment.get.CommentListDto
-import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.DocumentCommentRecyclerviewItem2Binding
-import com.umc.approval.databinding.DocumentCommentRecyclerviewItem3Binding
-import com.umc.approval.databinding.DocumentCommentRecyclerviewItemBinding
 import com.umc.approval.util.Utils
 
-class ChildCommentAdapter(val itemList : List<CommentDto>) : RecyclerView.Adapter<ChildCommentAdapter.ViewHolder>(){
+class ChildCommentAdapter(val itemList: List<CommentDto>, val context: Context) : RecyclerView.Adapter<ChildCommentAdapter.ViewHolder>(){
 
     inner class ViewHolder(val binding: DocumentCommentRecyclerviewItem2Binding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -59,17 +56,26 @@ class ChildCommentAdapter(val itemList : List<CommentDto>) : RecyclerView.Adapte
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding(itemList[position])
-    }
-
     /**RV item click event*/
     interface ItemClick{ //인터페이스
+        fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context)
     }
 
     var itemClick: ItemClick? = null
 
     override fun getItemCount(): Int {
         return itemList.size
+    }
+
+    /**대ㄴ댓글 다이얼로그 로직*/
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding(itemList[position])
+
+        if (itemClick != null){
+
+            holder.binding.setting.setOnClickListener(View.OnClickListener {
+                itemClick?.setting_comment(it, itemList[position], position, context)
+            })
+        }
     }
 }

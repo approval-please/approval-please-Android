@@ -1,6 +1,5 @@
 package com.umc.approval.ui.fragment.mypage
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,17 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.FragmentMypageScrapBinding
-import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.viewmodel.mypage.MyPageScrapViewModel
-import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /*
  MyPage 스크랩 tab View
@@ -86,8 +82,8 @@ class MypageScrapFragment : Fragment() {
         viewModel.get_my_scraps(type, null)
         viewModel.scrap.observe(viewLifecycleOwner){
             binding.rvMypageScrap.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.approval_content is ApprovalPaperDto){
-                val paperRVAdapter = ApprovalPaperListRVAdapter(it.approval_content)
+            if(it.documentContent is ApprovalPaperDto){
+                val paperRVAdapter = ApprovalPaperListRVAdapter(it.documentContent)
                 paperRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageScrap.adapter = paperRVAdapter
             }
@@ -101,8 +97,8 @@ class MypageScrapFragment : Fragment() {
         viewModel.get_my_scraps(type, null)
         viewModel.scrap.observe(viewLifecycleOwner){
             binding.rvMypageScrap.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.tok_content is CommunityTokDto){
-                val talkRVAdapter = CommunityTalkItemRVAdapter(it.tok_content)
+            if(it.toktokContent is CommunityTokDto){
+                val talkRVAdapter = CommunityTalkItemRVAdapter(it.toktokContent)
                 talkRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageScrap.adapter = talkRVAdapter
             }
@@ -116,8 +112,8 @@ class MypageScrapFragment : Fragment() {
         viewModel.get_my_scraps(type, null)
         viewModel.scrap.observe(viewLifecycleOwner){
             binding.rvMypageScrap.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.report_content is CommunityReportDto){
-                val reportRVAdapter = CommunityReportItemRVAdapter(it.report_content)
+            if(it.reportContent is CommunityReportDto){
+                val reportRVAdapter = CommunityReportItemRVAdapter(it.reportContent)
                 reportRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageScrap.adapter = reportRVAdapter
             }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="88dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -43,15 +44,10 @@
         android:layout_marginStart="100dp"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"/>
+
+
     <ImageView
-        android:layout_width="13dp"
-        android:layout_height="13dp"
-        android:src="@drawable/document_comment_recyclerview_icon_comment"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="7.4dp"
-        android:layout_marginEnd="28dp"/>
-    <ImageView
+        android:id="@+id/setting"
         android:layout_width="13dp"
         android:layout_height="13dp"
         android:src="@drawable/document_comment_recyclerview_icon_menu"

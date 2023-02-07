@@ -49,7 +49,7 @@
         android:elevation="1dp"
         app:layout_constraintTop_toBottomOf="@+id/community_post_layout_toolbar"></View>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/community_post_comment"
@@ -395,6 +395,7 @@
                 android:layout_marginBottom="16dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_item"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
@@ -407,7 +408,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/community_post_comment"

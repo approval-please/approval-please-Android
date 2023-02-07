@@ -19,6 +19,7 @@ import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
 import com.umc.approval.dataStore.AccessTokenDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -192,18 +193,17 @@ class FollowViewModel() : ViewModel() {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = followRepository.notification(accessToken, LikeDto(documentId, toktokId, reportId, commentId, accuseUserId))
+        val response = followRepository.accuse(accessToken, LikeDto(documentId, toktokId, reportId, commentId, accuseUserId))
 
-        response.enqueue(object : Callback<NotificationStateDto> {
-            override fun onResponse(call: Call<NotificationStateDto>, response: Response<NotificationStateDto>) {
+        response.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    _notif.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<NotificationStateDto>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })

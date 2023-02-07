@@ -1,6 +1,7 @@
 package com.umc.approval.ui.activity
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
-import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.data.dto.communitydetail.post.CommunityVoteResult
 import com.umc.approval.data.dto.follow.FollowStateDto
@@ -31,7 +32,6 @@ import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteComplete
 import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
-import com.umc.approval.ui.adapter.search_fragment.RecentSearchRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
@@ -141,8 +141,6 @@ class CommunityTokActivity : AppCompatActivity() {
         super.onStart()
 
         val toktokId = intent.getStringExtra("toktokId")
-
-//        commentViewModel.get_comments(toktokId = toktokId.toString())
 
 //        viewModel.get_tok_detail(toktokId.toString())
 
@@ -342,6 +340,8 @@ class CommunityTokActivity : AppCompatActivity() {
         //톡 로직
         viewModel.tok.observe(this) {
 
+            commentViewModel.get_comments(toktokId = it.toktokId.toString())
+
             //좋아요수
             binding.communityPostLikeNum.text = "좋아요 "+ it.likedCount.toString()
             //스크랩수
@@ -449,7 +449,6 @@ class CommunityTokActivity : AppCompatActivity() {
 
                 //각 선택지 투표자 수
                 viewModel.setVotePeopleEachOption(CommunityVoteResult(it.votePeopleEachOption!!))
-            } else {
             }
         }
 
@@ -497,11 +496,26 @@ class CommunityTokActivity : AppCompatActivity() {
                         startActivity(voteIntent)
                     }
 
-                    override fun voteClick(v: View, data: Int, pos: Int) {
+                    override fun voteClick(
+                        v: View,
+                        data: Int,
+                        pos: Int,
+                        voteItemCheck: AppCompatCheckBox
+                    ) {
                         if (data in sendVote) {
                             sendVote.remove(data)
                         } else {
-                            sendVote.add(data)
+                            //멀티 선택일 경우
+                            if (viewModel.tok.value!!.voteIsSingle!! == false) {
+                                sendVote.add(data)
+                            } else { //싱글 선택일 경우
+                                if (sendVote.isEmpty()) {
+                                    sendVote.add(data)
+                                } else {
+                                    Toast.makeText(baseContext, "복수 선택이 불가능합니다", Toast.LENGTH_SHORT).show()
+                                    voteItemCheck.isChecked = false
+                                }
+                            }
                         }
                     }
                 })
@@ -540,7 +554,12 @@ class CommunityTokActivity : AppCompatActivity() {
                             startActivity(voteIntent)
                         }
 
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                         }
                     })
 
@@ -581,7 +600,12 @@ class CommunityTokActivity : AppCompatActivity() {
                             voteIntent.putExtra("voteId", data.voteOptionId)
                             startActivity(voteIntent)
                         }
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                         }
                     })
                 } else if (viewModel.isVote.value == false) { // 투표 안했을 때
@@ -601,11 +625,26 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteRVAdapter.OnItemClickListner {
                         override fun onItemClick(v: View, data: VoteOption, pos: Int) {
                         }
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                             if (data in sendVote) {
                                 sendVote.remove(data)
                             } else {
-                                sendVote.add(data)
+                                //멀티 선택일 경우
+                                if (viewModel.tok.value!!.voteIsSingle!! == false) {
+                                    sendVote.add(data)
+                                } else { //싱글 선택일 경우
+                                    if (sendVote.isEmpty()) {
+                                        sendVote.add(data)
+                                    } else {
+                                        Toast.makeText(baseContext, "복수 선택이 불가능합니다", Toast.LENGTH_SHORT).show()
+                                        voteItemCheck.isChecked = false
+                                    }
+                                }
                             }
                         }
                     })
@@ -646,7 +685,12 @@ class CommunityTokActivity : AppCompatActivity() {
                             startActivity(voteIntent)
                         }
 
-                        override fun voteClick(v: View, data: Int, pos: Int) {
+                        override fun voteClick(
+                            v: View,
+                            data: Int,
+                            pos: Int,
+                            voteItemCheck: AppCompatCheckBox
+                        ) {
                         }
                     })
                 }
@@ -657,7 +701,11 @@ class CommunityTokActivity : AppCompatActivity() {
         commentViewModel.comments.observe(this) {
 
             binding.commentItem.layoutManager = LinearLayoutManager(this)
-            val documentCommentAdapter = ParentCommentAdapter(it)
+            /**대댓글 다이얼로그를 위한 파라미터 로직*/
+            val documentCommentAdapter = ParentCommentAdapter(it, this, layoutInflater,
+                viewModel.tok.value!!.writerOrNot!!,
+                followViewModel, commentViewModel, toktokId = viewModel.tok.value!!.toktokId.toString()
+            )
             documentCommentAdapter.notifyDataSetChanged()
             binding.commentItem.adapter = documentCommentAdapter
 
@@ -666,11 +714,134 @@ class CommunityTokActivity : AppCompatActivity() {
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
+                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         commentViewModel.setParentCommentId(data.commentId)
+                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                /**댓글 다이얼로그 로직*/
+                override fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context) {
+                    val writer = viewModel.tok.value!!.writerOrNot
+
+                    val bottomSheetView =
+                        layoutInflater.inflate(R.layout.community_comment_selector_dialog, null)
+                    val bottomSheetDialog = BottomSheetDialog(context)
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
+
+                    //dialog의 view Component 접근
+                    val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
+                    val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
+                    val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
+
+                    // visible 처리
+                    if(writer == true){
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = true
+                    }else{
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = false
+                    }
+
+                    setting_report_post!!.setOnClickListener {
+                        showReportCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_report_user!!.setOnClickListener {
+                        showReportCommentUserDialog(data.userId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_remove_post!!.setOnClickListener {
+                        showRemoveCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
                     }
                 }
             }
         }
+    }
+
+    /**댓글 다이얼로그 로직*/
+    private fun showRemoveCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityRemovePostDialogBinding = ActivityCommunityRemovePostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityRemovePostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            linkDialog.dismiss()
+            commentViewModel.delete_comments(commentId = commentId.toString(),
+                toktokId = viewModel.tok.value!!.toktokId.toString())
+            finish()
+        }
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //사용자 신고
+    private fun showReportCommentUserDialog(userId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportUserDialogBinding = ActivityCommunityReportUserDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = userId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //댓글 신고
+    private fun showReportCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportPostDialogBinding = ActivityCommunityReportPostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(commentId = commentId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
     }
 }

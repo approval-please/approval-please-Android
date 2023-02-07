@@ -122,8 +122,8 @@ class MypageCommentFragment : Fragment() {
         viewModel.get_my_comments(type, state)
         viewModel.comment.observe(viewLifecycleOwner){
             binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.approval_content is ApprovalPaperDto){
-                val paperRVAdapter = ApprovalPaperListRVAdapter(it.approval_content)
+            if(it.documentContent is ApprovalPaperDto){
+                val paperRVAdapter = ApprovalPaperListRVAdapter(it.documentContent)
                 paperRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageComment.adapter = paperRVAdapter
             }
@@ -137,8 +137,8 @@ class MypageCommentFragment : Fragment() {
         viewModel.get_my_comments(type, state)
         viewModel.comment.observe(viewLifecycleOwner){
             binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.tok_content is CommunityTokDto){
-                val talkRVAdapter = CommunityTalkItemRVAdapter(it.tok_content)
+            if(it.toktokContent is CommunityTokDto){
+                val talkRVAdapter = CommunityTalkItemRVAdapter(it.toktokContent)
                 talkRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageComment.adapter = talkRVAdapter
             }
@@ -152,8 +152,8 @@ class MypageCommentFragment : Fragment() {
         viewModel.get_my_comments(type, state)
         viewModel.comment.observe(viewLifecycleOwner){
             binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.report_content is CommunityReportDto){
-                val reportRVAdapter = CommunityReportItemRVAdapter(it.report_content)
+            if(it.reportContent is CommunityReportDto){
+                val reportRVAdapter = CommunityReportItemRVAdapter(it.reportContent)
                 reportRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageComment.adapter = reportRVAdapter
             }

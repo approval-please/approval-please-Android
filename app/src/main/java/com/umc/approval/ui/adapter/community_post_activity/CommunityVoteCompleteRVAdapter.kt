@@ -1,14 +1,13 @@
 package com.umc.approval.ui.adapter.community_post_activity
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.approval.data.dto.community.get.VoteItem
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
 import com.umc.approval.databinding.ItemCommunityPostVoteCompleteBinding
 
@@ -61,7 +60,7 @@ class CommunityVoteCompleteRVAdapter(private val dataList: List<VoteOption>,
                     listner?.onItemClick(itemView, data, pos)
                 }
                 binding.voteItemCheck.setOnClickListener {
-                    listner?.voteClick(it, data.voteOptionId , pos)
+                    listner?.voteClick(it, data.voteOptionId , pos, binding.voteItemCheck)
                 }
             }
         }
@@ -71,7 +70,7 @@ class CommunityVoteCompleteRVAdapter(private val dataList: List<VoteOption>,
     interface OnItemClickListner {
         fun onItemClick(v: View, data: VoteOption, pos: Int)
 
-        fun voteClick(v: View, data: Int, pos: Int)
+        fun voteClick(v: View, data: Int, pos: Int, voteItemCheck: AppCompatCheckBox)
     }
 
     private var listner: OnItemClickListner? = null

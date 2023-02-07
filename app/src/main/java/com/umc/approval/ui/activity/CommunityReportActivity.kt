@@ -1,10 +1,10 @@
 package com.umc.approval.ui.activity
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -21,28 +21,19 @@ import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.follow.FollowStateDto
 import com.umc.approval.data.dto.follow.NotificationStateDto
 import com.umc.approval.data.dto.follow.ScrapStateDto
-import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.ActivityCommunityRemovePostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportBinding
 import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportUserDialogBinding
-import com.umc.approval.ui.adapter.community_post_activity.CommunityCommentRVAdapter
 import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
-import com.umc.approval.ui.adapter.community_post_activity.CommunityVoteCompleteRVAdapter
 import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadLinkItemRVAdapter
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentAdapter
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem
-import com.umc.approval.ui.adapter.document_comment_activity.DocumentCommentItem2
 import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
-import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.ReportViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
-import com.umc.approval.util.CommentItem
 import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
-import com.umc.approval.util.VoteItem
 
 class CommunityReportActivity : AppCompatActivity() {
 
@@ -160,6 +151,8 @@ class CommunityReportActivity : AppCompatActivity() {
         //리포트 데이터 받아왔을때 처리
         reportViewModel.report.observe(this) {
 
+            commentViewModel.get_comments(reportId = it.reportId.toString())
+
             //프로필 이미지 처리
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
@@ -265,7 +258,10 @@ class CommunityReportActivity : AppCompatActivity() {
         //댓글 라이브 데이터
         commentViewModel.comments.observe(this) {
 
-            val documentCommentAdapter = ParentCommentAdapter(it)
+            /**대댓글 다이얼로그 로직*/
+            val documentCommentAdapter = ParentCommentAdapter(it, this, layoutInflater,
+                reportViewModel.report.value!!.writerOrNot,
+                followViewModel, commentViewModel, reportId = reportViewModel.report.value!!.reportId.toString())
             binding.commentItem.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             binding.commentItem.adapter = documentCommentAdapter
 
@@ -274,8 +270,52 @@ class CommunityReportActivity : AppCompatActivity() {
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
+                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
                     } else {
                         commentViewModel.setParentCommentId(data.commentId)
+                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                /**댓글 다이얼로그 로직*/
+                override fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context) {
+                    val writer = reportViewModel.report.value!!.writerOrNot
+
+                    val bottomSheetView =
+                        layoutInflater.inflate(R.layout.community_comment_selector_dialog, null)
+                    val bottomSheetDialog = BottomSheetDialog(context)
+                    bottomSheetDialog.setContentView(bottomSheetView)
+                    bottomSheetDialog.show()
+
+                    //dialog의 view Component 접근
+                    val setting_report_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_post)
+                    val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
+                    val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
+
+                    // visible 처리
+                    if(writer == true){
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = true
+                    }else{
+                        setting_report_post.isVisible = true
+                        setting_report_user.isVisible = true
+                        setting_remove_post.isVisible = false
+                    }
+
+                    setting_report_post!!.setOnClickListener {
+                        showReportCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_report_user!!.setOnClickListener {
+                        showReportCommentUserDialog(data.userId)
+                        bottomSheetDialog.cancel()
+                    }
+
+                    setting_remove_post!!.setOnClickListener {
+                        showRemoveCommentDialog(data.commentId)
+                        bottomSheetDialog.cancel()
                     }
                 }
             }
@@ -291,8 +331,6 @@ class CommunityReportActivity : AppCompatActivity() {
         val reportId = intent.getStringExtra("reportId")
 
         reportViewModel.get_report_detail(reportId.toString())
-
-        commentViewModel.get_comments(reportId = reportId.toString())
 
 //        reportViewModel.init()
     }
@@ -452,6 +490,85 @@ class CommunityReportActivity : AppCompatActivity() {
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(reportId = reportViewModel.report.value!!.reportId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    /**댓글 다이얼로그 로직*/
+    private fun showRemoveCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityRemovePostDialogBinding = ActivityCommunityRemovePostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityRemovePostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            linkDialog.dismiss()
+            commentViewModel.delete_comments(commentId = commentId.toString(),
+                reportId = reportViewModel.report.value!!.reportId.toString())
+            finish()
+        }
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //사용자 신고
+    private fun showReportCommentUserDialog(userId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportUserDialogBinding = ActivityCommunityReportUserDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = userId)
+            linkDialog.dismiss()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
+    }
+
+    //댓글 신고
+    private fun showReportCommentDialog(commentId: Int) {
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportPostDialogBinding = ActivityCommunityReportPostDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(commentId = commentId)
             linkDialog.dismiss()
         }
 
