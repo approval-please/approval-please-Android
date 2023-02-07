@@ -26,25 +26,20 @@ class JoinViewModel() : ViewModel() {
 
     private val repository = LoginFragmentRepository()
 
-    /**인증 받았는지 상태 확인하는 라이브 데이터*/
-    private var _phone = MutableLiveData<Boolean>()
-    val phone : LiveData<Boolean>
+    /**폰번호 라이브 데이터*/
+    private var _phone = MutableLiveData<ReturnPhoneAuthRequestDto>()
+    val phone : LiveData<ReturnPhoneAuthRequestDto>
         get() = _phone
 
     /**인증 받았는지 상태 확인하는 라이브 데이터*/
-    private var _phone_auth = MutableLiveData<Int>()
-    val phone_auth : LiveData<Int>
+    private var _phone_auth = MutableLiveData<ReturnPhoneAuthDto>()
+    val phone_auth : LiveData<ReturnPhoneAuthDto>
         get() = _phone_auth
 
     /**인증 받았는지 상태 확인하는 라이브 데이터*/
     private var _join_state = MutableLiveData<Boolean>()
     val join_state : LiveData<Boolean>
         get() = _join_state
-
-    /**phone_auth 초기화*/
-    fun phone_auth_to_zero() {
-        _phone_auth.postValue(0)
-    }
 
     /**
      * 휴대폰 눌렀을때 인증번호 반환하는 메서드
@@ -57,7 +52,7 @@ class JoinViewModel() : ViewModel() {
             override fun onResponse(call: Call<ReturnPhoneAuthRequestDto>, response: Response<ReturnPhoneAuthRequestDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    _phone.postValue(true)
+                    _phone.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
@@ -74,19 +69,12 @@ class JoinViewModel() : ViewModel() {
      * */
     fun phone_auth_request(phoneAuthDto: PhoneAuthDto) = viewModelScope.launch {
 
-        //초기화
-        _phone_auth.postValue(0)
-
         val response = repository.phone_auth(phoneAuthDto)
         response.enqueue(object : Callback<ReturnPhoneAuthDto> {
             override fun onResponse(call: Call<ReturnPhoneAuthDto>, response: Response<ReturnPhoneAuthDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
-                    if (response.body()!!.isDuplicate == false) { //만약 폰넘버가 중복되지 않으면
-                        _phone_auth.postValue(1)
-                    } else { //만약 폰넘버가 중복되면
-                        _phone_auth.postValue(2)
-                    }
+                    _phone_auth.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }
