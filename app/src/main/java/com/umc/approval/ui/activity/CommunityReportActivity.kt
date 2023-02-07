@@ -32,6 +32,7 @@ import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.ReportViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 
@@ -80,7 +81,7 @@ class CommunityReportActivity : AppCompatActivity() {
         binding.postLikeState.setOnClickListener {
 
             if (reportViewModel.accessToken.value == false) {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -104,7 +105,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 binding.communityCommentEt.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -136,6 +137,11 @@ class CommunityReportActivity : AppCompatActivity() {
     }
 
     private fun live_data() {
+
+        //댓글 좋아요 로직
+        followViewModel.commentLike.observe(this) {
+            commentViewModel.get_comments(reportId = reportViewModel.report.value!!.reportId.toString())
+        }
 
         //로직
         followViewModel.like.observe(this) {
@@ -276,13 +282,17 @@ class CommunityReportActivity : AppCompatActivity() {
 
             documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
 
+                override fun like(v: View, data: CommentDto, pos: Int) {
+                    followViewModel.like(commentId = data.commentId)
+                }
+
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
-                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(baseContext, "댓글 선택이 해제되었습니다").show()
                     } else {
+                        BlackToast.createToast(baseContext, "댓글이 선택되었습니다").show()
                         commentViewModel.setParentCommentId(data.commentId)
-                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
                     }
                 }
 

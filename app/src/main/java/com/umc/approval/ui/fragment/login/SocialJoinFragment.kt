@@ -1,9 +1,12 @@
 package com.umc.approval.ui.fragment.login
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -15,6 +18,7 @@ import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import com.umc.approval.databinding.FragmentJoinSocialBinding
 import com.umc.approval.ui.viewmodel.login.JoinViewModel
+import com.umc.approval.util.BlackToast
 import java.util.regex.Pattern
 
 class SocialJoinFragment: Fragment() {
@@ -99,13 +103,36 @@ class SocialJoinFragment: Fragment() {
      * phone 번호 유효성 검사 후 인증 요청 및 인증 확인
      * */
     private fun phone_validation() {
+
+        viewModel.phone.observe(viewLifecycleOwner) {
+
+            if (it.statusName.toString()  == "success") { //올바른 번호이면
+                proper_phone()
+                BlackToast.createToast(requireContext(), "인증번호가 발송되었습니다.").show()
+            } else {
+                not_proper_phone()
+            }
+        }
+
+        //인증 번호 라이브데이터
+        viewModel.phone_auth.observe(viewLifecycleOwner) {
+
+            if (it.isDuplicate == false) {//올바른 번호이면
+                proper_phone_auth()
+                proper_phone()
+                BlackToast.createToast(requireContext(), "인증번호가 올바르게 입력되었습니다.").show()
+            } else if (it.isDuplicate == true) { //올바른 번호가 아니면
+                not_proper_phone_auth()
+                not_proper_phone()
+                dialog()
+            }
+        }
+
         /**인증 요청 눌렀을때 로직*/
         binding.authButton.setOnClickListener {
 
             /**휴대폰 인증이 정상적인 경우*/
             if (Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", binding.phone.text)) {
-
-                proper_phone()
                 viewModel.phone_request(binding.phone.text.toString())
             } else {
                 not_proper_phone()
@@ -114,20 +141,8 @@ class SocialJoinFragment: Fragment() {
 
         /**인증번호 확인 로직*/
         binding.authCheckButton.setOnClickListener {
-
             val phoneAuthDto = PhoneAuthDto(binding.phone.text.toString(), binding.auth.text.toString())
             viewModel.phone_auth_request(phoneAuthDto)
-
-            //viewmodel livedata
-            viewModel.phone_auth.observe(viewLifecycleOwner) {
-
-                if (it == 1) {//올바른 번호이면
-                    proper_phone_auth()
-                    proper_phone()
-                } else if (it == 2) { //올바른 번호가 아니면
-                    not_proper_phone_auth()
-                }
-            }
         }
     }
 
@@ -196,7 +211,6 @@ class SocialJoinFragment: Fragment() {
         binding.nicknameValid.isVisible = false
         binding.textRemove.isVisible = false
         binding.nickname.setBackgroundResource(R.drawable.login_activity_green_box)
-        Toast.makeText(requireContext(), "닉네임을 올바른 형식입니다", Toast.LENGTH_SHORT).show()
     }
 
     /**닉네임을 올바르게 입력하지 않은 경우*/
@@ -206,7 +220,6 @@ class SocialJoinFragment: Fragment() {
         binding.nicknameValid.isVisible = true
         binding.textRemove.isVisible = false
         binding.nickname.setBackgroundResource(R.drawable.login_activity_red_box)
-        Toast.makeText(requireContext(), "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show()
     }
 
     /**폰 번호를 올바르게 입력한 경우*/
@@ -216,7 +229,6 @@ class SocialJoinFragment: Fragment() {
         binding.phoneTextRemove.isVisible = false
         binding.phoneValid.isVisible = false
         binding.phone.setBackgroundResource(R.drawable.login_activity_green_box)
-        Toast.makeText(requireContext(), "휴대번호가 올바르게 입력되었습니다", Toast.LENGTH_SHORT).show()
     }
 
     /**폰 번호를 올바르게 입력하지 않은 경우*/
@@ -226,7 +238,6 @@ class SocialJoinFragment: Fragment() {
         binding.phoneTextRemove.isVisible = false
         binding.phoneValid.isVisible = true
         binding.phone.setBackgroundResource(R.drawable.login_activity_red_box)
-        Toast.makeText(requireContext(), "휴대번호가 잘못 입력되었습니다", Toast.LENGTH_SHORT).show()
     }
 
     /**인증번호가 올바르게 입력된 경우*/
@@ -253,5 +264,29 @@ class SocialJoinFragment: Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    /**dialog를 보여주는 메소드*/
+    private fun dialog() {
+        val dialog = LayoutInflater.from(requireContext()).inflate(R.layout.join_fragment_dialog, null)
+        val builder = AlertDialog.Builder(requireContext()).setView(dialog)
+
+        val alertDialog = builder.show()
+
+        //dialog의 view Component 접근
+        val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
+        val back_to_login = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+        val email = alertDialog.findViewById<TextView>(R.id.email_name)
+
+        email.text = viewModel.phone_auth.value!!.email
+
+        dialog_cancel.setOnClickListener {
+            alertDialog.cancel()
+        }
+
+        back_to_login.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.action_joinFragment_to_loginFragment)
+            alertDialog.cancel()
+        }
     }
 }

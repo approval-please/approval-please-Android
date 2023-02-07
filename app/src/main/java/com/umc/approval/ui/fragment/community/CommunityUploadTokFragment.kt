@@ -44,6 +44,7 @@ import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -510,8 +511,7 @@ class CommunityUploadTokFragment : Fragment() {
                 if (it.clipData != null) {   // 사진을 여러개 선택한 경우
                     val count = it.clipData!!.itemCount
                     if (count > 4) {
-                        Toast.makeText(requireContext(), "사진은 4장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        BlackToast.createToast(requireContext(), "사진은 4장까지 선택 가능합니다.").show()
                         return
                     }else{
                         binding.uploadImageTv.text = "("+count.toString()+"/4)"
@@ -543,7 +543,7 @@ class CommunityUploadTokFragment : Fragment() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     showGallery()
                 else
-                    Toast.makeText(requireContext(), "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
+                    BlackToast.createToast(requireContext(), "권한을 거부하셨습니다.").show()
             }
         }
     }
@@ -726,7 +726,7 @@ class CommunityUploadTokFragment : Fragment() {
 
                                         }else if(hashtagCount >= 4 && s.toString()[i]==' '){
                                             tagDialogEditText.setText(originText)
-                                            Toast.makeText(requireContext(), "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+                                            BlackToast.createToast(requireContext(), "태그는 4개까지 입력가능합니다.").show()
                                             val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
                                             spannableStringBuilder.setSpan(
                                                 ForegroundColorSpan(Color.parseColor("#6C39FF")),

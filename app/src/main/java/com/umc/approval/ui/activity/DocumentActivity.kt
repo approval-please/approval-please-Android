@@ -4,9 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.widget.Toast
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -34,6 +32,7 @@ import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapte
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -77,7 +76,7 @@ class DocumentActivity : AppCompatActivity() {
         binding.heart.setOnClickListener {
 
             if (viewModel.accessToken.value == false) {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -92,8 +91,6 @@ class DocumentActivity : AppCompatActivity() {
                 val postComment = CommentPostDto(documentId = viewModel.document.value!!.documentId,
                     content = binding.commentEdit.text.toString(), parentCommentId = null)
 
-                Log.d("테스트입니다", commentViewModel.commentId.value.toString())
-
                 if (commentViewModel.commentId.value != -1) {
                     postComment.parentCommentId = commentViewModel.commentId.value
                 }
@@ -102,7 +99,7 @@ class DocumentActivity : AppCompatActivity() {
                 binding.commentEdit.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -162,7 +159,7 @@ class DocumentActivity : AppCompatActivity() {
                     dialog.show(supportFragmentManager, dialog.tag)
                 }
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -177,7 +174,7 @@ class DocumentActivity : AppCompatActivity() {
                     dialog.show(supportFragmentManager, dialog.tag)
                 }
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -192,13 +189,18 @@ class DocumentActivity : AppCompatActivity() {
             binding.refuseButton.text = "반려" + it.rejectCount
         }
 
-        //로직
+        //좋아요 로직
         followViewModel.like.observe(this) {
             if (it == true) {
                 binding.heart.setImageResource(R.drawable.fill_heart)
             } else {
                 binding.heart.setImageResource(R.drawable.document_comment_icon_heart)
             }
+        }
+
+        //댓글 좋아요 로직
+        followViewModel.commentLike.observe(this) {
+            commentViewModel.get_comments(documentId = viewModel.document.value!!.documentId.toString())
         }
 
         //결재 서류 라이브 데이터
@@ -352,11 +354,15 @@ class DocumentActivity : AppCompatActivity() {
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
-                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(baseContext, "댓글 선택이 해제되었습니다.").show()
                     } else {
+                        BlackToast.createToast(baseContext, "댓글이 선택되었습니다.").show()
                         commentViewModel.setParentCommentId(data.commentId)
-                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
                     }
+                }
+
+                override fun like(v: View, data: CommentDto, pos: Int) {
+                    followViewModel.like(commentId = data.commentId)
                 }
 
                 /**댓글 다이얼로그 로직*/

@@ -1,13 +1,10 @@
 package com.umc.approval.ui.fragment.approval
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,9 +22,9 @@ import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils
-import kotlinx.coroutines.CoroutineScope
 
 class ApprovalInterestingCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalInterestingCategoryViewBinding? = null
@@ -115,7 +112,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             if (!it) {
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
                 requireActivity().finish()
-                Toast.makeText(requireContext(), "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(requireContext(), "로그인이 필요한 서비스 입니다").show()
             }
         }
 

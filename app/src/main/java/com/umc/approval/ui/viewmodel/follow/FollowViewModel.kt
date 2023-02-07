@@ -75,6 +75,11 @@ class FollowViewModel() : ViewModel() {
         _like.postValue(li)
     }
 
+    //댓글 좋아요
+    private var _commentLike = MutableLiveData<Boolean>()
+    val commentLike : LiveData<Boolean>
+        get() = _commentLike
+
     /**
      * 팔로워들 목록 조회
      * */
@@ -209,17 +214,21 @@ class FollowViewModel() : ViewModel() {
         })
     }
 
-    fun like(documentId: Int?=null, toktokId: Int?=null, reportId: Int?=null) = viewModelScope.launch {
+    fun like(documentId: Int?=null, toktokId: Int?=null, reportId: Int?=null, commentId: Int?=null) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
 
         val response = likeRepository.like(accessToken,
-            LikeDto(documentId = documentId, toktokId = toktokId, reportId = reportId))
+            LikeDto(documentId = documentId, toktokId = toktokId, reportId = reportId, commentId = commentId))
 
         response.enqueue(object : Callback<LikeReturnDto> {
             override fun onResponse(call: Call<LikeReturnDto>, response: Response<LikeReturnDto>) {
                 if (response.isSuccessful) {
-                    _like.postValue(response.body()!!.isLike)
+                    if (commentId == null) {
+                        _like.postValue(response.body()!!.isLike)
+                    } else {
+                        _commentLike.postValue(response.body()!!.isLike)
+                    }
                 } else {
                     Log.d("RESPONSE", "FAIL")
                 }

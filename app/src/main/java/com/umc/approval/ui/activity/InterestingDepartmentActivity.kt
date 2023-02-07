@@ -81,29 +81,6 @@ class InterestingDepartmentActivity : AppCompatActivity() {
             }
         }
 
-
-//        // 관심 부서 아이템 이동 콜백 변수
-//        val itemTouchCallback = object : ItemTouchHelper.SimpleCallback (
-//            ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.DOWN
-//                ) {
-//            override fun onMove(
-//                recyclerView: RecyclerView,
-//                viewHolder: RecyclerView.ViewHolder,
-//                target: RecyclerView.ViewHolder
-//            ): Boolean {
-//                val fromPos: Int = viewHolder.adapterPosition
-//                val toPos: Int = target.adapterPosition
-//
-//                rvAdapter.swapData(fromPos, toPos)
-//
-//                return true
-//            }
-//
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                // 스와이프 동작 없음
-//            }
-//        }
-
         setContentView(view)
     }
 

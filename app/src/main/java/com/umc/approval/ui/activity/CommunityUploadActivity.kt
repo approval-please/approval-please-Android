@@ -1,5 +1,6 @@
 package com.umc.approval.ui.activity
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import com.umc.approval.ui.adapter.community_upload_activity.CommunityUploadVPAd
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityUploadViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.S3Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -56,6 +58,14 @@ class CommunityUploadActivity : AppCompatActivity() {
             "결재보고서"
         )
 
+        viewModel.accessToken.observe(this){
+            if (!it) {
+                finish()
+                startActivity(Intent(this, LoginActivity::class.java))
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
+            }
+        }
+
         TabLayoutMediator(binding.uploadCommunityTab, binding.uploadTabVp){ tab,position->
             tab.text = tabTitleArray[position]
         }.attach()
@@ -76,11 +86,11 @@ class CommunityUploadActivity : AppCompatActivity() {
             if (viewModel.tabId.value.toString() == "0") {
 
                 if (tokViewModel.category.value == 18) {
-                    Toast.makeText(this, "카테고리를 선택하셔야 합니다", Toast.LENGTH_SHORT).show()
+                    BlackToast.createToast(this, "카테고리를 선택하셔야 합니다").show()
                 } else {
 
                     if (tokViewModel.content.value == null || tokViewModel.content.value == "") {
-                        Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(this, "내용을 입력하셔야 합니다").show()
                     } else {
 
                         CoroutineScope(Dispatchers.IO).launch {
@@ -106,10 +116,10 @@ class CommunityUploadActivity : AppCompatActivity() {
                 if (viewModel.tabId.value.toString() == "1") {
 
                     if (reportViewModel.documentId.value == null) {
-                        Toast.makeText(this, "결재서류를 선택하셔야 합니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(this, "결재서류를 선택하셔야 합니다.").show()
                     } else {
                         if (reportViewModel.content.value == null || reportViewModel.content.value == "") {
-                            Toast.makeText(this, "내용을 입력하셔야 합니다", Toast.LENGTH_SHORT).show()
+                            BlackToast.createToast(this, "내용을 입력하셔야 합니다.").show()
                         } else {
                             CoroutineScope(Dispatchers.IO).launch {
                                 if (reportViewModel.pic.value != null) {

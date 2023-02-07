@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FragmentFollowingBinding
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
@@ -41,8 +42,8 @@ class FollowingFragment : Fragment() {
         //라이브데이터 변경 감징
         live_data()
 
-        //텍스트 입력시마다 서버에 연결
-        edit()
+//        //텍스트 입력시마다 서버에 연결
+//        edit()
 
         return view
     }
@@ -53,17 +54,34 @@ class FollowingFragment : Fragment() {
             binding.followingRecyclerview.layoutManager = LinearLayoutManager(this.context)
             val followerAdapter = FollowerAdapter(it.followDto)
             binding.followingRecyclerview.adapter = followerAdapter
+
+            followerAdapter.itemClick = object : FollowerAdapter.ItemClick {
+
+                override fun follow_or_not(v: View, data: FollowDto, pos: Int) {
+                    viewModel.follow(data.userId)
+                }
+
+                override fun other(v: View, data: FollowDto, pos: Int) {
+//                    val intent = Intent(requireContext(), ::class.java)
+//                    intent.putExtra("userId", data.userId.toString())
+//                    startActivity(intent)
+                }
+            }
+        }
+
+        viewModel.isFollow.observe(viewLifecycleOwner) {
+            viewModel.my_followings()
         }
     }
 
-    /**텍스트 입력시마다 서버에 연결*/
-    private fun edit() {
-        binding.followingSearchbar.addTextChangedListener { text: Editable? ->
-            text?.let {
-//                viewModel.get_followings(it.toString())
-            }
-        }
-    }
+//    /**텍스트 입력시마다 서버에 연결*/
+//    private fun edit() {
+//        binding.followingSearchbar.addTextChangedListener { text: Editable? ->
+//            text?.let {
+////                viewModel.get_followings(it.toString())
+//            }
+//        }
+//    }
 
     /**
      * viewBinding이 더이상 필요 없을 경우 null 처리 필요

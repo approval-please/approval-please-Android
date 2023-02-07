@@ -45,6 +45,10 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
                 /**대댓글 다이얼로그 로직*/
                 dataRVAdapter.itemClick = object : ChildCommentAdapter.ItemClick {
 
+                    override fun like(v: View, data: CommentDto, pos: Int) {
+                        followViewModel.like(commentId = data.commentId)
+                    }
+
                     override fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context) {
 
                         val bottomSheetView =
@@ -134,6 +138,11 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
                 itemClick?.make_chid_comment(it, itemList.content[position], position)
             })
 
+            //라이크
+            holder.binding.documentCommentItemLikebtn.setOnClickListener(View.OnClickListener {
+                itemClick?.like(it, itemList.content[position], position)
+            })
+
             /**대댓글 다이얼로그 로직*/
             holder.binding.setting.setOnClickListener(View.OnClickListener {
                 itemClick?.setting_comment(it, itemList.content[position], position, context)
@@ -145,6 +154,7 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
     interface ItemClick{ //인터페이스
         fun make_chid_comment(v: View, data: CommentDto, pos: Int)
         fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context)
+        fun like(v: View, data: CommentDto, pos: Int)
     }
 
     var itemClick: ItemClick? = null
@@ -154,7 +164,6 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
     }
 
     /**대댓글 다이얼로그 로직*/
-    //톡 삭제 다이얼로그
     private fun showRemoveCommentDialog(commentId: Int) {
         val linkDialog : Dialog = Dialog(context);
         val activityCommunityRemovePostDialogBinding = ActivityCommunityRemovePostDialogBinding.inflate(layoutInflater)
