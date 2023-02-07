@@ -45,6 +45,10 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
                 /**대댓글 다이얼로그 로직*/
                 dataRVAdapter.itemClick = object : ChildCommentAdapter.ItemClick {
 
+                    override fun like(v: View, data: CommentDto, pos: Int) {
+                        followViewModel.like(commentId = data.commentId)
+                    }
+
                     override fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context) {
 
                         val bottomSheetView =

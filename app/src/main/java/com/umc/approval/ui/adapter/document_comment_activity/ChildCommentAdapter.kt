@@ -59,6 +59,7 @@ class ChildCommentAdapter(val itemList: List<CommentDto>, val context: Context) 
     /**RV item click event*/
     interface ItemClick{ //인터페이스
         fun setting_comment(v: View, data: CommentDto, pos: Int, context: Context)
+        fun like(v: View, data: CommentDto, pos: Int)
     }
 
     var itemClick: ItemClick? = null
@@ -75,6 +76,11 @@ class ChildCommentAdapter(val itemList: List<CommentDto>, val context: Context) 
 
             holder.binding.setting.setOnClickListener(View.OnClickListener {
                 itemClick?.setting_comment(it, itemList[position], position, context)
+            })
+
+            //라이크
+            holder.binding.documentCommentItemLikebtn.setOnClickListener(View.OnClickListener {
+                itemClick?.like(it, itemList[position], position)
             })
         }
     }
