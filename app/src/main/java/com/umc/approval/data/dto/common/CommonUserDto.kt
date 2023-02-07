@@ -3,9 +3,11 @@ package com.umc.approval.data.dto.common
 import com.google.gson.annotations.SerializedName
 
 /**
- * Follow + Participants + Likes Common
+ * Likes Common
  * */
 data class CommonUserDto(
+    @SerializedName("userId")
+    val userId: Int,
     @SerializedName("profileImage")
     val profileImage: String,
     @SerializedName("nickname")

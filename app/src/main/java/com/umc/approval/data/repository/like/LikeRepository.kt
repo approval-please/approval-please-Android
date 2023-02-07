@@ -24,8 +24,22 @@ class LikeRepository {
     /**
      * 결재 서류 좋아요 목록 조회 API
      */
-    fun getLikeUsers(accessToken: String, documentId: Int): Call<CommonUserListDto> {
-        return LikeApi.getLikeUsers(accessToken, documentId)
+    fun getPaperLikeUsers(accessToken: String ?= null, documentId: Int): Call<CommonUserListDto> {
+        return LikeApi.getPaperLikeUsers(accessToken, documentId)
+    }
+
+    /**
+     * 결재 톡톡 좋아요 목록 조회 API
+     */
+    fun getToktokLikeUsers(accessToken: String ?= null, toktokId: Int): Call<CommonUserListDto> {
+        return LikeApi.getToktokLikeUsers(accessToken, toktokId)
+    }
+
+    /**
+     * 결재보고서 좋아요 목록 조회 API
+     */
+    fun getReportLikeUsers(accessToken: String ?= null, reportId: Int): Call<CommonUserListDto> {
+        return LikeApi.getReportLikeUsers(accessToken, reportId)
     }
 
     /**
