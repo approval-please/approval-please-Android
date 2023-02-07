@@ -43,70 +43,119 @@ class LikeViewModel(): ViewModel() {
      * 결재 서류 좋아요 목록 조회
      */
     fun get_paper_like_users(id: Int) = viewModelScope.launch {
-        val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.getPaperLikeUsers(accessToken, id)
-        response.enqueue(object : Callback<CommonUserListDto> {
-            override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _likeList.postValue(response.body())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
+        if (accessToken.value!!) {  // 로그인 상태일 때
+            val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+            val response = repository.getPaperLikeUsers(accessToken, id)
+            response.enqueue(object : Callback<CommonUserListDto> {
+                override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
+                    if (response.isSuccessful) {
+                        Log.d("RESPONSE", response.body().toString())
+                        _likeList.postValue(response.body())
+                    } else {
+                        Log.d("RESPONSE", "FAIL")
+                    }
                 }
-            }
-            override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
+                override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
+                    Log.d("ContinueFail", "FAIL")
+                }
+            })
+        } else {  // 로그인하지 않은 상태일 때
+            val response = repository.getPaperLikeUsers(id)
+            response.enqueue(object : Callback<CommonUserListDto> {
+                override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
+                    if (response.isSuccessful) {
+                        Log.d("RESPONSE", response.body().toString())
+                        _likeList.postValue(response.body())
+                    } else {
+                        Log.d("RESPONSE", "FAIL")
+                    }
+                }
+                override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
+                    Log.d("ContinueFail", "FAIL")
+                }
+            })
+        }
     }
 
     /**
      * 결재 톡톡 좋아요 목록 조회
      */
     fun get_toktok_like_users(id: Int) = viewModelScope.launch {
-        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        if (accessToken.value!!) {
+            val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.getToktokLikeUsers(accessToken, id)
-        response.enqueue(object : Callback<CommonUserListDto> {
-            override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _likeList.postValue(response.body())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
+            val response = repository.getToktokLikeUsers(accessToken, id)
+            response.enqueue(object : Callback<CommonUserListDto> {
+                override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
+                    if (response.isSuccessful) {
+                        Log.d("RESPONSE", response.body().toString())
+                        _likeList.postValue(response.body())
+                    } else {
+                        Log.d("RESPONSE", "FAIL")
+                    }
                 }
-            }
-            override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
+                override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
+                    Log.d("ContinueFail", "FAIL")
+                }
+            })
+        } else {
+            val response = repository.getToktokLikeUsers(id)
+            response.enqueue(object : Callback<CommonUserListDto> {
+                override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
+                    if (response.isSuccessful) {
+                        Log.d("RESPONSE", response.body().toString())
+                        _likeList.postValue(response.body())
+                    } else {
+                        Log.d("RESPONSE", "FAIL")
+                    }
+                }
+                override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
+                    Log.d("ContinueFail", "FAIL")
+                }
+            })
+        }
+
     }
 
     /**
      * 결재 보고서 좋아요 목록 조회
      */
     fun get_report_like_users(id: Int) = viewModelScope.launch {
-        var at: String ?= null
-
         if (accessToken.value!!) {
-            at = AccessTokenDataStore().getAccessToken().first()
-        }
+            val accessToken = AccessTokenDataStore().getAccessToken().first()
 
-        val response = repository.getReportLikeUsers(at, id)
-        response.enqueue(object : Callback<CommonUserListDto> {
-            override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
-                if (response.isSuccessful) {
-                    Log.d("RESPONSE", response.body().toString())
-                    _likeList.postValue(response.body())
-                } else {
-                    Log.d("RESPONSE", "FAIL")
+            val response = repository.getReportLikeUsers(accessToken, id)
+            response.enqueue(object : Callback<CommonUserListDto> {
+                override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
+                    if (response.isSuccessful) {
+                        Log.d("RESPONSE", response.body().toString())
+                        _likeList.postValue(response.body())
+                    } else {
+                        Log.d("RESPONSE", "FAIL")
+                    }
                 }
-            }
-            override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
-                Log.d("ContinueFail", "FAIL")
-            }
-        })
+                override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
+                    Log.d("ContinueFail", "FAIL")
+                }
+            })
+        } else {
+            val response = repository.getReportLikeUsers(id)
+            response.enqueue(object : Callback<CommonUserListDto> {
+                override fun onResponse(call: Call<CommonUserListDto>, response: Response<CommonUserListDto>) {
+                    if (response.isSuccessful) {
+                        Log.d("RESPONSE", response.body().toString())
+                        _likeList.postValue(response.body())
+                    } else {
+                        Log.d("RESPONSE", "FAIL")
+                    }
+                }
+                override fun onFailure(call: Call<CommonUserListDto>, t: Throwable) {
+                    Log.d("ContinueFail", "FAIL")
+                }
+            })
+        }
     }
 
     /**엑세스 토큰 체크*/
