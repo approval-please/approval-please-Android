@@ -149,6 +149,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        viewModel.checkAccessToken()
 
         val toktokId = intent.getStringExtra("toktokId")
 

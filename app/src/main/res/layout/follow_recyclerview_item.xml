@@ -14,26 +14,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    <ImageView
+
+    <TextView
         android:id="@+id/follow_item_rank"
+        style="@style/smallText_black_light"
         android:layout_width="28dp"
         android:layout_height="14dp"
-        android:src="@drawable/mypage_rank_chajang"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
+        android:background="@drawable/home_fragment_post_rank_background"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:text="부장"
+        android:layout_marginLeft="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/follow_item_profilepic"
-        android:layout_marginStart="5dp"/>
+        app:layout_constraintStart_toEndOf="@+id/follow_item_profilepic"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/follow_item_name"
+        style="@style/midText_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:text="김부장"
-        style="@style/midText_black"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/follow_item_rank"
-        android:layout_marginStart="4dp"/>
+        app:layout_constraintStart_toEndOf="@+id/follow_item_rank"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginRight="5dp"
         android:id="@+id/follow_btn"
         android:layout_width="45dp"
         android:layout_height="22dp"

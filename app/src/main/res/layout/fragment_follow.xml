@@ -47,13 +47,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="20dp">
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/followerNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="000 팔로워"/>
+                android:text="팔로워"/>
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/followingNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="000 팔로잉"/>
+                android:text="팔로잉"/>
         </com.google.android.material.tabs.TabLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <FrameLayout
