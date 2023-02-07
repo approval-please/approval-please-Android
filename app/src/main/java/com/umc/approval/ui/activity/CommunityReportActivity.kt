@@ -124,6 +124,15 @@ class CommunityReportActivity : AppCompatActivity() {
         binding.uploadCancelBtn.setOnClickListener{
             finish()
         }
+
+        // 좋아요 누른 유저 확인
+        binding.communityPostLikeBtn.setOnClickListener {
+            // 결재 보고서 ID를 넘김
+            val intent = Intent(this, LikeActivity::class.java)
+            intent.putExtra("type", "report")
+            intent.putExtra("id", reportViewModel.report.value!!.reportId)
+            startActivity(intent)
+        }
     }
 
     private fun live_data() {

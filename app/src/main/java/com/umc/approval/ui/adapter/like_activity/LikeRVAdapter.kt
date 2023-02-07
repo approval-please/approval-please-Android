@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.approval.R
+import com.umc.approval.data.dto.common.CommonUserDto
+import com.umc.approval.data.dto.common.CommonUserListDto
 import com.umc.approval.databinding.ActivityLikeRecyclerviewItemBinding
 import com.umc.approval.util.Like
 
-class LikeRVAdapter(private val dataList: ArrayList<Like> = arrayListOf()): RecyclerView.Adapter<LikeRVAdapter.DataViewHolder>() {
+class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapter<LikeRVAdapter.DataViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ActivityLikeRecyclerviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -18,21 +21,21 @@ class LikeRVAdapter(private val dataList: ArrayList<Like> = arrayListOf()): Recy
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(dataList.dataEntity[position])
     }
 
-    override fun getItemCount(): Int = dataList.size
+    override fun getItemCount(): Int = dataList.likeCount
 
     inner class DataViewHolder(private val binding: ActivityLikeRecyclerviewItemBinding,
                                val context: Context
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Like) {
-            // binding.ivProfileImage.setImageResource()
-            binding.tvNickname.text = data.user_nickname
-            binding.tvRank.text = data.user_rank
+        fun bind(data: CommonUserDto) {
+            Glide.with(context).load(data.profileImage).into(binding.ivProfileImage)
+            binding.tvNickname.text = data.nickname
+            binding.tvRank.text = data.level.toString()
 
-            if (data.follow_status) {
+            if (data.isFollow) {
                 binding.btnFollow.setBackgroundColor(ContextCompat.getColor(context, R.color.unselected_tab_text))
                 binding.btnFollow.text = "팔로잉"
             }

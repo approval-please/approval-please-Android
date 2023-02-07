@@ -132,6 +132,15 @@ class DocumentActivity : AppCompatActivity() {
         binding.shareButton.setOnClickListener {
             share()
         }
+
+        // 좋아요 누른 유저 확인
+        binding.documentCommentPostLikes.setOnClickListener {
+            // 결재 서류 ID를 넘김
+            val intent = Intent(this, LikeActivity::class.java)
+            intent.putExtra("type", "document")
+            intent.putExtra("id", viewModel.document.value!!.documentId)
+            startActivity(intent)
+        }
     }
 
     /* 공유 버튼 누르는 경우 공유 창 발생시키는 함수 */

@@ -1,17 +1,18 @@
 package com.umc.approval.ui.activity
 
-import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.databinding.ActivityLikeBinding
-import com.umc.approval.ui.adapter.participant_activity.ParticipantRVAdapter
-import com.umc.approval.util.Participant
+import com.umc.approval.ui.adapter.like_activity.LikeRVAdapter
+import com.umc.approval.ui.viewmodel.like.LikeViewModel
 
 class LikeActivity : AppCompatActivity() {
     lateinit var binding: ActivityLikeBinding
+
+    private val viewModel by viewModels<LikeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,43 +20,36 @@ class LikeActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        setLikeList()  // 리사이클러뷰 아이템 & 어댑터 설정
+        live_data()
 
         binding.btnGoBack.setOnClickListener {
             finish()
         }
     }
 
-    private fun setLikeList() {
-        val like: ArrayList<Participant> = arrayListOf()
+    // 시작 시 로그인 상태 검증 및 좋아요 누른 유저 목록 조회
+    override fun onStart() {
+        super.onStart()
 
-        like.apply {
-            add(Participant("", "부장", "닉네임1", true))
-            add(Participant("", "차장", "닉네임2", false))
-            add(Participant("", "부장", "닉네임3", false))
-            add(Participant("", "부장", "닉네임4", true))
-            add(Participant("", "부장", "닉네임5", false))
-            add(Participant("", "부장", "닉네임6", true))
-            add(Participant("", "부장", "닉네임7", true))
-            add(Participant("", "차장", "닉네임8", false))
+        // 로그인 상태인지 확인
+        viewModel.checkAccessToken()
+
+        // 받아온 인텐트에서 종류(서류/톡톡/보고서), id 가져오기
+        val type = intent.getStringExtra("type")
+        val id = intent.getIntExtra("id", -1)
+
+        when (type) {
+            "document" -> viewModel.get_paper_like_users(id)
+            "toktok" -> viewModel.get_toktok_like_users(id)
+            "report" -> viewModel.get_report_like_users(id)
         }
-
-        val participantRVAdapter = ParticipantRVAdapter(like)
-        val spaceDecoration = VerticalSpaceItemDecoration(90)
-        binding.rvLike.addItemDecoration(spaceDecoration)
-        binding.rvLike.adapter = participantRVAdapter
-        binding.rvLike.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
-
-    // 아이템 간 간격 조절 기능
-    inner class VerticalSpaceItemDecoration(private val height: Int) :
-        RecyclerView.ItemDecoration() {
-
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = height
+    private fun live_data() {
+        // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
+        viewModel.likeList.observe(this) {
+            val likeRVAdapter = LikeRVAdapter(it)
+            binding.rvLike.adapter = likeRVAdapter
+            binding.rvLike.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         }
     }
 }

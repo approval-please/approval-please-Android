@@ -20,14 +20,83 @@ interface LikeAPI {
      * accessToken: 사용자 검증 토큰
      * documentId: 결재 서류 ID
      * @Get
-     * UserListDto: 유저 정보(profileImage, nickname, level, isFollow) 리스트
+     * UserListDto: 유저 정보(uesrId, profileImage, nickname, level, isFollow) 리스트
      * 결재서류 좋아요 목록 조회 API
      */
     @GET("/likes")
     @Headers("content-type: application/json")
-    fun getLikeUsers(
+    fun getPaperLikeUsers(
         @Header("Authorization") accessToken: String,
         @Query("documentId") documentId: Int
+    ): Call<CommonUserListDto>
+
+    /**
+     * @Post
+     * documentId: 결재 서류 ID
+     * @Get
+     * UserListDto: 유저 정보(uesrId, profileImage, nickname, level, isFollow) 리스트
+     * 결재서류 좋아요 목록 조회 API
+     */
+    @GET("/likes")
+    @Headers("content-type: application/json")
+    fun getPaperLikeUsers(
+        @Query("documentId") documentId: Int
+    ): Call<CommonUserListDto>
+
+    /**
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * toktokId: 결재 톡톡 게시글 id
+     * @Get
+     * UserListDto: 유저 정보(userId, profileImage, nickname, level, isFollow) 리스트
+     * 결재톡톡 좋아요 목록 조회 API
+     */
+    @GET("/likes")
+    @Headers("content-type: application/json")
+    fun getToktokLikeUsers(
+        @Header("Authorization") accessToken: String,
+        @Query("toktokId") toktokId: Int
+    ): Call<CommonUserListDto>
+
+    /**
+     * @Post
+     * toktokId: 결재 톡톡 게시글 id
+     * @Get
+     * UserListDto: 유저 정보(userId, profileImage, nickname, level, isFollow) 리스트
+     * 결재톡톡 좋아요 목록 조회 API
+     */
+    @GET("/likes")
+    @Headers("content-type: application/json")
+    fun getToktokLikeUsers(
+        @Query("toktokId") toktokId: Int
+    ): Call<CommonUserListDto>
+
+    /**
+     * @Post
+     * accessToken: 사용자 검증 토큰
+     * reportId: 결재보고서 id
+     * @Get
+     * UserListDto: 유저 정보(userId, profileImage, nickname, level, isFollow) 리스트
+     * 결재보고서 좋아요 목록 조회 API
+     */
+    @GET("/likes")
+    @Headers("content-type: application/json")
+    fun getReportLikeUsers(
+        @Header("Authorization") accessToken: String,
+        @Query("reportId") reportId: Int
+    ): Call<CommonUserListDto>
+
+    /**
+     * @Post
+     * reportId: 결재보고서 id
+     * @Get
+     * UserListDto: 유저 정보(userId, profileImage, nickname, level, isFollow) 리스트
+     * 결재보고서 좋아요 목록 조회 API
+     */
+    @GET("/likes")
+    @Headers("content-type: application/json")
+    fun getReportLikeUsers(
+        @Query("reportId") reportId: Int
     ): Call<CommonUserListDto>
 
     /**
