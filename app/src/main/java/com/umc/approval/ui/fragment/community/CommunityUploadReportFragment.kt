@@ -51,6 +51,7 @@ import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportUploadViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.Utils
 import kotlinx.coroutines.CoroutineScope
@@ -127,9 +128,6 @@ class CommunityUploadReportFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCommunityUploadReportBinding.inflate(layoutInflater)
-        binding.documentBtn.setOnClickListener{
-            Log.d("결재서류", "결재서류 선택 버튼")
-        }
 
         /*Open Graph manager 초기화*/
         manager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -258,8 +256,6 @@ class CommunityUploadReportFragment : Fragment() {
                 openGraphDto.title = opengraphText.text.toString()
                 openGraphDto.image = imageUrl
 
-                Log.d("dd", openGraphDto.toString())
-
                 if(linkList.size < 4) {
                     linkList.apply {
                         add(openGraphDto)
@@ -367,8 +363,7 @@ class CommunityUploadReportFragment : Fragment() {
                 if (it.clipData != null) {   // 사진을 여러개 선택한 경우
                     val count = it.clipData!!.itemCount
                     if (count > 4) {
-                        Toast.makeText(requireContext(), "사진은 4장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        BlackToast.createToast(requireContext(), "사진은 4장까지 선택 가능합니다.").show()
                         return
                     }else{
                         binding.uploadImageTv.text = "("+count.toString()+"/4)"
@@ -409,7 +404,7 @@ class CommunityUploadReportFragment : Fragment() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     showGallery()
                 else
-                    Toast.makeText(requireContext(), "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
+                    BlackToast.createToast(requireContext(), "권한을 거부하셨습니다.").show()
             }
         }
     }
@@ -594,7 +589,7 @@ class CommunityUploadReportFragment : Fragment() {
 
                                         }else if(hashtagCount >= 4 && s.toString()[i]==' '){
                                             tagDialogEditText.setText(originText)
-                                            Toast.makeText(requireContext(), "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+                                            BlackToast.createToast(requireContext(), "태그는 4개까지 입력가능합니다.").show()
                                             val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
                                             spannableStringBuilder.setSpan(
                                                 ForegroundColorSpan(Color.parseColor("#6C39FF")),
