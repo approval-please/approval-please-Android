@@ -25,7 +25,7 @@
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
         android:text="부장"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/follow_item_profilepic"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +35,7 @@
         style="@style/midText_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="8dp"
         android:text="김부장"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/follow_item_rank"

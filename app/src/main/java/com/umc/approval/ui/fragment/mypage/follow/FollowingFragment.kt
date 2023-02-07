@@ -42,8 +42,8 @@ class FollowingFragment : Fragment() {
         //라이브데이터 변경 감징
         live_data()
 
-        //텍스트 입력시마다 서버에 연결
-        edit()
+//        //텍스트 입력시마다 서버에 연결
+//        edit()
 
         return view
     }
@@ -74,14 +74,14 @@ class FollowingFragment : Fragment() {
         }
     }
 
-    /**텍스트 입력시마다 서버에 연결*/
-    private fun edit() {
-        binding.followingSearchbar.addTextChangedListener { text: Editable? ->
-            text?.let {
-//                viewModel.get_followings(it.toString())
-            }
-        }
-    }
+//    /**텍스트 입력시마다 서버에 연결*/
+//    private fun edit() {
+//        binding.followingSearchbar.addTextChangedListener { text: Editable? ->
+//            text?.let {
+////                viewModel.get_followings(it.toString())
+//            }
+//        }
+//    }
 
     /**
      * viewBinding이 더이상 필요 없을 경우 null 처리 필요
