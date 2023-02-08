@@ -493,6 +493,8 @@ class CommunityTokActivity : AppCompatActivity() {
                             CommunityTokVoteParticipant::class.java
                         ) // 인텐트를 생성
                         voteIntent.putExtra("voteId", data.voteOptionId)
+                        voteIntent.putExtra("title",data.opt)
+
                         startActivity(voteIntent)
                     }
 
@@ -551,6 +553,8 @@ class CommunityTokActivity : AppCompatActivity() {
                                 CommunityTokVoteParticipant::class.java
                             ) // 인텐트를 생성
                             voteIntent.putExtra("voteId", data.voteOptionId)
+                            voteIntent.putExtra("title",data.opt)
+
                             startActivity(voteIntent)
                         }
 
@@ -598,6 +602,8 @@ class CommunityTokActivity : AppCompatActivity() {
                                 CommunityTokVoteParticipant::class.java
                             ) // 인텐트를 생성
                             voteIntent.putExtra("voteId", data.voteOptionId)
+                            voteIntent.putExtra("title",data.opt)
+
                             startActivity(voteIntent)
                         }
                         override fun voteClick(
@@ -682,6 +688,7 @@ class CommunityTokActivity : AppCompatActivity() {
                                 CommunityTokVoteParticipant::class.java
                             ) // 인텐트를 생성
                             voteIntent.putExtra("voteId", data.voteOptionId)
+                            voteIntent.putExtra("title",data.opt)
                             startActivity(voteIntent)
                         }
 
