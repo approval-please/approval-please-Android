@@ -97,6 +97,15 @@ class RecentSearchFragment : Fragment() {
                 return false
             }
         })
+
+        /**검색어 입력 전체 삭제*/
+        binding.textRemove.setOnClickListener{
+            binding.search.setText("")
+        }
+
+        /**뒤로가기 버튼*/
+        binding.endSearchActivity.setOnClickListener{
+        }
     }
 
     private fun afterSearchView() {

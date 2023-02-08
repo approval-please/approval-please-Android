@@ -1,13 +1,10 @@
 package com.umc.approval.ui.fragment.approval
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +24,6 @@ import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils
-import kotlinx.coroutines.CoroutineScope
 
 class ApprovalInterestingCategoryViewFragment: Fragment() {
     private var _binding : FragmentApprovalInterestingCategoryViewBinding? = null

@@ -1,8 +1,8 @@
 package com.umc.approval.ui.fragment.search
 
 import android.content.Intent
-import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
-import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentSearchApprovalPaperTabBinding
-import com.umc.approval.ui.activity.CommunityTokActivity
+import com.umc.approval.databinding.FragmentSearchNoResultBinding
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
-import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
+import com.umc.approval.ui.adapter.search_fragment.NoSearchResultRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
 import com.umc.approval.ui.viewmodel.search.SearchDocumentViewModel
@@ -29,7 +28,8 @@ import com.umc.approval.util.Utils
 
 class ApprovalPaperTabFragment: Fragment() {
 
-    private var _binding : FragmentSearchApprovalPaperTabBinding? = null
+    private var _binding: FragmentSearchApprovalPaperTabBinding? = null
+
     private val binding get() = _binding!!
 
     private val viewModel by viewModels<SearchDocumentViewModel>()
@@ -51,7 +51,8 @@ class ApprovalPaperTabFragment: Fragment() {
         setApprovalPaperList()  // 리사이클러뷰 데이터 & 어댑터 설정
 
         binding.categorySelect.setOnClickListener {
-            val bottomSheetDialog = SearchBottomSheetDialogCategoryFragment(binding.categoryText.text.toString())
+            val bottomSheetDialog =
+                SearchBottomSheetDialogCategoryFragment(binding.categoryText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -60,7 +61,8 @@ class ApprovalPaperTabFragment: Fragment() {
         }
 
         binding.stateSelect.setOnClickListener {
-            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
+            val bottomSheetDialog =
+                ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -69,7 +71,8 @@ class ApprovalPaperTabFragment: Fragment() {
         }
 
         binding.sortSelect.setOnClickListener {
-            val bottomSheetDialog = ApprovalBottomSheetDialogSortFragment(binding.sortText.text.toString())
+            val bottomSheetDialog =
+                ApprovalBottomSheetDialogSortFragment(binding.sortText.text.toString())
             bottomSheetDialog.setStyle(
                 DialogFragment.STYLE_NORMAL,
                 R.style.RoundCornerBottomSheetDialogTheme
@@ -105,8 +108,10 @@ class ApprovalPaperTabFragment: Fragment() {
         return view
     }
 
+
     override fun onStart() {
         super.onStart()
+        noResult()
         viewModel.get_documents(keywordViewModel.search_keyword.value)
     }
 
@@ -122,41 +127,56 @@ class ApprovalPaperTabFragment: Fragment() {
 
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
+            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.state.observe(viewLifecycleOwner) {
+            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.sort.observe(viewLifecycleOwner) {
+            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // query(검색어) 상태 변화시
         keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
+            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
-
         viewModel.report.observe(viewLifecycleOwner) {
-            val dataRVAdapter = it?.let { it1 -> ApprovalPaperListRVAdapter(it1) }
-            binding.rvSearchResultApprovalPaper.adapter = dataRVAdapter
-            binding.rvSearchResultApprovalPaper.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            if(it?.documentCount==0) {
+                noResult()
+            }else{
+                val dataRVAdapter = it?.let { it1 -> ApprovalPaperListRVAdapter(it1) }
+                binding.rvSearchResultApprovalPaper.adapter = dataRVAdapter
+                binding.rvSearchResultApprovalPaper.layoutManager =
+                    LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-            // 클릭 이벤트 처리
-            dataRVAdapter?.setOnItemClickListener(object: ApprovalPaperListRVAdapter.OnItemClickListner {
-                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                // 클릭 이벤트 처리
+                dataRVAdapter?.setOnItemClickListener(object :
+                    ApprovalPaperListRVAdapter.OnItemClickListner {
+                    override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
 
-                    //document Id 전달
-                    val intent = Intent(requireContext(), DocumentActivity::class.java)
-                    intent.putExtra("documentId", data.documentId.toString())
-                    startActivity(intent)
-                }
-            })
+                        //document Id 전달
+                        val intent = Intent(requireContext(), DocumentActivity::class.java)
+                        intent.putExtra("documentId", data.documentId.toString())
+                        startActivity(intent)
+                    }
+                })
+            }
         }
     }
 
+    private fun noResult() {
+        val dataRVAdapter = NoSearchResultRVAdapter(listOf(keywordViewModel.search_keyword.value))
+        binding.rvSearchResultApprovalPaper.adapter = dataRVAdapter
+        binding.rvSearchResultApprovalPaper.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+    }
 }
