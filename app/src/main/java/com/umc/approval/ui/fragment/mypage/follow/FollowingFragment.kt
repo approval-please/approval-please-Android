@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.mypage.follow
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FragmentFollowingBinding
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
@@ -62,9 +64,9 @@ class FollowingFragment : Fragment() {
                 }
 
                 override fun other(v: View, data: FollowDto, pos: Int) {
-//                    val intent = Intent(requireContext(), ::class.java)
-//                    intent.putExtra("userId", data.userId.toString())
-//                    startActivity(intent)
+                    val intent = Intent(requireContext(), OtherpageActivity::class.java)
+                    intent.putExtra("userId", data.userId)
+                    startActivity(intent)
                 }
             }
         }

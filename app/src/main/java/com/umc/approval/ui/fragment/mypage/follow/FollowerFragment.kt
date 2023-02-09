@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FragmentFollowerBinding
@@ -62,9 +63,9 @@ class FollowerFragment : Fragment() {
                 }
 
                 override fun other(v: View, data: FollowDto, pos: Int) {
-//                    val intent = Intent(requireContext(), ::class.java)
-//                    intent.putExtra("userId", data.userId.toString())
-//                    startActivity(intent)
+                    val intent = Intent(requireContext(), OtherpageActivity::class.java)
+                    intent.putExtra("userId", data.userId)
+                    startActivity(intent)
                 }
             }
         }
