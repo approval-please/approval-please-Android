@@ -21,12 +21,6 @@
         android:theme="@style/Theme.Approval"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity android:name=".check.collie.OtherpageActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".ui.activity.ProfileChangeActivity"
             android:exported="true">
