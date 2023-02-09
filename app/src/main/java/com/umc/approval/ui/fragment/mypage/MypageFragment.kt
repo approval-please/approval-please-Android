@@ -17,7 +17,6 @@ import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
-import com.umc.approval.check.collie.OtherpageFragment
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.ProfileChangeActivity
