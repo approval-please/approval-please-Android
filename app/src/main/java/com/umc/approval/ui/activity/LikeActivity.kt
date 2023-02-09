@@ -1,10 +1,14 @@
 package com.umc.approval.ui.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.check.collie.OtherpageActivity
+import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.databinding.ActivityLikeBinding
 import com.umc.approval.ui.adapter.like_activity.LikeRVAdapter
 import com.umc.approval.ui.viewmodel.like.LikeViewModel
@@ -50,6 +54,13 @@ class LikeActivity : AppCompatActivity() {
             val likeRVAdapter = LikeRVAdapter(it)
             binding.rvLike.adapter = likeRVAdapter
             binding.rvLike.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            likeRVAdapter.itemClick = object : LikeRVAdapter.ItemClick{
+                override fun move_to_profile(v: View, data: CommonUserDto, pos: Int) {
+                    val intent = Intent(applicationContext, OtherpageActivity::class.java)
+                    intent.putExtra("userId", data.userId)
+                    startActivity(intent)
+                }
+            }
         }
     }
 }
