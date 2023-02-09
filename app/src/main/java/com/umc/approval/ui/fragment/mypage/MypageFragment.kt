@@ -137,10 +137,6 @@ class MypageFragment : Fragment() {
     /**Tab layout 초기화*/
     private fun init_tab_layout() {
         tab1 = MypageDocumentFragment()
-        tab2 = MypageCommunityFragment()
-        tab3 = MypageCommentFragment()
-        tab4 = MypageScrapFragment()
-        tab5 = MypageRecordFragment()
         /* 첫 번째 탭 선택 후 font bold 처리, 해당 Fragment 표시 */
         val viewGroup = binding.mypageTabLayout.getChildAt(0) as ViewGroup
         val viewGroupTab = viewGroup.getChildAt(0) as ViewGroup
@@ -163,18 +159,23 @@ class MypageFragment : Fragment() {
                 }
                 when(tab?.position){
                     0 -> {
+                        tab1 = MypageDocumentFragment()
                         replaceView(tab1)
                     }
                     1 -> {
+                        tab2 = MypageCommunityFragment()
                         replaceView(tab2)
                     }
                     2->{
+                        tab3 = MypageCommentFragment()
                         replaceView(tab3)
                     }
                     3->{
+                        tab4 = MypageScrapFragment()
                         replaceView(tab4)
                     }
                     4 -> {
+                        tab5 = MypageRecordFragment()
                         replaceView(tab5)
                     }
                 }

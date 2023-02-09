@@ -51,8 +51,9 @@ class MypageCommentFragment : Fragment() {
 
         var state : Int? = null
         var type : Int? = null
-
-        getApproval(type, state)
+        viewModel.init_my_comments()
+        viewModel.get_my_comments(type, state)
+        getApproval(state)
 
         binding.cgFilter.setOnCheckedStateChangeListener { chipGroup, checkedIds ->
             Log.d("로그", "서류 종류 선택, $checkedIds")
@@ -60,15 +61,18 @@ class MypageCommentFragment : Fragment() {
             when(chipGroup.checkedChipId){
                 binding.chipApproval.id -> {
                     type = null
-                    getApproval(type, state)
+                    viewModel.get_my_comments(type, state)
+                    getApproval(state)
                 }
                 binding.chipTok.id -> {
                     type = 0
-                    getTok(type, state)
+                    viewModel.get_my_comments(type, state)
+                    getTok(state)
                 }
                 binding.chipReport.id -> {
                     type = 1
-                    getReport(type, state)
+                    viewModel.get_my_comments(type, state)
+                    getReport(state)
                 }
             }
         }
@@ -90,15 +94,27 @@ class MypageCommentFragment : Fragment() {
                 // 리사이클러뷰 아이템 갱신
                 Log.d("status", result.toString())
                 when(result){
-                    "상태 전체" -> { state = null }
-                    "승인됨" -> { state = 0 }
-                    "반려됨" -> { state = 1 }
-                    "결재 대기중" -> { state = 2 }
+                    "상태 전체" -> {
+                        state = null
+                        viewModel.get_my_comments(type, state)
+                    }
+                    "승인됨" -> {
+                        state = 0
+                        viewModel.get_my_comments(type, state)
+                    }
+                    "반려됨" -> {
+                        state = 1
+                        viewModel.get_my_comments(type, state)
+                    }
+                    "결재 대기중" -> {
+                        state = 2
+                        viewModel.get_my_comments(type, state)
+                    }
                 }
                 when(type){
-                    null -> { getApproval(type, state) }
-                    0 -> { getTok(type, state) }
-                    1 -> { getReport(type, state) }
+                    null -> { getApproval(state) }
+                    0 -> { getTok(state) }
+                    1 -> { getReport(state) }
                 }
             }
         return view
@@ -117,14 +133,11 @@ class MypageCommentFragment : Fragment() {
     }
 
     /* 결재 서류 불러 오는 함수 */
-    private fun getApproval(type : Int?, state : Int?){
-        viewModel.init_my_comments()
-        viewModel.get_my_comments(type, state)
+    private fun getApproval(state : Int?){
         viewModel.comment.observe(viewLifecycleOwner){
             binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             if(it.documentContent is ApprovalPaperDto){
                 val paperRVAdapter = ApprovalPaperListRVAdapter(it.documentContent)
-                paperRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageComment.adapter = paperRVAdapter
             }
             else{
@@ -133,13 +146,11 @@ class MypageCommentFragment : Fragment() {
         }
     }
     /* 결재 톡톡 불러 오는 함수 */
-    private fun getTok(type : Int?, state : Int?){
-        viewModel.get_my_comments(type, state)
+    private fun getTok(state : Int?){
         viewModel.comment.observe(viewLifecycleOwner){
             binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             if(it.toktokContent is CommunityTokDto){
                 val talkRVAdapter = CommunityTalkItemRVAdapter(it.toktokContent)
-                talkRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageComment.adapter = talkRVAdapter
             }
             else{
@@ -148,13 +159,11 @@ class MypageCommentFragment : Fragment() {
         }
     }
     /* 결재 보고서 불러 오는 함수 */
-    private fun getReport(type : Int?, state : Int?){
-        viewModel.get_my_comments(type, state)
+    private fun getReport(state : Int?){
         viewModel.comment.observe(viewLifecycleOwner){
             binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             if(it.reportContent is CommunityReportDto){
                 val reportRVAdapter = CommunityReportItemRVAdapter(it.reportContent)
-                reportRVAdapter?.notifyDataSetChanged()
                 binding.rvMypageComment.adapter = reportRVAdapter
             }
             else{
