@@ -1,5 +1,6 @@
 package com.umc.approval.check.collie
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -52,6 +53,18 @@ class OtherpageActivity : AppCompatActivity() {
         move_to_other_tab()
         seekbar_inactive()
         others_profile_live_data()
+
+        /* 프로필 링크 공유 Dialog 하단에 발생 */
+        binding.otherpageShare.setOnClickListener {
+            var sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.setType("text/html")
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, "profilelink")
+            startActivity(Intent.createChooser(sharingIntent, "sharing text"))
+            /*
+            val shareDialog = ProfileShareDialog()
+            shareDialog.show(requireActivity().supportFragmentManager, shareDialog.tag)
+            */
+        }
 
     }
 

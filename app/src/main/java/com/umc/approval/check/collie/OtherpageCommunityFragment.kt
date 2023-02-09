@@ -1,4 +1,5 @@
 package com.umc.approval.check.collie
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,9 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentOtherpageCommunityBinding
+import com.umc.approval.ui.activity.CommunityReportActivity
+import com.umc.approval.ui.activity.CommunityTokActivity
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
+import com.umc.approval.ui.adapter.community_fragment.CommunityVPAdapter
 import com.umc.approval.ui.viewmodel.otherpage.OtherpageCommunityViewModel
 
 /*
@@ -74,10 +81,32 @@ class OtherpageCommunityFragment(val userId : Int) : Fragment() {
                 null -> {
                     val communityRVAdapter = CommunityTalkItemRVAdapter(it.toktokContent!!)
                     binding.rvOtherpageCommunity.adapter = communityRVAdapter
+                    communityRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick{
+                        override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
+                            startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
+                        }
+                    }
                 }
                 0 -> {
                     val communityRVAdapter = CommunityReportItemRVAdapter(it.reportContent!!)
                     binding.rvOtherpageCommunity.adapter = communityRVAdapter
+                    communityRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick{
+                        override fun move_to_report_activity(
+                            v: View,
+                            data: CommunityReport,
+                            pos: Int
+                        ) {
+                            startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                        }
+
+                        override fun move_to_document_activity(
+                            v: View,
+                            data: CommunityReport,
+                            pos: Int
+                        ) {
+                            startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                        }
+                    }
                 }
             }
         }

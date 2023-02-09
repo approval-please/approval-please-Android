@@ -1,4 +1,5 @@
 package com.umc.approval.check.collie
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,7 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.R
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.databinding.FragmentOtherpageDocumentBinding
+import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
 import com.umc.approval.ui.viewmodel.otherpage.OtherpageDocumentViewModel
@@ -94,6 +97,14 @@ class OtherpageDocumentFragment(val userId : Int) : Fragment() {
             binding.rvOtherpageDocument.layoutManager =
                 LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             binding.rvOtherpageDocument.adapter = documentRVAdapter
+            documentRVAdapter.setOnItemClickListener(object : ApprovalPaperListRVAdapter.OnItemClickListner{
+                override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                    //결재 서류 아이디를 통해 상세보기로 이동
+                    val intent = Intent(requireContext(), DocumentActivity::class.java)
+                    intent.putExtra("documentId", data.documentId.toString())
+                    startActivity(intent)
+                }
+            })
         }
     }
 
