@@ -1,25 +1,19 @@
 package com.umc.approval.check.collie
+
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEachIndexed
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
-import com.umc.approval.databinding.FragmentOtherpageBinding
+import com.umc.approval.databinding.ActivityOtherpageBinding
 
-/*
- MyPage View
- */
-class OtherpageFragment : Fragment() {
-
-    private var _binding : FragmentOtherpageBinding? = null
-    private val binding get() = _binding!!
+class OtherpageActivity : AppCompatActivity() {
+    lateinit var binding: ActivityOtherpageBinding
     lateinit var tab1 : OtherpageDocumentFragment
     lateinit var tab2 : OtherpageCommunityFragment
     var userpoint = 100.0f
@@ -28,17 +22,13 @@ class OtherpageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        _binding = FragmentOtherpageBinding.inflate(inflater, container, false)
+        binding = ActivityOtherpageBinding.inflate(layoutInflater)
         val view = binding.root
-        return view
+        setContentView(view)
+
     }
 
+    // 시작 시 로그인 상태 검증 및 좋아요 누른 유저 목록 조회
     override fun onStart() {
         super.onStart()
         tab1 = OtherpageDocumentFragment()
@@ -49,7 +39,7 @@ class OtherpageFragment : Fragment() {
         viewGroupTab.forEachIndexed { index, view ->
             val tabViewChild = viewGroupTab.getChildAt(index)
             if (tabViewChild is TextView){
-                tabViewChild.typeface = ResourcesCompat.getFont(requireContext(), R.font.bold)
+                tabViewChild.typeface = ResourcesCompat.getFont(this, R.font.bold)
             }
         }
         replaceView(tab1)
@@ -64,7 +54,7 @@ class OtherpageFragment : Fragment() {
                 viewGroupTab.forEachIndexed { index, view ->
                     val tabViewChild = viewGroupTab.getChildAt(index)
                     if (tabViewChild is TextView){
-                        tabViewChild.typeface = ResourcesCompat.getFont(context!!, R.font.bold)
+                        tabViewChild.typeface = ResourcesCompat.getFont(this@OtherpageActivity, R.font.bold)
                     }
                 }
                 when(tab?.position){
@@ -84,7 +74,7 @@ class OtherpageFragment : Fragment() {
                 viewGroupTab.forEachIndexed{ index, view ->
                     val tabViewChild = viewGroupTab.getChildAt(index)
                     if (tabViewChild is TextView){
-                        tabViewChild.typeface = ResourcesCompat.getFont(context!!, R.font.medium)
+                        tabViewChild.typeface = ResourcesCompat.getFont(this@OtherpageActivity, R.font.medium)
                     }
                 }
             }
@@ -108,21 +98,12 @@ class OtherpageFragment : Fragment() {
             }
         })
     }
-
-    /**
-     * viewBinding이 더이상 필요 없을 경우 null 처리 필요
-     */
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
-    }
-
     // 탭 변경 함수
     private fun replaceView(tab: Fragment){
         var selectedFragment: Fragment? = null
         selectedFragment = tab
         selectedFragment.let {
-            activity?.supportFragmentManager?.beginTransaction()!!
+            supportFragmentManager?.beginTransaction()!!
                 .replace(binding.otherpageTabArea.id, it).commit()
         }
     }
