@@ -62,6 +62,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
             binding.tvViews.text = data.view.toString()
             binding.tvCategory.text = categoryMap[data.category]
             binding.tvWriteTime.text = data.datetime
+            binding.tvImageCount.text = data.imageCount.toString()
 
             /**
              * 승인 상태에 따라 처리

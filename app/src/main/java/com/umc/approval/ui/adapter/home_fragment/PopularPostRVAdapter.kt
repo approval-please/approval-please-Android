@@ -40,7 +40,7 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             binding.tvPostLikeCount.text = data.likeCount.toString()
             binding.tvPostWriteTime.text = data.datetime
             binding.ivProfileImage.load(data.profileImage)
-            // binding.tvImageCount.text = "+$data.image.size"
+             binding.tvImageCount.text = data.images.size.toString()
 
             if (data.images != null) {
 

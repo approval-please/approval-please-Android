@@ -34,8 +34,7 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content
-
-            // binding.tvImageCount.text = "+$data.image.size"
+             binding.tvImageCount.text = data.images.size.toString()
 
             if (data.images != null) {
                 if (data.images.isNotEmpty()) {
