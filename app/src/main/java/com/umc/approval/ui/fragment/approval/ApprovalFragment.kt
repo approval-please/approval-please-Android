@@ -50,8 +50,8 @@ class ApprovalFragment : Fragment() {
             startActivity(Intent(requireContext(), SearchActivity::class.java))
         }
 
-        // 로그인 상태 확인해서 로그인 버튼 숨김 여부 설정
         approvalViewModel.checkAccessToken()
+
         approvalViewModel.accessToken.observe(viewLifecycleOwner) {
             binding.loginButton.isVisible = approvalViewModel.accessToken.value != true
         }

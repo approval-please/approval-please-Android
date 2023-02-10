@@ -289,7 +289,7 @@ class HomeFragment : Fragment() {
                 override fun onItemClick(v: View, data: CommunityReport, pos: Int) {
 
                     //리포트 아이디를 통해 상세보기로 이동
-                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                    val intent = Intent(requireContext(), CommunityReportActivity::class.java)
                     intent.putExtra("reportId", data.reportId.toString())
 
                     startActivity(intent)

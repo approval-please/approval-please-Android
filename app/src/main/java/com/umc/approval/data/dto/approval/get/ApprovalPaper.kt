@@ -26,8 +26,8 @@ data class ApprovalPaper(
     val imageCount: Int,
     @SerializedName("state")
     val state: Int,
-    @SerializedName("approveCount")
-    val approveCount: Int,
+    @SerializedName("approvalCount")
+    val approvalCount: Int,
     @SerializedName("rejectCount")
     val rejectCount: Int,
     @SerializedName("datetime")

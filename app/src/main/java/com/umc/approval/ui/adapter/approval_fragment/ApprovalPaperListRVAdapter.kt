@@ -35,8 +35,6 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         val context = context
         fun bind(data: ApprovalPaper) {
 
-            Log.d("info", data.title)
-
             /**
              * 이미지가 없으면 이미지 제외하고 처리
              * 이미지가 있으면 로드
@@ -57,7 +55,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * */
             binding.tvTitle.text = data.title
             binding.tvContent.text = data.content
-            binding.tvApproveCount.text = data.approveCount.toString()
+            binding.tvApproveCount.text = data.approvalCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
             binding.tvCategory.text = categoryMap[data.category]

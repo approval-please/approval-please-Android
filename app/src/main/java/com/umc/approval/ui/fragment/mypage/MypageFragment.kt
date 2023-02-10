@@ -17,7 +17,6 @@ import androidx.core.view.forEachIndexed
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
-import com.umc.approval.check.collie.OtherpageFragment
 import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.ProfileChangeActivity
@@ -138,10 +137,6 @@ class MypageFragment : Fragment() {
     /**Tab layout 초기화*/
     private fun init_tab_layout() {
         tab1 = MypageDocumentFragment()
-        tab2 = MypageCommunityFragment()
-        tab3 = MypageCommentFragment()
-        tab4 = MypageScrapFragment()
-        tab5 = MypageRecordFragment()
         /* 첫 번째 탭 선택 후 font bold 처리, 해당 Fragment 표시 */
         val viewGroup = binding.mypageTabLayout.getChildAt(0) as ViewGroup
         val viewGroupTab = viewGroup.getChildAt(0) as ViewGroup
@@ -164,18 +159,23 @@ class MypageFragment : Fragment() {
                 }
                 when(tab?.position){
                     0 -> {
+                        tab1 = MypageDocumentFragment()
                         replaceView(tab1)
                     }
                     1 -> {
+                        tab2 = MypageCommunityFragment()
                         replaceView(tab2)
                     }
                     2->{
+                        tab3 = MypageCommentFragment()
                         replaceView(tab3)
                     }
                     3->{
+                        tab4 = MypageScrapFragment()
                         replaceView(tab4)
                     }
                     4 -> {
+                        tab5 = MypageRecordFragment()
                         replaceView(tab5)
                     }
                 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
@@ -98,12 +99,6 @@ class CommunityTokActivity : AppCompatActivity() {
             }
         }
 
-        //좋아요 눌렀을때 로직
-        //구현 필요
-        binding.communityPostLikeNum.setOnClickListener{
-            startActivity(Intent(this@CommunityTokActivity,LikeActivity::class.java))
-        }
-
         live_data()
 
         /*setting*/
@@ -137,6 +132,15 @@ class CommunityTokActivity : AppCompatActivity() {
             finish()
         }
 
+        //이름 누를시 이동
+        binding.communityPostUserName.setOnClickListener {
+            if (viewModel.tok.value!!.writerOrNot == false) {
+                val intent = Intent(this, OtherpageActivity::class.java)
+                intent.putExtra("userId", viewModel.tok.value!!.userId)
+                startActivity(intent)
+            }
+        }
+
         // 좋아요 누른 유저 확인
         binding.communityPostLikeBtn.setOnClickListener {
             // 결재 톡톡 ID를 넘김
@@ -153,9 +157,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
         val toktokId = intent.getStringExtra("toktokId")
 
-//        viewModel.get_tok_detail(toktokId.toString())
-
-        viewModel.init()
+        viewModel.get_tok_detail(toktokId.toString())
     }
 
 

@@ -8,6 +8,7 @@ import com.umc.approval.data.dto.mypage.CommunityDto
 import com.umc.approval.data.dto.mypage.FollowListDto
 import com.umc.approval.data.dto.mypage.Profile
 import com.umc.approval.data.dto.mypage.RecordDto
+import com.umc.approval.data.dto.otherpage.OtherCommunityDto
 import com.umc.approval.data.dto.profile.ProfileChange
 import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
@@ -42,7 +43,7 @@ interface MyPageAPI {
      * */
     @GET("/profile/{userId}")
     @Headers("content-type: application/json")
-    fun get_other_page(@Path("userId") userId: String) : Call<ProfileDto>
+    fun get_other_page(@Path("userId") userId: Int) : Call<ProfileDto>
 
     /**
      * @Post
@@ -63,12 +64,15 @@ interface MyPageAPI {
         @Header("Authorization") accessToken : String,
         @Query("state") state: Int?=null, @Query("isApproved") isApproved: Int?=null) : Call<ApprovalPaperDto>
 
-    /**내 서류 가지고 오기*/
+    /* 다른 사람 서류 가지고 오기*/
     @GET("/profile/{userId}/documents")
     @Headers("content-type: application/json")
-    fun get_other_documment(
-        @Header("Authorization") accessToken : String, @Path("userId") userId: Int,
-        @Query("state") state: Int?=null, @Query("isApproved") isApproved: Int?=null) : Call<ApprovalPaperDto>
+    fun get_other_documment(@Path("userId") userId: Int, @Query("state") state: Int?=null) : Call<ApprovalPaperDto>
+
+    /* 다른 사람 커뮤니티(톡톡, 보고서) 가지고 오기 */
+    @GET("/profile/{userId}/community")
+    @Headers("content-type: application/json")
+    fun get_other_community(@Path("userId") userId : Int, @Query("postType") postType: Int? = null) : Call<OtherCommunityDto>
 
     /**내 실적 가지고 오기*/
     @GET("/profile/my/performances")

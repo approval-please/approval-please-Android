@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.follow.FollowStateDto
@@ -117,14 +118,20 @@ class CommunityReportActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.communityPostLikeNum.setOnClickListener{
-            startActivity(Intent(this,LikeActivity::class.java))
-        }
-
         /*close*/
         binding.uploadCancelBtn.setOnClickListener{
             finish()
         }
+
+        //이름 누를시 이동
+        binding.communityPostUserName.setOnClickListener {
+            if (reportViewModel.report.value!!.writerOrNot == false) {
+                val intent = Intent(this, OtherpageActivity::class.java)
+                intent.putExtra("userId", reportViewModel.report.value!!.userId)
+                startActivity(intent)
+            }
+        }
+
 
         // 좋아요 누른 유저 확인
         binding.communityPostLikeBtn.setOnClickListener {
@@ -350,8 +357,6 @@ class CommunityReportActivity : AppCompatActivity() {
         val reportId = intent.getStringExtra("reportId")
 
         reportViewModel.get_report_detail(reportId.toString())
-
-//        reportViewModel.init()
     }
 
     private fun post_more() {

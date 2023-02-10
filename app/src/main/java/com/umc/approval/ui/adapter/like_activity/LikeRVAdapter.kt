@@ -3,6 +3,7 @@ package com.umc.approval.ui.adapter.like_activity
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.umc.approval.R
 import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.data.dto.common.CommonUserListDto
+import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.ActivityLikeRecyclerviewItemBinding
 import com.umc.approval.util.Like
 
@@ -22,6 +24,12 @@ class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         holder.bind(dataList.dataEntity[position])
+
+        if (itemClick != null){
+            holder.itemView.setOnClickListener {
+                itemClick?.move_to_profile(it, dataList.dataEntity[position], position)
+            }
+        }
     }
 
     override fun getItemCount(): Int = dataList.likeCount
@@ -45,4 +53,10 @@ class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapt
             }
         }
     }
+
+    /* recyclerview item 클릭 이벤트 */
+    interface ItemClick{
+        fun move_to_profile(v: View, data: CommonUserDto, pos: Int)
+    }
+    var itemClick : ItemClick? = null
 }

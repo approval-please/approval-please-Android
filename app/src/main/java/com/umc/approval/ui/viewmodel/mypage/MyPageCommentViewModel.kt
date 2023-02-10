@@ -11,6 +11,8 @@ import com.umc.approval.data.dto.community.get.*
 import com.umc.approval.data.dto.mypage.MyCommentDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +28,10 @@ class MyPageCommentViewModel() : ViewModel() {
 
     /* 댓글 목록 조회 */
     fun get_my_comments(postType : Int?, state: Int?) = viewModelScope.launch {
-        val response = repository.get_my_comments("comment", postType, state)
+
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+
+        val response = repository.get_my_comments(accessToken, postType, state)
         response.enqueue(object : Callback<MyCommentDto> {
             override fun onResponse(call: Call<MyCommentDto>, response: Response<MyCommentDto>) {
                 if(response.isSuccessful){

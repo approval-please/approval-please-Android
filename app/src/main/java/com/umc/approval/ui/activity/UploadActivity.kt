@@ -641,6 +641,7 @@ class UploadActivity : AppCompatActivity() {
                     }
                 } else {      // 1장 선택한 경우
                     val imageUri = it.data!!
+                    binding.tvImageCount.text = "(1/4)"
                     list.add(imageUri)
                     viewModel.setImage(list)
                 }

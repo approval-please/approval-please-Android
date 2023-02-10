@@ -41,6 +41,7 @@ class MypageScrapFragment : Fragment() {
 
         var type : Int? = null
 
+//        viewModel.init_my_scraps()
         getApproval(type)
 
         binding.cgFilter.setOnCheckedStateChangeListener { chipGroup, checkedIds ->
@@ -78,7 +79,6 @@ class MypageScrapFragment : Fragment() {
 
     /* 결재 서류 불러 오는 함수 */
     private fun getApproval(type : Int?){
-        viewModel.init_my_scraps()
         viewModel.get_my_scraps(type, null)
         viewModel.scrap.observe(viewLifecycleOwner){
             binding.rvMypageScrap.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
