@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/home_fragment_banner"
         android:scaleType="fitCenter"
+        android:background="@drawable/image_background"
         android:adjustViewBounds="true"/>
 
 </LinearLayout>

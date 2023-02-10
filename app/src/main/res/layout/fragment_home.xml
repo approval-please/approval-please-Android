@@ -72,7 +72,7 @@
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_home_banner"
-                    android:clipToPadding="false"
+                    android:clipToPadding="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -156,7 +156,7 @@
                         android:id="@+id/tv_guide_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:lineHeight="30sp"
+                        android:lineHeight="27sp"
                         android:text="회원가입하면\n관심부서를 설정할 수 있어요"
                         android:textAlignment="center"
                         android:textAppearance="@style/bigText_black"
@@ -205,6 +205,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
+                            android:id="@+id/interest_category_list"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">

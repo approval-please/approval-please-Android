@@ -34,11 +34,13 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content
-
-            // binding.tvImageCount.text = "+$data.image.size"
+             binding.tvImageCount.text = data.images.size.toString()
 
             if (data.images != null) {
-//                binding.ivApprovalReportThumbnail.load(data.images.get(0))
+                if (data.images.isNotEmpty()) {
+                    binding.ivApprovalReportThumbnail.load(data.images.get(0))
+                    binding.ivApprovalReportThumbnail.clipToOutline = true
+                }
             } else {
                 binding.ivApprovalReportThumbnail.visibility = View.GONE
                 binding.tvImageCount.visibility = View.GONE
@@ -47,19 +49,19 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 itemView.setOnClickListener {
-                    listner?.onItemClick(itemView, data, pos)
+                    listener?.onItemClick(itemView, data, pos)
                 }
             }
         }
     }
 
     // 아이템 클릭 리스너
-    interface OnItemClickListner {
+    interface OnItemClickListener {
         fun onItemClick(v: View, data: CommunityReport, pos: Int)
     }
-    private var listner: OnItemClickListner?= null
+    private var listener: OnItemClickListener?= null
 
-    fun setOnItemClickListener(listner: OnItemClickListner) {
-        this.listner = listner
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 }

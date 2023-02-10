@@ -41,6 +41,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * */
             if (data.thumbnailImage == null) {
                 binding.itemImage.isVisible = false
+                binding.tvImageCount.isVisible = false
                 val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.marginStart = 0
                 binding.contentContainer.layoutParams = layoutParams
@@ -59,6 +60,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
             binding.tvViews.text = data.view.toString()
             binding.tvCategory.text = categoryMap[data.category]
             binding.tvWriteTime.text = data.datetime
+            binding.tvImageCount.text = data.imageCount.toString()
 
             /**
              * 승인 상태에 따라 처리

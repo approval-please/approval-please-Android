@@ -52,9 +52,8 @@ class ApprovalFragment : Fragment() {
 
         approvalViewModel.checkAccessToken()
 
-        //엑세스 토큰 확인하는 라이브 데이터 (로그인 상태 확인)
         approvalViewModel.accessToken.observe(viewLifecycleOwner) {
-            binding.loginButton.isVisible = it != true
+            binding.loginButton.isVisible = approvalViewModel.accessToken.value != true
         }
 
         return view
