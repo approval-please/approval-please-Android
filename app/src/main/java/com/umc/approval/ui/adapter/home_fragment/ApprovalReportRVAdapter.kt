@@ -21,13 +21,16 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
         holder.bind(dataList.communityReport[position])
     }
 
-    override fun getItemCount(): Int = dataList.communityReport.size
+    override fun getItemCount(): Int {
+        return if (dataList.communityReport.size < 5) {
+            dataList.communityReport.size
+        } else {
+            5
+        }
+    }
 
     inner class DataViewHolder(private val binding: ItemHomeApprovalReportBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommunityReport) {
-            // 이미지 설정 부분 -> 수정 필요
-            // binding.ivProfileImage.setImageResource()
-            // binding.ivApprovalReportThumbnail.setImageResource()
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content
@@ -35,7 +38,7 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             // binding.tvImageCount.text = "+$data.image.size"
 
             if (data.images != null) {
-                binding.ivApprovalReportThumbnail.load(data.images.get(0))
+//                binding.ivApprovalReportThumbnail.load(data.images.get(0))
             } else {
                 binding.ivApprovalReportThumbnail.visibility = View.GONE
                 binding.tvImageCount.visibility = View.GONE

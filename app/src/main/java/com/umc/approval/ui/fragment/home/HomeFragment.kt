@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
     /**다른 뷰로 이동하는 로직*/
     private fun move_to_other_view() {
         /**Login Activity로 이동*/
-        binding.mypageButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
 
@@ -119,7 +119,7 @@ class HomeFragment : Fragment() {
         //전체 서류 가지고오는 로직
         approvalViewModel.get_all_documents(sortBy = "0")
 
-        //관신 서류 가지고오는 로직
+        //관심 서류 가지고오는 로직
         approvalViewModel.get_interesting_documents()
 
         //tok 서류 가지고오는 로직
@@ -194,9 +194,11 @@ class HomeFragment : Fragment() {
             if (it == true) {
                 binding.notLoginStatus.isVisible = false
                 binding.loginStatus.isVisible = true
+                binding.loginButton.isVisible = false
             } else {
                 binding.notLoginStatus.isVisible = true
                 binding.loginStatus.isVisible = false
+                binding.loginButton.isVisible = true
             }
         }
 
@@ -322,7 +324,6 @@ class HomeFragment : Fragment() {
 
         bannerPosition = Int.MAX_VALUE / 2 - kotlin.math.ceil(photoUrlList.size.toDouble() / 2).toInt()
         binding.vpHomeBanner.setCurrentItem(bannerPosition, false)
-        Log.d("로그", bannerPosition.toString())
 
         // 뷰페이저에 어댑터 연결
         val photoVPAdatper = BannerVPAdapter(photoUrlList)

@@ -21,7 +21,13 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
         holder.bind(dataList.communityTok[position])
     }
 
-    override fun getItemCount(): Int = dataList.communityTok.size
+    override fun getItemCount(): Int {
+        return if (dataList.communityTok.size < 5) {
+            dataList.communityTok.size
+        } else {
+            5
+        }
+    }
 
     inner class DataViewHolder(private val binding: ItemHomePopularPostBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommunityTok) {
