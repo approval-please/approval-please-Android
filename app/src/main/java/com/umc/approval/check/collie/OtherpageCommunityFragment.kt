@@ -83,7 +83,9 @@ class OtherpageCommunityFragment(val userId : Int) : Fragment() {
                     binding.rvOtherpageCommunity.adapter = communityRVAdapter
                     communityRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick{
                         override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
-                            startActivity(Intent(requireContext(), CommunityTokActivity::class.java))
+                            val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                            intent.putExtra("toktokId", data.toktokId.toString())
+                            startActivity(intent)
                         }
                     }
                 }
@@ -96,7 +98,9 @@ class OtherpageCommunityFragment(val userId : Int) : Fragment() {
                             data: CommunityReport,
                             pos: Int
                         ) {
-                            startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                            val intent = Intent(requireContext(), CommunityReportActivity::class.java)
+                            intent.putExtra("reportId", data.reportId.toString())
+                            startActivity(intent)
                         }
 
                         override fun move_to_document_activity(
@@ -104,7 +108,9 @@ class OtherpageCommunityFragment(val userId : Int) : Fragment() {
                             data: CommunityReport,
                             pos: Int
                         ) {
-                            startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                            val intent = Intent(requireContext(), DocumentActivity::class.java)
+                            intent.putExtra("documentId", data.document.documentId.toString())
+                            startActivity(intent)
                         }
                     }
                 }

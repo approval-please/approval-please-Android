@@ -18,6 +18,7 @@ import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.R
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.get.CommentDto
@@ -137,6 +138,15 @@ class DocumentActivity : AppCompatActivity() {
             intent.putExtra("type", "document")
             intent.putExtra("id", viewModel.document.value!!.documentId)
             startActivity(intent)
+        }
+
+        //이름 누를시 이동
+        binding.name.setOnClickListener {
+            if (viewModel.document.value!!.isWriter == false) {
+                val intent = Intent(this, OtherpageActivity::class.java)
+                intent.putExtra("userId", viewModel.document.value!!.userId)
+                startActivity(intent)
+            }
         }
     }
 
