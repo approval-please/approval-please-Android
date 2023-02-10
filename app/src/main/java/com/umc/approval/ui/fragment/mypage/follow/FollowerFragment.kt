@@ -9,12 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.approval.check.collie.OtherpageActivity
-import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FragmentFollowerBinding
-import com.umc.approval.ui.activity.CommunityReportActivity
-import com.umc.approval.ui.activity.DocumentActivity
-import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 

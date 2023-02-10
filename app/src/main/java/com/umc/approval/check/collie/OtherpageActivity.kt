@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
@@ -11,10 +12,16 @@ import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
+import com.umc.approval.data.dto.follow.FollowStateDto
+import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.ActivityOtherpageBinding
+import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
+import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.ui.viewmodel.otherpage.OtherpageViewModel
 
 class OtherpageActivity : AppCompatActivity() {
@@ -34,6 +41,8 @@ class OtherpageActivity : AppCompatActivity() {
     /* otherpage viewModel */
     private val viewModel by viewModels<OtherpageViewModel>()
 
+    private val followViewModel by viewModels<FollowViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOtherpageBinding.inflate(layoutInflater)
@@ -48,11 +57,17 @@ class OtherpageActivity : AppCompatActivity() {
         super.onStart()
         viewModel.init_other_profile()
         viewModel.other_profile(userId)
+
         // 탭 초기화
         init_tab()
         move_to_other_tab()
         seekbar_inactive()
         others_profile_live_data()
+
+        //버튼 클릭
+        binding.followBtn.setOnClickListener {
+            followViewModel.follow(userId)
+        }
 
         /* 프로필 링크 공유 Dialog 하단에 발생 */
         binding.otherpageShare.setOnClickListener {
@@ -149,6 +164,23 @@ class OtherpageActivity : AppCompatActivity() {
 
     // 라이브 데이터 함수
     private fun others_profile_live_data(){
+
+        followViewModel.isFollow.observe(this) {
+
+            when(it.isFollow){
+                // 팔로잉 중
+                true->{
+                    binding.followBtn.background.setTint(Color.parseColor("#BFBFBF"))
+                    binding.followBtn.text = "팔로잉"
+                }
+                // 팔로우 x
+                false->{
+                    binding.followBtn.background.setTint(Color.parseColor("#6C39FF"))
+                    binding.followBtn.text = "팔로우"
+                }
+            }
+        }
+
         viewModel.othersInfo.observe(this){
             //프로필 이미지
             if (viewModel.othersInfo.value!!.profileImage != null) {
@@ -171,29 +203,8 @@ class OtherpageActivity : AppCompatActivity() {
             binding.otherpageProgressbar.progress = progress.toInt()
             binding.pointNum1.text = userpoint.toInt().toString()
             binding.pointNum2.text = " / " + rankpoint.toInt().toString()
-            // 팔로우 여부 -> 버튼 설정
-            when(it.isFollow){
-                // 팔로잉 중
-                true->{
-                    binding.followBtn.background.setTint(Color.parseColor("#BFBFBF"))
-                    binding.followBtn.text = "팔로잉"
-                    binding.followBtn.setOnClickListener {
-                        binding.followBtn.background.setTint(Color.parseColor("#6C39FF"))
-                        binding.followBtn.text = "팔로우"
-                        // 상대 팔로워 목록에서 내 id 제거 코드 필요
-                        // 내 팔로잉 목록에서 상대 id 제거 코드 필요
-                    }
-                }
-                // 팔로우 x
-                false->{
-                    binding.followBtn.setOnClickListener {
-                        binding.followBtn.background.setTint(Color.parseColor("#BFBFBF"))
-                        binding.followBtn.text = "팔로잉"
-                        // 상대 팔로워 목록에 내 id 추가 코드 필요
-                        // 내 팔로잉 목록에 상대 id 추가 코드 필요
-                    }
-                }
-            }
+
+            followViewModel.setFollow(FollowStateDto(it.isFollow))
         }
     }
 
