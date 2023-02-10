@@ -29,7 +29,7 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
             binding.tvApprovalPaperTitle.text = data.title
             binding.tvApprovalPaperContent.text = data.content
             binding.tvApprovalPaperContent.text = data.content
-            binding.tvApprovalPaperApproveCount.text = data.approveCount.toString()
+            binding.tvApprovalPaperApproveCount.text = data.approvalCount.toString()
             binding.tvApprovalPaperRejectCount.text = data.rejectCount.toString()
             binding.tvApprovalPaperViewsCount.text = data.view.toString()
 

@@ -54,7 +54,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * */
             binding.tvTitle.text = data.title
             binding.tvContent.text = data.content
-            binding.tvApproveCount.text = data.approveCount.toString()
+            binding.tvApproveCount.text = data.approvalCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
             binding.tvCategory.text = categoryMap[data.category]
