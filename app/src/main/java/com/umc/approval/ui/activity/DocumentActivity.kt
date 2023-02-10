@@ -708,7 +708,6 @@ class DocumentActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 documentId = viewModel.document.value!!.documentId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()

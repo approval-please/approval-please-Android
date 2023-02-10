@@ -542,7 +542,6 @@ class CommunityReportActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 reportId = reportViewModel.report.value!!.reportId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()

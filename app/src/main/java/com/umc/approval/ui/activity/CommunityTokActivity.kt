@@ -809,7 +809,6 @@ class CommunityTokActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 toktokId = viewModel.tok.value!!.toktokId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()
