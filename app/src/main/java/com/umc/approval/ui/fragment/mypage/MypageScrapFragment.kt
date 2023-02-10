@@ -41,7 +41,7 @@ class MypageScrapFragment : Fragment() {
 
         var type : Int? = null
 
-        viewModel.init_my_scraps()
+//        viewModel.init_my_scraps()
         getApproval(type)
 
         binding.cgFilter.setOnCheckedStateChangeListener { chipGroup, checkedIds ->

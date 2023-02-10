@@ -13,6 +13,8 @@ import com.umc.approval.data.dto.mypage.MyScrapDto
 import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.data.repository.approval.ApprovalFragmentRepository
 import com.umc.approval.data.repository.mypage.MyPageFragmentRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,7 +31,8 @@ class MyPageScrapViewModel() : ViewModel() {
 
     /* 스크랩 목록 조회 */
     fun get_my_scraps(postType : Int?, state: Int?) = viewModelScope.launch {
-        val response = repository.get_my_scraps("comment", postType, state)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.get_my_scraps(accessToken, postType, state)
         response.enqueue(object : Callback<MyScrapDto> {
             override fun onResponse(call: Call<MyScrapDto>, response: Response<MyScrapDto>) {
                 if(response.isSuccessful){

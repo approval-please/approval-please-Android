@@ -357,8 +357,6 @@ class CommunityReportActivity : AppCompatActivity() {
         val reportId = intent.getStringExtra("reportId")
 
         reportViewModel.get_report_detail(reportId.toString())
-
-//        reportViewModel.init()
     }
 
     private fun post_more() {

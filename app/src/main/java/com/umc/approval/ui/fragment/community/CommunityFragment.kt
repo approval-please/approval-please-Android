@@ -8,19 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.DialogFragment
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentCommunityBinding
-import com.umc.approval.ui.activity.CommunityTokVoteParticipant
 import com.umc.approval.ui.activity.CommunityUploadActivity
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityVPAdapter
-import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
-import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
+import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 
 /**
  * Community View
@@ -29,6 +27,8 @@ class CommunityFragment : Fragment() {
 
     private var _binding : FragmentCommunityBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModels<CommunityViewModel>()
 
     //view pager RV Adapter
     private lateinit var communityVPAdapter : CommunityVPAdapter
@@ -52,6 +52,13 @@ class CommunityFragment : Fragment() {
         /**Search Activity로 이동*/
         binding.searchButton.setOnClickListener {
             startActivity(Intent(requireContext(), SearchActivity::class.java))
+        }
+
+        viewModel.checkAccessToken()
+
+        //엑세스 토큰 확인하는 라이브 데이터 (로그인 상태 확인)
+        viewModel.accessToken.observe(viewLifecycleOwner) {
+            binding.mypageButton.isVisible = it != true
         }
 
         //view pager와 탭 레이아웃 연결

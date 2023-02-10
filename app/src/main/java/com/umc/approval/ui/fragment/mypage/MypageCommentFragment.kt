@@ -51,7 +51,7 @@ class MypageCommentFragment : Fragment() {
 
         var state : Int? = null
         var type : Int? = null
-        viewModel.init_my_comments()
+//        viewModel.init_my_comments()
         viewModel.get_my_comments(type, state)
         getApproval(state)
 
