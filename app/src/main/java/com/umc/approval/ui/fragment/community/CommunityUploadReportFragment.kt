@@ -374,6 +374,7 @@ class CommunityUploadReportFragment : Fragment() {
                         viewModel.setImage(list)
                     }
                 } else {      // 1장 선택한 경우
+                    binding.uploadImageTv.text = "(1/4)"
                     val imageUri = it.data!!
                     list.add(imageUri)
                     viewModel.setImage(list)

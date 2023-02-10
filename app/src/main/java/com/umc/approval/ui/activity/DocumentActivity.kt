@@ -271,11 +271,11 @@ class DocumentActivity : AppCompatActivity() {
                     }
                 }
 
-                val documentImageAdapter2 = DocumentImageAdapter(list1)
+                val documentImageAdapter2 = DocumentImageAdapter(list2)
                 binding.imageRv2.adapter = documentImageAdapter2
                 binding.imageRv2.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-                val documentImageAdapter1 = DocumentImageAdapter(list2)
+                val documentImageAdapter1 = DocumentImageAdapter(list1)
                 binding.imageRv1.adapter = documentImageAdapter1
                 binding.imageRv1.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             }
@@ -329,14 +329,14 @@ class DocumentActivity : AppCompatActivity() {
                     binding.refuseButton.setTextColor(Color.parseColor("#141414"))
                 }
             } else if (viewModel.document.value!!.isVoted == 0) {
-                if (viewModel.document.value!!.state == 1) {
+                if (viewModel.document.value!!.state == 0) {
 
                     //투표 다르게 보이게 설정
                     binding.approveArea.isVisible = false
                     binding.writerApprove.isVisible = true
                     binding.approval.isVisible = true
                     binding.approval.setImageResource(R.drawable.document_result_approval)
-                } else if (viewModel.document.value!!.isVoted == 2) {
+                } else if (viewModel.document.value!!.state == 1) {
 
                     //투표 다르게 보이게 설정
                     binding.approveArea.isVisible = false
