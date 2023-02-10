@@ -56,7 +56,7 @@ class LikeActivity : AppCompatActivity() {
             binding.rvLike.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             likeRVAdapter.itemClick = object : LikeRVAdapter.ItemClick{
                 override fun move_to_profile(v: View, data: CommonUserDto, pos: Int) {
-                    val intent = Intent(applicationContext, OtherpageActivity::class.java)
+                    val intent = Intent(baseContext, OtherpageActivity::class.java)
                     intent.putExtra("userId", data.userId)
                     startActivity(intent)
                 }
