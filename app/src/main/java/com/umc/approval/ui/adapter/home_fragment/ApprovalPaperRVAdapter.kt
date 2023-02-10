@@ -40,7 +40,6 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
             binding.tvApprovalPaperRejectCount.text = data.rejectCount.toString()
             binding.tvApprovalPaperViewsCount.text = data.view.toString()
 
-
             binding.tvCategory.text = "디지털 기기"
             binding.tvWriteTime.text = data.datetime
 

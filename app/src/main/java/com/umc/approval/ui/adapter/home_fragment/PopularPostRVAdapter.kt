@@ -3,7 +3,6 @@ package com.umc.approval.ui.adapter.home_fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.data.dto.community.get.CommunityTok
@@ -40,12 +39,14 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             binding.tvPostCommentCount.text = data.commentCount.toString()
             binding.tvPostLikeCount.text = data.likeCount.toString()
             binding.tvPostWriteTime.text = data.datetime
+            binding.ivProfileImage.load(data.profileImage)
             // binding.tvImageCount.text = "+$data.image.size"
 
             if (data.images != null) {
 
                 if (data.images.isNotEmpty()) {
                     binding.ivThumbnail.load(data.images.get(0))
+                    binding.ivThumbnail.clipToOutline = true
                 }
             } else {
                 binding.ivThumbnail.visibility = View.GONE
@@ -57,19 +58,19 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 itemView.setOnClickListener {
-                    listner?.onItemClick(itemView, data, pos)
+                    listener?.onItemClick(itemView, data, pos)
                 }
             }
         }
     }
 
     // 아이템 클릭 리스너
-    interface OnItemClickListner {
+    interface OnItemClickListener {
         fun onItemClick(v: View, data: CommunityTok, pos: Int)
     }
-    private var listner: OnItemClickListner?= null
+    private var listener: OnItemClickListener?= null
 
-    fun setOnItemClickListener(listner: OnItemClickListner) {
-        this.listner = listner
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 }

@@ -326,8 +326,8 @@ class JoinFragment : Fragment() {
         val alertDialog = builder.show()
 
         //dialog의 view Component 접근
-        val dialog_cancel = alertDialog.findViewById<ImageView>(R.id.back)
-        val back_to_login = alertDialog.findViewById<ImageView>(R.id.back_fragment)
+        val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+        val back_to_login = alertDialog.findViewById<TextView>(R.id.back_fragment)
         val email = alertDialog.findViewById<TextView>(R.id.email_name)
 
         email.text = viewModel.phone_auth.value!!.email

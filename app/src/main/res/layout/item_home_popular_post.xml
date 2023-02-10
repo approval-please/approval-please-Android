@@ -91,12 +91,12 @@
         android:layout_marginTop="10dp">
 
         <ImageView
+            android:background="@drawable/image_background"
             android:id="@+id/iv_thumbnail"
             android:layout_width="173dp"
             android:layout_height="85dp"
             android:scaleType="centerCrop"
             android:src="@drawable/home_fragment_post_thumbnail"
-            android:background="@drawable/image_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

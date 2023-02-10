@@ -50,9 +50,10 @@ class ApprovalFragment : Fragment() {
             startActivity(Intent(requireContext(), SearchActivity::class.java))
         }
 
-        //엑세스 토큰 확인하는 라이브 데이터 (로그인 상태 확인)
+        // 로그인 상태 확인해서 로그인 버튼 숨김 여부 설정
+        approvalViewModel.checkAccessToken()
         approvalViewModel.accessToken.observe(viewLifecycleOwner) {
-            binding.loginButton.isVisible = it != true
+            binding.loginButton.isVisible = approvalViewModel.accessToken.value != true
         }
 
         return view

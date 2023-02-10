@@ -43,6 +43,7 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * */
             if (data.thumbnailImage == null) {
                 binding.itemImage.isVisible = false
+                binding.tvImageCount.isVisible = false
                 val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.marginStart = 0
                 binding.contentContainer.layoutParams = layoutParams

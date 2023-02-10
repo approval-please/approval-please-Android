@@ -90,6 +90,7 @@
             android:textColor="@color/approval_please_black_color"
             android:fontFamily="@font/light"
             app:layout_constraintTop_toBottomOf="@id/tv_approval_paper_title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"
             android:maxLines="2"

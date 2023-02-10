@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,8 +42,21 @@ class InterestingDepartmentActivity : AppCompatActivity() {
         val department = listOf(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17)
         viewModel.setAll(department)
 
+        if (viewModel.interesting.value == null) {
+            binding.rvInterestingDepartment.isVisible = false
+            binding.divisionLine.isVisible = false
+        }
+
         //관심부서 목록 가지고 오기
         viewModel.interesting.observe(this) {
+
+            if (it.isNotEmpty()) {  // 관심부서가 있다면
+                binding.rvInterestingDepartment.isVisible = true
+                binding.divisionLine.isVisible = true
+            } else {  // 관심부서가 없다면
+                binding.rvInterestingDepartment.isVisible = false
+                binding.divisionLine.isVisible = false
+            }
 
             val rvAdapter = InterestingDepartmentRVAdapter(it)
             binding.rvInterestingDepartment.adapter = rvAdapter
@@ -52,6 +66,11 @@ class InterestingDepartmentActivity : AppCompatActivity() {
             rvAdapter.itemClick = object : InterestingDepartmentRVAdapter.ItemClick {
                 override fun category_select(view: View, int: Int) {
                     viewModel.post_interest(int, false)
+
+                    if (it.size == 1) {
+                        binding.rvInterestingDepartment.isVisible = false
+                        binding.divisionLine.isVisible = false
+                    }
                 }
             }
 

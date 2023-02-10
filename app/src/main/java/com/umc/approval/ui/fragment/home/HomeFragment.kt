@@ -2,8 +2,6 @@ package com.umc.approval.ui.fragment.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,7 +27,6 @@ import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
-import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.categoryMapReverse
@@ -86,6 +83,15 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
         }
 
+        /** 로그인 상태에 따라 회원가입/관심부서 설정 페이지로 이동 */
+        binding.btnSetInterestingCategory.setOnClickListener {
+            if (approvalViewModel.accessToken.value == true) {
+                startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
+            } else {
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+            }
+        }
+
         /**Search Activity로 이동*/
         binding.searchButton.setOnClickListener {
             startActivity(Intent(requireContext(), SearchActivity::class.java))
@@ -130,6 +136,17 @@ class HomeFragment : Fragment() {
 
         //카테고리
         approvalViewModel.get_interest()
+
+        // 관심부서가 없으면 목록 보이지 않게
+        if (approvalViewModel.interesting.value == null) {
+            binding.notLoginStatus.isVisible = true
+            binding.tvGuideText.text = "관심부서를 설정하면\n원하는 서류만 모아 볼 수 있어요"
+            binding.btnSetInterestingCategory.text = "관심부서 설정하러 가기"
+            binding.loginStatus.isVisible = false
+        } else {
+            binding.notLoginStatus.isVisible = false
+            binding.loginStatus.isVisible = true
+        }
     }
 
     override fun onResume() {
@@ -192,8 +209,6 @@ class HomeFragment : Fragment() {
         //엑세스 토큰 확인하는 라이브 데이터
         approvalViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it == true) {
-                binding.notLoginStatus.isVisible = false
-                binding.loginStatus.isVisible = true
                 binding.loginButton.isVisible = false
             } else {
                 binding.notLoginStatus.isVisible = true
@@ -250,7 +265,7 @@ class HomeFragment : Fragment() {
             binding.rvPopularPost.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
             // 클릭 이벤트 처리
-            dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListner {
+            dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListener {
                 override fun onItemClick(v: View, data: CommunityTok, pos: Int) {
 
                     //톡 아이디를 통해 상세보기로 이동
@@ -270,7 +285,7 @@ class HomeFragment : Fragment() {
             binding.rvApprovalReport.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
             // 클릭 이벤트 처리
-            dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListner {
+            dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListener {
                 override fun onItemClick(v: View, data: CommunityReport, pos: Int) {
 
                     //리포트 아이디를 통해 상세보기로 이동
