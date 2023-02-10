@@ -22,7 +22,14 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
         holder.bind(dataList.approvalPaperDto[position])
     }
 
-    override fun getItemCount(): Int = dataList.approvalPaperDto.size
+//    override fun getItemCount(): Int = dataList.approvalPaperDto.size
+    override fun getItemCount(): Int {
+        return if (dataList.approvalPaperDto.size < 6) {
+            dataList.approvalPaperDto.size
+        } else {
+            6
+        }
+    }
 
     inner class DataViewHolder(private val binding: ItemHomeApprovalPaperBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ApprovalPaper) {
