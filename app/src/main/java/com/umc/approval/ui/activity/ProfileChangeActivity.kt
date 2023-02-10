@@ -48,13 +48,9 @@ class ProfileChangeActivity : AppCompatActivity() {
         viewModel.my_profile()
 
         /**mypage로 이동*/
-
         binding.backToProfile.setOnClickListener {
             finish()
         }
-
-        //다른 view로 이동
-        move_to_other()
 
         //load_profile live data
         load_profile_live_data()
@@ -80,8 +76,6 @@ class ProfileChangeActivity : AppCompatActivity() {
     /**load_profile_live_data*/
     private fun load_profile_live_data() {
         viewModel.load_profile.observe(this) {
-
-            Log.d("test" , it.profileImage)
 
             //닉네임
             binding.nickname.setText(viewModel.load_profile.value!!.nickname)
@@ -154,14 +148,6 @@ class ProfileChangeActivity : AppCompatActivity() {
                     PICK_IMAGE_FROM_GALLERY_PERMISSION
                 )
             }
-        }
-    }
-
-    /**다른 뷰로 이동*/
-    private fun move_to_other() {
-        /**mypage로 이동*/
-        binding.backToProfile.setOnClickListener {
-            finish()
         }
     }
 

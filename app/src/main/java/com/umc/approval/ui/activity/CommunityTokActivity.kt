@@ -157,9 +157,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
         val toktokId = intent.getStringExtra("toktokId")
 
-//        viewModel.get_tok_detail(toktokId.toString())
-
-        viewModel.init()
+        viewModel.get_tok_detail(toktokId.toString())
     }
 
 
