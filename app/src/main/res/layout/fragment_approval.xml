@@ -13,12 +13,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="57dp">
+            android:layout_height="57dp"
+            android:layout_marginHorizontal="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -32,20 +32,29 @@
                 android:id="@+id/search_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="3dp"
                 android:background="@color/transparent"
                 android:src="@drawable/approval_fragment_search_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/mypage_button"
+                app:layout_constraintRight_toLeftOf="@id/login_button"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/mypage_button"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@color/transparent"
-                android:src="@drawable/approval_fragment_mypage_button"
+                android:background="@drawable/approval_fragment_category_selected_item_background"
+                android:text="로그인"
+                android:padding="0dp"
+                android:insetTop="4dp"
+                android:insetBottom="4dp"
+                android:insetLeft="6dp"
+                android:insetRight="6dp"
+                android:textSize="11sp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/approval_please_main_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
