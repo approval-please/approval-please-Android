@@ -76,10 +76,11 @@ class MypageViewModel() : ViewModel() {
         })
     }
 
-    /**
+    /* otherpageDocumentViewModel로 이동
+    /*
      * 다른 사람 결재 서류 목록 조회
-     * */
-    fun get_other_documents(userId: Int, state: Int?=null, isApproved : Int?=null) = viewModelScope.launch {
+     */
+     fun get_other_documents(userId: Int, state: Int?=null, isApproved : Int?=null) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
         val response = repository.get_other_documents(accessToken, userId, state, isApproved)
@@ -96,6 +97,7 @@ class MypageViewModel() : ViewModel() {
             }
         })
     }
+     */
 
     /**
      * 다른 사람 결재 서류 목록 조회
