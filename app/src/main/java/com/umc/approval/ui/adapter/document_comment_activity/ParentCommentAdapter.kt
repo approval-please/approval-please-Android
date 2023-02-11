@@ -174,6 +174,9 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
         val dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         val dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 댓글을 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -201,6 +204,9 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
         val dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         val dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityReportUserDialogBinding.communityDialog
+        text.setText("이 사용자를 신고하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -226,6 +232,9 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
         linkDialog.setCancelable(true)
         val dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         val dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글을 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

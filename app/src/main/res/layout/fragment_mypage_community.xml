@@ -50,8 +50,6 @@
         android:id="@+id/rv_mypage_community"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@id/filter_container"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/filter_container"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,6 +61,10 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        binding.notLoginStatus.isVisible = false
+        binding.noInterest.isVisible = false
+        binding.loginStatus.isVisible = false
+
         //다른 뷰로 이동하는 로직
         move_to_other_view()
 
@@ -85,11 +89,12 @@ class HomeFragment : Fragment() {
 
         /** 로그인 상태에 따라 회원가입/관심부서 설정 페이지로 이동 */
         binding.btnSetInterestingCategory.setOnClickListener {
-            if (approvalViewModel.accessToken.value == true) {
-                startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
-            } else {
-                startActivity(Intent(requireContext(), LoginActivity::class.java))
-            }
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+
+        /** 로그인 상태에 따라 회원가입/관심부서 설정 페이지로 이동 */
+        binding.notInterBtnSetInterestingCategory.setOnClickListener {
+            startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
         }
 
         /**Search Activity로 이동*/
@@ -122,31 +127,16 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        approvalViewModel.checkAccessToken()
+
         //전체 서류 가지고오는 로직
         approvalViewModel.get_all_documents(sortBy = "0")
-
-        //관심 서류 가지고오는 로직
-        approvalViewModel.get_interesting_documents()
 
         //tok 서류 가지고오는 로직
         tokViewModel.get_all_toks()
 
         //report 서류 가지고오는 로직
         reportViewModel.get_all_reports()
-
-        //카테고리
-        approvalViewModel.get_interest()
-
-        // 관심부서가 없으면 목록 보이지 않게
-        if (approvalViewModel.interesting.value == null) {
-            binding.notLoginStatus.isVisible = true
-            binding.tvGuideText.text = "관심부서를 설정하면\n원하는 서류만 모아 볼 수 있어요"
-            binding.btnSetInterestingCategory.text = "관심부서 설정하러 가기"
-            binding.loginStatus.isVisible = false
-        } else {
-            binding.notLoginStatus.isVisible = false
-            binding.loginStatus.isVisible = true
-        }
     }
 
     override fun onResume() {
@@ -160,17 +150,11 @@ class HomeFragment : Fragment() {
             approvalViewModel.get_all_documents()
         }
 
-        //관심 서류 가지고오는 로직
-        approvalViewModel.get_interesting_documents()
-
         //tok 서류 가지고오는 로직
         tokViewModel.get_all_toks()
 
         //report 서류 가지고오는 로직
         reportViewModel.get_all_reports()
-
-        //카테고리
-        approvalViewModel.get_interest()
     }
 
     //인기 최신 순으로 서류 목록 가져오기
@@ -210,8 +194,14 @@ class HomeFragment : Fragment() {
         approvalViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.loginButton.isVisible = false
+
+                Log.d("테스트입니다", it.toString())
+                approvalViewModel.get_interest()
+                approvalViewModel.get_interesting_documents()
+
             } else {
                 binding.notLoginStatus.isVisible = true
+                binding.noInterest.isVisible = false
                 binding.loginStatus.isVisible = false
                 binding.loginButton.isVisible = true
             }
@@ -300,6 +290,16 @@ class HomeFragment : Fragment() {
 
         //카테고리 목록 받아오는 라이브 데이터
         approvalViewModel.interesting.observe(viewLifecycleOwner) {
+
+            if (it.isEmpty()) {
+                binding.notLoginStatus.isVisible = false
+                binding.noInterest.isVisible = true
+                binding.loginStatus.isVisible = false
+            } else {
+                binding.notLoginStatus.isVisible = false
+                binding.noInterest.isVisible = false
+                binding.loginStatus.isVisible = true
+            }
 
             val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 
