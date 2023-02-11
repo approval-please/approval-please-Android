@@ -282,17 +282,28 @@ class DocumentActivity : AppCompatActivity() {
 
             //작성자일 경우
             if (viewModel.document.value!!.isWriter == true) {
-
                 //만약 결재 서류가 없으면
                 if (viewModel.document.value!!.reportId == null) {
-                    binding.reportWriteButton.isVisible = true
+
+                    if (it.state == 2) {
+                        binding.reportWriteButton.isVisible = false
+                    } else {
+                        binding.reportWriteButton.isVisible = true
+                    }
+
+                    binding.reportCheckButton.isVisible = false
                 } else {
+                    binding.reportWriteButton.isVisible = false
                     binding.reportCheckButton.isVisible = true
                 }
             } else {
                 //만약 결재 서류가 없으면
                 if (viewModel.document.value!!.reportId != null) {
+                    binding.reportWriteButton.isVisible = false
                     binding.reportCheckButton.isVisible = true
+                } else {
+                    binding.reportWriteButton.isVisible = false
+                    binding.reportCheckButton.isVisible = false
                 }
             }
 
@@ -475,6 +486,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.approval.setImageResource(R.drawable.document_result_approval)
 
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), true))
+            binding.reportWriteButton.isVisible = true
+            binding.reportCheckButton.isVisible = false
 
         } else {
             viewModel.setIsVoted(1)
@@ -496,6 +509,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.approval.setImageResource(R.drawable.document_result_refusal)
 
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), false))
+            binding.reportWriteButton.isVisible = true
+            binding.reportCheckButton.isVisible = false
 
         } else {
             viewModel.setIsVoted(2)
