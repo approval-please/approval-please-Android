@@ -54,6 +54,17 @@ class LikeActivity : AppCompatActivity() {
         viewModel.checkAccessToken()
     }
     private fun live_data() {
+
+        followViewModel.isFollow.observe(this) {
+            val type = intent.getStringExtra("type")
+            val id = intent.getIntExtra("id", -1)
+            when (type) {
+                "document" -> viewModel.get_paper_like_users(id)
+                "toktok" -> viewModel.get_toktok_like_users(id)
+                "report" -> viewModel.get_report_like_users(id)
+            }
+        }
+
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.likeList.observe(this) {
             val likeRVAdapter = LikeRVAdapter(it)
