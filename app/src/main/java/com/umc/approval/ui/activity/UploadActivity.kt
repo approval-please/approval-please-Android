@@ -345,7 +345,7 @@ class UploadActivity : AppCompatActivity() {
 
                 viewModel.setTags(new)
 
-                tagTextView.setText("("+tagArray.size+"/4)");
+                tagTextView.setText("("+new.size+"/4)");
 
                 val dataRVAdapter = UploadHashtagRVAdapter(new)
                 binding.uploadHashtagItem.adapter = dataRVAdapter
