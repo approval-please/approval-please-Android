@@ -1,21 +1,26 @@
 package com.umc.approval.ui.fragment.login
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -35,6 +40,7 @@ import com.umc.approval.databinding.FragmentLoginBinding
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import java.util.regex.Pattern
+
 
 /**
  * Login View
@@ -260,54 +266,42 @@ class LoginFragment : Fragment() {
      * email 유효성 검사 후 유효한 이메일일 경우 password fragment로 이동
      * */
     private fun validate_email() {
+
+        binding.email.addTextChangedListener(textWatcher)
+
         binding.emailLoginButton.setOnClickListener {
-            val pattern: Pattern = Patterns.EMAIL_ADDRESS
+            //check가 성공적으로 진행되었을때
+            viewModel.email_check.observe(viewLifecycleOwner) {
 
-            val email = binding.email.text
+                val to_password = LoginFragmentDirections.actionLoginFragmentToPasswordFragment(binding.email.text.toString())
+                val to_join = LoginFragmentDirections.actionLoginFragmentToJoinFragment(binding.email.text.toString())
 
-            if (pattern.matcher(email).matches()) {
-                binding.emailValid.isVisible = false
+                if (viewModel.email_check.value!!.status == 1) { //일반 회원인 경우
+                    Navigation.findNavController(binding.root).navigate(to_password)
+                } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
+                    Navigation.findNavController(binding.root).navigate(to_join)
+                } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
 
-                viewModel.emailCheck(binding.email.text.toString())
+                    val dialog = LayoutInflater.from(requireContext()).inflate(R.layout.join_fragment_dialog, null)
+                    val builder = AlertDialog.Builder(requireContext()).setView(dialog)
 
-                //check가 성공적으로 진행되었을때
-                viewModel.email_check.observe(viewLifecycleOwner) {
+                    val alertDialog = builder.show()
 
-                    val to_password = LoginFragmentDirections.actionLoginFragmentToPasswordFragment(binding.email.text.toString())
-                    val to_join = LoginFragmentDirections.actionLoginFragmentToJoinFragment(binding.email.text.toString())
+                    //dialog의 view Component 접근
+                    val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
+                    val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
+                    val email_name = alertDialog.findViewById<TextView>(R.id.email_name)
 
-                    if (viewModel.email_check.value!!.status == 1) { //일반 회원인 경우
-                        Navigation.findNavController(binding.root).navigate(to_password)
-                    } else if (viewModel.email_check.value!!.status == 0) { //회원이 아닌 경우
-                        Navigation.findNavController(binding.root).navigate(to_join)
-                    } else if (viewModel.email_check.value!!.status == 2) { //sns 회원인 경우
+                    email_name.setText(viewModel.email_check.value!!.email)
 
-                        val dialog = LayoutInflater.from(requireContext()).inflate(R.layout.join_fragment_dialog, null)
-                        val builder = AlertDialog.Builder(requireContext()).setView(dialog)
+                    dialog_cancel.setOnClickListener {
+                        alertDialog.cancel()
+                    }
 
-                        val alertDialog = builder.show()
-
-                        //dialog의 view Component 접근
-                        val dialog_cancel = alertDialog.findViewById<TextView>(R.id.back)
-                        val keep_going = alertDialog.findViewById<TextView>(R.id.back_fragment)
-                        val email_name = alertDialog.findViewById<TextView>(R.id.email_name)
-
-                        email_name.setText(viewModel.email_check.value!!.email)
-
-                        dialog_cancel.setOnClickListener {
-                            alertDialog.cancel()
-                        }
-
-                        keep_going.setOnClickListener {
-                            alertDialog.cancel()
-                        }
+                    keep_going.setOnClickListener {
+                        alertDialog.cancel()
                     }
                 }
-            } else {
-                binding.email.setBackgroundResource(R.drawable.login_activity_red_box)
-                binding.validFail.isVisible = true
-                binding.textRemove.isVisible = false
-                binding.emailValid.isVisible = true
             }
         }
     }
@@ -331,6 +325,44 @@ class LoginFragment : Fragment() {
 
         } catch (e: ApiException){
             Log.d("INFO","signInResult:failed Code = " + e.statusCode)
+        }
+    }
+
+    /**
+     * EditText 입력 변화 감지 (입력할 때마다 이메일 유효성 검사)
+     */
+    private val textWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            // 입력하기 전에 조치
+            binding.emailLoginButton.isClickable = false
+        }
+
+        @RequiresApi(Build.VERSION_CODES.M)
+        @SuppressLint("ResourceAsColor")
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            val pattern: Pattern = Patterns.EMAIL_ADDRESS
+
+            val email = binding.email.text
+
+            if (pattern.matcher(email).matches()) {
+                binding.emailValid.isVisible = false
+                viewModel.emailCheck(binding.email.text.toString())
+                binding.email.setBackgroundResource(R.drawable.login_activity_green_box)
+                binding.validFail.isVisible = false
+                binding.emailLoginButton.backgroundTintList = context?.resources?.getColorStateList(R.color.approval_please_main_color, null)
+                binding.emailLoginButton.isClickable = true
+            } else {
+                binding.email.setBackgroundResource(R.drawable.login_activity_red_box)
+                binding.validFail.isVisible = true
+                binding.textRemove.isVisible = false
+                binding.emailValid.isVisible = true
+                binding.emailLoginButton.backgroundTintList = context?.resources?.getColorStateList(R.color.approval_please_medium_gray_color, null)
+                binding.emailLoginButton.isClickable = false
+            }
+        }
+
+        override fun afterTextChanged(s: Editable) {
+            // 입력이 끝났을 때 조치
         }
     }
 
