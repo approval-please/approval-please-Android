@@ -20,6 +20,8 @@ class ChildCommentAdapter(val itemList: List<CommentDto>, val context: Context) 
             //프로필 이미지 있을시
             if (data.profileImage != null) {
                 binding.documentCommentItemProfilepic.load(data.profileImage)
+                binding.documentCommentItemProfilepic.clipToOutline = true
+
             }
 
             //닉네임

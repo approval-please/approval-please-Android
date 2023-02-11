@@ -65,7 +65,6 @@ class SearchDocumentViewModel : ViewModel() {
         var state = _state.value
         var sortBy = _sort.value?:0
 
-
         val response = repository.search_documents(query, isTag, category, state,sortBy)
         response.enqueue(object : Callback<ApprovalPaperDto> {
             override fun onResponse(call: Call<ApprovalPaperDto>, response: Response<ApprovalPaperDto>) {

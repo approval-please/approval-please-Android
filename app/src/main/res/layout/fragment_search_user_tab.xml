@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/approval_please_background_color">
 
-    <androidx.recyclerview.widget.RecyclerView
+
+<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_like"
         android:layout_marginTop="45dp"
         android:layout_width="match_parent"

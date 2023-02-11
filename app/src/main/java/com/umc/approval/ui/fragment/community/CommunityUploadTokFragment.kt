@@ -684,7 +684,6 @@ class CommunityUploadTokFragment : Fragment() {
         //val spannableStringBuilder = SpannableStringBuilder(text)
         tagDialogEditText.isClickable = false;
 
-
         tagDialogEditText.setText(tagString)
         tagDialogEditText.addTextChangedListener(object: TextWatcher {
             var originText = ""
@@ -714,35 +713,35 @@ class CommunityUploadTokFragment : Fragment() {
                                     if(i==textLength){
 
                                         if(hashtagCount < 4){
-                                            val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
-                                            spannableStringBuilder.setSpan(
-                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
-                                                //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
-                                                0,
-                                                i,
-                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                                            )
-                                            tagDialogEditText.text = spannableStringBuilder
-                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
+//                                            val spannableStringBuilder = SpannableStringBuilder(s?.toString() ?: "")
+//                                            spannableStringBuilder.setSpan(
+//                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
+//                                                //                            BackgroundColorSpan(Color.parseColor("#CBB9FF")),
+//                                                0,
+//                                                i,
+//                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                                            )
+//                                            tagDialogEditText.text = spannableStringBuilder
+//                                            tagDialogEditText.setSelection(tagDialogEditText.text.length)
 
                                         }else if(hashtagCount >= 4 && s.toString()[i]==' '){
-                                            tagDialogEditText.setText(originText)
                                             BlackToast.createToast(requireContext(), "태그는 4개까지 입력가능합니다.").show()
-                                            val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
-                                            spannableStringBuilder.setSpan(
-                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
-                                                0,
-                                                originText.length-1,
-                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                                            )
-                                            tagDialogEditText.text = spannableStringBuilder
-                                            tagDialogEditText.setSelection(s.toString().length-1)
+                                            tagDialogEditText.setText(originText)
+//                                            val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
+//                                            spannableStringBuilder.setSpan(
+//                                                ForegroundColorSpan(Color.parseColor("#6C39FF")),
+//                                                0,
+//                                                originText.length-1,
+//                                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                                            )
+//                                            tagDialogEditText.text = spannableStringBuilder
+//                                            tagDialogEditText.setSelection(s.toString().length-1)
                                         }
                                     }
                                 }
                             }
                         }
-                    }, 1)
+                    }, 0)
 
                 }
             }

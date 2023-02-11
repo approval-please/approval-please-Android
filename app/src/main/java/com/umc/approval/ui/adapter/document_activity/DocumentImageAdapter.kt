@@ -12,6 +12,8 @@ class DocumentImageAdapter(val itemList : List<String>) : RecyclerView.Adapter<D
     inner class DocumentImageViewHolder(var binding : DocumentImageItemBinding) : ViewHolder(binding.root){
         fun bind(s: String) {
             binding.image1.load(s)
+            binding.image1.clipToOutline = true
+
         }
     }
 

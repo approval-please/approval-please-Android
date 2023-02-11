@@ -24,6 +24,7 @@ class CommunityImageRVAdapter (private var dataList: List<String>): RecyclerView
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: String) {
             binding.image.load(data)
+            binding.image.clipToOutline = true
 
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {

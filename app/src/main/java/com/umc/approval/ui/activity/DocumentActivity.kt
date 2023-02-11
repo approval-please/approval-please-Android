@@ -236,6 +236,8 @@ class DocumentActivity : AppCompatActivity() {
 
             binding.cate.text = categoryMap[it.category]
             binding.profile.load(it.profileImage)
+            binding.profile.clipToOutline = true
+
             binding.name.text = it.nickname
             binding.title.text = it.title
             binding.rank.text = setRank(it.level!!)

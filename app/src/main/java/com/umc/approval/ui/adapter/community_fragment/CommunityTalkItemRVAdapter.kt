@@ -88,6 +88,12 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
                 itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
             })
+            holder.binding.imageRv.setOnClickListener{
+                itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
+            }
+            holder.binding.reportLinkLayout.setOnClickListener{
+                itemClick?.move_to_tok_activity(it, items.communityTok[position], position)
+            }
         }
     }
 

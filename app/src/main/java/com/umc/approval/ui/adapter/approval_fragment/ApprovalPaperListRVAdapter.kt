@@ -1,9 +1,7 @@
 package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
-import android.graphics.Rect
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
