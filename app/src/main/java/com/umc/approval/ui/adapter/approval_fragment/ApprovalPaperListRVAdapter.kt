@@ -35,6 +35,8 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         val context = context
         fun bind(data: ApprovalPaper) {
 
+            Log.d("테스트입니다", data.toString())
+
             /**
              * 이미지가 없으면 이미지 제외하고 처리
              * 이미지가 있으면 로드

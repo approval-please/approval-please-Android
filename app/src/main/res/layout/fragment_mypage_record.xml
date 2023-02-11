@@ -52,11 +52,10 @@
             android:layout_marginTop="7dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:overScrollMode="never"
         android:nestedScrollingEnabled="false"
         android:id="@+id/mypage_record_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         tools:listitem="@layout/mypage_record_item"
         android:layout_marginTop="55dp"
         android:layout_marginBottom="12dp"/>
