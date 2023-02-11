@@ -111,7 +111,6 @@ class ApprovalPaperTabFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        noResult()
         viewModel.get_documents(keywordViewModel.search_keyword.value)
     }
 
@@ -127,25 +126,21 @@ class ApprovalPaperTabFragment: Fragment() {
 
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.state.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.sort.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 
         // query(검색어) 상태 변화시
         keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_documents(keywordViewModel.search_keyword.value)
         }
 

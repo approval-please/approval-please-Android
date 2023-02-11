@@ -93,8 +93,6 @@ class ReportTabFragment: Fragment() {
         super.onStart()
 
         viewModel.setQuery(keywordViewModel.search_keyword.value!!)
-        noResult()
-
         viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
@@ -103,18 +101,15 @@ class ReportTabFragment: Fragment() {
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
             noResult()
-            viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 
         // sortBy(정렬) 상태 변화시
         viewModel.sort.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 
         // query(검색어) 상태 변화시
         keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_reports(it, viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
         }
 

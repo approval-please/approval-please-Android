@@ -178,6 +178,8 @@ class CommunityReportActivity : AppCompatActivity() {
             //프로필 이미지 처리
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
+                binding.communityPostUserProfile.clipToOutline = true
+
             }
 
             //닉네임
@@ -247,6 +249,7 @@ class CommunityReportActivity : AppCompatActivity() {
             } else {
                 binding.communityDocumentLayout.documentImageCountTv.text = it.documentImageCount.toString()
                 binding.communityDocumentLayout.ivApprovalReportThumbnail.load(it.documentImageUrl)
+                binding.communityDocumentLayout.ivApprovalReportThumbnail.clipToOutline = true
             }
 
             //리포트 이미지 처리

@@ -42,7 +42,6 @@ class UserTabFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
-        noResult()
         viewModel.get_user(keywordViewModel.search_keyword.value)
     }
 
@@ -50,7 +49,6 @@ class UserTabFragment: Fragment() {
 
         // query(검색어) 상태 변화시
         keywordViewModel.search_keyword.observe(viewLifecycleOwner) {
-            noResult()
             viewModel.get_user(keywordViewModel.search_keyword.value)
         }
 

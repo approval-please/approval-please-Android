@@ -382,6 +382,8 @@ class CommunityTokActivity : AppCompatActivity() {
             //프로필 이미지
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
+                binding.communityPostUserProfile.clipToOutline = true
+
             }
 
             if (it.likeOrNot == true) {

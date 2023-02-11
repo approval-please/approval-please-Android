@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
 import com.umc.approval.R
 import com.umc.approval.data.dto.community.get.ParticipantDto
@@ -29,7 +30,11 @@ class VoteParticipantRVAdapter(private val dataList: VoteParticipantDto?=null): 
 
         fun bind(data: ParticipantDto) {
             // binding.ivProfileImage.setImageResource()
-            Glide.with(context).load(data.profileImage).into(binding.ivProfileImage)
+            if (data.profileImage != null) {
+                binding.ivProfileImage.load(data.profileImage)
+                binding.ivProfileImage.clipToOutline = true
+
+            }
             binding.tvNickname.text = data.nickname
             binding.tvRank.text = data.level.toString()
 

@@ -92,6 +92,12 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
             holder.binding.reportCategoryItemText.setOnClickListener{
                 itemClick?.move_to_report_activity(it, items.communityReport[position], position)
             }
+            holder.binding.imageRv.setOnClickListener{
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
+            }
+            holder.binding.reportLinkLayout.setOnClickListener{
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
+            }
         }
     }
 
