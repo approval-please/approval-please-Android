@@ -8,7 +8,9 @@
     tools:context=".check.collie.OtherpageActivity">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -20,37 +22,6 @@
                 android:background="@drawable/mypage_background"
                 android:elevation="2dp"
                 android:paddingBottom="4dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="사원증"
-                    style="@style/TopTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="24dp"/>
-                <ImageButton
-                    android:id="@+id/otherpage_setting"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/otherpage_setting_icon2"
-                    android:scaleType="fitXY"
-                    android:background="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginTop="21dp"/>
-                <ImageButton
-                    android:id="@+id/otherpage_share"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@drawable/mypage_icon_share"
-                    android:background="#FFFFFF"
-                    app:layout_constraintEnd_toStartOf="@id/otherpage_setting"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="26dp"
-                    android:layout_marginTop="24dp"/>
-
                 <FrameLayout
                     android:layout_width="145dp"
                     android:layout_height="145dp"
@@ -246,4 +217,45 @@
                 app:layout_constraintTop_toBottomOf="@id/otherpage_profile_area"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="18dp"
+        android:paddingBottom="18dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#FFFFFF">
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TopTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="사원증"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/otherpage_setting"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="16dp"
+            android:background="#FFFFFF"
+            android:scaleType="fitXY"
+            android:src="@drawable/otherpage_setting_icon2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/otherpage_share"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="26dp"
+            android:background="#FFFFFF"
+            android:src="@drawable/mypage_icon_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/otherpage_setting"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
