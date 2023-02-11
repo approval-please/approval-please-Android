@@ -45,6 +45,7 @@ import com.umc.approval.databinding.ActivityUploadTagDialogBinding
 import com.umc.approval.ui.adapter.upload_activity.ImageUploadAdapter
 import com.umc.approval.ui.viewmodel.approval.UploadDocumentViewModel
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.CrawlingTask
 import com.umc.approval.util.S3Util
 import com.umc.approval.util.Utils
@@ -167,7 +168,7 @@ class UploadActivity : AppCompatActivity() {
             if (!it) {
                 finish()
                 startActivity(Intent(this, LoginActivity::class.java))
-                Toast.makeText(this, "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
             }
         }
     }
@@ -210,7 +211,7 @@ class UploadActivity : AppCompatActivity() {
                     finish()
                 }
             } else {
-                Toast.makeText(this, "부서를 선택해주세요", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "부서를 선택해주세요").show()
             }
         }
     }
@@ -415,7 +416,7 @@ class UploadActivity : AppCompatActivity() {
 
                                         }else if(hashtagCount >= 4 && s.toString()[i]==' '){
                                             tagDialogEditText.setText(originText)
-                                            Toast.makeText(this@UploadActivity, "태그는 4개까지 입력가능합니다.", Toast.LENGTH_SHORT).show()
+                                            BlackToast.createToast(this@UploadActivity, "태그는 4개까지 입력가능합니다.").show()
                                             val spannableStringBuilder = SpannableStringBuilder(originText?.toString() ?: "")
                                             spannableStringBuilder.setSpan(
                                                 ForegroundColorSpan(Color.parseColor("#6C39FF")),
@@ -628,8 +629,7 @@ class UploadActivity : AppCompatActivity() {
                 if (it.clipData != null) {   // 사진을 여러개 선택한 경우
                     val count = it.clipData!!.itemCount
                     if (count > 4) {
-                        Toast.makeText(this, "사진은 4장까지 선택 가능합니다.", Toast.LENGTH_SHORT)
-                            .show()
+                        BlackToast.createToast(this, "사진은 4장까지 선택 가능합니다.").show()
                         return
                     }else{
                         binding.tvImageCount.text = "("+count.toString()+"/4)"
@@ -641,6 +641,7 @@ class UploadActivity : AppCompatActivity() {
                     }
                 } else {      // 1장 선택한 경우
                     val imageUri = it.data!!
+                    binding.tvImageCount.text = "(1/4)"
                     list.add(imageUri)
                     viewModel.setImage(list)
                 }
@@ -661,7 +662,7 @@ class UploadActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     showGallery(this)
                 else
-                    Toast.makeText(this, "권한을 거부하셨습니다.", Toast.LENGTH_SHORT).show()
+                    BlackToast.createToast(this, "권한을 거부하셨습니다.").show()
             }
         }
     }

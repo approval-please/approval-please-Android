@@ -135,7 +135,7 @@ class ApprovalAllCategoryViewFragment: Fragment() {
             add(InterestingCategory("동물/식물", false))
             add(InterestingCategory("영화/공연", false))
             add(InterestingCategory("자동차/공구", false))
-            add(InterestingCategory("기타 물품", false))
+            add(InterestingCategory("기타물품", false))
         }
 
         val categoryRVAdapter = CategoryRVAdapter(allCategory)

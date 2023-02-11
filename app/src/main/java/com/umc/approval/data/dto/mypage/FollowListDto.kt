@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class FollowListDto(
     @SerializedName("nickname")
     val nickname : String,
-    @SerializedName("totalElement")
-    val totalElement : Int,
+    @SerializedName("totalCount")
+    val totalCount : Int,
     @SerializedName("followerCount")
     val followerCount : Int,
     @SerializedName("followingCount")

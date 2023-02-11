@@ -2,8 +2,6 @@ package com.umc.approval.ui.fragment.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,7 +27,6 @@ import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityReportViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityTokViewModel
-import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.categoryMapReverse
@@ -64,6 +61,10 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        binding.notLoginStatus.isVisible = false
+        binding.noInterest.isVisible = false
+        binding.loginStatus.isVisible = false
+
         //다른 뷰로 이동하는 로직
         move_to_other_view()
 
@@ -82,8 +83,18 @@ class HomeFragment : Fragment() {
     /**다른 뷰로 이동하는 로직*/
     private fun move_to_other_view() {
         /**Login Activity로 이동*/
-        binding.mypageButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+
+        /** 로그인 상태에 따라 회원가입/관심부서 설정 페이지로 이동 */
+        binding.btnSetInterestingCategory.setOnClickListener {
+            startActivity(Intent(requireContext(), LoginActivity::class.java))
+        }
+
+        /** 로그인 상태에 따라 회원가입/관심부서 설정 페이지로 이동 */
+        binding.notInterBtnSetInterestingCategory.setOnClickListener {
+            startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
         }
 
         /**Search Activity로 이동*/
@@ -116,20 +127,16 @@ class HomeFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        approvalViewModel.checkAccessToken()
+
         //전체 서류 가지고오는 로직
         approvalViewModel.get_all_documents(sortBy = "0")
-
-        //관신 서류 가지고오는 로직
-        approvalViewModel.get_interesting_documents()
 
         //tok 서류 가지고오는 로직
         tokViewModel.get_all_toks()
 
         //report 서류 가지고오는 로직
         reportViewModel.get_all_reports()
-
-        //카테고리
-        approvalViewModel.get_interest()
     }
 
     override fun onResume() {
@@ -143,17 +150,11 @@ class HomeFragment : Fragment() {
             approvalViewModel.get_all_documents()
         }
 
-        //관심 서류 가지고오는 로직
-        approvalViewModel.get_interesting_documents()
-
         //tok 서류 가지고오는 로직
         tokViewModel.get_all_toks()
 
         //report 서류 가지고오는 로직
         reportViewModel.get_all_reports()
-
-        //카테고리
-        approvalViewModel.get_interest()
     }
 
     //인기 최신 순으로 서류 목록 가져오기
@@ -192,11 +193,17 @@ class HomeFragment : Fragment() {
         //엑세스 토큰 확인하는 라이브 데이터
         approvalViewModel.accessToken.observe(viewLifecycleOwner) {
             if (it == true) {
-                binding.notLoginStatus.isVisible = false
-                binding.loginStatus.isVisible = true
+                binding.loginButton.isVisible = false
+
+                Log.d("테스트입니다", it.toString())
+                approvalViewModel.get_interest()
+                approvalViewModel.get_interesting_documents()
+
             } else {
                 binding.notLoginStatus.isVisible = true
+                binding.noInterest.isVisible = false
                 binding.loginStatus.isVisible = false
+                binding.loginButton.isVisible = true
             }
         }
 
@@ -248,7 +255,7 @@ class HomeFragment : Fragment() {
             binding.rvPopularPost.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
             // 클릭 이벤트 처리
-            dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListner {
+            dataRVAdapter.setOnItemClickListener(object: PopularPostRVAdapter.OnItemClickListener {
                 override fun onItemClick(v: View, data: CommunityTok, pos: Int) {
 
                     //톡 아이디를 통해 상세보기로 이동
@@ -268,11 +275,11 @@ class HomeFragment : Fragment() {
             binding.rvApprovalReport.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
 
             // 클릭 이벤트 처리
-            dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListner {
+            dataRVAdapter.setOnItemClickListener(object: ApprovalReportRVAdapter.OnItemClickListener {
                 override fun onItemClick(v: View, data: CommunityReport, pos: Int) {
 
                     //리포트 아이디를 통해 상세보기로 이동
-                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                    val intent = Intent(requireContext(), CommunityReportActivity::class.java)
                     intent.putExtra("reportId", data.reportId.toString())
 
                     startActivity(intent)
@@ -283,6 +290,16 @@ class HomeFragment : Fragment() {
 
         //카테고리 목록 받아오는 라이브 데이터
         approvalViewModel.interesting.observe(viewLifecycleOwner) {
+
+            if (it.isEmpty()) {
+                binding.notLoginStatus.isVisible = false
+                binding.noInterest.isVisible = true
+                binding.loginStatus.isVisible = false
+            } else {
+                binding.notLoginStatus.isVisible = false
+                binding.noInterest.isVisible = false
+                binding.loginStatus.isVisible = true
+            }
 
             val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 
@@ -322,7 +339,6 @@ class HomeFragment : Fragment() {
 
         bannerPosition = Int.MAX_VALUE / 2 - kotlin.math.ceil(photoUrlList.size.toDouble() / 2).toInt()
         binding.vpHomeBanner.setCurrentItem(bannerPosition, false)
-        Log.d("로그", bannerPosition.toString())
 
         // 뷰페이저에 어댑터 연결
         val photoVPAdatper = BannerVPAdapter(photoUrlList)

@@ -29,9 +29,11 @@ class MyPageFragmentRepository {
         return mypageAPI.get_my_documment(accessToken, state, isApproved)
     }
 
+    /* OtherPageActivityRepository로 이동
     fun get_other_documents(accessToken : String, userId: Int, state: Int?=null, isApproved: Int?=null) : Call<ApprovalPaperDto>{
         return mypageAPI.get_other_documment(accessToken, userId, state, isApproved)
     }
+    */
 
     fun get_my_perfoemances(accessToken : String) : Call<RecordDto>{
         return mypageAPI.get_my_performances(accessToken)

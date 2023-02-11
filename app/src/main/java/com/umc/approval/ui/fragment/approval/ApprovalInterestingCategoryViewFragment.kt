@@ -22,6 +22,8 @@ import com.umc.approval.ui.viewmodel.approval.ApprovalViewModel
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.approval_fragment.CategoryRVAdapter
 import com.umc.approval.ui.viewmodel.approval.ApprovalCommonViewModel
+import com.umc.approval.util.BlackToast
+import com.umc.approval.util.GrayToast
 import com.umc.approval.util.InterestingCategory
 import com.umc.approval.util.Utils
 
@@ -68,6 +70,12 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
 
         viewModel.get_interest()
+
+        // 관심부서가 없으면 관심부서 설정 화면으로 이동
+        if (viewModel.interesting.value == null) {
+            startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
+            GrayToast.createToast(requireContext(), "관심부서를 설정하세요.").show()
+        }
     }
 
     override fun onResume() {
@@ -111,7 +119,7 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             if (!it) {
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
                 requireActivity().finish()
-                Toast.makeText(requireContext(), "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show()
+                GrayToast.createToast(requireContext(), "로그인이 필요한 서비스 입니다").show()
             }
         }
 

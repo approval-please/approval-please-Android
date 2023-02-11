@@ -29,19 +29,29 @@
                 android:id="@+id/search_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="3dp"
                 android:background="@color/transparent"
                 android:src="@drawable/home_fragment_search_button"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/mypage_button"
+                app:layout_constraintRight_toLeftOf="@id/login_button"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/mypage_button"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:src="@drawable/home_fragment_mypage_button"
+                android:background="@drawable/approval_fragment_category_selected_item_background"
+                android:text="로그인"
+                android:padding="0dp"
+                android:insetTop="4dp"
+                android:insetBottom="4dp"
+                android:insetLeft="6dp"
+                android:insetRight="6dp"
+                android:textSize="11sp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/approval_please_main_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +72,7 @@
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/vp_home_banner"
-                    android:clipToPadding="false"
+                    android:clipToPadding="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -146,7 +156,7 @@
                         android:id="@+id/tv_guide_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:lineHeight="30sp"
+                        android:lineHeight="27sp"
                         android:text="회원가입하면\n관심부서를 설정할 수 있어요"
                         android:textAlignment="center"
                         android:textAppearance="@style/bigText_black"
@@ -177,6 +187,57 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/no_interest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <ImageView
+                        android:id="@+id/not_inter_status_background_image"
+                        android:src="@drawable/interesting_paper_background"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitCenter"
+                        android:adjustViewBounds="true">
+                    </ImageView>
+
+                    <TextView
+                        android:id="@+id/not_inter_tv_guide_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineHeight="27sp"
+                        android:text="관심부서를 설정하면\n원하는 서류만 모아 볼 수 있어요"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/bigText_black"
+                        app:layout_constraintBottom_toTopOf="@id/not_inter_btn_set_interesting_category"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed"
+                        android:layout_marginBottom="15dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/not_inter_btn_set_interesting_category"
+                        android:layout_width="199dp"
+                        android:layout_height="33dp"
+                        android:backgroundTint="@color/approval_please_main_color"
+                        android:elevation="2dp"
+                        android:fontFamily="@font/bold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:padding="0dp"
+                        android:text="관심부서 설정하러 가기"
+                        android:textColor="@color/approval_please_white_color"
+                        android:textSize="11sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/not_inter_tv_guide_text" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/login_status"
                     android:layout_width="match_parent"
@@ -195,6 +256,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
+                            android:id="@+id/interest_category_list"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">

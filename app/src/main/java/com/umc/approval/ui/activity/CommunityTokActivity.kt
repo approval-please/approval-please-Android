@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.umc.approval.R
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.data.dto.comment.post.CommentPostDto
 import com.umc.approval.data.dto.communitydetail.get.VoteOption
@@ -36,6 +37,7 @@ import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.level
 
@@ -91,16 +93,10 @@ class CommunityTokActivity : AppCompatActivity() {
                 binding.communityCommentEt.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인 과정이 필요합니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
-        }
-
-        //좋아요 눌렀을때 로직
-        //구현 필요
-        binding.communityPostLikeNum.setOnClickListener{
-            startActivity(Intent(this@CommunityTokActivity,LikeActivity::class.java))
         }
 
         live_data()
@@ -112,7 +108,7 @@ class CommunityTokActivity : AppCompatActivity() {
         binding.postLikeState.setOnClickListener {
 
             if (viewModel.accessToken.value == false) {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인 과정이 필요합니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -135,16 +131,33 @@ class CommunityTokActivity : AppCompatActivity() {
         binding.uploadCancelBtn.setOnClickListener{
             finish()
         }
+
+        //이름 누를시 이동
+        binding.communityPostUserName.setOnClickListener {
+            if (viewModel.tok.value!!.writerOrNot == false) {
+                val intent = Intent(this, OtherpageActivity::class.java)
+                intent.putExtra("userId", viewModel.tok.value!!.userId)
+                startActivity(intent)
+            }
+        }
+
+        // 좋아요 누른 유저 확인
+        binding.communityPostLikeBtn.setOnClickListener {
+            // 결재 톡톡 ID를 넘김
+            val intent = Intent(this, LikeActivity::class.java)
+            intent.putExtra("type", "toktok")
+            intent.putExtra("id", viewModel.tok.value!!.toktokId)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
         super.onStart()
+        viewModel.checkAccessToken()
 
         val toktokId = intent.getStringExtra("toktokId")
 
-//        viewModel.get_tok_detail(toktokId.toString())
-
-        viewModel.init()
+        viewModel.get_tok_detail(toktokId.toString())
     }
 
 
@@ -316,6 +329,11 @@ class CommunityTokActivity : AppCompatActivity() {
     }
 
     private fun live_data(){
+
+        //댓글 좋아요 로직
+        followViewModel.commentLike.observe(this) {
+            commentViewModel.get_comments(toktokId = viewModel.tok.value!!.toktokId.toString())
+        }
 
         //로직
         followViewModel.like.observe(this) {
@@ -514,7 +532,7 @@ class CommunityTokActivity : AppCompatActivity() {
                                 if (sendVote.isEmpty()) {
                                     sendVote.add(data)
                                 } else {
-                                    Toast.makeText(baseContext, "복수 선택이 불가능합니다", Toast.LENGTH_SHORT).show()
+                                    BlackToast.createToast(baseContext, "복수 선택이 불가능합니다").show()
                                     voteItemCheck.isChecked = false
                                 }
                             }
@@ -647,7 +665,7 @@ class CommunityTokActivity : AppCompatActivity() {
                                     if (sendVote.isEmpty()) {
                                         sendVote.add(data)
                                     } else {
-                                        Toast.makeText(baseContext, "복수 선택이 불가능합니다", Toast.LENGTH_SHORT).show()
+                                        BlackToast.createToast(baseContext, "복수 선택이 불가능합니다").show()
                                         voteItemCheck.isChecked = false
                                     }
                                 }
@@ -718,13 +736,17 @@ class CommunityTokActivity : AppCompatActivity() {
 
             documentCommentAdapter.itemClick = object : ParentCommentAdapter.ItemClick {
 
+                override fun like(v: View, data: CommentDto, pos: Int) {
+                    followViewModel.like(commentId = data.commentId)
+                }
+
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
-                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(baseContext, "댓글 선택이 해제되었습니다").show()
                     } else {
                         commentViewModel.setParentCommentId(data.commentId)
-                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(baseContext, "댓글이 선택되었습니다").show()
                     }
                 }
 
@@ -794,7 +816,6 @@ class CommunityTokActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 toktokId = viewModel.tok.value!!.toktokId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()
@@ -808,6 +829,8 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+
+
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
@@ -836,6 +859,9 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

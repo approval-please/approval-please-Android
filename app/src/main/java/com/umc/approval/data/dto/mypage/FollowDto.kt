@@ -7,6 +7,10 @@ data class FollowDto(
     val nickname : String,
     @SerializedName("level")
     val level : Int,
+    @SerializedName("userId")
+    val userId : Int,
     @SerializedName("profileImage")
-    val profileImage : String
+    val profileImage : String,
+    @SerializedName("isFollow")
+    val isFollow : Boolean
 )

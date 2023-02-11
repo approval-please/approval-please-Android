@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.mypage.follow
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.approval.check.collie.OtherpageActivity
+import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FragmentFollowerBinding
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
@@ -48,6 +51,23 @@ class FollowerFragment : Fragment() {
             binding.followerRecyclerview.layoutManager = LinearLayoutManager(this.context)
             val followerAdapter = FollowerAdapter(it.followDto)
             binding.followerRecyclerview.adapter = followerAdapter
+
+            followerAdapter.itemClick = object : FollowerAdapter.ItemClick {
+
+                override fun follow_or_not(v: View, data: FollowDto, pos: Int) {
+                    viewModel.follow(data.userId)
+                }
+
+                override fun other(v: View, data: FollowDto, pos: Int) {
+                    val intent = Intent(requireContext(), OtherpageActivity::class.java)
+                    intent.putExtra("userId", data.userId)
+                    startActivity(intent)
+                }
+            }
+        }
+
+        viewModel.isFollow.observe(viewLifecycleOwner) {
+            viewModel.my_followers()
         }
     }
 

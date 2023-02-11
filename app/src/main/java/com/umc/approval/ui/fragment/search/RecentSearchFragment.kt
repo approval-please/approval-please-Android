@@ -64,6 +64,10 @@ class RecentSearchFragment : Fragment() {
             viewModel.deleteAllKeyword()
         }
 
+        binding.endSearchActivity.setOnClickListener {
+            requireActivity().finish()
+        }
+
         /**최근 검색어 RecyclerView를 생성해주는 함수*/
         recent_keyword_recycler_view()
 

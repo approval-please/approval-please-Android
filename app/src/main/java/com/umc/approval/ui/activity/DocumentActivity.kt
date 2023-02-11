@@ -4,9 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.widget.Toast
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -20,6 +18,7 @@ import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.R
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.approval.post.AgreeMyPostDto
 import com.umc.approval.data.dto.approval.post.AgreePostDto
 import com.umc.approval.data.dto.comment.get.CommentDto
@@ -34,6 +33,7 @@ import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapte
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
+import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -77,7 +77,7 @@ class DocumentActivity : AppCompatActivity() {
         binding.heart.setOnClickListener {
 
             if (viewModel.accessToken.value == false) {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -92,8 +92,6 @@ class DocumentActivity : AppCompatActivity() {
                 val postComment = CommentPostDto(documentId = viewModel.document.value!!.documentId,
                     content = binding.commentEdit.text.toString(), parentCommentId = null)
 
-                Log.d("테스트입니다", commentViewModel.commentId.value.toString())
-
                 if (commentViewModel.commentId.value != -1) {
                     postComment.parentCommentId = commentViewModel.commentId.value
                 }
@@ -102,7 +100,7 @@ class DocumentActivity : AppCompatActivity() {
                 binding.commentEdit.text.clear()
                 commentViewModel.setParentCommentId(-1)
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -132,6 +130,24 @@ class DocumentActivity : AppCompatActivity() {
         binding.shareButton.setOnClickListener {
             share()
         }
+
+        // 좋아요 누른 유저 확인
+        binding.documentCommentPostLikes.setOnClickListener {
+            // 결재 서류 ID를 넘김
+            val intent = Intent(this, LikeActivity::class.java)
+            intent.putExtra("type", "document")
+            intent.putExtra("id", viewModel.document.value!!.documentId)
+            startActivity(intent)
+        }
+
+        //이름 누를시 이동
+        binding.name.setOnClickListener {
+            if (viewModel.document.value!!.isWriter == false) {
+                val intent = Intent(this, OtherpageActivity::class.java)
+                intent.putExtra("userId", viewModel.document.value!!.userId)
+                startActivity(intent)
+            }
+        }
     }
 
     /* 공유 버튼 누르는 경우 공유 창 발생시키는 함수 */
@@ -153,7 +169,7 @@ class DocumentActivity : AppCompatActivity() {
                     dialog.show(supportFragmentManager, dialog.tag)
                 }
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -168,7 +184,7 @@ class DocumentActivity : AppCompatActivity() {
                     dialog.show(supportFragmentManager, dialog.tag)
                 }
             } else {
-                Toast.makeText(this, "로그인 과정이 필요합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(this, "로그인이 필요한 서비스 입니다").show()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
@@ -183,13 +199,18 @@ class DocumentActivity : AppCompatActivity() {
             binding.refuseButton.text = "반려" + it.rejectCount
         }
 
-        //로직
+        //좋아요 로직
         followViewModel.like.observe(this) {
             if (it == true) {
                 binding.heart.setImageResource(R.drawable.fill_heart)
             } else {
                 binding.heart.setImageResource(R.drawable.document_comment_icon_heart)
             }
+        }
+
+        //댓글 좋아요 로직
+        followViewModel.commentLike.observe(this) {
+            commentViewModel.get_comments(documentId = viewModel.document.value!!.documentId.toString())
         }
 
         //결재 서류 라이브 데이터
@@ -250,28 +271,39 @@ class DocumentActivity : AppCompatActivity() {
                     }
                 }
 
-                val documentImageAdapter2 = DocumentImageAdapter(list1)
+                val documentImageAdapter2 = DocumentImageAdapter(list2)
                 binding.imageRv2.adapter = documentImageAdapter2
                 binding.imageRv2.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-                val documentImageAdapter1 = DocumentImageAdapter(list2)
+                val documentImageAdapter1 = DocumentImageAdapter(list1)
                 binding.imageRv1.adapter = documentImageAdapter1
                 binding.imageRv1.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             }
 
             //작성자일 경우
             if (viewModel.document.value!!.isWriter == true) {
-
                 //만약 결재 서류가 없으면
                 if (viewModel.document.value!!.reportId == null) {
-                    binding.reportWriteButton.isVisible = true
+
+                    if (it.state == 2) {
+                        binding.reportWriteButton.isVisible = false
+                    } else {
+                        binding.reportWriteButton.isVisible = true
+                    }
+
+                    binding.reportCheckButton.isVisible = false
                 } else {
+                    binding.reportWriteButton.isVisible = false
                     binding.reportCheckButton.isVisible = true
                 }
             } else {
                 //만약 결재 서류가 없으면
                 if (viewModel.document.value!!.reportId != null) {
+                    binding.reportWriteButton.isVisible = false
                     binding.reportCheckButton.isVisible = true
+                } else {
+                    binding.reportWriteButton.isVisible = false
+                    binding.reportCheckButton.isVisible = false
                 }
             }
 
@@ -308,14 +340,14 @@ class DocumentActivity : AppCompatActivity() {
                     binding.refuseButton.setTextColor(Color.parseColor("#141414"))
                 }
             } else if (viewModel.document.value!!.isVoted == 0) {
-                if (viewModel.document.value!!.state == 1) {
+                if (viewModel.document.value!!.state == 0) {
 
                     //투표 다르게 보이게 설정
                     binding.approveArea.isVisible = false
                     binding.writerApprove.isVisible = true
                     binding.approval.isVisible = true
                     binding.approval.setImageResource(R.drawable.document_result_approval)
-                } else if (viewModel.document.value!!.isVoted == 2) {
+                } else if (viewModel.document.value!!.state == 1) {
 
                     //투표 다르게 보이게 설정
                     binding.approveArea.isVisible = false
@@ -343,11 +375,15 @@ class DocumentActivity : AppCompatActivity() {
                 override fun make_chid_comment(v: View, data: CommentDto, pos: Int) {
                     if (data.commentId.toString() == commentViewModel.commentId.value.toString()) {
                         commentViewModel.setParentCommentId(-1)
-                        Toast.makeText(baseContext, "댓글 선택이 해제되었습니다", Toast.LENGTH_SHORT).show()
+                        BlackToast.createToast(baseContext, "댓글 선택이 해제되었습니다.").show()
                     } else {
+                        BlackToast.createToast(baseContext, "댓글이 선택되었습니다.").show()
                         commentViewModel.setParentCommentId(data.commentId)
-                        Toast.makeText(baseContext, "댓글이 선택되었습니다", Toast.LENGTH_SHORT).show()
                     }
+                }
+
+                override fun like(v: View, data: CommentDto, pos: Int) {
+                    followViewModel.like(commentId = data.commentId)
                 }
 
                 /**댓글 다이얼로그 로직*/
@@ -450,6 +486,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.approval.setImageResource(R.drawable.document_result_approval)
 
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), true))
+            binding.reportWriteButton.isVisible = true
+            binding.reportCheckButton.isVisible = false
 
         } else {
             viewModel.setIsVoted(1)
@@ -471,6 +509,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.approval.setImageResource(R.drawable.document_result_refusal)
 
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), false))
+            binding.reportWriteButton.isVisible = true
+            binding.reportCheckButton.isVisible = false
 
         } else {
             viewModel.setIsVoted(2)
@@ -595,6 +635,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 결재서류를 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -621,6 +664,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityReportUserDialogBinding.communityDialog
+        text.setText("이 사용자를 신고하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -644,6 +690,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재서류를 신고하시겠습니까?")
+
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
 
@@ -673,6 +722,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 댓글을 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -683,7 +735,6 @@ class DocumentActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 documentId = viewModel.document.value!!.documentId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()
@@ -699,6 +750,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재서류를 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
@@ -725,6 +779,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글을 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

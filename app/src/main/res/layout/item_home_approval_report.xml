@@ -102,17 +102,20 @@
             android:scaleType="centerCrop"/>
 
         <TextView
+            android:minWidth="25dp"
+            android:textAlignment="center"
             android:id="@+id/tv_image_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+2"
-            android:fontFamily="@font/bold"
-            android:textSize="11sp"
-            android:textColor="@color/approval_please_black_color"
-            app:layout_constraintStart_toStartOf="@id/iv_approval_report_thumbnail"
+            android:background="@drawable/image_count_background"
+            android:text="20"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:fontFamily="@font/medium"
             app:layout_constraintEnd_toEndOf="@id/iv_approval_report_thumbnail"
-            app:layout_constraintTop_toTopOf="@id/iv_approval_report_thumbnail"
-            app:layout_constraintBottom_toBottomOf="@id/iv_approval_report_thumbnail"/>
+            app:layout_constraintTop_toTopOf="@id/iv_approval_report_thumbnail"/>
 
         <TextView
             android:id="@+id/tv_post_content"
