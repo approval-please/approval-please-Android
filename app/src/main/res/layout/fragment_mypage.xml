@@ -138,8 +138,9 @@
                     android:layout_marginTop="343dp"
                     android:text="승진 포인트"
                     style="@style/midText_black"
-                    app:layout_constraintStart_toStartOf="@id/mypage_progressbar"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="42dp"/>
 
                 <TextView
                     android:id="@+id/point_num1"
@@ -157,8 +158,9 @@
                     android:layout_marginTop="345dp"
                     android:text=" / 00000"
                     style="@style/smallText_darkgray"
-                    app:layout_constraintEnd_toEndOf="@id/mypage_progressbar"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="42dp"/>
 
                 <!--
                 <ProgressBar
@@ -176,21 +178,24 @@
                     -->
                 <SeekBar
                     android:id="@+id/mypage_progressbar"
-                    android:layout_width="276dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxHeight="8dp"
                     android:layout_marginTop="369dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:layout_marginStart="34dp"
+                    android:layout_marginEnd="34dp"
                     android:clickable="false"
                     android:max="100"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
+                    android:min="0"
                     android:progressDrawable="@drawable/mypage_progressbar_style"
-                    android:thumb="@drawable/mypage_point_icon"
-                    android:thumbOffset="0dp"
+                    android:thumb="@drawable/mypage_point_icon_fill"
+                    android:thumbOffset="1.5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:splitTrack="false" />
+                    android:splitTrack="false"/>
 
 
                 <com.google.android.material.tabs.TabLayout
