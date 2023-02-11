@@ -69,6 +69,7 @@ class MypageDocumentFragment : Fragment() {
         childFragmentManager
             .setFragmentResultListener("status", this) { _, bundle ->
                 val result = bundle.getString("result")
+                binding.stateText.text = result
                 viewModel.setState(Utils.statusMap[result.toString()]!!)
             }
 
