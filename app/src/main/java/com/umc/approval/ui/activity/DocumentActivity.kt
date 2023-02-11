@@ -635,6 +635,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 결재서류를 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -661,6 +664,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityReportUserDialogBinding.communityDialog
+        text.setText("이 사용자를 신고하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -684,6 +690,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재서류를 신고하시겠습니까?")
+
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
 
@@ -713,6 +722,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 댓글을 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -739,6 +751,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재서류를 신고하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -764,6 +779,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글을 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

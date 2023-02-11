@@ -822,6 +822,8 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+
+
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
@@ -850,6 +852,9 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
