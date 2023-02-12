@@ -2,6 +2,7 @@ package com.umc.approval.data.retrofit.api
 
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.community.get.VoteParticipantDto
 import com.umc.approval.data.dto.communityReport.get.CommunityReportDetailDto
 import com.umc.approval.data.dto.communitydetail.get.CommunityItemDto
 import com.umc.approval.data.dto.mypage.CommunityDto
@@ -76,6 +77,17 @@ interface CommunityAPI {
         @Header("Authorization") accessToken: String,
         @Path("toktokId") toktokId : String,
     ): Call<CommunityTokDetailDto>
+
+    /**
+     * 투표 한 사람
+     */
+    @GET("/community/toktoks/votes/{voteOptionId}")
+    @Headers("content-type: application/json")
+    fun get_community_tok_vote_participant(
+        @Header("Authorization") accessToken: String,
+        @Path("voteOptionId") voteOptionId : Int,
+    ): Call<VoteParticipantDto>
+
 
     /**
      * CommunityItemDto: 커뮤니티 포스트 정보(profileImage, nickname, level, isFollow) 리스트

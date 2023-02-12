@@ -17,6 +17,7 @@ import com.umc.approval.databinding.FragmentSearchReportTabBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
+import com.umc.approval.ui.adapter.search_fragment.NoSearchResultRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
 import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 import com.umc.approval.ui.viewmodel.search.SearchReportViewModel
@@ -92,7 +93,6 @@ class ReportTabFragment: Fragment() {
         super.onStart()
 
         viewModel.setQuery(keywordViewModel.search_keyword.value!!)
-
         viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
@@ -100,7 +100,7 @@ class ReportTabFragment: Fragment() {
 
         // category 상태 변화시
         viewModel.category.observe(viewLifecycleOwner) {
-            viewModel.get_reports(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
+            noResult()
         }
 
         // sortBy(정렬) 상태 변화시
@@ -115,25 +115,29 @@ class ReportTabFragment: Fragment() {
 
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.report.observe(viewLifecycleOwner) {
-            communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
+            if(it?.reportCount==0) {
+                noResult()
+            }else{
+                communityReportItemRVAdapter = CommunityReportItemRVAdapter(it)
 
-            val community_item_rv: RecyclerView = binding.rvSearchResultApprovalPaper
+                val community_item_rv: RecyclerView = binding.rvSearchResultApprovalPaper
 
-            community_item_rv.adapter = communityReportItemRVAdapter
-            community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                community_item_rv.adapter = communityReportItemRVAdapter
+                community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
-                override fun move_to_report_activity(v: View, data: CommunityReport, pos: Int) {
-                    //report Id 전달
-                    val intent = Intent(requireContext(), CommunityReportActivity::class.java)
-                    intent.putExtra("reportId", data.reportId.toString())
-                    startActivity(intent)
-                }
-                override fun move_to_document_activity(v: View, data: CommunityReport, pos: Int) {
-                    //report Id 전달
-                    val intent = Intent(requireContext(), DocumentActivity::class.java)
-                    intent.putExtra("documentId", data.document.documentId.toString())
-                    startActivity(intent)
+                communityReportItemRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
+                    override fun move_to_report_activity(v: View, data: CommunityReport, pos: Int) {
+                        //report Id 전달
+                        val intent = Intent(requireContext(), CommunityReportActivity::class.java)
+                        intent.putExtra("reportId", data.reportId.toString())
+                        startActivity(intent)
+                    }
+                    override fun move_to_document_activity(v: View, data: CommunityReport, pos: Int) {
+                        //report Id 전달
+                        val intent = Intent(requireContext(), DocumentActivity::class.java)
+                        intent.putExtra("documentId", data.document.documentId.toString())
+                        startActivity(intent)
+                    }
                 }
             }
         }
@@ -145,5 +149,12 @@ class ReportTabFragment: Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    private fun noResult() {
+        val dataRVAdapter = NoSearchResultRVAdapter(listOf(keywordViewModel.search_keyword.value))
+        binding.rvSearchResultApprovalPaper.adapter = dataRVAdapter
+        binding.rvSearchResultApprovalPaper.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
     }
 }

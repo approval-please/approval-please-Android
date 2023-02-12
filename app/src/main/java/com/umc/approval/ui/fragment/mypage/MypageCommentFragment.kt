@@ -15,18 +15,19 @@ import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReport
-import com.umc.approval.data.dto.community.get.CommunityReportDocumentDto
 import com.umc.approval.data.dto.community.get.CommunityReportDto
+import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.community.get.CommunityTokDto
-import com.umc.approval.data.dto.opengraph.OpenGraphDto
 import com.umc.approval.databinding.FragmentMypageCommentBinding
+import com.umc.approval.ui.activity.CommunityReportActivity
+import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
+import com.umc.approval.ui.adapter.home_fragment.PopularPostRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
 import com.umc.approval.ui.viewmodel.mypage.MyPageCommentViewModel
-import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /*
   MyPage 댓글 tab View
@@ -51,9 +52,10 @@ class MypageCommentFragment : Fragment() {
 
         var state : Int? = null
         var type : Int? = null
-        viewModel.init_my_comments()
+
+        live_data()
+
         viewModel.get_my_comments(type, state)
-        getApproval(state)
 
         binding.cgFilter.setOnCheckedStateChangeListener { chipGroup, checkedIds ->
             Log.d("로그", "서류 종류 선택, $checkedIds")
@@ -62,17 +64,14 @@ class MypageCommentFragment : Fragment() {
                 binding.chipApproval.id -> {
                     type = null
                     viewModel.get_my_comments(type, state)
-                    getApproval(state)
                 }
                 binding.chipTok.id -> {
                     type = 0
                     viewModel.get_my_comments(type, state)
-                    getTok(state)
                 }
                 binding.chipReport.id -> {
                     type = 1
                     viewModel.get_my_comments(type, state)
-                    getReport(state)
                 }
             }
         }
@@ -111,11 +110,6 @@ class MypageCommentFragment : Fragment() {
                         viewModel.get_my_comments(type, state)
                     }
                 }
-                when(type){
-                    null -> { getApproval(state) }
-                    0 -> { getTok(state) }
-                    1 -> { getReport(state) }
-                }
             }
         return view
     }
@@ -133,41 +127,59 @@ class MypageCommentFragment : Fragment() {
     }
 
     /* 결재 서류 불러 오는 함수 */
-    private fun getApproval(state : Int?){
+    private fun live_data(){
         viewModel.comment.observe(viewLifecycleOwner){
-            binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.documentContent is ApprovalPaperDto){
-                val paperRVAdapter = ApprovalPaperListRVAdapter(it.documentContent)
+            if (it.documentContent != null) {
+                val paperRVAdapter =
+                    ApprovalPaperListRVAdapter(ApprovalPaperDto(it.documentCount?:0, it.documentContent?: listOf()))
                 binding.rvMypageComment.adapter = paperRVAdapter
-            }
-            else{
-                Log.d("error", "approval_content data 없음")
-            }
-        }
-    }
-    /* 결재 톡톡 불러 오는 함수 */
-    private fun getTok(state : Int?){
-        viewModel.comment.observe(viewLifecycleOwner){
-            binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.toktokContent is CommunityTokDto){
-                val talkRVAdapter = CommunityTalkItemRVAdapter(it.toktokContent)
+                binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+                // 클릭 이벤트 처리
+                paperRVAdapter.setOnItemClickListener(object :
+                    ApprovalPaperListRVAdapter.OnItemClickListner {
+                    override fun onItemClick(v: View, data: ApprovalPaper, pos: Int) {
+                        //결재 서류 아이디를 통해 상세보기로 이동
+                        val intent = Intent(requireContext(), DocumentActivity::class.java)
+                        intent.putExtra("documentId", data.documentId.toString())
+                        startActivity(intent)
+                    }
+                })
+
+            } else if (it.toktokContent != null) {
+                binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                val talkRVAdapter = CommunityTalkItemRVAdapter(CommunityTokDto(it.toktokCount?:0,it.toktokContent?: listOf()))
                 binding.rvMypageComment.adapter = talkRVAdapter
-            }
-            else{
-                Log.d("error", "tok_content data 없음")
-            }
-        }
-    }
-    /* 결재 보고서 불러 오는 함수 */
-    private fun getReport(state : Int?){
-        viewModel.comment.observe(viewLifecycleOwner){
-            binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            if(it.reportContent is CommunityReportDto){
-                val reportRVAdapter = CommunityReportItemRVAdapter(it.reportContent)
+
+                // 클릭 이벤트 처리
+                talkRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
+                    override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
+
+                        //toktok Id 전달
+                        val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                        intent.putExtra("toktokId", data.toktokId.toString())
+                        startActivity(intent)
+                    }
+                }
+            } else if (it.reportContent != null) {
+                binding.rvMypageComment.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                val reportRVAdapter = CommunityReportItemRVAdapter(CommunityReportDto(it.reportCount?:0,it.reportContent?: listOf()))
                 binding.rvMypageComment.adapter = reportRVAdapter
-            }
-            else{
-                Log.d("error", "report_content data 없음")
+
+                reportRVAdapter.itemClick = object : CommunityReportItemRVAdapter.ItemClick {
+                    override fun move_to_report_activity(v: View, data: CommunityReport, pos: Int) {
+                        //report Id 전달
+                        val intent = Intent(requireContext(), CommunityReportActivity::class.java)
+                        intent.putExtra("reportId", data.reportId.toString())
+                        startActivity(intent)
+                    }
+                    override fun move_to_document_activity(v: View, data: CommunityReport, pos: Int) {
+                        //report Id 전달
+                        val intent = Intent(requireContext(), DocumentActivity::class.java)
+                        intent.putExtra("documentId", data.document.documentId.toString())
+                        startActivity(intent)
+                    }
+                }
             }
         }
     }

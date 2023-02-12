@@ -22,17 +22,24 @@ class ApprovalPaperRVAdapter(private val dataList: ApprovalPaperDto): RecyclerVi
         holder.bind(dataList.approvalPaperDto[position])
     }
 
-    override fun getItemCount(): Int = dataList.approvalPaperDto.size
+//    override fun getItemCount(): Int = dataList.approvalPaperDto.size
+    override fun getItemCount(): Int {
+        return if (dataList.approvalPaperDto.size < 6) {
+            dataList.approvalPaperDto.size
+        } else {
+            6
+        }
+    }
 
     inner class DataViewHolder(private val binding: ItemHomeApprovalPaperBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: ApprovalPaper) {
             binding.tvApprovalPaperTitle.text = data.title
             binding.tvApprovalPaperContent.text = data.content
             binding.tvApprovalPaperContent.text = data.content
-            binding.tvApprovalPaperApproveCount.text = data.approveCount.toString()
+            binding.tvApprovalPaperApproveCount.text = data.approvalCount.toString()
             binding.tvApprovalPaperRejectCount.text = data.rejectCount.toString()
             binding.tvApprovalPaperViewsCount.text = data.view.toString()
-
+            binding.tvImageCount.text = data.imageCount.toString()
 
             binding.tvCategory.text = "디지털 기기"
             binding.tvWriteTime.text = data.datetime

@@ -21,21 +21,26 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
         holder.bind(dataList.communityReport[position])
     }
 
-    override fun getItemCount(): Int = dataList.communityReport.size
+    override fun getItemCount(): Int {
+        return if (dataList.communityReport.size < 5) {
+            dataList.communityReport.size
+        } else {
+            5
+        }
+    }
 
     inner class DataViewHolder(private val binding: ItemHomeApprovalReportBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommunityReport) {
-            // 이미지 설정 부분 -> 수정 필요
-            // binding.ivProfileImage.setImageResource()
-            // binding.ivApprovalReportThumbnail.setImageResource()
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content
-
-            // binding.tvImageCount.text = "+$data.image.size"
+             binding.tvImageCount.text = data.images.size.toString()
 
             if (data.images != null) {
-                binding.ivApprovalReportThumbnail.load(data.images.get(0))
+                if (data.images.isNotEmpty()) {
+                    binding.ivApprovalReportThumbnail.load(data.images.get(0))
+                    binding.ivApprovalReportThumbnail.clipToOutline = true
+                }
             } else {
                 binding.ivApprovalReportThumbnail.visibility = View.GONE
                 binding.tvImageCount.visibility = View.GONE
@@ -44,19 +49,19 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             val pos = adapterPosition
             if (pos != RecyclerView.NO_POSITION) {
                 itemView.setOnClickListener {
-                    listner?.onItemClick(itemView, data, pos)
+                    listener?.onItemClick(itemView, data, pos)
                 }
             }
         }
     }
 
     // 아이템 클릭 리스너
-    interface OnItemClickListner {
+    interface OnItemClickListener {
         fun onItemClick(v: View, data: CommunityReport, pos: Int)
     }
-    private var listner: OnItemClickListner?= null
+    private var listener: OnItemClickListener?= null
 
-    fun setOnItemClickListener(listner: OnItemClickListner) {
-        this.listner = listner
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 }

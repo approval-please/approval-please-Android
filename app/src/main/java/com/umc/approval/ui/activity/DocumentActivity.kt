@@ -236,6 +236,8 @@ class DocumentActivity : AppCompatActivity() {
 
             binding.cate.text = categoryMap[it.category]
             binding.profile.load(it.profileImage)
+            binding.profile.clipToOutline = true
+
             binding.name.text = it.nickname
             binding.title.text = it.title
             binding.rank.text = setRank(it.level!!)
@@ -271,28 +273,39 @@ class DocumentActivity : AppCompatActivity() {
                     }
                 }
 
-                val documentImageAdapter2 = DocumentImageAdapter(list1)
+                val documentImageAdapter2 = DocumentImageAdapter(list2)
                 binding.imageRv2.adapter = documentImageAdapter2
                 binding.imageRv2.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-                val documentImageAdapter1 = DocumentImageAdapter(list2)
+                val documentImageAdapter1 = DocumentImageAdapter(list1)
                 binding.imageRv1.adapter = documentImageAdapter1
                 binding.imageRv1.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             }
 
             //작성자일 경우
             if (viewModel.document.value!!.isWriter == true) {
-
                 //만약 결재 서류가 없으면
                 if (viewModel.document.value!!.reportId == null) {
-                    binding.reportWriteButton.isVisible = true
+
+                    if (it.state == 2) {
+                        binding.reportWriteButton.isVisible = false
+                    } else {
+                        binding.reportWriteButton.isVisible = true
+                    }
+
+                    binding.reportCheckButton.isVisible = false
                 } else {
+                    binding.reportWriteButton.isVisible = false
                     binding.reportCheckButton.isVisible = true
                 }
             } else {
                 //만약 결재 서류가 없으면
                 if (viewModel.document.value!!.reportId != null) {
+                    binding.reportWriteButton.isVisible = false
                     binding.reportCheckButton.isVisible = true
+                } else {
+                    binding.reportWriteButton.isVisible = false
+                    binding.reportCheckButton.isVisible = false
                 }
             }
 
@@ -329,14 +342,14 @@ class DocumentActivity : AppCompatActivity() {
                     binding.refuseButton.setTextColor(Color.parseColor("#141414"))
                 }
             } else if (viewModel.document.value!!.isVoted == 0) {
-                if (viewModel.document.value!!.state == 1) {
+                if (viewModel.document.value!!.state == 0) {
 
                     //투표 다르게 보이게 설정
                     binding.approveArea.isVisible = false
                     binding.writerApprove.isVisible = true
                     binding.approval.isVisible = true
                     binding.approval.setImageResource(R.drawable.document_result_approval)
-                } else if (viewModel.document.value!!.isVoted == 2) {
+                } else if (viewModel.document.value!!.state == 1) {
 
                     //투표 다르게 보이게 설정
                     binding.approveArea.isVisible = false
@@ -475,6 +488,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.approval.setImageResource(R.drawable.document_result_approval)
 
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), true))
+            binding.reportWriteButton.isVisible = true
+            binding.reportCheckButton.isVisible = false
 
         } else {
             viewModel.setIsVoted(1)
@@ -496,6 +511,8 @@ class DocumentActivity : AppCompatActivity() {
             binding.approval.setImageResource(R.drawable.document_result_refusal)
 
             viewModel.agree_my_document(AgreeMyPostDto(viewModel.document.value!!.documentId!!.toInt(), false))
+            binding.reportWriteButton.isVisible = true
+            binding.reportCheckButton.isVisible = false
 
         } else {
             viewModel.setIsVoted(2)
@@ -620,6 +637,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 결재서류를 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -646,6 +666,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityReportUserDialogBinding.communityDialog
+        text.setText("이 사용자를 신고하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -669,6 +692,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setContentView(activityCommunityReportPostDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재서류를 신고하시겠습니까?")
+
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
 
@@ -698,6 +724,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 댓글을 삭제하시겠습니까?")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -708,7 +737,6 @@ class DocumentActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 documentId = viewModel.document.value!!.documentId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()
@@ -724,6 +752,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재서류를 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
@@ -750,6 +781,9 @@ class DocumentActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글을 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

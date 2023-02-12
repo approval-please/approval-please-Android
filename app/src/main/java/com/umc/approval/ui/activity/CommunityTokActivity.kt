@@ -157,9 +157,7 @@ class CommunityTokActivity : AppCompatActivity() {
 
         val toktokId = intent.getStringExtra("toktokId")
 
-//        viewModel.get_tok_detail(toktokId.toString())
-
-        viewModel.init()
+        viewModel.get_tok_detail(toktokId.toString())
     }
 
 
@@ -384,6 +382,8 @@ class CommunityTokActivity : AppCompatActivity() {
             //프로필 이미지
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
+                binding.communityPostUserProfile.clipToOutline = true
+
             }
 
             if (it.likeOrNot == true) {
@@ -513,6 +513,8 @@ class CommunityTokActivity : AppCompatActivity() {
                             CommunityTokVoteParticipant::class.java
                         ) // 인텐트를 생성
                         voteIntent.putExtra("voteId", data.voteOptionId)
+                        voteIntent.putExtra("title",data.opt)
+
                         startActivity(voteIntent)
                     }
 
@@ -571,6 +573,8 @@ class CommunityTokActivity : AppCompatActivity() {
                                 CommunityTokVoteParticipant::class.java
                             ) // 인텐트를 생성
                             voteIntent.putExtra("voteId", data.voteOptionId)
+                            voteIntent.putExtra("title",data.opt)
+
                             startActivity(voteIntent)
                         }
 
@@ -618,6 +622,8 @@ class CommunityTokActivity : AppCompatActivity() {
                                 CommunityTokVoteParticipant::class.java
                             ) // 인텐트를 생성
                             voteIntent.putExtra("voteId", data.voteOptionId)
+                            voteIntent.putExtra("title",data.opt)
+
                             startActivity(voteIntent)
                         }
                         override fun voteClick(
@@ -702,6 +708,7 @@ class CommunityTokActivity : AppCompatActivity() {
                                 CommunityTokVoteParticipant::class.java
                             ) // 인텐트를 생성
                             voteIntent.putExtra("voteId", data.voteOptionId)
+                            voteIntent.putExtra("title",data.opt)
                             startActivity(voteIntent)
                         }
 
@@ -811,7 +818,6 @@ class CommunityTokActivity : AppCompatActivity() {
             linkDialog.dismiss()
             commentViewModel.delete_comments(commentId = commentId.toString(),
                 toktokId = viewModel.tok.value!!.toktokId.toString())
-            finish()
         }
         /*link 팝업*/
         linkDialog.show()
@@ -825,6 +831,8 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
         linkDialog.setCanceledOnTouchOutside(true)
         linkDialog.setCancelable(true)
+
+
         dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
 
@@ -853,6 +861,9 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 댓글 신고하시겠습니까?")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

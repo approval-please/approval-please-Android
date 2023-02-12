@@ -2,6 +2,8 @@ package com.umc.approval.ui.fragment.mypage.setting
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -42,13 +44,12 @@ class SettingFragment : Fragment() {
         val view = binding.root
 
         binding.logout.setOnClickListener {
-
-            CoroutineScope(Dispatchers.IO).launch {
-                viewModel.logout()
+            viewModel.logout()
+            Handler(Looper.myLooper()!!).postDelayed({
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
-            }
+            }, 200)
         }
 
         binding.backToMypage.setOnClickListener {

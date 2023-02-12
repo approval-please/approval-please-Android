@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.approval.data.dto.search.get.SearchUserInfoDto
 import com.umc.approval.databinding.FragmentSearchUserTabBinding
+import com.umc.approval.ui.adapter.search_fragment.NoSearchResultRVAdapter
 import com.umc.approval.ui.adapter.search_fragment.SearchUserRVAdapter
 import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 import com.umc.approval.ui.viewmodel.search.SearchUserViewModel
@@ -53,21 +54,31 @@ class UserTabFragment: Fragment() {
 
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.report.observe(viewLifecycleOwner) {
-            val participantRVAdapter = SearchUserRVAdapter(it)
-            binding.rvLike.adapter = participantRVAdapter
-            binding.rvLike.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            if(it?.userCount==0) {
+                noResult()
+            }else{
+                val participantRVAdapter = SearchUserRVAdapter(it)
+                binding.rvLike.adapter = participantRVAdapter
+                binding.rvLike.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
 
-            // 클릭 이벤트 처리
-            participantRVAdapter?.setOnItemClickListener(object: SearchUserRVAdapter.OnItemClickListner {
-                override fun onItemClick(v: View, data: SearchUserInfoDto, pos: Int) {
-                    //userId Id 전달
-//                    val intent = Intent(requireContext(), ::class.java)
-//                    intent.putExtra("userId", data.userId.toString())
-//                    startActivity(intent)
-                }
-            })
+                // 클릭 이벤트 처리
+                participantRVAdapter?.setOnItemClickListener(object: SearchUserRVAdapter.OnItemClickListner {
+                    override fun onItemClick(v: View, data: SearchUserInfoDto, pos: Int) {
+                        //userId Id 전달
+    //                    val intent = Intent(requireContext(), ::class.java)
+    //                    intent.putExtra("userId", data.userId.toString())
+    //                    startActivity(intent)
+                    }
+                })
+            }
         }
-
     }
+    private fun noResult() {
+        val dataRVAdapter = NoSearchResultRVAdapter(listOf(keywordViewModel.search_keyword.value))
+        binding.rvLike.adapter = dataRVAdapter
+        binding.rvLike.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+    }
+
 }

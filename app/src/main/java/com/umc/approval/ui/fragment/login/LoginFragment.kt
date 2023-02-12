@@ -3,6 +3,8 @@ package com.umc.approval.ui.fragment.login
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
@@ -89,7 +91,9 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "계정이 존재합니다", Toast.LENGTH_SHORT).show()
             } else if (status == 1) {
                 viewModel.setAccessToken("Bearer " + viewModel.social_status.value!!.accessToken.toString())
-                requireActivity().finish()
+                Handler(Looper.myLooper()!!).postDelayed({
+                    requireActivity().finish()
+                }, 300)
             }
         }
 
@@ -297,8 +301,6 @@ class LoginFragment : Fragment() {
                         keep_going.setOnClickListener {
                             alertDialog.cancel()
                         }
-
-                        Toast.makeText(requireContext(), "SNS 계정이 존재합니다", Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {

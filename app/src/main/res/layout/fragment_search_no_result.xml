@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/approval_gray_color">
+
+    <ImageView
+        android:id="@+id/search_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="40dp"
+        android:padding="20dp"
+        android:src="@drawable/no_search_result_image">
+    </ImageView>
+
+
+    <LinearLayout
+        android:id="@+id/search_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_image">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="' "
+            android:fontFamily="@font/bold"
+            android:textSize="15dp"
+            android:textColor="@color/main_color">
+        </TextView>
+
+        <TextView
+            android:id="@+id/search_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:maxWidth="150dp"
+            android:text="검색내용검색내용검색내용"
+            android:fontFamily="@font/bold"
+            android:textSize="15dp"
+            android:textColor="@color/main_color">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" '"
+            android:fontFamily="@font/bold"
+            android:textSize="15dp"
+            android:textColor="@color/main_color">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 에 대한"
+            android:fontFamily="@font/medium"
+            android:textSize="15dp"
+            android:textColor="@color/approval_black_color">
+        </TextView>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_layout"
+        android:text="검색 결과가 없습니다."
+        android:fontFamily="@font/medium"
+        android:textSize="15dp"
+        android:textColor="@color/approval_black_color">
+    </TextView>
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

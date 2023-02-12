@@ -1,9 +1,7 @@
 package com.umc.approval.ui.adapter.approval_fragment
 
 import android.content.Context
-import android.graphics.Rect
 import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +33,15 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
         val context = context
         fun bind(data: ApprovalPaper) {
 
+            Log.d("테스트입니다", data.toString())
+
             /**
              * 이미지가 없으면 이미지 제외하고 처리
              * 이미지가 있으면 로드
              * */
             if (data.thumbnailImage == null) {
                 binding.itemImage.isVisible = false
+                binding.tvImageCount.isVisible = false
                 val layoutParams = binding.contentContainer.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.marginStart = 0
                 binding.contentContainer.layoutParams = layoutParams
@@ -54,11 +55,12 @@ class ApprovalPaperListRVAdapter(private val dataList: ApprovalPaperDto): Recycl
              * */
             binding.tvTitle.text = data.title
             binding.tvContent.text = data.content
-            binding.tvApproveCount.text = data.approveCount.toString()
+            binding.tvApproveCount.text = data.approvalCount.toString()
             binding.tvRejectCount.text = data.rejectCount.toString()
             binding.tvViews.text = data.view.toString()
             binding.tvCategory.text = categoryMap[data.category]
             binding.tvWriteTime.text = data.datetime
+            binding.tvImageCount.text = data.imageCount.toString()
 
             /**
              * 승인 상태에 따라 처리

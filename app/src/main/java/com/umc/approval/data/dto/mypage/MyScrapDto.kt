@@ -1,21 +1,21 @@
 package com.umc.approval.data.dto.mypage
 
 import com.google.gson.annotations.SerializedName
-import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
-import com.umc.approval.data.dto.community.get.CommunityReportDto
-import com.umc.approval.data.dto.community.get.CommunityTokDto
+import com.umc.approval.data.dto.approval.get.ApprovalPaper
+import com.umc.approval.data.dto.community.get.CommunityReport
+import com.umc.approval.data.dto.community.get.CommunityTok
 
 data class MyScrapDto(
     @SerializedName("documentCount")
     val documentCount : Int? = null,
     @SerializedName("documentContent")
-    val documentContent : ApprovalPaperDto? = null,
+    val documentContent : List<ApprovalPaper>? = null,
     @SerializedName("toktokCount")
     val toktokCount : Int? = null,
     @SerializedName("toktokContent")
-    val toktokContent : CommunityTokDto? = null,
+    val toktokContent : List<CommunityTok>? = null,
     @SerializedName("reportCount")
     val reportCount : Int? = null,
     @SerializedName("reportContent")
-    val reportContent : CommunityReportDto? = null
+    val reportContent : List<CommunityReport>? = null
 )

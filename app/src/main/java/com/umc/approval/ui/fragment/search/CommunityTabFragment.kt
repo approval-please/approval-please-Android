@@ -16,6 +16,7 @@ import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.databinding.FragmentSearchCommunityTabBinding
 import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
+import com.umc.approval.ui.adapter.search_fragment.NoSearchResultRVAdapter
 import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogSortFragment
 import com.umc.approval.ui.viewmodel.search.SearchKeywordViewModel
 import com.umc.approval.ui.viewmodel.search.SearchTokViewModel
@@ -90,7 +91,6 @@ class CommunityTabFragment: Fragment() {
         super.onStart()
 
         viewModel.setQuery(keywordViewModel.search_keyword.value!!)
-
         viewModel.get_toktok(keywordViewModel.search_keyword.value.toString(), viewModel.tag.value!!, viewModel.category.value, viewModel.sort.value!!)
     }
 
@@ -113,22 +113,33 @@ class CommunityTabFragment: Fragment() {
 
         // 서버에서 데이터를 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.toktok.observe(viewLifecycleOwner) {
-            communityTalkItemRVAdapter = CommunityTalkItemRVAdapter(it)
+            if(it?.toktokCount==0) {
+                noResult()
+            }else{
+                communityTalkItemRVAdapter = CommunityTalkItemRVAdapter(it)
 
-            val community_item_rv: RecyclerView = binding.rvSearchResultToktok
+                val community_item_rv: RecyclerView = binding.rvSearchResultToktok
 
-            community_item_rv.adapter = communityTalkItemRVAdapter
-            community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                community_item_rv.adapter = communityTalkItemRVAdapter
+                community_item_rv.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
-                override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
+                communityTalkItemRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
+                    override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
 
-                    //toktok Id 전달
-                    val intent = Intent(requireContext(), CommunityTokActivity::class.java)
-                    intent.putExtra("toktokId", data.toktokId.toString())
-                    startActivity(intent)
+                        //toktok Id 전달
+                        val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                        intent.putExtra("toktokId", data.toktokId.toString())
+                        startActivity(intent)
+                    }
                 }
             }
         }
+    }
+
+    private fun noResult() {
+        val dataRVAdapter = NoSearchResultRVAdapter(listOf(keywordViewModel.search_keyword.value))
+        binding.rvSearchResultToktok.adapter = dataRVAdapter
+        binding.rvSearchResultToktok.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
     }
 }
