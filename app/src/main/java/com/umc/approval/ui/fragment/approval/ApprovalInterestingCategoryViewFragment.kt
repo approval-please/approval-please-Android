@@ -52,7 +52,6 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
         live_data()
 
         binding.addInterestCategoryButton.setOnClickListener {
-            Log.d("로그", "관심 부서 추가 버튼 클릭")
             val intent = Intent(requireContext(), InterestingDepartmentActivity::class.java)
             startActivity(intent)
         }
@@ -70,12 +69,6 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
             viewModel.category.value, commonViewModel.state.value, commonViewModel.sortBy.value)
 
         viewModel.get_interest()
-
-        // 관심부서가 없으면 관심부서 설정 화면으로 이동
-        if (viewModel.interesting.value == null) {
-            startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
-            GrayToast.createToast(requireContext(), "관심부서를 설정하세요.").show()
-        }
     }
 
     override fun onResume() {
@@ -143,6 +136,11 @@ class ApprovalInterestingCategoryViewFragment: Fragment() {
 
         //카테고리 목록 받아오는 라이브 데이터
         viewModel.interesting.observe(viewLifecycleOwner) {
+
+            if (it.isEmpty()) {
+                startActivity(Intent(requireContext(), InterestingDepartmentActivity::class.java))
+                BlackToast.createToast(requireContext(), "관심부서를 설정하세요.").show()
+            }
 
             val interestingCategory: ArrayList<InterestingCategory> = arrayListOf()  // 샘플 데이터
 

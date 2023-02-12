@@ -15,6 +15,7 @@ import androidx.core.view.forEachIndexed
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +23,8 @@ import com.umc.approval.R
 import com.umc.approval.data.dto.follow.FollowStateDto
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.ActivityOtherpageBinding
+import com.umc.approval.ui.activity.LikeActivity
+import com.umc.approval.ui.activity.SearchActivity
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.ui.viewmodel.otherpage.OtherpageViewModel
