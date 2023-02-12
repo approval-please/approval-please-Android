@@ -228,8 +228,8 @@
                 android:id="@+id/upload_hashtag_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="16dp"></androidx.recyclerview.widget.RecyclerView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
