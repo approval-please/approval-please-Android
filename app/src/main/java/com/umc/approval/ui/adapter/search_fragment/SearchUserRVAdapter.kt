@@ -11,6 +11,8 @@ import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.search.get.SearchUserDto
 import com.umc.approval.data.dto.search.get.SearchUserInfoDto
 import com.umc.approval.databinding.ParticipantActivityRecyclerviewItemBinding
+import com.umc.approval.util.Utils.level
+import com.umc.approval.util.Utils.levelImage
 
 class SearchUserRVAdapter(private val dataList: SearchUserDto?): RecyclerView.Adapter<SearchUserRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -29,14 +31,14 @@ class SearchUserRVAdapter(private val dataList: SearchUserDto?): RecyclerView.Ad
 
         fun bind(data: SearchUserInfoDto) {
             binding.tvNickname.text = data.nickname
-            binding.tvRank.text = data.level.toString()
+            binding.tvRank.text = level[data.level]
             if (data.profileImage != null) {
                 binding.ivProfileImage.load(data.profileImage)
-                binding.ivProfileImage.clipToOutline = true
-
+            } else {
+                binding.ivProfileImage.load(levelImage[data.level])
             }
             binding.btnFollow.isVisible = false
-
+            binding.btnUnfollow.isVisible = false
         }
     }
 

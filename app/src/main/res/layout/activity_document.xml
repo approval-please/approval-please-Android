@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/cate"
             android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:text="영화·공연 서류"
             style="@style/midText_black_bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="김부장"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:textColor="#141414"
                     android:textSize="16sp"
                     android:fontFamily="@font/light"
@@ -663,32 +663,25 @@
         android:layout_height="70dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent">
-        <ImageButton
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/document_comment_icon_pic"
-            android:scaleType="fitCenter"
-            android:background="#FFFFFF"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"/>
+
         <ImageView
             android:id="@+id/document_comment_comment_area"
-            android:layout_width="342dp"
+            android:layout_width="match_parent"
             android:layout_height="38dp"
             android:src="@drawable/document_comment_comment_background"
             android:scaleType="fitXY"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"/>
         <EditText
             android:id="@+id/commentEdit"
             android:gravity="center_vertical"
-            android:layout_width="326dp"
+            android:layout_width="match_parent"
             android:layout_height="20dp"
             android:background="#FAFAFA"
+            android:inputType="text"
             android:hint="댓글을 입력하세요"
             android:textSize="15sp"
             android:textColor="#8C8C8C"
@@ -696,6 +689,8 @@
             app:layout_constraintBottom_toBottomOf="@id/document_comment_comment_area"
             app:layout_constraintStart_toStartOf="@id/document_comment_comment_area"
             app:layout_constraintEnd_toEndOf="@id/document_comment_comment_area"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="53dp"
             />
         <ImageButton
             android:id="@+id/write_button"

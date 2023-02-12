@@ -123,7 +123,6 @@
                 android:textSize="11dp"
                 android:fontFamily="@font/light"
                 android:textColor="@color/approval_please_light_gray_color"
-                android:layout_marginRight="16dp"
                 android:layout_gravity="center"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -335,6 +334,7 @@
 
 
         <LinearLayout
+            android:id="@+id/like_and_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"

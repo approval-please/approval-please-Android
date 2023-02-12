@@ -11,6 +11,7 @@ import com.umc.approval.R
 import com.umc.approval.data.dto.comment.get.CommentDto
 import com.umc.approval.databinding.DocumentCommentRecyclerviewItem2Binding
 import com.umc.approval.util.Utils
+import com.umc.approval.util.Utils.levelImage
 
 class ChildCommentAdapter(val itemList: List<CommentDto>, val context: Context) : RecyclerView.Adapter<ChildCommentAdapter.ViewHolder>(){
 
@@ -21,7 +22,9 @@ class ChildCommentAdapter(val itemList: List<CommentDto>, val context: Context) 
             if (data.profileImage != null) {
                 binding.documentCommentItemProfilepic.load(data.profileImage)
                 binding.documentCommentItemProfilepic.clipToOutline = true
-
+            } else {
+                binding.documentCommentItemProfilepic.load(levelImage[data.level])
+                binding.documentCommentItemProfilepic.clipToOutline = true
             }
 
             //닉네임

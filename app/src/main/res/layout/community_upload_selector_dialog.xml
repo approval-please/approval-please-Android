@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:text="결제톡톡"
+            android:text="결재톡톡"
             android:textSize="12dp"
             android:textColor="@color/black"
             android:fontFamily="@font/medium"></TextView>
