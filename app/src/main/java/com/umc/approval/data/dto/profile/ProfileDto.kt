@@ -21,6 +21,4 @@ data class ProfileDto (
         var followings : Int,
         @SerializedName("follows")
         var follows : Int,
-        @SerializedName("isFollow")
-        var isFollow : Boolean
 )

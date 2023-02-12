@@ -43,7 +43,7 @@ interface MyPageAPI {
      * */
     @GET("/profile/{userId}")
     @Headers("content-type: application/json")
-    fun get_other_page(@Path("userId") userId: Int) : Call<ProfileDto>
+    fun get_other_page(@Path("userId") userId: Int) : Call<ProfileContentDto>
 
     /**
      * @Post

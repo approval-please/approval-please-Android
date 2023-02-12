@@ -7,6 +7,8 @@ import com.google.gson.annotations.SerializedName
  * API 명세서 Check 완료
  * */
 data class ProfileContentDto (
+        @SerializedName("isFollow")
+        var isFollow : Boolean,
         @SerializedName("content")
         var content : ProfileDto,
 )
