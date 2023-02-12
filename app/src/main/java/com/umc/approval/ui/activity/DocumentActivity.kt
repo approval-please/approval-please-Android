@@ -203,7 +203,7 @@ class DocumentActivity : AppCompatActivity() {
         //좋아요 로직
         followViewModel.like.observe(this) {
             if (it == true) {
-                binding.heart.setImageResource(R.drawable.fill_heart)
+                binding.heart.setImageResource(R.drawable.document_heart_fill)
             } else {
                 binding.heart.setImageResource(R.drawable.document_comment_icon_heart)
             }
