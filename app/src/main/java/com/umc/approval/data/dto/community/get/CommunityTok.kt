@@ -9,7 +9,7 @@ data class CommunityTok(
         @SerializedName("toktokId")
         var toktokId : Int,
         @SerializedName("profileImage")
-        var profileImage : String,
+        var profileImage : String?,
         @SerializedName("category")
         var category : Int,
         @SerializedName("userId")

@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.R
 import com.umc.approval.data.dto.approval.get.ApprovalPaper
 import com.umc.approval.data.dto.approval.get.ApprovalPaperDto
 import com.umc.approval.data.dto.community.get.CommunityReport
@@ -23,6 +26,7 @@ import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.approval_fragment.ApprovalPaperListRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
+import com.umc.approval.ui.fragment.approval.ApprovalBottomSheetDialogStatusFragment
 import com.umc.approval.ui.viewmodel.mypage.MyPageScrapViewModel
 
 /*
@@ -32,6 +36,8 @@ class MypageScrapFragment : Fragment() {
 
     private var _binding : FragmentMypageScrapBinding? = null
     private val binding get() = _binding!!
+
+    var state : Int? = null
 
     private val viewModel by viewModels<MyPageScrapViewModel>()
 
@@ -55,16 +61,54 @@ class MypageScrapFragment : Fragment() {
             // checkedIds에 따라 API 호출, 리사이클러뷰 갱신
             when(chipGroup.checkedChipId){
                 binding.chipApproval.id -> {
-                    viewModel.get_my_scraps()
+                    viewModel.get_my_scraps(null, state)
+                    binding.stateSelect.isVisible = true
                 }
                 binding.chipTok.id -> {
-                    viewModel.get_my_scraps(0)
+                    viewModel.get_my_scraps(0, null)
+                    binding.stateSelect.isVisible = false
                 }
                 binding.chipReport.id -> {
-                    viewModel.get_my_scraps(1)
+                    viewModel.get_my_scraps(1, null)
+                    binding.stateSelect.isVisible = false
                 }
             }
         }
+        binding.stateSelect.setOnClickListener {
+            val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
+            bottomSheetDialog.setStyle(
+                DialogFragment.STYLE_NORMAL,
+                R.style.RoundCornerBottomSheetDialogTheme
+            )
+            bottomSheetDialog.show(childFragmentManager, bottomSheetDialog.tag)
+        }
+
+        childFragmentManager
+            .setFragmentResultListener("status", this) { _, bundle ->
+                val result = bundle.getString("result")
+                binding.stateText.text = result
+
+                // 리사이클러뷰 아이템 갱신
+                Log.d("status", result.toString())
+                when(result){
+                    "상태 전체" -> {
+                        state = null
+                        viewModel.get_my_scraps(null, state)
+                    }
+                    "승인됨" -> {
+                        state = 0
+                        viewModel.get_my_scraps(null, state)
+                    }
+                    "반려됨" -> {
+                        state = 1
+                        viewModel.get_my_scraps(null, state)
+                    }
+                    "결재 대기중" -> {
+                        state = 2
+                        viewModel.get_my_scraps(null, state)
+                    }
+                }
+            }
         return view
     }
 

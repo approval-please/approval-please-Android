@@ -38,8 +38,10 @@ import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.BlackToast
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.level
+import com.umc.approval.util.Utils.levelImage
 
 
 class CommunityTokActivity : AppCompatActivity() {
@@ -157,6 +159,18 @@ class CommunityTokActivity : AppCompatActivity() {
 
         val toktokId = intent.getStringExtra("toktokId")
 
+        viewModel.get_tok_detail(toktokId.toString())
+    }
+
+//    override fun onRestart() {
+//        super.onRestart()
+//        val toktokId = intent.getStringExtra("toktokId")
+//        viewModel.get_tok_detail(toktokId.toString())
+//    }
+
+    override fun onResume() {
+        super.onResume()
+        val toktokId = intent.getStringExtra("toktokId")
         viewModel.get_tok_detail(toktokId.toString())
     }
 
@@ -407,8 +421,11 @@ class CommunityTokActivity : AppCompatActivity() {
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
                 binding.communityPostUserProfile.clipToOutline = true
-
+            } else {
+                binding.communityPostUserProfile.load(levelImage[it.level])
+                binding.communityPostUserProfile.clipToOutline = true
             }
+
 
             if (it.likeOrNot == true) {
                 binding.postLikeState.setImageResource(R.drawable.community_post_like_btn)
@@ -520,7 +537,7 @@ class CommunityTokActivity : AppCompatActivity() {
                     CommunityVoteCompleteRVAdapter(
                         viewModel.tok.value!!.voteOptions!!,
                         viewModel.tok.value!!.votePeople!!.toFloat(),
-                        viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                        viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                         sendVote,
                         viewModel.reVote.value!!
                     )
@@ -580,7 +597,7 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteCompleteRVAdapter(
                             viewModel.tok.value!!.voteOptions!!,
                             viewModel.tok.value!!.votePeople!!.toFloat(),
-                            viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                            viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                             sendVote,
                             viewModel.reVote.value!!
                         )
@@ -629,7 +646,7 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteCompleteRVAdapter(
                             viewModel.tok.value!!.voteOptions!!,
                             viewModel.tok.value!!.votePeople!!.toFloat(),
-                            viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                            viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                             sendVote,
                             viewModel.reVote.value!!
                         )
@@ -715,7 +732,7 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteCompleteRVAdapter(
                             viewModel.tok.value!!.voteOptions!!,
                             viewModel.tok.value!!.votePeople!!.toFloat(),
-                            viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                            viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                             sendVote,
                             viewModel.reVote.value!!
                         )
@@ -792,9 +809,9 @@ class CommunityTokActivity : AppCompatActivity() {
                     val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
 
                     // visible 처리
-                    if(writer == true){
-                        setting_report_post.isVisible = true
-                        setting_report_user.isVisible = true
+                    if(data.isMy == true){
+                        setting_report_post.isVisible = false
+                        setting_report_user.isVisible = false
                         setting_remove_post.isVisible = true
                     }else{
                         setting_report_post.isVisible = true

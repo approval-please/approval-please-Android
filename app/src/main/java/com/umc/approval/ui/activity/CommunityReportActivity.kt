@@ -36,6 +36,7 @@ import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
+import com.umc.approval.util.Utils.levelImage
 
 class CommunityReportActivity : AppCompatActivity() {
 
@@ -179,8 +180,10 @@ class CommunityReportActivity : AppCompatActivity() {
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
                 binding.communityPostUserProfile.clipToOutline = true
-
+            } else {
+                binding.communityPostUserProfile.load(levelImage[it.level])
             }
+
 
             //닉네임
             binding.communityPostUserName.text = it.nickname
@@ -194,6 +197,9 @@ class CommunityReportActivity : AppCompatActivity() {
             binding.communityDocumentLayout.documentTitle.text = it.documentTitle
             //서류 내용
             binding.communityDocumentLayout.documentContent.text = it.documentContent
+            //보고서 제목 내용
+            binding.communityPostContent.text = it.reportContent
+
             //좋아요
             binding.communityPostLikeNum.text = "좋아요 "+ it.likedCount
             //스크랩
@@ -322,9 +328,9 @@ class CommunityReportActivity : AppCompatActivity() {
                     val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
 
                     // visible 처리
-                    if(writer == true){
-                        setting_report_post.isVisible = true
-                        setting_report_user.isVisible = true
+                    if(data.isMy == true){
+                        setting_report_post.isVisible = false
+                        setting_report_user.isVisible = false
                         setting_remove_post.isVisible = true
                     }else{
                         setting_report_post.isVisible = true

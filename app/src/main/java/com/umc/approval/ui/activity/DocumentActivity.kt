@@ -35,6 +35,7 @@ import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.BlackToast
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -236,7 +237,13 @@ class DocumentActivity : AppCompatActivity() {
             }
 
             binding.cate.text = categoryMap[it.category]
-            binding.profile.load(it.profileImage)
+
+            //profile image
+            if (it.profileImage != null) {
+                binding.profile.load(it.profileImage)
+            } else {
+                binding.profile.load(Utils.levelImage[it.level])
+            }
             binding.profile.clipToOutline = true
 
             binding.name.text = it.nickname
@@ -405,9 +412,9 @@ class DocumentActivity : AppCompatActivity() {
                     val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
 
                     // visible 처리
-                    if(writer == true){
-                        setting_report_post.isVisible = true
-                        setting_report_user.isVisible = true
+                    if(data.isMy == true){
+                        setting_report_post.isVisible = false
+                        setting_report_user.isVisible = false
                         setting_remove_post.isVisible = true
                     }else{
                         setting_report_post.isVisible = true
