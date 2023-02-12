@@ -1,5 +1,6 @@
 package com.umc.approval.ui.adapter.mypage_fragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +10,7 @@ import com.umc.approval.data.dto.mypage.RecordDto
 import com.umc.approval.data.dto.search.post.KeywordDto
 import com.umc.approval.databinding.MypageRecordItemBinding
 
-class MyPageRecordAdapter(val items: RecordDto) :
+class MyPageRecordAdapter(val items: List<Record>) :
 RecyclerView.Adapter<MyPageRecordAdapter.MyPageRecordViewHolder>() {
 
     inner class MyPageRecordViewHolder(val binding: MypageRecordItemBinding) : RecyclerView.ViewHolder(binding.root){
@@ -27,10 +28,10 @@ RecyclerView.Adapter<MyPageRecordAdapter.MyPageRecordViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyPageRecordViewHolder, position: Int) {
-        holder.binding(items.content[position])
+        holder.binding(items[position])
     }
 
     override fun getItemCount(): Int {
-        return items.content.size
+        return items.size
     }
 }
