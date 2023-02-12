@@ -110,6 +110,7 @@ class LoginFragment : Fragment() {
     private fun access_token_check() {
         viewModel.accessToken.observe(viewLifecycleOwner) {
             if (it == true) {
+                startActivity(Intent(requireContext(), MainActivity::class.java))
                 requireActivity().finish()
             }
         }
@@ -120,7 +121,6 @@ class LoginFragment : Fragment() {
      * */
     private fun back_to_main_activity() {
         binding.backToMainActivity.setOnClickListener {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
             requireActivity().finish()
         }
     }
