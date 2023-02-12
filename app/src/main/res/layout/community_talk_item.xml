@@ -24,7 +24,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/community_post_user_info"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="16dp"
@@ -101,26 +101,31 @@
                     android:textSize="11sp"
                     app:layout_constraintStart_toEndOf="@id/dot"
                     app:layout_constraintTop_toBottomOf="@id/community_post_user_name"></TextView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/home_fragment_item_views"
-                android:layout_gravity="center"/>
+                app:layout_constraintEnd_toStartOf="@+id/report_view_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginRight="6dp"
+                android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/report_view_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:text="0"
                 android:textSize="11dp"
                 android:fontFamily="@font/light"
                 android:textColor="@color/approval_please_light_gray_color"
-                android:layout_marginLeft="6dp"
                 android:layout_marginRight="16dp"
                 android:layout_gravity="center"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
@@ -349,7 +354,8 @@
                 android:layout_height="13dp"
                 android:src="@drawable/community_comment_image"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp">
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="7dp">
             </ImageView>
 
             <TextView
@@ -370,7 +376,7 @@
                 android:layout_height="13dp"
                 android:src="@drawable/community_like_image"
                 android:layout_gravity="center"
-                android:layout_marginLeft="10dp">
+                android:layout_marginRight="7dp">
             </ImageView>
 
             <TextView
