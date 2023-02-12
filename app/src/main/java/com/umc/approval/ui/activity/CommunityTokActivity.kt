@@ -502,8 +502,25 @@ class CommunityTokActivity : AppCompatActivity() {
                     viewModel.setIsEnd(false)
                 }
 
+                //투표가 복수선택인지 확인
+                if(it.voteIsSingle == true){
+                    binding.communityVoteLayoutComplete.communityPostVoteOption.isVisible = false
+                    binding.communityVoteLayout.communityPostVoteOption.isVisible = true
+                }else{
+                    binding.communityVoteLayoutComplete.communityPostVoteOption.isVisible = true
+                    binding.communityVoteLayout.communityPostVoteOption.isVisible = false
+                }
+
                 //투표 리스트 초기화
                 viewModel.initVoteList()
+
+                //투표 제목
+                binding.communityVoteLayoutComplete.communityPostVoteTitle.text = it.voteTitle
+                binding.communityVoteLayout.communityPostVoteTitle.text = it.voteTitle
+
+                // 투표 인원
+                binding.communityVoteLayoutComplete.communityPostVoteParticipant.text = it.votePeople.toString() + "명참여"
+                binding.communityVoteLayout.communityPostVoteParticipant.text = it.votePeople.toString() + "명참여"
 
                 viewModel.votedList.observe(this) {
                     Log.d("테스트입니다", it.toString())
