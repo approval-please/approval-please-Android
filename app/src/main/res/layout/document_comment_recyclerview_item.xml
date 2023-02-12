@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent" />
     <TextView
         android:id="@+id/document_comment_item_name"
-        android:layout_width="36dp"
+        android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:text="김차장"
         style="@style/midText_black"
@@ -21,19 +21,20 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="34dp"
         android:layout_marginTop="5dp"/>
+
     <TextView
         android:id="@+id/document_comment_item_rank"
+        style="@style/smallText_black_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/home_fragment_post_rank_background"
-        android:text="부장"
-        style="@style/smallText_black_light"
-        app:layout_constraintTop_toTopOf="@id/document_comment_item_profilepic"
-        app:layout_constraintBottom_toBottomOf="@id/document_comment_item_profilepic"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="74dp"
         android:paddingStart="4dp"
-        android:paddingEnd="4dp"/>
+        android:paddingEnd="4dp"
+        android:layout_marginLeft="5dp"
+        android:text="부장"
+        app:layout_constraintBottom_toBottomOf="@id/document_comment_item_profilepic"
+        app:layout_constraintStart_toEndOf="@+id/document_comment_item_name"
+        app:layout_constraintTop_toTopOf="@id/document_comment_item_profilepic" />
     <ImageView
         android:id="@+id/check_btn"
         android:layout_width="13dp"

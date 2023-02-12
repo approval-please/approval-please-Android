@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
 import com.umc.approval.R
 import com.umc.approval.data.dto.common.CommonUserDto
@@ -14,6 +16,7 @@ import com.umc.approval.data.dto.common.CommonUserListDto
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.ActivityLikeRecyclerviewItemBinding
 import com.umc.approval.util.Like
+import com.umc.approval.util.Utils.level
 
 class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapter<LikeRVAdapter.DataViewHolder>() {
 
@@ -26,30 +29,47 @@ class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapt
         holder.bind(dataList.dataEntity[position])
 
         if (itemClick != null){
-            holder.itemView.setOnClickListener {
+            holder.binding.ivProfileImage.setOnClickListener {
                 itemClick?.move_to_profile(it, dataList.dataEntity[position], position)
+            }
+            //팔로우중 X
+            holder.binding.btnUnfollow.setOnClickListener {
+                itemClick?.follow(it, dataList.dataEntity[position], position)
+            }
+            //팔로우중
+            holder.binding.btnFollow.setOnClickListener {
+                itemClick?.unfollow(it, dataList.dataEntity[position], position)
             }
         }
     }
 
     override fun getItemCount(): Int = dataList.likeCount
 
-    inner class DataViewHolder(private val binding: ActivityLikeRecyclerviewItemBinding,
-                               val context: Context
+    inner class DataViewHolder(
+        val binding: ActivityLikeRecyclerviewItemBinding,
+        val context: Context
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: CommonUserDto) {
-            Glide.with(context).load(data.profileImage).into(binding.ivProfileImage)
-            binding.tvNickname.text = data.nickname
-            binding.tvRank.text = data.level.toString()
+            if (binding.ivProfileImage != null) {
+                binding.ivProfileImage.load(data.profileImage)
+            } else {
 
-            if (data.isFollow) {
-                binding.btnFollow.setBackgroundColor(ContextCompat.getColor(context, R.color.unselected_tab_text))
-                binding.btnFollow.text = "팔로잉"
             }
+            binding.tvNickname.text = data.nickname
+            binding.tvRank.text = level[data.level]
 
-            binding.btnFollow.setOnClickListener {
-                Log.d("로그", "팔로우 버튼 클릭, $adapterPosition")
+            if (data.isMy == true) {
+                binding.btnUnfollow.isVisible = false
+                binding.btnFollow.isVisible = false
+            } else {
+                if (data.isFollow) {
+                    binding.btnUnfollow.isVisible = false
+                    binding.btnFollow.isVisible = true
+                } else {
+                    binding.btnUnfollow.isVisible = true
+                    binding.btnFollow.isVisible = false
+                }
             }
         }
     }
@@ -57,6 +77,10 @@ class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapt
     /* recyclerview item 클릭 이벤트 */
     interface ItemClick{
         fun move_to_profile(v: View, data: CommonUserDto, pos: Int)
+
+        fun follow(v: View, data: CommonUserDto, pos: Int)
+
+        fun unfollow(v: View, data: CommonUserDto, pos: Int)
     }
     var itemClick : ItemClick? = null
 }
