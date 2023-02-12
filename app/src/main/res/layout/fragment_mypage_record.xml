@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/record_item_date"
             style="@style/midText_purple_light"
-            android:layout_width="23dp"
+            android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginLeft="9dp"
             android:layout_marginTop="7dp"
@@ -49,7 +49,7 @@
 
         <TextView
             style="@style/midText_purple_light"
-            android:layout_width="35dp"
+            android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="26dp"
@@ -59,7 +59,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="14dp"
         android:id="@+id/mypage_record_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
