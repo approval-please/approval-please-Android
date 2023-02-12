@@ -38,6 +38,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/notice_off_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/notice_on_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,6 +108,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/storage_on_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -137,6 +140,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/storage_off_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -174,6 +178,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/report_report_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -242,6 +247,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/report_user_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -274,6 +280,7 @@
             android:fontFamily="@font/medium"></ImageView>
 
         <TextView
+            android:id="@+id/remove_post_text"
             android:layout_weight="6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

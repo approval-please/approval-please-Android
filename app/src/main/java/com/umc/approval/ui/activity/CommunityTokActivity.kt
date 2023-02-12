@@ -185,6 +185,20 @@ class CommunityTokActivity : AppCompatActivity() {
             val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
             val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
 
+            //다이얼로그 텍스트 수정
+            val setting_notice_on_text = bottomSheetView.findViewById<TextView>(R.id.notice_on_text)
+            setting_notice_on_text.setText("이 결재톡톡 알람 받기")
+            val setting_notice_off_text = bottomSheetView.findViewById<TextView>(R.id.notice_off_text)
+            setting_notice_off_text.setText("이 결재톡톡 알람 끄기")
+            val setting_storage_on_text = bottomSheetView.findViewById<TextView>(R.id.storage_on_text)
+            setting_storage_on_text.setText("이 결재톡톡 보관함에 넣기")
+            val setting_storage_off_text = bottomSheetView.findViewById<TextView>(R.id.storage_off_text)
+            setting_storage_off_text.setText("이 결재톡톡 보관함에서 빼기")
+            val setting_report_post_text = bottomSheetView.findViewById<TextView>(R.id.report_report_text)
+            setting_report_post_text.setText("이 결재톡톡 신고하기")
+            val setting_remove_post_text = bottomSheetView.findViewById<TextView>(R.id.remove_post_text)
+            setting_remove_post_text.setText("이 결재톡톡 삭제하기")
+
             // visible 처리
             if(writer == true){
                 setting_report_post.isVisible = false
@@ -261,6 +275,11 @@ class CommunityTokActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
+        text.setText("이 결재톡톡을 삭제하시겠습니까?")
+
+        dialogConfirmButton.setText("결재톡톡 삭제하기")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -312,6 +331,11 @@ class CommunityTokActivity : AppCompatActivity() {
         linkDialog.setCancelable(true)
         dialogCancelButton = activityCommunityReportPostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityReportPostDialogBinding.communityDialogConfirmButton
+
+        val text = activityCommunityReportPostDialogBinding.communityDialog
+        text.setText("이 결재톡톡을 신고하시겠습니까?")
+
+        dialogConfirmButton.setText("결재톡톡 신고하기")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
