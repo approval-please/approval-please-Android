@@ -23,6 +23,7 @@ import com.umc.approval.databinding.DocumentCommentRecyclerviewItemBinding
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.community.CommunityViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.level
 
 class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
@@ -94,6 +95,8 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
             //프로필 이미지 있을시
             if (data.profileImage != null) {
                 binding.documentCommentItemProfilepic.load(data.profileImage)
+            } else {
+                binding.documentCommentItemProfilepic.load(Utils.levelImage[data.level])
             }
 
             //닉네임
@@ -177,6 +180,8 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
         val text = activityCommunityRemovePostDialogBinding.communityDialog
         text.setText("이 댓글을 삭제하시겠습니까?")
 
+        dialogConfirmButton.setText("댓글 삭제하기")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -207,6 +212,8 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
         val text = activityCommunityReportUserDialogBinding.communityDialog
         text.setText("이 사용자를 신고하시겠습니까?")
 
+        dialogConfirmButton.setText("사용자 신고하기")
+
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {
             linkDialog.dismiss()
@@ -235,6 +242,8 @@ class ParentCommentAdapter(val itemList : CommentListDto, val context: Context,
 
         val text = activityCommunityReportPostDialogBinding.communityDialog
         text.setText("이 댓글을 신고하시겠습니까?")
+
+        dialogConfirmButton.setText("댓글 신고하기")
 
         /*취소버튼*/
         dialogCancelButton.setOnClickListener {

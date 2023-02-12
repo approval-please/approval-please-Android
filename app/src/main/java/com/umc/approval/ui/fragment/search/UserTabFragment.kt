@@ -1,5 +1,6 @@
 package com.umc.approval.ui.fragment.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.check.collie.OtherpageActivity
 import com.umc.approval.data.dto.search.get.SearchUserInfoDto
 import com.umc.approval.databinding.FragmentSearchUserTabBinding
 import com.umc.approval.ui.adapter.search_fragment.NoSearchResultRVAdapter
@@ -65,10 +67,9 @@ class UserTabFragment: Fragment() {
                 // 클릭 이벤트 처리
                 participantRVAdapter?.setOnItemClickListener(object: SearchUserRVAdapter.OnItemClickListner {
                     override fun onItemClick(v: View, data: SearchUserInfoDto, pos: Int) {
-                        //userId Id 전달
-    //                    val intent = Intent(requireContext(), ::class.java)
-    //                    intent.putExtra("userId", data.userId.toString())
-    //                    startActivity(intent)
+                        val intent = Intent(requireContext(), OtherpageActivity::class.java)
+                        intent.putExtra("userId", data.userId.toString())
+                        startActivity(intent)
                     }
                 })
             }

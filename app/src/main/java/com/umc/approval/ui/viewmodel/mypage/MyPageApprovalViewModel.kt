@@ -51,41 +51,6 @@ class MyPageApprovalViewModel() : ViewModel() {
     }
 
     /**
-     * 테스트 데이터는 아래와 같이 작성하면 됨
-     * 전체부서 가지고 오는 로직
-     * */
-    fun init_all_category_approval() = viewModelScope.launch {
-
-        val approvalPaperList: MutableList<ApprovalPaper> = arrayListOf()
-
-        approvalPaperList.apply{
-            add(
-                ApprovalPaper(0,0, "", "", mutableListOf("기계", "환경 "),
-                    link = null, "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,0,32,32, "50분전",
-                    1000)
-            )
-
-            add(
-                ApprovalPaper(1,2, "", "", mutableListOf("기계", "환경 "),
-                    link = null, "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,2,32,32, "50분전",
-                    1000)
-            )
-
-            add(
-                ApprovalPaper(2,1, "", "", mutableListOf("기계", "환경 "),
-                    link = null, "https://approval-please.s3.ap-northeast-2.amazonaws.com/profile/test", 0,1,32,32, "50분전",
-                    1000)
-            )
-        }
-
-        //서버로부터 받아온 데이터
-        val approvalPageDto = ApprovalPaperDto(0, approvalPaperList)
-
-        //데이터 삽입
-        _approval_all_list.postValue(approvalPageDto)
-    }
-
-    /**
      * 관심부서 서류 목록을 반환받는 API
      * 정상 동작 Check 완료
      * */

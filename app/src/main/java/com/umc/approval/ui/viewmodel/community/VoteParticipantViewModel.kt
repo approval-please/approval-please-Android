@@ -24,6 +24,10 @@ class VoteParticipantViewModel :ViewModel() {
     val participantList: LiveData<VoteParticipantDto>
         get() = _participantList
 
+    private var _error = MutableLiveData<Boolean>()
+    val error: LiveData<Boolean>
+        get() = _error
+
     /**
      * 참가자 불러오기 API
      * 정상 동작 Check 완료
@@ -39,6 +43,7 @@ class VoteParticipantViewModel :ViewModel() {
                     _participantList.postValue(response.body())
                 } else {
                     Log.d("RESPONSE", "FAIL")
+                    _error.postValue(true)
                 }
             }
             override fun onFailure(call: Call<VoteParticipantDto>, t: Throwable) {
