@@ -16,6 +16,7 @@ import com.umc.approval.data.dto.common.CommonUserListDto
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.ActivityLikeRecyclerviewItemBinding
 import com.umc.approval.util.Like
+import com.umc.approval.util.Utils.level
 
 class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapter<LikeRVAdapter.DataViewHolder>() {
 
@@ -50,16 +51,25 @@ class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapt
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: CommonUserDto) {
-            binding.ivProfileImage.load(data.profileImage)
-            binding.tvNickname.text = data.nickname
-            binding.tvRank.text = data.level.toString()
-
-            if (data.isFollow) {
-                binding.btnUnfollow.isVisible = false
-                binding.btnFollow.isVisible = true
+            if (binding.ivProfileImage != null) {
+                binding.ivProfileImage.load(data.profileImage)
             } else {
-                binding.btnUnfollow.isVisible = true
+
+            }
+            binding.tvNickname.text = data.nickname
+            binding.tvRank.text = level[data.level]
+
+            if (data.isMy == true) {
+                binding.btnUnfollow.isVisible = false
                 binding.btnFollow.isVisible = false
+            } else {
+                if (data.isFollow) {
+                    binding.btnUnfollow.isVisible = false
+                    binding.btnFollow.isVisible = true
+                } else {
+                    binding.btnUnfollow.isVisible = true
+                    binding.btnFollow.isVisible = false
+                }
             }
         }
     }

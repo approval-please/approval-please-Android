@@ -63,16 +63,16 @@ class CommunityTokVoteParticipant : AppCompatActivity() {
             participantRVAdapter.itemClick = object : VoteParticipantRVAdapter.ItemClick{
                 override fun move_to_profile(v: View, data: ParticipantDto, pos: Int) {
                     val intent = Intent(baseContext, OtherpageActivity::class.java)
-//                    intent.putExtra("userId", data.)
+                    intent.putExtra("userId", data.userId)
                     startActivity(intent)
                 }
 
                 override fun follow(v: View, data: ParticipantDto, pos: Int) {
-//                    followViewModel.follow(data.userId)
+                    followViewModel.follow(data.userId)
                 }
 
                 override fun unfollow(v: View, data: ParticipantDto, pos: Int) {
-//                    followViewModel.follow(data.userId)
+                    followViewModel.follow(data.userId)
                 }
             }
         }

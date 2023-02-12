@@ -404,9 +404,9 @@ class DocumentActivity : AppCompatActivity() {
                     val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
 
                     // visible 처리
-                    if(writer == true){
-                        setting_report_post.isVisible = true
-                        setting_report_user.isVisible = true
+                    if(data.isMy == true){
+                        setting_report_post.isVisible = false
+                        setting_report_user.isVisible = false
                         setting_remove_post.isVisible = true
                     }else{
                         setting_report_post.isVisible = true

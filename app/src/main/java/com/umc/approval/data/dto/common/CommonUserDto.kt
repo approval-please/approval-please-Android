@@ -15,5 +15,7 @@ data class CommonUserDto(
     @SerializedName("level")
     val level: Int,
     @SerializedName("isFollow")
-    val isFollow: Boolean
+    val isFollow: Boolean,
+    @SerializedName("isMy")
+    val isMy: Boolean
 )

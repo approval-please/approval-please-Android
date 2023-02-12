@@ -15,6 +15,7 @@ import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.data.dto.community.get.ParticipantDto
 import com.umc.approval.data.dto.community.get.VoteParticipantDto
 import com.umc.approval.databinding.ParticipantActivityRecyclerviewItemBinding
+import com.umc.approval.util.Utils.level
 
 class VoteParticipantRVAdapter(private val dataList: VoteParticipantDto): RecyclerView.Adapter<VoteParticipantRVAdapter.DataViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -51,14 +52,19 @@ class VoteParticipantRVAdapter(private val dataList: VoteParticipantDto): Recycl
                 binding.ivProfileImage.clipToOutline = true
             }
             binding.tvNickname.text = data.nickname
-            binding.tvRank.text = data.level.toString()
+            binding.tvRank.text = level[data.level]
 
-            if (data.followOrNot) {
+            if (data.isMy == true) {
                 binding.btnUnfollow.isVisible = false
-                binding.btnFollow.isVisible = true
-            } else {
-                binding.btnUnfollow.isVisible = true
                 binding.btnFollow.isVisible = false
+            } else {
+                if (data.followOrNot) {
+                    binding.btnUnfollow.isVisible = false
+                    binding.btnFollow.isVisible = true
+                } else {
+                    binding.btnUnfollow.isVisible = true
+                    binding.btnFollow.isVisible = false
+                }
             }
         }
     }
