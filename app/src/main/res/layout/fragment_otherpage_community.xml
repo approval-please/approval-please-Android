@@ -33,14 +33,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
                 android:checked="true"
-                android:text="결재 톡톡"/>
+                android:text="결재톡톡"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/report"
                 style="@style/Colors_Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                android:text="결재 보고서"/>
+                android:text="결재보고서"/>
 
         </com.google.android.material.chip.ChipGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>

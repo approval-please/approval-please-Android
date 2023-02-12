@@ -145,7 +145,7 @@
                     app:layout_constraintStart_toEndOf="@id/dot"
                     app:layout_constraintTop_toBottomOf="@id/community_post_user_name"></TextView>
 
-
+                <!--
                 <ImageButton
                     android:id="@+id/unfollow"
                     android:layout_width="wrap_content"
@@ -167,6 +167,43 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     ></ImageButton>
+                -->
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/follow"
+                    android:layout_gravity="bottom"
+                    android:layout_width="45dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/shape_document_approve_button"
+                    android:backgroundTint="#BFBFBF"
+                    android:text="팔로잉"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/light"
+                    android:includeFontPadding="false"
+                    android:padding="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/unfollow"
+                    android:layout_gravity="bottom"
+                    android:layout_width="45dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/shape_document_approve_button"
+                    android:backgroundTint="#6C39FF"
+                    android:text="팔로우"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:fontFamily="@font/light"
+                    android:includeFontPadding="false"
+                    android:padding="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <include
@@ -228,8 +265,8 @@
                 android:id="@+id/upload_hashtag_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="16dp"></androidx.recyclerview.widget.RecyclerView>
 
             <androidx.constraintlayout.widget.ConstraintLayout

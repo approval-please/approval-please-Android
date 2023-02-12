@@ -188,14 +188,17 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:id="@+id/profile_msg_textview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="프로필 메세지 샘플입니다."
                     style="@style/midText_black_light"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/otherpage_follow_area"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="42dp"
+                    android:layout_marginEnd="42dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,8 +206,8 @@
                     android:text="승진 포인트"
                     style="@style/midText_black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="343dp"
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="42dp"/>
                 <TextView
                     android:id="@+id/point_num1"
@@ -213,8 +216,8 @@
                     android:text="000"
                     style="@style/smallText_black"
                     app:layout_constraintEnd_toStartOf="@id/point_num2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="345dp"/>
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"
+                    android:layout_marginTop="20dp"/>
                 <TextView
                     android:id="@+id/point_num2"
                     android:layout_width="wrap_content"
@@ -222,15 +225,15 @@
                     android:text=" / 00000"
                     style="@style/smallText_darkgray"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="345dp"
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="42dp"/>
                 <SeekBar
                     android:id="@+id/otherpage_progressbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxHeight="8dp"
-                    android:layout_marginTop="369dp"
+                    android:layout_marginTop="10dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:layout_marginStart="34dp"
@@ -243,7 +246,7 @@
                     android:thumbOffset="1.5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/point_num1"
                     android:splitTrack="false" />
 
                 <com.google.android.material.tabs.TabLayout
