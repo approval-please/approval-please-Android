@@ -2,6 +2,7 @@ package com.umc.approval.ui.fragment.search
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -105,10 +106,6 @@ class RecentSearchFragment : Fragment() {
         /**검색어 입력 전체 삭제*/
         binding.textRemove.setOnClickListener{
             binding.search.setText("")
-        }
-
-        /**뒤로가기 버튼*/
-        binding.endSearchActivity.setOnClickListener{
         }
     }
 
