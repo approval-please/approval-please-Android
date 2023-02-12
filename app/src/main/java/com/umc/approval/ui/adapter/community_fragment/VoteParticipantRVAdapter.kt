@@ -15,6 +15,7 @@ import com.umc.approval.data.dto.common.CommonUserDto
 import com.umc.approval.data.dto.community.get.ParticipantDto
 import com.umc.approval.data.dto.community.get.VoteParticipantDto
 import com.umc.approval.databinding.ParticipantActivityRecyclerviewItemBinding
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.level
 
 class VoteParticipantRVAdapter(private val dataList: VoteParticipantDto): RecyclerView.Adapter<VoteParticipantRVAdapter.DataViewHolder>() {
@@ -50,7 +51,10 @@ class VoteParticipantRVAdapter(private val dataList: VoteParticipantDto): Recycl
             if (data.profileImage != null) {
                 binding.ivProfileImage.load(data.profileImage)
                 binding.ivProfileImage.clipToOutline = true
+            } else {
+                binding.ivProfileImage.load(Utils.levelImage[data.level])
             }
+
             binding.tvNickname.text = data.nickname
             binding.tvRank.text = level[data.level]
 
