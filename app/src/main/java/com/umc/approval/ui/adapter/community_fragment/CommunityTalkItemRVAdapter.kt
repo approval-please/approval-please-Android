@@ -13,6 +13,7 @@ import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.CommunityTalkItemBinding
 import com.umc.approval.ui.adapter.community_post_activity.CommunityImageRVAdapter
 import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.level
 
@@ -34,6 +35,13 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
             binding.rank.text = level[data.userLevel]
             binding.tvLikeCount.text = data.likeCount.toString()
             binding.tvCommentCount.text = data.commentCount.toString()
+
+            //profile image
+            if (data.profileImage != null) {
+                binding.communityPostUserProfile.load(data.profileImage)
+            } else {
+                binding.communityPostUserProfile.load(Utils.levelImage[data.userLevel])
+            }
 
             if (data.voteDto != null) {
                 if (data.voteDto.isEnd == false) {

@@ -25,6 +25,7 @@ import com.umc.approval.data.dto.profile.ProfileChange
 import com.umc.approval.databinding.ActivityProfileChangeBinding
 import com.umc.approval.ui.viewmodel.profile.ProfileChangeViewModel
 import com.umc.approval.util.S3Util
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY
 import com.umc.approval.util.Utils.PICK_IMAGE_FROM_GALLERY_PERMISSION
 import java.io.File
@@ -86,6 +87,8 @@ class ProfileChangeActivity : AppCompatActivity() {
             //profile image
             if (viewModel.load_profile.value!!.profileImage != null) {
                 binding.profileImage.load(viewModel.load_profile.value!!.profileImage)
+            } else {
+                binding.profileImage.load(Utils.levelImage[it.level])
             }
         }
     }

@@ -8,6 +8,7 @@ import coil.load
 import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.ItemHomePopularPostBinding
+import com.umc.approval.util.Utils
 
 class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.Adapter<PopularPostRVAdapter.DataViewHolder>() {
 
@@ -30,8 +31,12 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
 
     inner class DataViewHolder(private val binding: ItemHomePopularPostBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommunityTok) {
-            // 이미지 설정 부분 - 설정 필요
-            // binding.ivProfileImage.setImageResource()
+            //profile image
+            if (data.profileImage != null) {
+                binding.ivProfileImage.load(data.profileImage)
+            } else {
+                binding.ivProfileImage.load(Utils.levelImage[data.userLevel])
+            }
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content

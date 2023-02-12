@@ -34,6 +34,7 @@ import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.BlackToast
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 
 class DocumentActivity : AppCompatActivity() {
@@ -235,6 +236,14 @@ class DocumentActivity : AppCompatActivity() {
             }
 
             binding.cate.text = categoryMap[it.category]
+
+            //profile image
+            if (it.profileImage != null) {
+                binding.profile.load(it.profileImage)
+            } else {
+                binding.profile.load(Utils.levelImage[it.level])
+            }
+
             binding.profile.load(it.profileImage)
             binding.profile.clipToOutline = true
 

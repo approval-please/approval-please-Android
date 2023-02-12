@@ -86,7 +86,7 @@ class MypageCommunityFragment : Fragment() {
         //서버에서 데이터 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.community.observe(viewLifecycleOwner) {
 
-            if (it.reportContent == null || it.reportContent!!.isEmpty()) {
+            if (it.reportContent == null) {
                 val communityTok = CommunityTokDto(it.toktokCount!!, it.toktokContent!!)
                 val dataRVAdapter = CommunityTalkItemRVAdapter(communityTok)
                 binding.rvMypageCommunity.adapter = dataRVAdapter
