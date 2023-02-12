@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/cate"
             android:layout_width="wrap_content"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
             android:text="영화·공연 서류"
             style="@style/midText_black_bold"
             app:layout_constraintTop_toTopOf="parent"
@@ -125,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="김부장"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:textColor="#141414"
                     android:textSize="16sp"
                     android:fontFamily="@font/light"

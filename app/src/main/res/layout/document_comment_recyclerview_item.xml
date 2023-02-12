@@ -14,12 +14,12 @@
     <TextView
         android:id="@+id/document_comment_item_name"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:text="김차장"
         style="@style/midText_black"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="34dp"
+        app:layout_constraintStart_toEndOf="@id/document_comment_item_profilepic"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"/>
 
     <TextView
@@ -65,7 +65,7 @@
     <TextView
         android:id="@+id/document_comment_item_date"
         android:layout_width="wrap_content"
-        android:layout_height="12dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="12/31 1 시간 전"
         android:textColor="#8C8C8C"
@@ -86,7 +86,7 @@
         android:id="@+id/document_comment_item_likes"
         android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="18dp"
+        android:layout_height="wrap_content"
         android:text="5"
         style="@style/smallText_gray"
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_content"
