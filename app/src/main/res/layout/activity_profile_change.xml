@@ -104,7 +104,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/nickname_background"
-        app:layout_constraintBottom_toBottomOf="@id/nickname_background"/>
+        app:layout_constraintBottom_toBottomOf="@id/nickname_background"
+        android:maxLength="15"/>
 
     <TextView
         android:id="@+id/my_text"

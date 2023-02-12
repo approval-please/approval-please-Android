@@ -191,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="프로필 메세지 샘플입니다.\n 프로필 메세지 샘플입니다."
+                    android:text="프로필 메세지 샘플입니다."
                     style="@style/midText_black_light"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
