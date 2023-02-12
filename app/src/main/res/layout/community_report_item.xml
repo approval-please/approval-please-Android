@@ -58,12 +58,19 @@
             android:textColor="#141414"
             android:textSize="12dp"
             android:fontFamily="@font/light"></TextView>
-
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:background="@color/transparent">
+        </View>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/home_fragment_item_views"
+            android:gravity=""
             android:layout_gravity="center"/>
 
         <TextView
@@ -214,7 +221,8 @@
             android:layout_height="13dp"
             android:src="@drawable/community_comment_image"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="7dp">
         </ImageView>
 
         <TextView
@@ -235,7 +243,8 @@
             android:layout_height="13dp"
             android:src="@drawable/community_like_image"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="7dp">
         </ImageView>
 
         <TextView
