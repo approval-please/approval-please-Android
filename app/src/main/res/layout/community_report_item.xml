@@ -58,12 +58,12 @@
             android:textColor="#141414"
             android:textSize="12dp"
             android:fontFamily="@font/light"></TextView>
-
         <View
             android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:gravity="left"
-            android:layout_gravity="left">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="left"
+            android:background="@color/transparent">
         </View>
 
         <ImageView
