@@ -1,36 +1,47 @@
 package com.umc.approval.check.collie
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEachIndexed
+import androidx.core.view.isVisible
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
 import com.umc.approval.data.dto.follow.FollowStateDto
 import com.umc.approval.data.dto.mypage.FollowDto
+import com.umc.approval.databinding.ActivityCommunityReportUserDialogBinding
 import com.umc.approval.databinding.ActivityOtherpageBinding
-import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.ui.viewmodel.otherpage.OtherpageViewModel
+import com.umc.approval.util.BlackToast
+import com.umc.approval.util.Utils.levelImage
 
 class OtherpageActivity : AppCompatActivity() {
     lateinit var binding: ActivityOtherpageBinding
+    private lateinit var activityCommunityReportUserDialogBinding: ActivityCommunityReportUserDialogBinding
 
     /* 탭 */
     lateinit var tab1 : OtherpageDocumentFragment
     lateinit var tab2 : OtherpageCommunityFragment
+
+    /*다이얼로그 버튼*/
+    private lateinit var dialogCancelButton : Button
+    private lateinit var dialogConfirmButton : Button
 
     /* 포인트 프로그레스 바 데이터 */
     var userpoint = 0f
@@ -51,12 +62,7 @@ class OtherpageActivity : AppCompatActivity() {
         val intent = intent
         userId = intent.getIntExtra("userId", 0)
         setContentView(view)
-    }
 
-    // 시작 시 로그인 상태 검증 및 좋아요 누른 유저 목록 조회
-    override fun onStart() {
-        super.onStart()
-        viewModel.init_other_profile()
         viewModel.other_profile(userId)
 
         // 탭 초기화
@@ -64,6 +70,11 @@ class OtherpageActivity : AppCompatActivity() {
         move_to_other_tab()
         seekbar_inactive()
         others_profile_live_data()
+    }
+
+    // 시작 시 로그인 상태 검증 및 좋아요 누른 유저 목록 조회
+    override fun onStart() {
+        super.onStart()
 
         //버튼 클릭
         binding.followBtn.setOnClickListener {
@@ -85,6 +96,8 @@ class OtherpageActivity : AppCompatActivity() {
         binding.backIcon.setOnClickListener {
             finish()
         }
+
+        postDialog()
 
     }
 
@@ -140,7 +153,6 @@ class OtherpageActivity : AppCompatActivity() {
                         tabViewChild.typeface = ResourcesCompat.getFont(this@OtherpageActivity, R.font.medium)
                     }
                 }
-
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -188,32 +200,26 @@ class OtherpageActivity : AppCompatActivity() {
 
         viewModel.othersInfo.observe(this){
             //프로필 이미지
-            if (viewModel.othersInfo.value!!.profileImage != null) {
-                binding.otherpageProfilePic.load(it.profileImage)
+            if (it.content.profileImage != null) {
+                binding.otherpageProfilePic.load(it.content.profileImage)
             }
             else{
-                when(it.level){
-                    0 -> binding.otherpageProfilePic.load(R.drawable.profile_img_sawon)
-                    1 -> binding.otherpageProfilePic.load(R.drawable.profile_img_juim)
-                    2 -> binding.otherpageProfilePic.load(R.drawable.profile_img_daeli)
-                    3 -> binding.otherpageProfilePic.load(R.drawable.profile_img_gwajang)
-                    4 -> binding.otherpageProfilePic.load(R.drawable.profile_img_chajang)
-                    5 -> binding.otherpageProfilePic.load(R.drawable.profile_img_bujang)
-                }
+                binding.otherpageProfilePic.load(levelImage[it.content.level])
             }
+            Log.d("테스트입니다", it.toString())
+            // 네임
+            binding.otherpageNicknameTextview.text = it.content.nickname
             // 직급
-            binding.otherpageRank.text = setRank(it.level)
-            // 닉네임
-            binding.otherpageNicknameTextview.text = it.nickname
+            binding.otherpageRank.text = setRank(it.content.level)
             // 팔로잉
-            binding.otherpageFollowingTextview.text = "팔로잉 " + it.followings
+            binding.otherpageFollowingTextview.text = "팔로잉 " + it.content.followings
             // 팔로워
-            binding.otherpageFollowerTextview.text = "팔로워 " + it.follows
+            binding.otherpageFollowerTextview.text = "팔로워 " + it.content.follows
             // 프로필 메세지
-            binding.profileMsgTextview.text = it.introduction
+            binding.profileMsgTextview.text = it.content.introduction
             // 승진 포인트
-            userpoint = it.promotionPoint.toFloat()
-            rankpoint = setRankPoint(it.level).toFloat()
+            userpoint = it.content.promotionPoint.toFloat()
+            rankpoint = setRankPoint(it.content.level).toFloat()
             progress = userpoint / rankpoint * 100.0f
             binding.otherpageProgressbar.progress = progress.toInt()
             binding.pointNum1.text = userpoint.toInt().toString()
@@ -259,5 +265,52 @@ class OtherpageActivity : AppCompatActivity() {
             5->{ point = 71000 }
         }
         return point
+    }
+
+    private fun postDialog(){
+        binding.otherpageSetting.setOnClickListener {
+            val bottomSheetView =
+                layoutInflater.inflate(R.layout.otherpage_selector_dialog, null)
+            val bottomSheetDialog = BottomSheetDialog(this)
+            bottomSheetDialog.setContentView(bottomSheetView)
+            bottomSheetDialog.show()
+
+            //dialog의 view Component 접근
+            val setting_report_user = bottomSheetView.findViewById<LinearLayout>(R.id.setting_report_user)
+
+            setting_report_user.isVisible = true
+            setting_report_user.setOnClickListener {
+                bottomSheetDialog.dismiss()
+                showReportUserDialog()
+            }
+        }
+    }
+
+    //사용자 신고
+    private fun showReportUserDialog(){
+        val linkDialog : Dialog = Dialog(this);
+        activityCommunityReportUserDialogBinding = ActivityCommunityReportUserDialogBinding.inflate(layoutInflater)
+
+        linkDialog.setContentView(activityCommunityReportUserDialogBinding.root)
+        linkDialog.setCanceledOnTouchOutside(true)
+        linkDialog.setCancelable(true)
+        dialogCancelButton = activityCommunityReportUserDialogBinding.communityDialogCancelButton
+        dialogConfirmButton = activityCommunityReportUserDialogBinding.communityDialogConfirmButton
+
+
+        /*취소버튼*/
+        dialogCancelButton.setOnClickListener {
+            linkDialog.dismiss()
+        }
+
+        /*확인버튼*/
+        dialogConfirmButton.setOnClickListener{
+            followViewModel.accuse(accuseUserId = userId)
+            linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
+        }
+
+        /*link 팝업*/
+        linkDialog.show()
     }
 }

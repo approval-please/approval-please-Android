@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.mypage.MypageRecordFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:padding="0.2dp"
             android:scaleType="fitXY"
             android:src="@drawable/mypage_record_row_background"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:padding="0.2dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/record_item_date"
+            style="@style/midText_purple_light"
             android:layout_width="23dp"
             android:layout_height="16dp"
-            android:text="날짜"
-            style="@style/midText_purple_light"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="9dp"
-            android:layout_marginTop="7dp"/>
+            android:layout_marginTop="7dp"
+            android:text="날짜"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/record_item_content"
+            style="@style/midText_purple_light"
             android:layout_width="148dp"
             android:layout_height="16dp"
-            android:text="내용"
-            style="@style/midText_purple_light"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/record_item_date"
             android:layout_marginLeft="62dp"
-            android:layout_marginTop="7dp"/>
+            android:layout_marginTop="7dp"
+            android:text="내용"
+            app:layout_constraintStart_toEndOf="@id/record_item_date"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
+            style="@style/midText_purple_light"
             android:layout_width="35dp"
             android:layout_height="16dp"
-            android:text="포인트"
-            style="@style/midText_purple_light"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="7dp"
             android:layout_marginEnd="26dp"
-            android:layout_marginTop="7dp"/>
+            android:text="포인트"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="10dp"
         android:id="@+id/mypage_record_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:listitem="@layout/mypage_record_item"
-        android:layout_marginTop="55dp"
-        android:layout_marginBottom="12dp"/>
-</FrameLayout>
+        android:background="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,7 +57,7 @@
                         android:layout_marginEnd="16dp"
                         android:background="#FFFFFF"
                         android:scaleType="fitXY"
-                        android:src="@drawable/otherpage_setting_icon2"
+                        android:src="@drawable/otherpage_setting_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

@@ -17,10 +17,10 @@ data class ProfileDto (
         var promotionPoint : Int,
         @SerializedName("level")
         var level : Int,
+        @SerializedName("userId")
+        var userId : Int,
         @SerializedName("followings")
         var followings : Int,
         @SerializedName("follows")
         var follows : Int,
-        @SerializedName("isFollow")
-        var isFollow : Boolean
 )

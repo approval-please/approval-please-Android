@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.umc.approval.R
 import com.umc.approval.databinding.FragmentFollowBinding
 import com.umc.approval.databinding.FragmentNotificationBinding
+import com.umc.approval.ui.viewmodel.follow.CommonFollowViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 
 /**
@@ -20,11 +21,11 @@ class FollowFragment : Fragment() {
 
     private var _binding : FragmentFollowBinding? = null
     private val binding get() = _binding!!
-    lateinit var tab1 : FollowerFragment
-    lateinit var tab2 : FollowingFragment
+    lateinit var tab1 : FollowingFragment
+    lateinit var tab2 : FollowerFragment
 
     /**Follow view model*/
-    private val viewModel by viewModels<FollowViewModel>()
+    private val viewModel by viewModels<CommonFollowViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +51,16 @@ class FollowFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        tab1 = FollowerFragment()
-        tab2 = FollowingFragment()
+        tab1 = FollowingFragment()
+        tab2 = FollowerFragment()
 
         replaceView(tab1)
 
         binding.followTabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.position){
-                    0 -> { replaceView(tab1) }
-                    1 -> { replaceView(tab2) }
+                    0 -> { replaceView(FollowingFragment()) }
+                    1 -> { replaceView(FollowerFragment()) }
                 }
             }
 

@@ -162,10 +162,13 @@
 
                 <TextView
                     android:id="@+id/profile_msg_textview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="프로필 메세지 샘플입니다."
+                    android:gravity="center"
+                    android:layout_marginStart="42dp"
+                    android:layout_marginEnd="42dp"
                     style="@style/midText_black_light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -174,31 +177,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="343dp"
                     android:text="승진 포인트"
                     style="@style/midText_black"
+                    android:layout_marginTop="18dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"
                     android:layout_marginStart="42dp"/>
 
                 <TextView
                     android:id="@+id/point_num1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="345dp"
+                    android:layout_marginTop="18dp"
                     android:text="000"
                     style="@style/smallText_black"
                     app:layout_constraintEnd_toStartOf="@id/point_num2"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview" />
                 <TextView
                     android:id="@+id/point_num2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="345dp"
+                    android:layout_marginTop="18dp"
                     android:text=" / 00000"
                     style="@style/smallText_darkgray"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"
                     android:layout_marginEnd="42dp"/>
 
                 <!--
@@ -220,7 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxHeight="8dp"
-                    android:layout_marginTop="369dp"
+                    android:layout_marginTop="10dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:layout_marginStart="34dp"
@@ -233,7 +236,7 @@
                     android:thumbOffset="1.5dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/point_num1"
                     android:splitTrack="false"/>
 
 

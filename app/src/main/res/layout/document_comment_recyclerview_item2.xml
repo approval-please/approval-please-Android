@@ -79,13 +79,15 @@
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_content" />
     <ImageButton
         android:id="@+id/document_comment_item_likebtn"
-        android:layout_width="11dp"
-        android:layout_height="11dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:scaleType="center"
+        android:background="@color/transparent"
         android:src="@drawable/document_comment_recyclerview_icon_like"
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_content"
         app:layout_constraintStart_toEndOf="@id/document_comment_item_date"
-        android:layout_marginTop="5.5dp"
-        android:layout_marginStart="13dp"/>
+        android:layout_marginTop="1dp"
+        android:layout_marginStart="8dp"/>
     <TextView
         android:id="@+id/document_comment_item_likes"
         android:gravity="center"
@@ -95,6 +97,5 @@
         style="@style/smallText_gray"
         app:layout_constraintTop_toBottomOf="@id/document_comment_item_content"
         app:layout_constraintStart_toEndOf="@id/document_comment_item_likebtn"
-        android:layout_marginTop="1.5dp"
-        android:layout_marginStart="3dp"/>
+        android:layout_marginTop="1.5dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

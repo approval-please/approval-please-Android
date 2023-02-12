@@ -40,17 +40,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/follow_item_rank"
         app:layout_constraintTop_toTopOf="parent" />
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_marginRight="5dp"
-        android:id="@+id/follow_btn"
-        android:layout_width="45dp"
-        android:layout_height="22dp"
-        android:background="@drawable/shape_document_approve_button"
-        android:backgroundTint="#BFBFBF"
-        android:text="팔로잉"
-        android:textAppearance="@style/smallText_gray_light"
-        android:textColor="#FFFFFF"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

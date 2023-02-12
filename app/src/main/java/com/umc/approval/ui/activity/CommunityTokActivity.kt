@@ -244,21 +244,25 @@ class CommunityTokActivity : AppCompatActivity() {
             setting_notice_on!!.setOnClickListener {
                 followViewModel.notification(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재톡톡의 알람을 받아요.").show()
             }
 
             setting_notice_off!!.setOnClickListener {
                 followViewModel.notification(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재톡톡의 알람을 더 이상 받지 않아요.").show()
             }
 
             setting_storage_on!!.setOnClickListener {
                 followViewModel.scrap(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재톡톡을 보관함에 넣었어요.").show()
             }
 
             setting_storage_off!!.setOnClickListener {
                 followViewModel.scrap(toktokId = viewModel.tok.value!!.toktokId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재톡톡을 보관함에서 뺐어요.").show()
             }
 
             setting_report_post!!.setOnClickListener {
@@ -329,6 +333,7 @@ class CommunityTokActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(accuseUserId = viewModel.tok.value!!.userId)
             linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
         }
 
         /*link 팝업*/
@@ -360,6 +365,7 @@ class CommunityTokActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(toktokId = viewModel.tok.value!!.toktokId)
             linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
         }
 
         /*link 팝업*/
@@ -849,7 +855,7 @@ class CommunityTokActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
-        val text = activityCommunityReportPostDialogBinding.communityDialog
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
         text.setText("이 댓글을 삭제하시겠습니까?")
 
         dialogConfirmButton.setText("댓글 삭제하기")

@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="한번 결재하면\n되돌릴 수 없습니다\n해당 결재 서류를 승인할까요?"
+            android:text="한번 결재하면\n되돌릴 수 없습니다\n해당 결재 서류를 반려할까요?"
             android:textSize="12sp"
             android:textColor="#8C8C8C"
             android:fontFamily="@font/medium"

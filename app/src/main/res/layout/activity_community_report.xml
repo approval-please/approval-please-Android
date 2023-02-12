@@ -38,7 +38,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="15dp"
             android:backgroundTint="@android:color/transparent"
-            android:src="@drawable/document_comment_icon_menu"></ImageButton>
+            android:src="@drawable/otherpage_setting_icon"></ImageButton>
 
     </RelativeLayout>
 

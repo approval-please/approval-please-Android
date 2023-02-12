@@ -65,6 +65,9 @@ class ProfileChangeViewModel() : ViewModel() {
     fun change_profile(profile: ProfileChange) = viewModelScope.launch {
 
         val accessToken = AccessTokenDataStore().getAccessToken().first()
+        if (profile.image == null) {
+            profile.image = load_profile.value!!.profileImage
+        }
         val response = repository.change_my_profile(accessToken, profile)
         response.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

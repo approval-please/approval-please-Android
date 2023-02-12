@@ -45,7 +45,6 @@ class OtherpageDocumentFragment(val userId : Int) : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.init_other_document()
         binding.stateSelect.setOnClickListener {
             val bottomSheetDialog = ApprovalBottomSheetDialogStatusFragment(binding.stateText.text.toString())
             bottomSheetDialog.setStyle(
@@ -107,5 +106,4 @@ class OtherpageDocumentFragment(val userId : Int) : Fragment() {
             })
         }
     }
-
 }
