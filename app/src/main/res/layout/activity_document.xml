@@ -34,8 +34,8 @@
             android:layout_marginTop="32dp"/>
         <ImageView
             android:id="@+id/heart"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/document_comment_icon_heart"
             android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,8 +44,8 @@
             android:layout_marginEnd="81dp"/>
         <ImageView
             android:id="@+id/share_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@drawable/document_comment_icon_share"
             android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,9 +54,9 @@
             android:layout_marginEnd="49dp"/>
         <ImageView
             android:id="@+id/uploadSettingBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/document_comment_icon_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/otherpage_setting_icon"
             android:scaleType="fitCenter"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
