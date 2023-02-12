@@ -135,7 +135,7 @@ class CommunityReportActivity : AppCompatActivity() {
 
 
         // 좋아요 누른 유저 확인
-        binding.communityPostLikeBtn.setOnClickListener {
+        binding.communityPostLikeNum.setOnClickListener {
             // 결재 보고서 ID를 넘김
             val intent = Intent(this, LikeActivity::class.java)
             intent.putExtra("type", "report")
@@ -184,6 +184,7 @@ class CommunityReportActivity : AppCompatActivity() {
                 binding.communityPostUserProfile.load(levelImage[it.level])
             }
 
+            binding.voteNum.text = it.commentCount.toString()
 
             //닉네임
             binding.communityPostUserName.text = it.nickname

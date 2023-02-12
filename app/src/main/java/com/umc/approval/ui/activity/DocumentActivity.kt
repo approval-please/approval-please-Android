@@ -13,8 +13,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.umc.approval.App
 import com.umc.approval.databinding.ActivityDocumentBinding
 import com.umc.approval.ui.viewmodel.approval.DocumentViewModel
 import com.umc.approval.ui.viewmodel.comment.CommentViewModel
@@ -31,6 +33,7 @@ import com.umc.approval.databinding.ActivityCommunityReportPostDialogBinding
 import com.umc.approval.databinding.ActivityCommunityReportUserDialogBinding
 import com.umc.approval.ui.adapter.document_activity.DocumentImageAdapter
 import com.umc.approval.ui.adapter.document_comment_activity.ParentCommentAdapter
+import com.umc.approval.ui.adapter.upload_activity.UploadHashtagRVAdapter
 import com.umc.approval.ui.fragment.document.ApproveDialog
 import com.umc.approval.ui.fragment.document.RefuseDialog
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
@@ -260,6 +263,13 @@ class DocumentActivity : AppCompatActivity() {
             binding.rejectNum.text = "반려" + it.rejectCount
 
             //링크 처리
+            if (it.tag != null && it.tag.isNotEmpty()) {
+                val dataRVAdapter = UploadHashtagRVAdapter(it.tag)
+                binding.uploadHashtagItem.adapter = dataRVAdapter
+                binding.uploadHashtagItem.layoutManager = LinearLayoutManager(App.context(), RecyclerView.HORIZONTAL, false)
+            }
+
+            //링크 처리
             if (it.link != null) {
                 binding.openGraphImage.load(it.link.image)
                 binding.openGraphText.text = it.link.title
@@ -330,8 +340,16 @@ class DocumentActivity : AppCompatActivity() {
                     binding.approval.setImageResource(R.drawable.document_result_approval)
 
                 } else { //작성자가 아닐때
-                    binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
-                    binding.approveButton.setTextColor(Color.parseColor("#141414"))
+
+                    if (it.reportMade == true) {
+                        binding.approveArea.isVisible = false
+                        binding.writerApprove.isVisible = true
+                        binding.approval.isVisible = true
+                        binding.approval.setImageResource(R.drawable.document_result_approval)
+                    } else {
+                        binding.approveButtonIcon.setImageResource(R.drawable.document_approval_icon_selected)
+                        binding.approveButton.setTextColor(Color.parseColor("#141414"))
+                    }
                 }
 
             } else if (viewModel.document.value!!.isVoted == 2) {
@@ -346,8 +364,16 @@ class DocumentActivity : AppCompatActivity() {
                     binding.approval.setImageResource(R.drawable.document_result_refusal)
 
                 } else {
-                    binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
-                    binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+
+                    if (it.reportMade == true) {
+                        binding.approveArea.isVisible = false
+                        binding.writerApprove.isVisible = true
+                        binding.approval.isVisible = true
+                        binding.approval.setImageResource(R.drawable.document_result_refusal)
+                    } else {
+                        binding.refuseButtonIcon.setImageResource(R.drawable.document_refusal_icon_selected)
+                        binding.refuseButton.setTextColor(Color.parseColor("#141414"))
+                    }
                 }
             } else if (viewModel.document.value!!.isVoted == 0) {
                 if (viewModel.document.value!!.state == 0) {
@@ -443,10 +469,6 @@ class DocumentActivity : AppCompatActivity() {
 
     //뷰 이동 로직
     private fun move_to_other() {
-        //좋아요 액티비티로 이동
-        binding.documentCommentPostLikes.setOnClickListener {
-            startActivity(Intent(this, LikeActivity::class.java))
-        }
 
         binding.cancel.setOnClickListener {
             finish()

@@ -561,6 +561,14 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/upload_hashtag_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="16dp"></androidx.recyclerview.widget.RecyclerView>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/document_comment_postinfo"
                 android:layout_width="match_parent"

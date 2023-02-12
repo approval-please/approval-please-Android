@@ -144,7 +144,7 @@ class CommunityTokActivity : AppCompatActivity() {
         }
 
         // 좋아요 누른 유저 확인
-        binding.communityPostLikeBtn.setOnClickListener {
+        binding.communityPostLikeNum.setOnClickListener {
             // 결재 톡톡 ID를 넘김
             val intent = Intent(this, LikeActivity::class.java)
             intent.putExtra("type", "toktok")
