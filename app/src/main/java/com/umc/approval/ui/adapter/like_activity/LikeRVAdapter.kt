@@ -52,11 +52,13 @@ class LikeRVAdapter(private val dataList: CommonUserListDto): RecyclerView.Adapt
     ): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: CommonUserDto) {
-            if (binding.ivProfileImage != null) {
+
+            if (data.profileImage != null) {
                 binding.ivProfileImage.load(data.profileImage)
             } else {
                 binding.ivProfileImage.load(levelImage[data.level])
             }
+
             binding.tvNickname.text = data.nickname
             binding.tvRank.text = level[data.level]
 

@@ -204,7 +204,7 @@ class DocumentActivity : AppCompatActivity() {
         //좋아요 로직
         followViewModel.like.observe(this) {
             if (it == true) {
-                binding.heart.setImageResource(R.drawable.fill_heart)
+                binding.heart.setImageResource(R.drawable.document_heart_fill)
             } else {
                 binding.heart.setImageResource(R.drawable.document_comment_icon_heart)
             }
@@ -756,7 +756,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
-        val text = activityCommunityReportPostDialogBinding.communityDialog
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
         text.setText("이 댓글을 삭제하시겠습니까?")
 
         dialogConfirmButton.setText("댓글 삭제하기")

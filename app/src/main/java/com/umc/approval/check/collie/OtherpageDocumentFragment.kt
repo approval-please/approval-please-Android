@@ -106,5 +106,4 @@ class OtherpageDocumentFragment(val userId : Int) : Fragment() {
             })
         }
     }
-
 }
