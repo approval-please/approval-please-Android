@@ -42,6 +42,7 @@ class ApprovalPaperListFragment: Fragment() {
         val approvalTabVPAdapter = ApprovalVPAdapter(this)
 
         binding.vpApprovalPaperList.adapter = approvalTabVPAdapter
+        binding.vpApprovalPaperList.isUserInputEnabled = false
 
         val tabTitleArray = arrayOf(
             "전체",
