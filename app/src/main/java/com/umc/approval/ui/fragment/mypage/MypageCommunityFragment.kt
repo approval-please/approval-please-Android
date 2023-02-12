@@ -16,6 +16,7 @@ import com.umc.approval.data.dto.community.get.CommunityTok
 import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.FragmentMypageCommunityBinding
 import com.umc.approval.ui.activity.CommunityReportActivity
+import com.umc.approval.ui.activity.CommunityTokActivity
 import com.umc.approval.ui.activity.DocumentActivity
 import com.umc.approval.ui.adapter.community_fragment.CommunityReportItemRVAdapter
 import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
@@ -87,7 +88,7 @@ class MypageCommunityFragment : Fragment() {
         //서버에서 데이터 받아오면 뷰에 적용하는 라이브 데이터
         viewModel.community.observe(viewLifecycleOwner) {
 
-            if (it.reportContent == null) {
+            if (it.toktokContent != null) {
                 val communityTok = CommunityTokDto(it.toktokCount!!, it.toktokContent!!)
                 val dataRVAdapter = CommunityTalkItemRVAdapter(communityTok)
                 binding.rvMypageCommunity.adapter = dataRVAdapter
@@ -97,10 +98,12 @@ class MypageCommunityFragment : Fragment() {
                 // 클릭 이벤트 처리
                 dataRVAdapter.itemClick = object : CommunityTalkItemRVAdapter.ItemClick {
                     override fun move_to_tok_activity(v: View, data: CommunityTok, pos: Int) {
-                        startActivity(Intent(requireContext(), CommunityReportActivity::class.java))
+                        val intent = Intent(requireContext(), CommunityTokActivity::class.java)
+                        intent.putExtra("toktokId", data.toktokId.toString())
+                        startActivity(intent)
                     }
                 }
-            } else {
+            } else if (it.reportContent != null) {
                 val communityReport = CommunityReportDto(it.reportCount!!, it.reportContent!!)
                 val dataRVAdapter = CommunityReportItemRVAdapter(communityReport)
                 binding.rvMypageCommunity.adapter = dataRVAdapter
@@ -117,7 +120,9 @@ class MypageCommunityFragment : Fragment() {
                         data: CommunityReport,
                         pos: Int
                     ) {
-                        startActivity(Intent(requireContext(), DocumentActivity::class.java))
+                        val intent = Intent(requireContext(), CommunityReportActivity::class.java)
+                        intent.putExtra("reportId", data.reportId.toString())
+                        startActivity(intent)
                     }
                 }
             }
