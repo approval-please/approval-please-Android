@@ -34,6 +34,7 @@ import com.umc.approval.R
 import com.umc.approval.databinding.FragmentLoginBinding
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
+import com.umc.approval.util.BlackToast
 import java.util.regex.Pattern
 
 /**
@@ -88,7 +89,7 @@ class LoginFragment : Fragment() {
                     viewModel.kakao_email.value.toString(), viewModel.social_id.value.toString())
                 Navigation.findNavController(binding.root).navigate(to_social_join)
             } else if (status == 2) {
-                Toast.makeText(requireContext(), "계정이 존재합니다", Toast.LENGTH_SHORT).show()
+                BlackToast.createToast(requireContext(), "계정이 존재합니다 발송되었습니다.").show()
             } else if (status == 1) {
                 viewModel.setAccessToken("Bearer " + viewModel.social_status.value!!.accessToken.toString())
                 Handler(Looper.myLooper()!!).postDelayed({

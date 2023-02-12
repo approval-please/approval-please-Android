@@ -15,12 +15,12 @@ import com.umc.approval.ui.adapter.community_fragment.VoteParticipantRVAdapter
 import com.umc.approval.ui.viewmodel.community.VoteParticipantViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
+import com.umc.approval.util.BlackToast
 
 class CommunityTokVoteParticipant : AppCompatActivity() {
     lateinit var binding: ActivityCommunityTokVoteParticipantBinding
 
     private val voteViewModel by viewModels<VoteParticipantViewModel>()
-    private val viewModel by viewModels<TokViewModel>()
 
     private val followViewModel by viewModels<FollowViewModel>()
 
@@ -34,15 +34,14 @@ class CommunityTokVoteParticipant : AppCompatActivity() {
             finish()
         }
 
-        if (viewModel.accessToken.value == false) {
-//            BlackToast(this, "로그인 과정이 필요합니다").show()
-            finish()
-        }
-
         val title = intent.getStringExtra("title")
         binding.voteItemTitle.text = title
         val voteOpt = intent.getIntExtra("voteId",-1)
         voteViewModel.get_community_tok_vote_participant(voteOpt)
+
+        voteViewModel.error.observe(this) {
+            BlackToast.createToast(this, "익명투표는 투표자 목록 조회가 불가능합니다.").show()
+        }
 
         setLikeList()
     }

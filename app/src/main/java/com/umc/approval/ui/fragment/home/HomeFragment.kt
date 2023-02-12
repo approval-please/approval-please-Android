@@ -221,7 +221,6 @@ class HomeFragment : Fragment() {
                     //결재 서류 아이디를 통해 상세보기로 이동
                     val intent = Intent(requireContext(), DocumentActivity::class.java)
                     intent.putExtra("documentId", data.documentId.toString())
-
                     startActivity(intent)
                 }
             })
