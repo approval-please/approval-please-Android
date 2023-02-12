@@ -95,7 +95,7 @@
                     android:layout_width="44dp"
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/document_comment_post_background"
+                    android:background="#156C39FF"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

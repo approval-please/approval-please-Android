@@ -160,6 +160,18 @@ class CommunityTokActivity : AppCompatActivity() {
         viewModel.get_tok_detail(toktokId.toString())
     }
 
+//    override fun onRestart() {
+//        super.onRestart()
+//        val toktokId = intent.getStringExtra("toktokId")
+//        viewModel.get_tok_detail(toktokId.toString())
+//    }
+
+    override fun onResume() {
+        super.onResume()
+        val toktokId = intent.getStringExtra("toktokId")
+        viewModel.get_tok_detail(toktokId.toString())
+    }
+
 
     //다이얼로그 로직
     private fun post_more() {
@@ -496,7 +508,7 @@ class CommunityTokActivity : AppCompatActivity() {
                     CommunityVoteCompleteRVAdapter(
                         viewModel.tok.value!!.voteOptions!!,
                         viewModel.tok.value!!.votePeople!!.toFloat(),
-                        viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                        viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                         sendVote,
                         viewModel.reVote.value!!
                     )
@@ -556,7 +568,7 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteCompleteRVAdapter(
                             viewModel.tok.value!!.voteOptions!!,
                             viewModel.tok.value!!.votePeople!!.toFloat(),
-                            viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                            viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                             sendVote,
                             viewModel.reVote.value!!
                         )
@@ -605,7 +617,7 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteCompleteRVAdapter(
                             viewModel.tok.value!!.voteOptions!!,
                             viewModel.tok.value!!.votePeople!!.toFloat(),
-                            viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                            viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                             sendVote,
                             viewModel.reVote.value!!
                         )
@@ -691,7 +703,7 @@ class CommunityTokActivity : AppCompatActivity() {
                         CommunityVoteCompleteRVAdapter(
                             viewModel.tok.value!!.voteOptions!!,
                             viewModel.tok.value!!.votePeople!!.toFloat(),
-                            viewModel.votePeopleEachOption.value!!.votePeopleEachOption!!,
+                            viewModel.votePeopleEachOption.value!!.votePeoepleEachOption!!,
                             sendVote,
                             viewModel.reVote.value!!
                         )
@@ -768,9 +780,9 @@ class CommunityTokActivity : AppCompatActivity() {
                     val setting_remove_post = bottomSheetView.findViewById<LinearLayout>(R.id.setting_remove_post)
 
                     // visible 처리
-                    if(writer == true){
-                        setting_report_post.isVisible = true
-                        setting_report_user.isVisible = true
+                    if(data.isMy == true){
+                        setting_report_post.isVisible = false
+                        setting_report_user.isVisible = false
                         setting_remove_post.isVisible = true
                     }else{
                         setting_report_post.isVisible = true

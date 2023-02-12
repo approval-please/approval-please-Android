@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class CommunityVoteResult (
     //수정 필요
-    @SerializedName("votePeopleEachOption")
-    var votePeopleEachOption : List<Int>
+    @SerializedName("votePeoepleEachOption")
+    var votePeoepleEachOption : List<Int>
 )

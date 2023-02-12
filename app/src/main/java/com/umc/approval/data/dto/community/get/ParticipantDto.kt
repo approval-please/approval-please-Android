@@ -9,6 +9,10 @@ data class ParticipantDto (
     var nickname: String,
     @SerializedName("level")
     var level: Int,
+    @SerializedName("userId")
+    var userId: Int,
+    @SerializedName("isMy")
+    var isMy: Boolean,
     @SerializedName("followOrNot")
     var followOrNot: Boolean,
 )
