@@ -21,6 +21,7 @@ import coil.load
 import com.amazonaws.regions.Regions
 import com.umc.approval.API.S3_ACCESS_KEY
 import com.umc.approval.API.S3_ACCESS_SECRET_KEY
+import com.umc.approval.R
 import com.umc.approval.data.dto.profile.ProfileChange
 import com.umc.approval.databinding.ActivityProfileChangeBinding
 import com.umc.approval.ui.viewmodel.profile.ProfileChangeViewModel
@@ -89,6 +90,16 @@ class ProfileChangeActivity : AppCompatActivity() {
                 binding.profileImage.load(viewModel.load_profile.value!!.profileImage)
             } else {
                 binding.profileImage.load(Utils.levelImage[it.level])
+            }
+            else{
+                when (it.level) {
+                    0 -> binding.profileImage.load(R.drawable.profile_img_sawon)
+                    1 -> binding.profileImage.load(R.drawable.profile_img_juim)
+                    2 -> binding.profileImage.load(R.drawable.profile_img_daeli)
+                    3 -> binding.profileImage.load(R.drawable.profile_img_gwajang)
+                    4 -> binding.profileImage.load(R.drawable.profile_img_chajang)
+                    5 -> binding.profileImage.load(R.drawable.profile_img_bujang)
+                }
             }
         }
     }

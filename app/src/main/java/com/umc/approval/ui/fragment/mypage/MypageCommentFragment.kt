@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,14 +65,17 @@ class MypageCommentFragment : Fragment() {
                 binding.chipApproval.id -> {
                     type = null
                     viewModel.get_my_comments(type, state)
+                    binding.stateSelect.isVisible = true
                 }
                 binding.chipTok.id -> {
                     type = 0
-                    viewModel.get_my_comments(type, state)
+                    viewModel.get_my_comments(type, null)
+                    binding.stateSelect.isVisible = false
                 }
                 binding.chipReport.id -> {
                     type = 1
-                    viewModel.get_my_comments(type, state)
+                    viewModel.get_my_comments(type, null)
+                    binding.stateSelect.isVisible = false
                 }
             }
         }
