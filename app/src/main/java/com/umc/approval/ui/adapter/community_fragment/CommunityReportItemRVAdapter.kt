@@ -89,19 +89,19 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
                 itemClick?.move_to_document_activity(it, items.communityReport[position], position)
             })
             holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
             })
             holder.binding.imageRv.setOnClickListener(View.OnClickListener {
-                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
             })
             holder.binding.uploadImageLayout.setOnClickListener{
-                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
             }
             holder.binding.reportLinkLayout.setOnClickListener{
-                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
             }
             holder.binding.likeAndComment.setOnClickListener{
-                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
             }
         }
     }
