@@ -855,7 +855,7 @@ class CommunityTokActivity : AppCompatActivity() {
         dialogCancelButton = activityCommunityRemovePostDialogBinding.communityDialogCancelButton
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
-        val text = activityCommunityReportPostDialogBinding.communityDialog
+        val text = activityCommunityRemovePostDialogBinding.communityDialog
         text.setText("이 댓글을 삭제하시겠습니까?")
 
         dialogConfirmButton.setText("댓글 삭제하기")

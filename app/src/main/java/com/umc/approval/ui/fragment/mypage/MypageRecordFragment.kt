@@ -3,13 +3,17 @@ package com.umc.approval.ui.fragment.mypage
 import com.umc.approval.ui.adapter.mypage_fragment.MyPageRecordAdapter
 import com.umc.approval.ui.adapter.mypage_fragment.MyPageRecordItem
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.umc.approval.data.dto.community.get.CommunityTokDto
 import com.umc.approval.databinding.FragmentMypageRecordBinding
+import com.umc.approval.ui.adapter.community_fragment.CommunityTalkItemRVAdapter
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
 
 /**
@@ -38,8 +42,8 @@ class MypageRecordFragment : Fragment() {
         binding.mypageRecordRecyclerview.layoutManager = LinearLayoutManager(this.context)
 
         viewModel.performances.observe(viewLifecycleOwner) {
-            val mypageRecordAdapter = MyPageRecordAdapter(it)
-            mypageRecordAdapter.notifyDataSetChanged()
+            binding.mypageRecordRecyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            val mypageRecordAdapter = MyPageRecordAdapter(it.content)
             binding.mypageRecordRecyclerview.adapter = mypageRecordAdapter
         }
 

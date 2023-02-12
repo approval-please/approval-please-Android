@@ -165,21 +165,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="프로필 메세지 샘플입니다.\n프로필 메세지 샘플입니다."
+                    android:text="프로필 메세지 샘플입니다."
+                    android:gravity="center"
+                    android:layout_marginStart="42dp"
+                    android:layout_marginEnd="42dp"
                     style="@style/midText_black_light"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/follow_area"
-                    android:layout_marginStart="42dp"
-                    android:layout_marginEnd="42dp"
-                    android:gravity="center"/>
+                    app:layout_constraintTop_toBottomOf="@id/follow_area" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:text="승진 포인트"
                     style="@style/midText_black"
+                    android:layout_marginTop="18dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"
                     android:layout_marginStart="42dp"/>
@@ -188,16 +188,16 @@
                     android:id="@+id/point_num1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="18dp"
                     android:text="000"
                     style="@style/smallText_black"
                     app:layout_constraintEnd_toStartOf="@id/point_num2"
-                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview"/>
+                    app:layout_constraintTop_toBottomOf="@id/profile_msg_textview" />
                 <TextView
                     android:id="@+id/point_num2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="18dp"
                     android:text=" / 00000"
                     style="@style/smallText_darkgray"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -223,7 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxHeight="8dp"
-                    android:layout_marginTop="11dp"
+                    android:layout_marginTop="10dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:layout_marginStart="34dp"

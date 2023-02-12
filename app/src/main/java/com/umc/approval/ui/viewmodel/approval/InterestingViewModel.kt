@@ -63,6 +63,7 @@ class InterestingViewModel() : ViewModel() {
                     if (response.body()!!.likedCategory != null) {
                         _interesting.postValue(response.body()!!.likedCategory)
                     } else {
+                        _interesting.postValue(listOf())
                         _not_interesting.postValue(all.value)
                     }
                     Log.d("RESPONSE", response.body().toString())

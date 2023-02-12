@@ -49,7 +49,7 @@ class FollowerFragment : Fragment() {
     private fun live_data() {
         viewModel.followers.observe(viewLifecycleOwner) {
             binding.followerRecyclerview.layoutManager = LinearLayoutManager(this.context)
-            val followerAdapter = FollowerAdapter(it.followDto)
+            val followerAdapter = FollowerAdapter(it.followDto, false)
             binding.followerRecyclerview.adapter = followerAdapter
 
             followerAdapter.itemClick = object : FollowerAdapter.ItemClick {

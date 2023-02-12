@@ -5,13 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.umc.approval.R
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FollowRecyclerviewItemBinding
 import com.umc.approval.util.Utils.level
 import com.umc.approval.util.Utils.levelImage
 
-class FollowerAdapter(val itemList : List<FollowDto>): RecyclerView.Adapter<FollowerAdapter.FollowerViewHolder>(){
+class FollowerAdapter(val itemList : List<FollowDto>, val id : Boolean): RecyclerView.Adapter<FollowerAdapter.FollowerViewHolder>(){
 
     inner class FollowerViewHolder(val binding : FollowRecyclerviewItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun binding(data: FollowDto) {
@@ -23,12 +22,6 @@ class FollowerAdapter(val itemList : List<FollowDto>): RecyclerView.Adapter<Foll
                 binding.followItemProfilepic.load(levelImage[data.level])
             }
             binding.followItemRank.text = level[data.level]
-
-            if (data.isFollow == true) {
-                binding.followBtn.setBackgroundResource(R.drawable.community_post_follow_state)
-            } else {
-                binding.followBtn.setBackgroundResource(R.drawable.community_post_unfollow_state)
-            }
         }
     }
 
@@ -49,9 +42,6 @@ class FollowerAdapter(val itemList : List<FollowDto>): RecyclerView.Adapter<Foll
         holder.binding(itemList[position])
 
         if (itemClick != null){
-            holder.binding.followBtn.setOnClickListener(View.OnClickListener {
-                itemClick?.follow_or_not(it, itemList[position], position)
-            })
             holder.binding.followItemProfilepic.setOnClickListener{
                 itemClick?.other(it, itemList[position], position)
             }

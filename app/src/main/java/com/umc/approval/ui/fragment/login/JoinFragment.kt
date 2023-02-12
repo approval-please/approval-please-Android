@@ -206,7 +206,6 @@ class JoinFragment : Fragment() {
 
             /**필수 약관에 동의한 상태인지 확인*/
             if (!(binding.checkbox1.isChecked && binding.checkbox2.isChecked)) {
-                Toast.makeText(requireContext(), "인증약관에 체크해주세요", Toast.LENGTH_SHORT).show()
             }
         }
     }
