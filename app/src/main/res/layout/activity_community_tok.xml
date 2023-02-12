@@ -409,57 +409,52 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/community_post_comment"
         android:layout_width="match_parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="60dp"
-        android:background="@color/approval_please_white_color"
+        android:layout_height="70dp"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent">
-        <ImageButton
-            android:id="@+id/community_comment_image_btn"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/document_comment_icon_pic"
-            android:scaleType="fitCenter"
-            android:background="#FFFFFF"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="14dp"/>
 
-        <EditText
-            android:id="@+id/community_comment_et"
+        <ImageView
+            android:id="@+id/document_comment_comment_area"
             android:layout_width="match_parent"
             android:layout_height="38dp"
-            android:layout_marginLeft="52dp"
-            android:layout_marginRight="16dp"
-            android:padding="8dp"
-            android:hint="댓글을 입력하세요"
-            android:inputType="text"
-            android:textSize="15sp"
-            android:textColor="#8C8C8C"
-            android:fontFamily="@font/pretendard"
-            android:background="@drawable/upload_activity_round_dialog_custom"
+            android:src="@drawable/document_comment_comment_background"
+            android:scaleType="fitXY"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/community_comment_image_btn"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+        <EditText
+            android:id="@+id/community_comment_et"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="#FAFAFA"
+            android:inputType="text"
+            android:hint="댓글을 입력하세요"
+            android:textSize="15sp"
+            android:textColor="#8C8C8C"
+            app:layout_constraintTop_toTopOf="@id/document_comment_comment_area"
+            app:layout_constraintBottom_toBottomOf="@id/document_comment_comment_area"
+            app:layout_constraintStart_toStartOf="@id/document_comment_comment_area"
+            app:layout_constraintEnd_toEndOf="@id/document_comment_comment_area"
+            android:layout_marginStart="26dp"
+            android:layout_marginEnd="53dp"
             />
-
         <ImageButton
-            android:layout_marginRight="32dp"
             android:id="@+id/write_button"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@color/transparent"
             android:padding="1dp"
             android:src="@drawable/document_comment_send_icon"
-            app:layout_constraintBottom_toBottomOf="@+id/community_comment_et"
-            app:layout_constraintEnd_toEndOf="@+id/community_comment_et"
-            app:layout_constraintTop_toTopOf="@+id/community_comment_et" />
+            android:background="@color/transparent"
+            app:layout_constraintTop_toTopOf="@id/document_comment_comment_area"
+            app:layout_constraintBottom_toBottomOf="@id/document_comment_comment_area"
+            app:layout_constraintEnd_toEndOf="@id/document_comment_comment_area"
+            android:layout_marginRight="8dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
