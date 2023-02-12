@@ -27,7 +27,6 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
 
         fun binding(data : CommunityReport) {
 
-
             binding.reportUserRank.text = Utils.level[data.userLevel]
 
             /*결재서류 부분*/
@@ -89,14 +88,20 @@ class CommunityReportItemRVAdapter(private val items : CommunityReportDto) : Rec
             holder.binding.communityDocumentLayout.documentBtn.setOnClickListener(View.OnClickListener {
                 itemClick?.move_to_document_activity(it, items.communityReport[position], position)
             })
-            holder.binding.reportCategoryItemText.setOnClickListener{
-                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
-            }
-            holder.binding.imageRv.setOnClickListener{
-                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
+            holder.binding.reportCategoryItemText.setOnClickListener(View.OnClickListener {
+                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+            })
+            holder.binding.imageRv.setOnClickListener(View.OnClickListener {
+                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+            })
+            holder.binding.uploadImageLayout.setOnClickListener{
+                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
             }
             holder.binding.reportLinkLayout.setOnClickListener{
-                itemClick?.move_to_report_activity(it, items.communityReport[position], position)
+                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
+            }
+            holder.binding.likeAndComment.setOnClickListener{
+                itemClick?.move_to_document_activity(it, items.communityReport[position], position)
             }
         }
     }

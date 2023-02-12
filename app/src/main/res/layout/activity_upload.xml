@@ -86,7 +86,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_width="45dp"
+                    android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:text="부 서 명"
                     android:textColor="#141414"
@@ -128,7 +128,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="45dp"
+                    android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:text="건      명"
                     android:textColor="#141414"
@@ -164,7 +164,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="45dp"
+                    android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:text="내      용"
                     android:textAlignment="gravity"
