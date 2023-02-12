@@ -27,4 +27,7 @@ object Utils {
 
     val level = mapOf<Int, String>(0 to "사원", 1 to "주임", 2 to "대리",
         3 to "차장", 4 to "과장", 5 to "부장")
+
+    val levelImage = mapOf<Int, String>(0 to "https://approval-please.s3.ap-northeast-2.amazonaws.com/0.png", 1 to "https://approval-please.s3.ap-northeast-2.amazonaws.com/1.png", 2 to "https://approval-please.s3.ap-northeast-2.amazonaws.com/2.png",
+        3 to "https://approval-please.s3.ap-northeast-2.amazonaws.com/3.png", 4 to "https://approval-please.s3.ap-northeast-2.amazonaws.com/4.png", 5 to "https://approval-please.s3.ap-northeast-2.amazonaws.com/5.png")
 }

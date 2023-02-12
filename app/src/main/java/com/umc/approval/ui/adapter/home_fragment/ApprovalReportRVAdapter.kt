@@ -9,6 +9,7 @@ import coil.load
 import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.databinding.ItemHomeApprovalReportBinding
+import com.umc.approval.util.Utils
 
 class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): RecyclerView.Adapter<ApprovalReportRVAdapter.DataViewHolder>() {
 

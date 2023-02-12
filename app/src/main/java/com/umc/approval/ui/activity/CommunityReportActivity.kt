@@ -36,6 +36,7 @@ import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
+import com.umc.approval.util.Utils.levelImage
 
 class CommunityReportActivity : AppCompatActivity() {
 
@@ -179,8 +180,10 @@ class CommunityReportActivity : AppCompatActivity() {
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
                 binding.communityPostUserProfile.clipToOutline = true
-
+            } else {
+                binding.communityPostUserProfile.load(levelImage[it.level])
             }
+
 
             //닉네임
             binding.communityPostUserName.text = it.nickname

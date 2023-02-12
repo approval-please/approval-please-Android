@@ -38,8 +38,10 @@ import com.umc.approval.ui.viewmodel.comment.CommentViewModel
 import com.umc.approval.ui.viewmodel.communityDetail.TokViewModel
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.util.BlackToast
+import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.level
+import com.umc.approval.util.Utils.levelImage
 
 
 class CommunityTokActivity : AppCompatActivity() {
@@ -395,8 +397,11 @@ class CommunityTokActivity : AppCompatActivity() {
             if (it.profileImage != null) {
                 binding.communityPostUserProfile.load(it.profileImage)
                 binding.communityPostUserProfile.clipToOutline = true
-
+            } else {
+                binding.communityPostUserProfile.load(levelImage[it.level])
+                binding.communityPostUserProfile.clipToOutline = true
             }
+
 
             if (it.likeOrNot == true) {
                 binding.postLikeState.setImageResource(R.drawable.community_post_like_btn)

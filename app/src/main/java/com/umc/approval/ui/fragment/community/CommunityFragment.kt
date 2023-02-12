@@ -107,6 +107,7 @@ class CommunityFragment : Fragment() {
     private fun connect_view_pager() {
 
         communityVPAdapter = CommunityVPAdapter(this)
+        binding.viewPager.isUserInputEnabled = false
         binding.viewPager.adapter = communityVPAdapter
 
         //탭 레이아웃 제목

@@ -21,6 +21,7 @@ import com.umc.approval.databinding.FragmentMypageBinding
 import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.ProfileChangeActivity
 import com.umc.approval.ui.viewmodel.mypage.MypageViewModel
+import com.umc.approval.util.Utils
 
 /**
  * MyPage View
@@ -130,6 +131,8 @@ class MypageFragment : Fragment() {
             //profile image
             if (viewModel.myInfo.value!!.profileImage != null) {
                 binding.profileImage.load(it.profileImage)
+            } else {
+                binding.profileImage.load(Utils.levelImage[it.level])
             }
         }
     }
