@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/fragment_home"
-        android:title=""
-        android:icon="@drawable/bottom_nav_home"
+        android:title="홈"
+        android:icon="@drawable/bottomnav_home"
         />
 
     <item android:id="@+id/fragment_approval"
-        android:title=""
-        android:icon="@drawable/bottom_nav_approval"
+        android:title="결재하기"
+        android:icon="@drawable/bottomnav_approval"
         />
 
     <item android:id="@+id/fragment_community"
-        android:icon="@drawable/bottom_nav_community"
-        android:title=""
+        android:icon="@drawable/bottomnav_community"
+        android:title="커뮤니티"
         />
 
     <item android:id="@+id/fragment_notification"
-        android:icon="@drawable/bottom_nav_notification"
-        android:title=""
+        android:icon="@drawable/bottomnav_notification"
+        android:title="알림"
         />
 
     <item android:id="@+id/fragment_mypage"
-        android:icon="@drawable/bottom_nav_mypage"
-        android:title=""
+        android:icon="@drawable/bottomnav_my"
+        android:title="내 정보"
         />
 </menu>
