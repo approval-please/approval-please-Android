@@ -41,6 +41,7 @@ import com.umc.approval.util.BlackToast
 import com.umc.approval.util.Utils
 import com.umc.approval.util.Utils.categoryMap
 import com.umc.approval.util.Utils.level
+import com.umc.approval.util.Utils.levelImage
 
 
 class CommunityTokActivity : AppCompatActivity() {
@@ -385,7 +386,8 @@ class CommunityTokActivity : AppCompatActivity() {
                 binding.communityPostUserProfile.load(it.profileImage)
                 binding.communityPostUserProfile.clipToOutline = true
             } else {
-                binding.communityPostUserProfile.load(Utils.levelImage[it.level])
+                binding.communityPostUserProfile.load(levelImage[it.level])
+                binding.communityPostUserProfile.clipToOutline = true
             }
 
 

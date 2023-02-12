@@ -37,6 +37,7 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
             binding.tvCommentCount.text = data.commentCount.toString()
 
             //profile image
+            binding.communityPostUserProfile.clipToOutline = true
             if (data.profileImage != null) {
                 binding.communityPostUserProfile.load(data.profileImage)
             } else {
@@ -54,8 +55,6 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
             } else {
                 binding.communityPostVote.isVisible = false
             }
-
-            binding.communityPostUserProfile.load(data.profileImage)
 
             if(data.images == null){
                 binding.uploadImageLayout.isVisible = false

@@ -32,6 +32,7 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
     inner class DataViewHolder(private val binding: ItemHomePopularPostBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: CommunityTok) {
             //profile image
+            binding.ivProfileImage.clipToOutline = true
             if (data.profileImage != null) {
                 binding.ivProfileImage.load(data.profileImage)
             } else {
@@ -44,7 +45,6 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             binding.tvPostCommentCount.text = data.commentCount.toString()
             binding.tvPostLikeCount.text = data.likeCount.toString()
             binding.tvPostWriteTime.text = data.datetime
-            binding.ivProfileImage.load(data.profileImage)
              binding.tvImageCount.text = data.images.size.toString()
 
             if (data.images != null) {

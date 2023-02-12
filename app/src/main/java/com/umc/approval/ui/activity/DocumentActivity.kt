@@ -243,8 +243,6 @@ class DocumentActivity : AppCompatActivity() {
             } else {
                 binding.profile.load(Utils.levelImage[it.level])
             }
-
-            binding.profile.load(it.profileImage)
             binding.profile.clipToOutline = true
 
             binding.name.text = it.nickname
