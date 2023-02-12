@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
 import com.umc.approval.data.repository.otherpage.OtherPageActivityRepository
+import com.umc.approval.dataStore.AccessTokenDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,7 +26,8 @@ class OtherpageViewModel() : ViewModel() {
 
     /* 다른 사람 프로필 조회 */
     fun other_profile(userId : Int) = viewModelScope.launch {
-        val response = repository.get_other_page(userId)
+        val accessToken = AccessTokenDataStore().getAccessToken().first()
+        val response = repository.get_other_page(accessToken, userId)
         response.enqueue(object : Callback<ProfileContentDto>{
             override fun onResponse(call: Call<ProfileContentDto>, response: Response<ProfileContentDto>) {
                 if (response.isSuccessful) {

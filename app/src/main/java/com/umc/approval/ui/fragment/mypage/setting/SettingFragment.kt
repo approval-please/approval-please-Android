@@ -15,6 +15,7 @@ import com.umc.approval.R
 import com.umc.approval.databinding.FragmentFollowBinding
 import com.umc.approval.databinding.FragmentNotificationBinding
 import com.umc.approval.databinding.FragmentSettingBinding
+import com.umc.approval.ui.activity.LoginActivity
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.LoginFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -46,7 +47,7 @@ class SettingFragment : Fragment() {
         binding.logout.setOnClickListener {
             viewModel.logout()
             Handler(Looper.myLooper()!!).postDelayed({
-                val intent = Intent(requireContext(), MainActivity::class.java)
+                val intent = Intent(requireContext(), LoginActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
             }, 200)

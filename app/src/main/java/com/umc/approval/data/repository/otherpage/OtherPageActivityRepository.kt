@@ -8,8 +8,8 @@ import com.umc.approval.data.dto.profile.ProfileDto
 import retrofit2.Call
 
 class OtherPageActivityRepository {
-    fun get_other_page(userId : Int) : Call<ProfileContentDto>{
-        return mypageAPI.get_other_page(userId)
+    fun get_other_page(accessToken: String, userId : Int) : Call<ProfileContentDto>{
+        return mypageAPI.get_other_page(accessToken, userId)
     }
     fun get_other_document(userId : Int, state : Int? = null) : Call<ApprovalPaperDto>{
         return mypageAPI.get_other_documment(userId, state)
