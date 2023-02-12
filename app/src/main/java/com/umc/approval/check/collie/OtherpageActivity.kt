@@ -81,6 +81,10 @@ class OtherpageActivity : AppCompatActivity() {
             shareDialog.show(requireActivity().supportFragmentManager, shareDialog.tag)
             */
         }
+        
+        binding.backIcon.setOnClickListener {
+            finish()
+        }
 
     }
 
