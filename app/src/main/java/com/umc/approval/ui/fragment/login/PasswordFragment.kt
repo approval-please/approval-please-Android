@@ -2,8 +2,6 @@ package com.umc.approval.ui.fragment.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +14,6 @@ import com.umc.approval.data.dto.login.post.BasicLoginDto
 import com.umc.approval.databinding.FragmentPasswordBinding
 import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.BasicLoginViewModel
-import com.umc.approval.util.BlackToast
 
 /**
  * basic login password view
@@ -55,12 +52,8 @@ class PasswordFragment : Fragment() {
 
         //로그인 성공시 메인 화면으로 이동
         viewModel.success.observe(viewLifecycleOwner) {
-            if (it == true) {
-                Handler(Looper.myLooper()!!).postDelayed({
-                    startActivity(Intent(requireContext(), MainActivity::class.java))
-                    requireActivity().finish()
-                }, 300)
-            }
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+            requireActivity().finish()
         }
 
         return view

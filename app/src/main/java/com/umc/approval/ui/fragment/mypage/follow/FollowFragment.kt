@@ -20,8 +20,8 @@ class FollowFragment : Fragment() {
 
     private var _binding : FragmentFollowBinding? = null
     private val binding get() = _binding!!
-    lateinit var tab1 : FollowingFragment
-    lateinit var tab2 : FollowerFragment
+    lateinit var tab1 : FollowerFragment
+    lateinit var tab2 : FollowingFragment
 
     /**Follow view model*/
     private val viewModel by viewModels<FollowViewModel>()
@@ -50,8 +50,8 @@ class FollowFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        tab1 = FollowingFragment()
-        tab2 = FollowerFragment()
+        tab1 = FollowerFragment()
+        tab2 = FollowingFragment()
 
         replaceView(tab1)
 

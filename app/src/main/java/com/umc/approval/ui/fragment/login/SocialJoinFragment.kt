@@ -1,10 +1,7 @@
 package com.umc.approval.ui.fragment.login
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +17,6 @@ import com.umc.approval.R
 import com.umc.approval.data.dto.login.post.PhoneAuthDto
 import com.umc.approval.data.dto.login.post.SocialJoinDto
 import com.umc.approval.databinding.FragmentJoinSocialBinding
-import com.umc.approval.ui.activity.MainActivity
 import com.umc.approval.ui.viewmodel.login.JoinViewModel
 import com.umc.approval.util.BlackToast
 import java.util.regex.Pattern
@@ -156,7 +152,7 @@ class SocialJoinFragment: Fragment() {
         /**회원가입 체크 체크*/
         binding.join.setOnClickListener {
 
-            val socialJoinDto = SocialJoinDto(binding.nickname.text.toString(), get_email.email, "KAKAO",
+            val socialJoinDto = SocialJoinDto("팀", get_email.email, "KAKAO",
                 binding.phone.text.toString(), get_email.socialId)
 
             //join
@@ -164,10 +160,7 @@ class SocialJoinFragment: Fragment() {
 
             viewModel.join_state.observe(viewLifecycleOwner) {
                 if (it == true) {
-                    Handler(Looper.myLooper()!!).postDelayed({
-                        startActivity(Intent(requireContext(), MainActivity::class.java))
-                        requireActivity().finish()
-                    }, 300)
+                    requireActivity().finish()
                 }
             }
 

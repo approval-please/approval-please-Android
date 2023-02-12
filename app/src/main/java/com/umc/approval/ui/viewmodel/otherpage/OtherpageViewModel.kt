@@ -5,11 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umc.approval.data.dto.profile.ProfileContentDto
 import com.umc.approval.data.dto.profile.ProfileDto
 import com.umc.approval.data.repository.otherpage.OtherPageActivityRepository
-import com.umc.approval.dataStore.AccessTokenDataStore
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,16 +17,15 @@ class OtherpageViewModel() : ViewModel() {
     private val repository = OtherPageActivityRepository()
 
     /* 다른 사람 프로필 라이브 데이터*/
-    private var _othersInfo = MutableLiveData<ProfileContentDto>()
-    val othersInfo : LiveData<ProfileContentDto>
+    private var _othersInfo = MutableLiveData<ProfileDto>()
+    val othersInfo : LiveData<ProfileDto>
     get() = _othersInfo
 
     /* 다른 사람 프로필 조회 */
     fun other_profile(userId : Int) = viewModelScope.launch {
-        val accessToken = AccessTokenDataStore().getAccessToken().first()
-        val response = repository.get_other_page(accessToken, userId)
-        response.enqueue(object : Callback<ProfileContentDto>{
-            override fun onResponse(call: Call<ProfileContentDto>, response: Response<ProfileContentDto>) {
+        val response = repository.get_other_page(userId)
+        response.enqueue(object : Callback<ProfileDto>{
+            override fun onResponse(call: Call<ProfileDto>, response: Response<ProfileDto>) {
                 if (response.isSuccessful) {
                     Log.d("RESPONSE", response.body().toString())
                     _othersInfo.postValue(response.body())
@@ -37,9 +33,15 @@ class OtherpageViewModel() : ViewModel() {
                     Log.d("RESPONSE", "FAIL")
                 }
             }
-            override fun onFailure(call: Call<ProfileContentDto>, t: Throwable) {
+            override fun onFailure(call: Call<ProfileDto>, t: Throwable) {
                 Log.d("ContinueFail", "FAIL")
             }
         })
+    }
+
+    /* 프로필 조회 테스트 데이터 */
+    fun init_other_profile() = viewModelScope.launch {
+        val test = ProfileDto("닉네임", "", "소개", 100, 0, 10, 10, true)
+        _othersInfo.postValue(test)
     }
 }

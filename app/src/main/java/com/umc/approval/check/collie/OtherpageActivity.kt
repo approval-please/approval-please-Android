@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
@@ -25,7 +24,6 @@ import com.umc.approval.databinding.ActivityOtherpageBinding
 import com.umc.approval.ui.adapter.follow_fragment.FollowerAdapter
 import com.umc.approval.ui.viewmodel.follow.FollowViewModel
 import com.umc.approval.ui.viewmodel.otherpage.OtherpageViewModel
-import com.umc.approval.util.Utils.levelImage
 
 class OtherpageActivity : AppCompatActivity() {
     lateinit var binding: ActivityOtherpageBinding
@@ -53,7 +51,12 @@ class OtherpageActivity : AppCompatActivity() {
         val intent = intent
         userId = intent.getIntExtra("userId", 0)
         setContentView(view)
+    }
 
+    // 시작 시 로그인 상태 검증 및 좋아요 누른 유저 목록 조회
+    override fun onStart() {
+        super.onStart()
+        viewModel.init_other_profile()
         viewModel.other_profile(userId)
 
         // 탭 초기화
@@ -61,11 +64,6 @@ class OtherpageActivity : AppCompatActivity() {
         move_to_other_tab()
         seekbar_inactive()
         others_profile_live_data()
-    }
-
-    // 시작 시 로그인 상태 검증 및 좋아요 누른 유저 목록 조회
-    override fun onStart() {
-        super.onStart()
 
         //버튼 클릭
         binding.followBtn.setOnClickListener {
@@ -190,26 +188,32 @@ class OtherpageActivity : AppCompatActivity() {
 
         viewModel.othersInfo.observe(this){
             //프로필 이미지
-            if (it.content.profileImage != null) {
-                binding.otherpageProfilePic.load(it.content.profileImage)
+            if (viewModel.othersInfo.value!!.profileImage != null) {
+                binding.otherpageProfilePic.load(it.profileImage)
             }
             else{
-                binding.otherpageProfilePic.load(levelImage[it.content.level])
+                when(it.level){
+                    0 -> binding.otherpageProfilePic.load(R.drawable.profile_img_sawon)
+                    1 -> binding.otherpageProfilePic.load(R.drawable.profile_img_juim)
+                    2 -> binding.otherpageProfilePic.load(R.drawable.profile_img_daeli)
+                    3 -> binding.otherpageProfilePic.load(R.drawable.profile_img_gwajang)
+                    4 -> binding.otherpageProfilePic.load(R.drawable.profile_img_chajang)
+                    5 -> binding.otherpageProfilePic.load(R.drawable.profile_img_bujang)
+                }
             }
-            Log.d("테스트입니다", it.toString())
-            // 네임
-            binding.otherpageNicknameTextview.text = it.content.nickname
             // 직급
-            binding.otherpageRank.text = setRank(it.content.level)
+            binding.otherpageRank.text = setRank(it.level)
+            // 닉네임
+            binding.otherpageNicknameTextview.text = it.nickname
             // 팔로잉
-            binding.otherpageFollowingTextview.text = "팔로잉 " + it.content.followings
+            binding.otherpageFollowingTextview.text = "팔로잉 " + it.followings
             // 팔로워
-            binding.otherpageFollowerTextview.text = "팔로워 " + it.content.follows
+            binding.otherpageFollowerTextview.text = "팔로워 " + it.follows
             // 프로필 메세지
-            binding.profileMsgTextview.text = it.content.introduction
+            binding.profileMsgTextview.text = it.introduction
             // 승진 포인트
-            userpoint = it.content.promotionPoint.toFloat()
-            rankpoint = setRankPoint(it.content.level).toFloat()
+            userpoint = it.promotionPoint.toFloat()
+            rankpoint = setRankPoint(it.level).toFloat()
             progress = userpoint / rankpoint * 100.0f
             binding.otherpageProgressbar.progress = progress.toInt()
             binding.pointNum1.text = userpoint.toInt().toString()

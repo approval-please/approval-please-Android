@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.umc.approval.R
+import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.mypage.FollowDto
 import com.umc.approval.databinding.FollowRecyclerviewItemBinding
 import com.umc.approval.util.Utils.level
-import com.umc.approval.util.Utils.levelImage
 
 class FollowerAdapter(val itemList : List<FollowDto>): RecyclerView.Adapter<FollowerAdapter.FollowerViewHolder>(){
 
@@ -17,11 +17,7 @@ class FollowerAdapter(val itemList : List<FollowDto>): RecyclerView.Adapter<Foll
         fun binding(data: FollowDto) {
             //일단 이름만 설정
             binding.followItemName.setText(data.nickname)
-            if (data.profileImage != null) {
-                binding.followItemProfilepic.load(data.profileImage)
-            } else {
-                binding.followItemProfilepic.load(levelImage[data.level])
-            }
+            binding.followItemProfilepic.load(data.profileImage)
             binding.followItemRank.text = level[data.level]
 
             if (data.isFollow == true) {
