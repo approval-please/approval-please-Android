@@ -614,21 +614,25 @@ class DocumentActivity : AppCompatActivity() {
             setting_notice_on!!.setOnClickListener {
                 followViewModel.notification(documentId = viewModel.document.value!!.documentId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재서류의 알람을 받아요.").show()
             }
 
             setting_notice_off!!.setOnClickListener {
                 followViewModel.notification(documentId = viewModel.document.value!!.documentId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재서류의 알람을 더 이상 받지 않아요.").show()
             }
 
             setting_storage_on!!.setOnClickListener {
                 followViewModel.scrap(documentId = viewModel.document.value!!.documentId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재서류를 보관함에 넣었어요.").show()
             }
 
             setting_storage_off!!.setOnClickListener {
                 followViewModel.scrap(documentId = viewModel.document.value!!.documentId)
                 bottomSheetDialog.cancel()
+                BlackToast.createToast(this, "이 결재서류를 보관함에서 뺐어요.").show()
             }
 
             setting_report_post!!.setOnClickListener {
@@ -702,6 +706,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(accuseUserId = viewModel.document.value!!.userId)
             linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
         }
 
         /*link 팝업*/
@@ -733,6 +738,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(documentId = viewModel.document.value!!.documentId)
             linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
         }
 
         /*link 팝업*/
@@ -791,6 +797,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(accuseUserId = userId)
             linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
         }
 
         /*link 팝업*/
@@ -822,6 +829,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             followViewModel.accuse(commentId = commentId)
             linkDialog.dismiss()
+            BlackToast.createToast(this, "신고가 접수되었습니다.").show()
         }
 
         /*link 팝업*/
