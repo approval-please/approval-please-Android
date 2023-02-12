@@ -34,7 +34,9 @@
                         android:layout_gravity="center"
                         android:layout_width="145dp"
                         android:layout_height="145dp"
-                        android:src="@drawable/face_1"/>
+                        android:src="@drawable/profile_img_chajang"
+                        app:civ_border_width="0.9dp"
+                        app:civ_border_color="#D9D9D9"/>
                 </FrameLayout>
 
                 <TextView

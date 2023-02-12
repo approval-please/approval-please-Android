@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.forEachIndexed
+import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -185,6 +186,16 @@ class OtherpageActivity : AppCompatActivity() {
             //프로필 이미지
             if (viewModel.othersInfo.value!!.profileImage != null) {
                 binding.otherpageProfilePic.load(it.profileImage)
+            }
+            else{
+                when(it.level){
+                    0 -> binding.otherpageProfilePic.load(R.drawable.profile_img_sawon)
+                    1 -> binding.otherpageProfilePic.load(R.drawable.profile_img_juim)
+                    2 -> binding.otherpageProfilePic.load(R.drawable.profile_img_daeli)
+                    3 -> binding.otherpageProfilePic.load(R.drawable.profile_img_gwajang)
+                    4 -> binding.otherpageProfilePic.load(R.drawable.profile_img_chajang)
+                    5 -> binding.otherpageProfilePic.load(R.drawable.profile_img_bujang)
+                }
             }
             // 직급
             binding.otherpageRank.text = setRank(it.level)

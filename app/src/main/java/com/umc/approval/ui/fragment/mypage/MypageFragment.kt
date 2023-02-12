@@ -131,6 +131,16 @@ class MypageFragment : Fragment() {
             if (viewModel.myInfo.value!!.profileImage != null) {
                 binding.profileImage.load(it.profileImage)
             }
+            else {
+                when (it.level) {
+                    0 -> binding.profileImage.load(R.drawable.profile_img_sawon)
+                    1 -> binding.profileImage.load(R.drawable.profile_img_juim)
+                    2 -> binding.profileImage.load(R.drawable.profile_img_daeli)
+                    3 -> binding.profileImage.load(R.drawable.profile_img_gwajang)
+                    4 -> binding.profileImage.load(R.drawable.profile_img_chajang)
+                    5 -> binding.profileImage.load(R.drawable.profile_img_bujang)
+                }
+            }
         }
     }
 
