@@ -51,11 +51,9 @@ class CommunityTalkItemRVAdapter(private val items : CommunityTokDto) : Recycler
                     binding.communityPostVoteState.text = "투표 종료"
                 }
                 if(data.voteDto.isSingle == false){
-                    binding.communityPostVoteOption.isVisible = true
-                    binding.communityPostVoteOptionSingle.isVisible = false
+                    binding.communityPostVoteOption.text = " · 복수선택"
                 }else{
-                    binding.communityPostVoteOption.isVisible = false
-                    binding.communityPostVoteOptionSingle.isVisible = true
+                    binding.communityPostVoteOption.text = " · 단일선택"
                 }
                 binding.communityPostVoteTitle.text = data.voteDto.title
                 binding.communityPostVoteParticipant.text = data.voteDto.voteUserCount.toString() + "명 참여"
