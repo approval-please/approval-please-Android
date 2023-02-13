@@ -426,7 +426,8 @@
                 android:layout_marginBottom="16dp">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_item"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
