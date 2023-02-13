@@ -89,7 +89,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/home_fragment_post_thumbnail"
+            android:src="@drawable/dummy"
             android:scaleType="centerCrop"/>
 
         <TextView

@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -699,7 +701,9 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             linkDialog.dismiss()
             viewModel.delete_document(viewModel.document.value!!.documentId.toString())
-            finish()
+            Handler(Looper.myLooper()!!).postDelayed({
+                finish()
+            }, 500)
         }
         /*link 팝업*/
         linkDialog.show()
