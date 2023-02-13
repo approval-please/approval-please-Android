@@ -264,9 +264,9 @@
                 android:id="@+id/upload_hashtag_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"></androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"></androidx.recyclerview.widget.RecyclerView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
