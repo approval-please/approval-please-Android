@@ -508,15 +508,12 @@ class CommunityTokActivity : AppCompatActivity() {
 
                 //투표가 복수선택인지 확인
                 if(it.voteIsSingle == true){
-                    binding.communityVoteLayoutComplete.communityPostVoteOption.isVisible = false
-                    binding.communityVoteLayout.communityPostVoteOption.isVisible = false
-                    binding.communityVoteLayoutComplete.communityPostVoteOptionSingle.isVisible = true
-                    binding.communityVoteLayout.communityPostVoteOptionSingle.isVisible = true
+                    binding.communityVoteLayoutComplete.communityPostVoteOption.text = " · 단일선택"
+                    binding.communityVoteLayout.communityPostVoteOption.text = " · 단일선택"
+
                 }else{
-                    binding.communityVoteLayoutComplete.communityPostVoteOption.isVisible = true
-                    binding.communityVoteLayout.communityPostVoteOption.isVisible = true
-                    binding.communityVoteLayoutComplete.communityPostVoteOptionSingle.isVisible = false
-                    binding.communityVoteLayout.communityPostVoteOptionSingle.isVisible = false
+                    binding.communityVoteLayoutComplete.communityPostVoteOption.text = " · 복수선택"
+                    binding.communityVoteLayout.communityPostVoteOption.text = " · 복수선택"
                 }
 
                 //투표 리스트 초기화
