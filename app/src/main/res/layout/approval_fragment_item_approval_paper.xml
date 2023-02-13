@@ -178,14 +178,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_tag"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_view_count_icon"
+                    android:layout_marginRight="35dp"
+                    android:layout_height="24dp"
                     android:overScrollMode="never">
                 </androidx.recyclerview.widget.RecyclerView>
 
