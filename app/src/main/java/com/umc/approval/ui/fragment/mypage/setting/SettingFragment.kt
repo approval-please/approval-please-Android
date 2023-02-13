@@ -50,7 +50,7 @@ class SettingFragment : Fragment() {
                 val intent = Intent(requireContext(), LoginActivity::class.java)
                 startActivity(intent)
                 requireActivity().finish()
-            }, 200)
+            }, 400)
         }
 
         binding.backToMypage.setOnClickListener {

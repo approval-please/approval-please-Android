@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -307,7 +309,9 @@ class CommunityTokActivity : AppCompatActivity() {
         dialogConfirmButton.setOnClickListener{
             linkDialog.dismiss()
             viewModel.delete_tok(viewModel.tok.value!!.toktokId.toString())
-            finish()
+            Handler(Looper.myLooper()!!).postDelayed({
+                finish()
+            }, 500)
         }
         /*link 팝업*/
         linkDialog.show()

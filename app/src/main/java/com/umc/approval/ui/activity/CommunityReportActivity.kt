@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
@@ -478,8 +480,11 @@ class CommunityReportActivity : AppCompatActivity() {
 
         /*확인버튼*/
         dialogConfirmButton.setOnClickListener{
-            reportViewModel.delete_report(reportViewModel.report.value!!.reportId.toString())
             linkDialog.dismiss()
+            reportViewModel.delete_report(reportViewModel.report.value!!.reportId.toString())
+            Handler(Looper.myLooper()!!).postDelayed({
+                finish()
+            }, 500)
         }
         /*link 팝업*/
         linkDialog.show()

@@ -10,6 +10,8 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.Spannable
@@ -208,8 +210,11 @@ class UploadActivity : AppCompatActivity() {
                     }
 
                     viewModel.post_document(uploadFile)
-                    finish()
                 }
+
+                Handler(Looper.myLooper()!!).postDelayed({
+                    finish()
+                }, 700)
             } else {
                 BlackToast.createToast(this, "부서를 선택해주세요").show()
             }

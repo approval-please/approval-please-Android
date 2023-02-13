@@ -5,6 +5,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -106,9 +108,11 @@ class CommunityUploadActivity : AppCompatActivity() {
                                 tokViewModel.tags.value, tokViewModel.images.value)
 
                             tokViewModel.post_tok(talkUploadDto)
-
-                            finish()
                         }
+
+                        Handler(Looper.myLooper()!!).postDelayed({
+                            finish()
+                        }, 700)
                     }
                 }
             } else {
