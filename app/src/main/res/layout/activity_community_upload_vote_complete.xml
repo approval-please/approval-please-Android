@@ -54,20 +54,31 @@
             android:layout_marginLeft="11dp"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/medium"
-            android:text="투표진행중"
+            android:text=" · 투표진행중"
             android:textColor="#141414"
             android:textSize="11sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/community_post_vote_title"
             app:layout_constraintTop_toTopOf="parent"></TextView>
-
         <TextView
             android:id="@+id/community_post_vote_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/light"
-            android:text="복수선택"
+            android:text=" · 복수선택"
+            android:textColor="@color/gray_text_color"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="@id/community_post_vote"
+            app:layout_constraintTop_toTopOf="@id/community_post_vote"></TextView>
+
+        <TextView
+            android:id="@+id/community_post_vote_option_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/light"
+            android:text=" · 단일선택"
             android:textColor="@color/gray_text_color"
             android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="@id/community_post_vote"
@@ -79,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/light"
-            android:text=" · "
+            android:text=""
             android:textColor="@color/gray_text_color"
             android:textSize="11sp"
             app:layout_constraintEnd_toStartOf="@id/community_post_vote_option"
