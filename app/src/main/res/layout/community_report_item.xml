@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="님의 결제 보고서가 제출되었습니다"
+            android:text="님의 결재 보고서가 제출되었습니다"
             android:textColor="#141414"
             android:textSize="12dp"
             android:fontFamily="@font/light"></TextView>

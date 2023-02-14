@@ -22,11 +22,7 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
     }
 
     override fun getItemCount(): Int {
-        return if (dataList.communityTok.size < 5) {
-            dataList.communityTok.size
-        } else {
-            5
-        }
+        return dataList.communityTok.size
     }
 
     inner class DataViewHolder(private val binding: ItemHomePopularPostBinding): RecyclerView.ViewHolder(binding.root) {
@@ -45,7 +41,8 @@ class PopularPostRVAdapter(private val dataList: CommunityTokDto): RecyclerView.
             binding.tvPostCommentCount.text = data.commentCount.toString()
             binding.tvPostLikeCount.text = data.likeCount.toString()
             binding.tvPostWriteTime.text = data.datetime
-             binding.tvImageCount.text = data.images.size.toString()
+            binding.tvImageCount.text = data.images.size.toString()
+            binding.tvRank.text = Utils.level[data.userLevel]
 
             if (data.images != null) {
 

@@ -10,6 +10,7 @@ import com.umc.approval.data.dto.community.get.CommunityReport
 import com.umc.approval.data.dto.community.get.CommunityReportDto
 import com.umc.approval.databinding.ItemHomeApprovalReportBinding
 import com.umc.approval.util.Utils
+import com.umc.approval.util.Utils.level
 
 class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): RecyclerView.Adapter<ApprovalReportRVAdapter.DataViewHolder>() {
 
@@ -23,11 +24,7 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
     }
 
     override fun getItemCount(): Int {
-        return if (dataList.communityReport.size < 5) {
-            dataList.communityReport.size
-        } else {
-            5
-        }
+        return dataList.communityReport.size
     }
 
     inner class DataViewHolder(private val binding: ItemHomeApprovalReportBinding): RecyclerView.ViewHolder(binding.root) {
@@ -35,7 +32,8 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             binding.tvNickname.text = data.nickname
             binding.tvPostViewsCount.text = data.view.toString()
             binding.tvPostContent.text = data.content
-             binding.tvImageCount.text = data.images.size.toString()
+            binding.tvImageCount.text = data.images.size.toString()
+            binding.tvRank.text = level[data.userLevel]
 
             if (data.images != null) {
                 if (data.images.isNotEmpty()) {
