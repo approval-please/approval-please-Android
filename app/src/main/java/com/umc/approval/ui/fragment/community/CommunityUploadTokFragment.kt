@@ -606,7 +606,12 @@ class CommunityUploadTokFragment : Fragment() {
                     }
                 }
                 if (openGraphDto.title.toString() != "") {
-                    viewModel.setOpengraph(openGraphDto)
+                    if (openGraphDto.url.toString() == "") {
+                        openGraphDto.url = viewModel.link.value.toString()
+                        viewModel.setOpengraph(openGraphDto)
+                    } else {
+                        viewModel.setOpengraph(openGraphDto)
+                    }
                 }
             }
         }

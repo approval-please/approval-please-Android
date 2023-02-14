@@ -57,6 +57,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 
 class UploadActivity : AppCompatActivity() {
@@ -551,7 +553,12 @@ class UploadActivity : AppCompatActivity() {
                     }
                 }
                 if (openGraphDto.title.toString() != "") {
-                    viewModel.setOpengraph(openGraphDto)
+                    if (openGraphDto.url.toString() == "") {
+                        openGraphDto.url = viewModel.link.value.toString()
+                        viewModel.setOpengraph(openGraphDto)
+                    } else {
+                        viewModel.setOpengraph(openGraphDto)
+                    }
                 }
             }
         }
