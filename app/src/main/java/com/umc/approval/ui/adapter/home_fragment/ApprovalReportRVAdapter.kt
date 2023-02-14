@@ -35,6 +35,9 @@ class ApprovalReportRVAdapter(private val dataList: CommunityReportDto): Recycle
             binding.tvImageCount.text = data.images.size.toString()
             binding.tvRank.text = level[data.userLevel]
 
+            binding.tvPostLikeCount.text = data.likedCount.toString()
+            binding.tvPostCommentCount.text = data.commentCount.toString()
+
             if (data.images != null) {
                 if (data.images.isNotEmpty()) {
                     binding.ivApprovalReportThumbnail.load(data.images.get(0))

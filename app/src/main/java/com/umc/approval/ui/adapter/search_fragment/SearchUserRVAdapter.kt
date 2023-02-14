@@ -39,6 +39,13 @@ class SearchUserRVAdapter(private val dataList: SearchUserDto?): RecyclerView.Ad
             }
             binding.btnFollow.isVisible = false
             binding.btnUnfollow.isVisible = false
+
+            val pos = adapterPosition
+            if (pos != RecyclerView.NO_POSITION) {
+                itemView.setOnClickListener {
+                    listner?.onItemClick(itemView, data, pos)
+                }
+            }
         }
     }
 
