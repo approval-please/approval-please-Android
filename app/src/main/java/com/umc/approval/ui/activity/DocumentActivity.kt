@@ -202,8 +202,8 @@ class DocumentActivity : AppCompatActivity() {
     private fun live_data() {
 
         viewModel.after.observe(this) {
-            binding.approveButton.text = "승인" + it.approveCount
-            binding.refuseButton.text = "반려" + it.rejectCount
+            binding.approveButton.text = "승인 " + it.approveCount
+            binding.refuseButton.text = "반려 " + it.rejectCount
         }
 
         //좋아요 로직
@@ -259,10 +259,10 @@ class DocumentActivity : AppCompatActivity() {
             binding.documentCommentPostViews.text = "조회수 " + it.view.toString()
             binding.documentCommentPostComments.text = "댓글 " + it.commentCount.toString()
             binding.documentCommentPostTime.text = it.datetime
-            binding.approveButton.text = "승인" + it.approveCount
-            binding.refuseButton.text = "반려" + it.rejectCount
-            binding.approveNum.text = "승인" + it.approveCount
-            binding.rejectNum.text = "반려" + it.rejectCount
+            binding.approveButton.text = "승인 " + it.approveCount
+            binding.refuseButton.text = "반려 " + it.rejectCount
+            binding.approveNum.text = "승인 " + it.approveCount + "명"
+            binding.rejectNum.text = "반려 " + it.rejectCount + "명"
 
             //링크 처리
             if (it.tag != null && it.tag.isNotEmpty()) {
