@@ -688,7 +688,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
         val text = activityCommunityRemovePostDialogBinding.communityDialog
-        text.setText("결재서류를 작성한 경우,\n보고서도 함께 삭제됩니다.\n\n이 결재서류를 삭제하시겠습니까?\n")
+        text.setText("보고서를 작성한 경우,\n결재서류와 함께 삭제됩니다.\n\n이 결재서류를 삭제하시겠습니까?\n")
 
         dialogConfirmButton.setText("결재서류 삭제하기")
 
