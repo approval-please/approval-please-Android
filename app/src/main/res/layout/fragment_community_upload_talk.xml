@@ -53,7 +53,8 @@
                 android:overScrollMode="never"
                 android:textColor="#141414"
                 android:textColorHint="#8C8C8C"
-                android:textSize="16sp"></EditText>
+                android:textSize="16sp"
+                android:fontFamily="@font/light"></EditText>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/vote_layout"
@@ -70,7 +71,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@color/transparent"
-            android:src="@drawable/vote_close_button"
+            android:src="@drawable/write_vote_x"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/vote_layout"></ImageButton>
 
@@ -84,6 +85,7 @@
             android:layout_marginBottom="14dp"
             android:hint="투표 제목"
             android:textSize="13dp"
+            android:fontFamily="@font/light"
             android:background="@color/transparent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +109,7 @@
             app:layout_constraintTop_toTopOf="@id/vote_title_et"
             app:layout_constraintBottom_toBottomOf="@id/vote_title_et"
             android:background="@android:color/transparent"
-            android:src="@drawable/upload_activity_img_cancel_button"></ImageButton>
+            android:src="@drawable/write_vote_title_x"></ImageButton>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/vote_item"
@@ -138,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:src="@drawable/community_fagment_upload_add_vote_button"
+                android:src="@drawable/write_vote_plus"
                 android:layout_gravity="center">
             </ImageView>
 
@@ -365,7 +367,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_vote_button"
+                    android:src="@drawable/write_community_vote_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/upload_vote_tv"
@@ -377,6 +379,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
 
@@ -393,7 +396,7 @@
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_image_button"
+                    android:src="@drawable/write_community_pic_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/upload_image_tv"
@@ -405,6 +408,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
 
@@ -420,7 +424,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_link_button"
+                    android:src="@drawable/write_community_link_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/image_link_tv"
@@ -432,6 +436,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
 
@@ -447,7 +452,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_hashtag_button"
+                    android:src="@drawable/write_community_tag_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/image_tag_tv"
@@ -459,6 +464,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
             <LinearLayout

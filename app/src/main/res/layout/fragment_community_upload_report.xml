@@ -32,7 +32,8 @@
                 android:gravity="left"
                 android:layout_gravity="left"
                 android:textSize="13sp"
-                android:drawableRight="@drawable/upload_activity_right_button"
+                android:fontFamily="@font/medium"
+                android:drawableRight="@drawable/write_rightarrow_icon"
                 android:background="@android:color/transparent">
             </Button>
 
@@ -49,7 +50,8 @@
                 android:overScrollMode="never"
                 android:textColor="#141414"
                 android:textColorHint="#8C8C8C"
-                android:textSize="16sp"></EditText>
+                android:textSize="16sp"
+                android:fontFamily="@font/light"></EditText>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/upload_image_layout"
@@ -134,7 +136,7 @@
                     android:layout_height="20dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_image_button"
+                    android:src="@drawable/write_community_pic_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/upload_image_tv"
@@ -146,6 +148,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
 
@@ -161,7 +164,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_link_button"
+                    android:src="@drawable/write_community_link_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/image_link_tv"
@@ -173,6 +176,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
 
@@ -188,7 +192,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_hashtag_button"
+                    android:src="@drawable/write_community_tag_icon"
                     android:textSize="16sp"></ImageButton>
                 <TextView
                     android:id="@+id/image_tag_tv"
@@ -200,6 +204,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
                     android:textSize="11sp"
+                    style="@style/smallText_black_light"
                     ></TextView>
             </LinearLayout>
 
