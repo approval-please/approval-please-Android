@@ -93,11 +93,12 @@
                 <ImageView
                     android:id="@+id/row_background_img"
                     android:layout_width="44dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:scaleType="fitXY"
-                    android:background="#156C39FF"
+                    android:src="@drawable/document_post_background_shape"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/approve"/>
 
                 <TextView
                     android:id="@+id/name_text"
