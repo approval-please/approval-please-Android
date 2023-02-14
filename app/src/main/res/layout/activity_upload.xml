@@ -21,7 +21,7 @@
             android:layout_marginLeft="16dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/upload_activity_cancel_button"
+            android:src="@drawable/write_x_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"></ImageView>
@@ -236,7 +236,7 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/upload_activity_image_button"></ImageButton>
+                    android:src="@drawable/write_picture_icon"></ImageButton>
 
                 <TextView
                     android:id="@+id/tv_image_count"
@@ -279,7 +279,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
-                android:src="@drawable/upload_activity_tag_button"></ImageButton>
+                android:src="@drawable/write_plus_icon"></ImageButton>
 
             <TextView
                 android:id="@+id/upload_tag_tv"
@@ -322,7 +322,7 @@
                 android:layout_height="20dp"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center"
-                android:src="@drawable/upload_activity_link_button"></ImageButton>
+                android:src="@drawable/write_link_icon"></ImageButton>
 
             <TextView
                 android:id="@+id/upload_link_tv"
