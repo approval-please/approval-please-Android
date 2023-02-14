@@ -396,12 +396,14 @@
 
                         <TextView
                             android:id="@+id/open_graph_url"
-                            android:gravity="center_vertical"
-                            android:layout_width="wrap_content"
-                            android:layout_height="15dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="url입니다"
                             style="@style/xsmallText_purple_light"
+                            android:layout_width="match_parent"
+                            android:layout_height="15dp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:singleLine="true"
+                            android:text="url입니다"
+                            android:layout_marginLeft="53dp"
                             app:layout_constraintStart_toEndOf="@+id/open_graph_image"
                             app:layout_constraintTop_toBottomOf="@+id/open_graph_text"></TextView>
 
