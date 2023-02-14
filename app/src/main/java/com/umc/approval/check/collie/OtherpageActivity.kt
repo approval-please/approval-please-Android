@@ -206,7 +206,6 @@ class OtherpageActivity : AppCompatActivity() {
             else{
                 binding.otherpageProfilePic.load(levelImage[it.content.level])
             }
-            Log.d("테스트입니다", it.toString())
             // 네임
             binding.otherpageNicknameTextview.text = it.content.nickname
             // 직급

@@ -68,7 +68,7 @@ class UserTabFragment: Fragment() {
                 participantRVAdapter?.setOnItemClickListener(object: SearchUserRVAdapter.OnItemClickListner {
                     override fun onItemClick(v: View, data: SearchUserInfoDto, pos: Int) {
                         val intent = Intent(requireContext(), OtherpageActivity::class.java)
-                        intent.putExtra("userId", data.userId.toString())
+                        intent.putExtra("userId", data.userId)
                         startActivity(intent)
                     }
                 })
