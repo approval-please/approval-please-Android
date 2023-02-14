@@ -202,16 +202,16 @@ class DocumentActivity : AppCompatActivity() {
     private fun live_data() {
 
         viewModel.after.observe(this) {
-            binding.approveButton.text = "승인" + it.approveCount
-            binding.refuseButton.text = "반려" + it.rejectCount
+            binding.approveButton.text = "승인 " + it.approveCount
+            binding.refuseButton.text = "반려 " + it.rejectCount
         }
 
         //좋아요 로직
         followViewModel.like.observe(this) {
             if (it == true) {
-                binding.heart.setImageResource(R.drawable.document_heart_fill)
+                binding.heart.setImageResource(R.drawable.icon_heart_new_fill)
             } else {
-                binding.heart.setImageResource(R.drawable.document_comment_icon_heart)
+                binding.heart.setImageResource(R.drawable.icon_heart_new)
             }
         }
 
@@ -259,10 +259,10 @@ class DocumentActivity : AppCompatActivity() {
             binding.documentCommentPostViews.text = "조회수 " + it.view.toString()
             binding.documentCommentPostComments.text = "댓글 " + it.commentCount.toString()
             binding.documentCommentPostTime.text = it.datetime
-            binding.approveButton.text = "승인" + it.approveCount
-            binding.refuseButton.text = "반려" + it.rejectCount
-            binding.approveNum.text = "승인" + it.approveCount
-            binding.rejectNum.text = "반려" + it.rejectCount
+            binding.approveButton.text = "승인 " + it.approveCount
+            binding.refuseButton.text = "반려 " + it.rejectCount
+            binding.approveNum.text = "승인 " + it.approveCount + "명"
+            binding.rejectNum.text = "반려 " + it.rejectCount + "명"
 
             //링크 처리
             if (it.tag != null && it.tag.isNotEmpty()) {
@@ -688,7 +688,7 @@ class DocumentActivity : AppCompatActivity() {
         dialogConfirmButton = activityCommunityRemovePostDialogBinding.communityDialogConfirmButton
 
         val text = activityCommunityRemovePostDialogBinding.communityDialog
-        text.setText("결재서류를 작성한 경우,\n보고서도 함께 삭제됩니다.\n\n이 결재서류를 삭제하시겠습니까?\n")
+        text.setText("보고서를 작성한 경우,\n결재서류와 함께 삭제됩니다.\n\n이 결재서류를 삭제하시겠습니까?\n")
 
         dialogConfirmButton.setText("결재서류 삭제하기")
 

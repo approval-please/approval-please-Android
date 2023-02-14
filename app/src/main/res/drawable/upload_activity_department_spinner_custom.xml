@@ -7,9 +7,7 @@
     </item>
     <item android:gravity="center_vertical|right">
         <layer-list>
-            <item  android:gravity="right" android:width="25dp" android:height="25dp" >
-                <bitmap android:src="@drawable/upload_activity_department_button" android:tint="@color/black"/>
-            </item>
+            <item  android:gravity="right" android:width="25dp" android:height="25dp" android:drawable="@drawable/write_downarrow_icon"/>
         </layer-list>
     </item>
 </layer-list>

@@ -25,7 +25,7 @@
         android:id="@+id/vote_item_erase_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/vote_item_cancel_button"
+        android:src="@drawable/write_vote_select_x"
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="@id/vote_item_et"
         app:layout_constraintTop_toTopOf="@id/vote_item_et"
