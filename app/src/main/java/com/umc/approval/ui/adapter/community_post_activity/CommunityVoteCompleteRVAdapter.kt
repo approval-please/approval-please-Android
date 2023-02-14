@@ -39,8 +39,13 @@ class CommunityVoteCompleteRVAdapter(private val dataList: List<VoteOption>,
             binding.voteItemParticipantCount.text = votePeopleEachOption.get(position).toString() + "명"
 
             //프로그래스바 처리
+            var totalVote:Float = 0.0F
+            for(i in 0 until itemCount){
+                totalVote += votePeopleEachOption.get(i)
+            }
+
             (binding.votePercent.layoutParams as LinearLayout.LayoutParams).weight =
-                (votePeopleEachOption.get(position)/totalParticipant)
+                (votePeopleEachOption.get(position)/totalVote)
 
             //투표한게 있다면
             if(data.voteOptionId in selected){
