@@ -184,16 +184,21 @@ class OtherpageActivity : AppCompatActivity() {
 
         followViewModel.isFollow.observe(this) {
 
-            when(it.isFollow){
-                // 팔로잉 중
-                true->{
-                    binding.followBtn.background.setTint(Color.parseColor("#BFBFBF"))
-                    binding.followBtn.text = "팔로잉"
-                }
-                // 팔로우 x
-                false->{
-                    binding.followBtn.background.setTint(Color.parseColor("#6C39FF"))
-                    binding.followBtn.text = "팔로우"
+            if (viewModel.othersInfo.value!!.isMy!!) {
+                binding.followBtn.isVisible = false
+            } else {
+                binding.followBtn.isVisible = true
+                when(it.isFollow){
+                    // 팔로잉 중
+                    true->{
+                        binding.followBtn.background.setTint(Color.parseColor("#BFBFBF"))
+                        binding.followBtn.text = "팔로잉"
+                    }
+                    // 팔로우 x
+                    false->{
+                        binding.followBtn.background.setTint(Color.parseColor("#6C39FF"))
+                        binding.followBtn.text = "팔로우"
+                    }
                 }
             }
         }

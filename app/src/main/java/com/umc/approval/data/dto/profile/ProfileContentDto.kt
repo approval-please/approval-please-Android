@@ -11,4 +11,6 @@ data class ProfileContentDto (
         var isFollow : Boolean,
         @SerializedName("content")
         var content : ProfileDto,
+        @SerializedName("isMy")
+        var isMy : Boolean?=false,
 )
